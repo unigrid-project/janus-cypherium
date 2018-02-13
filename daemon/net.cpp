@@ -2,7 +2,8 @@
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2018 The PIVX developers
-// Copyright (c) 2018-2019 The UNIGRID organization
+// Copyright (c) 2017-2019 The Swipp developers
+// Copyright (c) 2018-2020 The UNIGRID organization
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -37,6 +38,9 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
+
+#include <curl/curl.h>
+#include <regex>
 
 // Dump addresses to peers.dat every 15 minutes (900s)
 #define DUMP_ADDRESSES_INTERVAL 900
@@ -2323,4 +2327,55 @@ void DumpBanlist()
 
     LogPrint("net", "Flushed %d banned node ips/subnets to banlist.dat  %dms\n",
         banmap.size(), GetTimeMillis() - nStart);
+}
+
+static size_t handle_chunk(void *downloaded, size_t size, size_t nmemb, void *destination)
+{
+    ((std::string *) destination)->append((char *) downloaded);
+    return size * nmemb;
+}
+
+static std::list<ComparableVersion> parse_releases(std::string result)
+{
+    std::regex version_regex("<title>[-A-Za-z ]*([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?)[-A-Za-z)( ]*</title>");
+    std::sregex_iterator iter(result.begin(), result.end(), version_regex);
+    std::sregex_iterator end;
+    std::list<ComparableVersion> versions;
+
+    while(iter != end)
+    {
+        versions.push_back(ComparableVersion((*iter)[1]));
+        ++iter;
+    }
+
+    versions.sort();
+    return versions;
+}
+
+std::string GetLatestRelease()
+{
+    CURL *curl;
+    CURLcode res;
+    curl = curl_easy_init();
+    std::string result;
+
+    if(curl)
+    {
+        curl_easy_setopt(curl, CURLOPT_URL, UNIGRIDCORE_RELEASES_ATOM_LOCATION);
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, handle_chunk);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &result);
+        res = curl_easy_perform(curl);
+
+        if(res != CURLE_OK)
+        {
+            LogPrintf("Download of UNIGRID core release list failed: %s\n", curl_easy_strerror(res));
+        }
+
+        curl_easy_cleanup(curl);
+    }
+
+    curl_global_cleanup();
+    std::list<ComparableVersion> versions = parse_releases(result);
+    return versions.empty() ? "unknown" : "v" + versions.back().ToString();
 }
