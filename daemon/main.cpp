@@ -12,6 +12,7 @@
 #include "accumulators.h"
 #include "addrman.h"
 #include "alert.h"
+#include "bsarchive.h"
 #include "blocksignature.h"
 #include "chainparams.h"
 #include "checkpoints.h"
@@ -41,8 +42,10 @@
 #include "libzerocoin/Denominations.h"
 #include "primitives/zerocoin.h"
 
+#include <cstdio>
 #include <sstream>
 
+#include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -206,16 +209,16 @@ struct CBlockReject {
 class CNodeBlocks
 {
 public:
-    CNodeBlocks():
-            maxSize(0),
-            maxAvg(0)
+    CNodeBlocks() : maxSize(0),
+                    maxAvg(0)
     {
         maxSize = GetArg("-blockspamfiltermaxsize", DEFAULT_BLOCK_SPAM_FILTER_MAX_SIZE);
         maxAvg = GetArg("-blockspamfiltermaxavg", DEFAULT_BLOCK_SPAM_FILTER_MAX_AVG);
     }
 
-    bool onBlockReceived(int nHeight) {
-        if(nHeight > 0 && maxSize && maxAvg) {
+    bool onBlockReceived(int nHeight)
+    {
+        if (nHeight > 0 && maxSize && maxAvg) {
             addPoint(nHeight);
             return true;
         }
@@ -226,13 +229,12 @@ public:
     {
         // No Blocks
         size_t size = points.size();
-        if(size == 0)
+        if (size == 0)
             return ret;
 
         // Compute the number of the received blocks
         size_t nBlocks = 0;
-        for(auto point : points)
-        {
+        for (auto point : points) {
             nBlocks += point.second;
         }
 
@@ -243,8 +245,7 @@ public:
         bool banNode = (nAvgValue >= 1.5 * maxAvg && size >= maxAvg) ||
                        (nAvgValue >= maxAvg && nBlocks >= maxSize) ||
                        (nBlocks >= maxSize * 3);
-        if(banNode)
-        {
+        if (banNode) {
             // Clear the points and ban the node
             points.clear();
             return state.DoS(100, error("block-spam ban node for sending spam"));
@@ -257,8 +258,7 @@ private:
     void addPoint(int height)
     {
         // Remove the last element in the list
-        if(points.size() == maxSize)
-        {
+        if (points.size() == maxSize) {
             points.erase(points.begin());
         }
 
@@ -272,14 +272,13 @@ private:
     }
 
 private:
-    std::map<int,int> points;
+    std::map<int, int> points;
     size_t maxSize;
     size_t maxAvg;
 };
 
 
-
- /**
+/**
  * Maintain validation-specific state about nodes, protected by cs_main, instead
  * by CNode's own locks. This simplifies asynchronous operation, where
  * processing of incoming data is done after the ProcessMessage call returns,
@@ -979,7 +978,7 @@ bool GetCoinAge(const CTransaction& tx, const unsigned int nTxTime, uint64_t& nC
         // Read block header
         CBlockHeader prevblock = pindex->GetBlockHeader();
 
-        if (IsSporkActive (SPORK_19_BLOCK_REWARDS_V2)) {
+        if (IsSporkActive(SPORK_19_BLOCK_REWARDS_V2)) {
             prevblock.nVersion = CBlockHeader::CURRENT_VERSION;
         } else {
             prevblock.nVersion = 4;
@@ -1764,9 +1763,9 @@ bool GetTransaction(const uint256& hash, CTransaction& txOut, uint256& hashBlock
                 if (file.IsNull())
                     return error("%s: OpenBlockFile failed", __func__);
 
-		CBlockHeader header;
+                CBlockHeader header;
 
-                if (IsSporkActive (SPORK_19_BLOCK_REWARDS_V2)) {
+                if (IsSporkActive(SPORK_19_BLOCK_REWARDS_V2)) {
                     header.nVersion = CBlockHeader::CURRENT_VERSION;
                 } else {
                     header.nVersion = 4;
@@ -4247,9 +4246,8 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                 CAmount nDevFundValue = GetDevFundPayment(nHeight - 1, nBlockValue);
                 CAmount nMasternodeValue = GetMasternodePayment(nHeight - 1, nBlockValue, 0, false);
 
-                if (tx.vout[nIndex].nValue != nMasternodeValue) {
-                    return state.DoS(100, error("%s : rejected by check masternode lock-in with %ld/%ld at %d",
-                                     __func__, tx.vout[nIndex].nValue, nMasternodeValue, nHeight), REJECT_INVALID, "check masternode mismatch");
+                if (tx.vout[nIndex].nValue != nMasternodeValue && !IsInitialBlockDownload()) {
+                    return state.DoS(100, error("%s : rejected by check masternode lock-in with %ld/%ld at %d", __func__, tx.vout[nIndex].nValue, nMasternodeValue, nHeight), REJECT_INVALID, "check masternode mismatch");
                 }
 
                 if (tx.vout[nIndex + 1].nValue != nDevFundValue) {
@@ -4294,8 +4292,8 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 
     if (nHeight != 0 && !IsInitialBlockDownload()) {
         if (!CheckBlockForBlackListedAddresses(block, nHeight)) {
-           return state.DoS(100, error("CheckBlock() : transaction contains blacklisted source addresses"),
-                            REJECT_INVALID, "blacklisted-addresses", true);
+            return state.DoS(100, error("CheckBlock() : transaction contains blacklisted source addresses"),
+                REJECT_INVALID, "blacklisted-addresses", true);
         }
     }
 
@@ -4330,7 +4328,7 @@ bool CheckBlockForBlackListedAddresses(const CBlock& block, int nHeight)
     if (IsSporkActive(SPORK_18_BLACKLIST_BLOCK_REFERENCE)) {
         CBlock referenceBlock;
         uint64_t sporkBlockValue = (GetSporkValue(SPORK_18_BLACKLIST_BLOCK_REFERENCE) >> 16) & 0xffffffffffff; // 48-bit
-        CBlockIndex *referenceIndex = chainActive[sporkBlockValue];
+        CBlockIndex* referenceIndex = chainActive[sporkBlockValue];
 
         if (referenceIndex != NULL) {
             assert(ReadBlockFromDisk(referenceBlock, referenceIndex));
@@ -4354,7 +4352,7 @@ bool CheckBlockForBlackListedAddresses(const CBlock& block, int nHeight)
                                 ExtractDestination(referenceBlock.vtx[i].vout[j].scriptPubKey, address);
 
                                 LogPrintf("CheckBlockForBlackListedAddresses(): Detected blacklisted address %d in reference block %ld, %s\n",
-                                          numbanned++, sporkBlockValue, CBitcoinAddress(address).ToString());
+                                    numbanned++, sporkBlockValue, CBitcoinAddress(address).ToString());
                             }
                         }
                     }
@@ -4375,7 +4373,8 @@ bool CheckBlockForBlackListedAddresses(const CBlock& block, int nHeight)
                                 freeFromBlackListed = false;
 
                                 LogPrintf("CheckBlockForBlackListedAddresses(): Block at height %d contains the blacklisted "
-                                          "spender address %s\n", nHeight, CBitcoinAddress(address).ToString());
+                                          "spender address %s\n",
+                                    nHeight, CBitcoinAddress(address).ToString());
                             }
                         }
                     }
@@ -4670,21 +4669,20 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
 
         // Check whether is a fork or not
         if (pindexPrev != nullptr && !chainActive.Contains(pindexPrev)) {
-
             // Start at the block we're adding on to
-            CBlockIndex *prev = pindexPrev;
-            CTransaction &stakeTxIn = block.vtx[1];
+            CBlockIndex* prev = pindexPrev;
+            CTransaction& stakeTxIn = block.vtx[1];
             CBlock bl;
             // Go backwards on the forked chain up to the split
             do {
-                if(!ReadBlockFromDisk(bl, prev)) {
+                if (!ReadBlockFromDisk(bl, prev)) {
                     // Previous block not on disk
                     return error("%s: previous block %s not on disk", __func__, prev->GetBlockHash().GetHex());
                 }
 
                 // Loop through every input from said block
                 for (CTransaction t : bl.vtx) {
-                    for (CTxIn in: t.vin) {
+                    for (CTxIn in : t.vin) {
                         // Loop through every input of the staking tx
                         for (CTxIn stakeIn : stakeTxIn.vin) {
                             // if it's already spent
@@ -4860,13 +4858,13 @@ bool ProcessNewBlock(CValidationState& state, CNode* pfrom, CBlock* pblock, CDis
         if (pindex && pfrom) {
             mapBlockSource[pindex->GetBlockHash()] = pfrom->GetId();
         }
-        CheckBlockIndex ();
+        CheckBlockIndex();
         if (!ret) {
             // Check spamming
-            if(pindex && pfrom && GetBoolArg("-blockspamfilter", DEFAULT_BLOCK_SPAM_FILTER)) {
-                CNodeState *nodestate = State(pfrom->GetId());
+            if (pindex && pfrom && GetBoolArg("-blockspamfilter", DEFAULT_BLOCK_SPAM_FILTER)) {
+                CNodeState* nodestate = State(pfrom->GetId());
 
-                if(nodestate != nullptr) {
+                if (nodestate != nullptr) {
                     nodestate->nodeBlocks.onBlockReceived(pindex->nHeight);
                     bool nodeStatus = true;
                     // UpdateState will return false if the node is attacking us or update the score and return true.
@@ -4877,7 +4875,7 @@ bool ProcessNewBlock(CValidationState& state, CNode* pfrom, CBlock* pblock, CDis
                             Misbehaving(pfrom->GetId(), nDoS);
                         nodeStatus = false;
                     }
-                    if(!nodeStatus)
+                    if (!nodeStatus)
                         return error("%s : AcceptBlock FAILED - block spam protection", __func__);
                 }
             }
@@ -5272,100 +5270,149 @@ bool InitBlockIndex()
 }
 
 
-bool LoadExternalBlockFile(FILE* fileIn, CDiskBlockPos* dbp)
+static const int IMPORT_BUFFER_SIZE = 1024 * 512; /* 0.5MB */
+
+static std::string downloadedFilePath;
+static std::string unarchivedFilePath;
+
+void removeBootstrapFiles()
+{
+    BOOST_FOREACH (auto path, std::vector<std::string>({downloadedFilePath, unarchivedFilePath})) {
+        if (!path.empty()) {
+            std::remove(path.c_str());
+        }
+    }
+}
+
+double bootstrapingProgress = 0.0;
+std::string bootstrapingStatus = "inactive";
+
+bool LoadExternalBlockFile(boost::filesystem::path path, CDiskBlockPos* dbp)
 {
     // Map of disk positions for blocks with unknown parent (only used for reindex)
     static std::multimap<uint256, CDiskBlockPos> mapBlocksUnknownParent;
+
+    std::FILE* file = std::fopen(path.string().c_str(), "rb");
+    std::string unarchivedPath;
+    std::FILE* unarchivedFile;
+    std::FILE* fileIn;
+
+    if (!file) {
+        LogPrintf("Failed to open bootstrap file/archive at \"%s\".\n", path);
+        return false;
+    }
+
+    LogPrintf("Loading blocks from external bootstrap file/archive at \"%s\".\n", path);
     int64_t nStart = GetTimeMillis();
-
     int nLoaded = 0;
-    try {
-        // This takes over fileIn and calls fclose() on it in the CBufferedFile destructor
-        CBufferedFile blkdat(fileIn, 2 * MAX_BLOCK_SIZE_CURRENT, MAX_BLOCK_SIZE_CURRENT + 8, SER_DISK, CLIENT_VERSION);
-        uint64_t nRewind = blkdat.GetPos();
-        while (!blkdat.eof()) {
-            boost::this_thread::interruption_point();
 
-            blkdat.SetPos(nRewind);
-            nRewind++;         // start one byte further next time, in case of failure
-            blkdat.SetLimit(); // remove former limit
-            unsigned int nSize = 0;
-            try {
-                // locate a header
-                unsigned char buf[MESSAGE_START_SIZE];
-                blkdat.FindByte(Params().MessageStart()[0]);
-                nRewind = blkdat.GetPos() + 1;
-                blkdat >> FLATDATA(buf);
-                if (memcmp(buf, Params().MessageStart(), MESSAGE_START_SIZE))
-                    continue;
-                // read size
-                blkdat >> nSize;
-                if (nSize < 80 || nSize > MAX_BLOCK_SIZE_CURRENT)
-                    continue;
-            } catch (const std::exception&) {
-                // no valid block header found; don't complain
-                break;
-            }
-            try {
-                // read block
-                uint64_t nBlockPos = blkdat.GetPos();
-                if (dbp)
-                    dbp->nPos = nBlockPos;
-                blkdat.SetLimit(nBlockPos + nSize);
-                blkdat.SetPos(nBlockPos);
-                CBlock block;
-                blkdat >> block;
-                nRewind = blkdat.GetPos();
+    // Handle compressed bootstrap archives (*.bsa)
+    if (boost::algorithm::ends_with(path.native(), ".bsa")) {
+        unarchivedPath = (boost::filesystem::temp_directory_path() / boost::filesystem::unique_path()).native();
+        unarchivedPath = unarchivedPath + ".bootstrap";
+        unarchivedFile = std::fopen(unarchivedPath.c_str(), "w+b");
 
-                // detect out of order blocks, and store them for later
-                uint256 hash = block.GetHash();
-                if (hash != Params().HashGenesisBlock() && mapBlockIndex.find(block.hashPrevBlock) == mapBlockIndex.end()) {
-                    LogPrint("reindex", "%s: Out of order block %s, parent %s not known\n", __func__, hash.ToString(),
-                        block.hashPrevBlock.ToString());
+        BSArchive bsArchive(file, [](double percentage) -> void {
+            bootstrapingProgress = percentage;
+        });
+        bsArchive.unarchive(unarchivedFile);
+
+        fileIn = unarchivedFile;
+        std::fclose(file);
+    } else {
+        fileIn = file;
+    }
+    {
+        bootstrapingProgress = -1;
+        bootstrapingStatus = "syncing";
+        try {
+            // This takes over fileIn and calls fclose() on it in the CBufferedFile destructor
+            CBufferedFile blkdat(fileIn, 2 * MAX_BLOCK_SIZE_CURRENT, MAX_BLOCK_SIZE_CURRENT + 8, SER_DISK, CLIENT_VERSION);
+            uint64_t nRewind = blkdat.GetPos();
+            while (!blkdat.eof()) {
+                boost::this_thread::interruption_point();
+
+                blkdat.SetPos(nRewind);
+                nRewind++;         // start one byte further next time, in case of failure
+                blkdat.SetLimit(); // remove former limit
+                unsigned int nSize = 0;
+                try {
+                    // locate a header
+                    unsigned char buf[MESSAGE_START_SIZE];
+                    blkdat.FindByte(Params().MessageStart()[0]);
+                    nRewind = blkdat.GetPos() + 1;
+                    blkdat >> FLATDATA(buf);
+                    if (memcmp(buf, Params().MessageStart(), MESSAGE_START_SIZE))
+                        continue;
+                    // read size
+                    blkdat >> nSize;
+                    if (nSize < 80 || nSize > MAX_BLOCK_SIZE_CURRENT)
+                        continue;
+                } catch (const std::exception&) {
+                    // no valid block header found; don't complain
+                    break;
+                }
+                try {
+                    // read block
+                    uint64_t nBlockPos = blkdat.GetPos();
                     if (dbp)
-                        mapBlocksUnknownParent.insert(std::make_pair(block.hashPrevBlock, *dbp));
-                    continue;
-                }
+                        dbp->nPos = nBlockPos;
+                    blkdat.SetLimit(nBlockPos + nSize);
+                    blkdat.SetPos(nBlockPos);
+                    CBlock block;
+                    blkdat >> block;
+                    nRewind = blkdat.GetPos();
 
-                // process in case the block isn't known yet
-                if (mapBlockIndex.count(hash) == 0 || (mapBlockIndex[hash]->nStatus & BLOCK_HAVE_DATA) == 0) {
-                    CValidationState state;
-                    if (ProcessNewBlock(state, NULL, &block, dbp))
-                        nLoaded++;
-                    if (state.IsError())
-                        break;
-                } else if (hash != Params().HashGenesisBlock() && mapBlockIndex[hash]->nHeight % 1000 == 0) {
-                    LogPrintf("Block Import: already had block %s at height %d\n", hash.ToString(), mapBlockIndex[hash]->nHeight);
-                }
-
-                // Recursively process earlier encountered successors of this block
-                deque<uint256> queue;
-                queue.push_back(hash);
-                while (!queue.empty()) {
-                    uint256 head = queue.front();
-                    queue.pop_front();
-                    std::pair<std::multimap<uint256, CDiskBlockPos>::iterator, std::multimap<uint256, CDiskBlockPos>::iterator> range = mapBlocksUnknownParent.equal_range(head);
-                    while (range.first != range.second) {
-                        std::multimap<uint256, CDiskBlockPos>::iterator it = range.first;
-                        if (ReadBlockFromDisk(block, it->second)) {
-                            LogPrintf("%s: Processing out of order child %s of %s\n", __func__, block.GetHash().ToString(),
-                                head.ToString());
-                            CValidationState dummy;
-                            if (ProcessNewBlock(dummy, NULL, &block, &it->second)) {
-                                nLoaded++;
-                                queue.push_back(block.GetHash());
-                            }
-                        }
-                        range.first++;
-                        mapBlocksUnknownParent.erase(it);
+                    // detect out of order blocks, and store them for later
+                    uint256 hash = block.GetHash();
+                    if (hash != Params().HashGenesisBlock() && mapBlockIndex.find(block.hashPrevBlock) == mapBlockIndex.end()) {
+                        LogPrint("reindex", "%s: Out of order block %s, parent %s not known\n", __func__, hash.ToString(),
+                            block.hashPrevBlock.ToString());
+                        if (dbp)
+                            mapBlocksUnknownParent.insert(std::make_pair(block.hashPrevBlock, *dbp));
+                        continue;
                     }
+
+                    // process in case the block isn't known yet
+                    if (mapBlockIndex.count(hash) == 0 || (mapBlockIndex[hash]->nStatus & BLOCK_HAVE_DATA) == 0) {
+                        CValidationState state;
+                        if (ProcessNewBlock(state, NULL, &block, dbp))
+                            nLoaded++;
+                        if (state.IsError())
+                            break;
+                    } else if (hash != Params().HashGenesisBlock() && mapBlockIndex[hash]->nHeight % 1000 == 0) {
+                        LogPrintf("Block Import: already had block %s at height %d\n", hash.ToString(), mapBlockIndex[hash]->nHeight);
+                    }
+
+                    // Recursively process earlier encountered successors of this block
+                    deque<uint256> queue;
+                    queue.push_back(hash);
+                    while (!queue.empty()) {
+                        uint256 head = queue.front();
+                        queue.pop_front();
+                        std::pair<std::multimap<uint256, CDiskBlockPos>::iterator, std::multimap<uint256, CDiskBlockPos>::iterator> range = mapBlocksUnknownParent.equal_range(head);
+                        while (range.first != range.second) {
+                            std::multimap<uint256, CDiskBlockPos>::iterator it = range.first;
+                            if (ReadBlockFromDisk(block, it->second)) {
+                                LogPrintf("%s: Processing out of order child %s of %s\n", __func__, block.GetHash().ToString(),
+                                    head.ToString());
+                                CValidationState dummy;
+                                if (ProcessNewBlock(dummy, NULL, &block, &it->second)) {
+                                    nLoaded++;
+                                    queue.push_back(block.GetHash());
+                                }
+                            }
+                            range.first++;
+                            mapBlocksUnknownParent.erase(it);
+                        }
+                    }
+                } catch (std::exception& e) {
+                    LogPrintf("%s : Deserialize or I/O error - %s", __func__, e.what());
                 }
-            } catch (std::exception& e) {
-                LogPrintf("%s : Deserialize or I/O error - %s", __func__, e.what());
             }
+        } catch (std::runtime_error& e) {
+            AbortNode(std::string("System error: ") + e.what());
         }
-    } catch (std::runtime_error& e) {
-        AbortNode(std::string("System error: ") + e.what());
     }
     if (nLoaded > 0)
         LogPrintf("Loaded %i blocks from external file in %dms\n", nLoaded, GetTimeMillis() - nStart);

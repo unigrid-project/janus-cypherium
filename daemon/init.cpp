@@ -17,8 +17,10 @@
 #include "activemasternode.h"
 #include "addrman.h"
 #include "amount.h"
+#include "bsarchive.h"
 #include "checkpoints.h"
 #include "compat/sanity.h"
+#include "downloader.h"
 #include "httpserver.h"
 #include "httprpc.h"
 #include "invalid.h"
@@ -63,6 +65,8 @@
 
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/filesystem/fstream.hpp>
+#include <boost/filesystem/convenience.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/interprocess/sync/file_lock.hpp>
 #include <boost/thread.hpp>
@@ -610,6 +614,9 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-blockspamfiltermaxsize=<n>", strprintf(_("Maximum size of the list of indexes in the block spam filter (default: %u)"), DEFAULT_BLOCK_SPAM_FILTER_MAX_SIZE));
     strUsage += HelpMessageOpt("-blockspamfiltermaxavg=<n>", strprintf(_("Maximum average size of an index occurrence in the block spam filter (default: %u)"), DEFAULT_BLOCK_SPAM_FILTER_MAX_AVG));
 
+
+    strUsage += HelpMessageOpt("-loadblock=<file>/web", strprintf(_("Import blocks from external bootstrap file or *.bsa archive (default: %u)"), UNIGRIDCORE_BOOTSTRAP_LOCATION));
+
     return strUsage;
 }
 
@@ -662,6 +669,75 @@ struct CImportingNow {
     }
 };
 
+void ThreadImport(std::vector<std::string> arguments)
+{
+    bool downloadBootstrap = false;
+    std::vector<boost::filesystem::path> vImportFiles;
+    std::string downloadedFilePath;
+    std::FILE* downloadedFile = nullptr;
+
+    RenameThread("Unigrid-loadblock");
+    CImportingNow imp;
+
+    BOOST_FOREACH (std::string arg, arguments) {
+        if (arg == "web") {
+            downloadBootstrap = true;
+        } else {
+            vImportFiles.push_back(arg);
+        }
+    }
+
+    // Download bootstrap archive from the project web site
+    if (downloadBootstrap) {
+        std::string basePath = (boost::filesystem::temp_directory_path() / boost::filesystem::unique_path()).native();
+
+        downloadedFilePath = basePath + ".bsa";
+        downloadedFile = std::fopen(downloadedFilePath.c_str(), "w+");
+
+        if (downloadedFile) {
+            LogPrintf("Starting to download bootstrap \"%s\" to \"%s\"...\n", UNIGRIDCORE_BOOTSTRAP_LOCATION, downloadedFilePath);
+            Downloader downloader(UNIGRIDCORE_BOOTSTRAP_LOCATION, downloadedFile);
+            downloader.fetch();
+            std::rewind(downloadedFile);
+            BSArchive bsArchive(downloadedFile);
+            LogPrintf("Bootstrap download completed\n");
+
+            // If the file is not empty and hash can be verified, we can safely use it!
+            if (!std::feof(downloadedFile) && bsArchive.verifyHash()) {
+                vImportFiles.push_back(downloadedFilePath);
+            } else {
+                LogPrintf("Downloaded bootstrap archive appears to be empty or corrupted - will not be used\n");
+            }
+
+            std::fclose(downloadedFile);
+        }
+    }
+
+    // Loadblock
+    BOOST_FOREACH (boost::filesystem::path path, vImportFiles) {
+        LoadExternalBlockFile(path);
+    }
+
+    // Hardcoded $DATADIR/bootstrap.dat/bsa
+    BOOST_FOREACH (std::string path, std::vector<std::string>({"bootstrap.dat", "bootstrap.bsa"})) {
+        filesystem::path pathBootstrap = GetDataDir() / path;
+
+        if (filesystem::exists(pathBootstrap)) {
+            filesystem::path pathBootstrapOld = GetDataDir() / (path + ".old");
+            LoadExternalBlockFile(pathBootstrap);
+            RenameOver(pathBootstrap, pathBootstrapOld);
+        }
+    }
+
+    // Remove any downloaded bootstrap
+    removeBootstrapFiles();
+    bootstrapingStatus = "inactive";
+    if (GetBoolArg("-stopafterblockimport", false)) {
+        LogPrintf("Stopping after block import\n");
+        StartShutdown();
+    }
+}
+/**
 void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
 {
     RenameThread("unigrid-loadblk");
@@ -674,7 +750,8 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
             CDiskBlockPos pos(nFile, 0);
             if (!boost::filesystem::exists(GetBlockPosFilename(pos, "blk")))
                 break; // No block files left to reindex
-            FILE* file = OpenBlockFile(pos, true);
+            //FILE* file = OpenBlockFile(pos, true);
+            filesystem::path file = GetDataDir() / path;
             if (!file)
                 break; // This error is logged in OpenBlockFile
             LogPrintf("Reindexing block file blk%05u.dat...\n", (unsigned int)nFile);
@@ -691,12 +768,12 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
     // hardcoded $DATADIR/bootstrap.dat
     filesystem::path pathBootstrap = GetDataDir() / "bootstrap.dat";
     if (filesystem::exists(pathBootstrap)) {
-        FILE* file = fopen(pathBootstrap.string().c_str(), "rb");
+        //FILE* file = fopen(pathBootstrap.string().c_str(), "rb");
         if (file) {
             CImportingNow imp;
             filesystem::path pathBootstrapOld = GetDataDir() / "bootstrap.dat.old";
             LogPrintf("Importing bootstrap.dat...\n");
-            LoadExternalBlockFile(file);
+            LoadExternalBlockFile(pathBootstrap);
             RenameOver(pathBootstrap, pathBootstrapOld);
         } else {
             LogPrintf("Warning: Could not open bootstrap file %s\n", pathBootstrap.string());
@@ -720,7 +797,7 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
         StartShutdown();
     }
 }
-
+*/
 /** Sanity checks
  *  Ensure that UNIGRID is running in a usable environment with all
  *  necessary library support.
@@ -1755,6 +1832,17 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     LogPrintf("No wallet compiled in!\n");
 #endif // !ENABLE_WALLET
     // ********************************************************* Step 9: import blocks
+    std::vector<std::string> arguments;
+
+    if (mapArgs.count("-loadblock"))
+    {
+        BOOST_FOREACH(string arg, mapMultiArgs["-loadblock"])
+            arguments.push_back(arg);
+    }
+
+    threadGroup.create_thread(boost::bind(&ThreadImport, arguments));
+    //LogPrintf(_("Loading addresses...\n"));
+
 
     if (mapArgs.count("-blocknotify"))
         uiInterface.NotifyBlockTip.connect(BlockNotifyCallback);
@@ -1767,12 +1855,12 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     if (!ActivateBestChain(state))
         strErrors << "Failed to connect best block";
 
-    std::vector<boost::filesystem::path> vImportFiles;
-    if (mapArgs.count("-loadblock")) {
-        BOOST_FOREACH (string strFile, mapMultiArgs["-loadblock"])
-            vImportFiles.push_back(strFile);
-    }
-    threadGroup.create_thread(boost::bind(&ThreadImport, vImportFiles));
+    //std::vector<boost::filesystem::path> vImportFiles;
+    //if (mapArgs.count("-loadblock")) {
+        //BOOST_FOREACH (string strFile, mapMultiArgs["-loadblock"])
+            //vImportFiles.push_back(strFile);
+    //}
+    //threadGroup.create_thread(boost::bind(&ThreadImport, vImportFiles));
     if (chainActive.Tip() == NULL) {
         LogPrintf("Waiting for genesis block to be imported...\n");
         while (!fRequestShutdown && chainActive.Tip() == NULL)

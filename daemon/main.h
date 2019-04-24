@@ -44,6 +44,8 @@
 
 #include <boost/unordered_map.hpp>
 
+#define UNIGRIDCORE_BOOTSTRAP_LOCATION "http://www.unigrid.org/binaries/bootstrap.bsa"
+
 class CBlockIndex;
 class CBlockTreeDB;
 class CZerocoinDB;
@@ -133,6 +135,9 @@ struct BlockHasher {
     size_t operator()(const uint256& hash) const { return hash.GetLow64(); }
 };
 
+extern double bootstrapingProgress;
+extern std::string bootstrapingStatus;
+
 extern CScript COINBASE_FLAGS;
 extern CCriticalSection cs_main;
 extern CTxMemPool mempool;
@@ -209,7 +214,9 @@ FILE* OpenUndoFile(const CDiskBlockPos& pos, bool fReadOnly = false);
 /** Translation to a filesystem path */
 boost::filesystem::path GetBlockPosFilename(const CDiskBlockPos& pos, const char* prefix);
 /** Import blocks from an external file */
-bool LoadExternalBlockFile(FILE* fileIn, CDiskBlockPos* dbp = NULL);
+bool LoadExternalBlockFile(boost::filesystem::path path, CDiskBlockPos* dbp = nullptr);
+/** Remove boostrap files after import*/
+void removeBootstrapFiles();
 /** Initialize a new block tree database + block data on disk */
 bool InitBlockIndex();
 /** Load the block tree and coins database from disk */
@@ -229,6 +236,7 @@ bool ProcessMessages(CNode* pfrom);
 bool SendMessages(CNode* pto, bool fSendTrickle);
 /** Run an instance of the script checking thread */
 void ThreadScriptCheck();
+void ThreadImport(std::vector<std::string> arguments);
 
 // ***TODO*** probably not the right place for these 2
 /** Check whether a block hash satisfies the proof-of-work requirement specified by nBits */
