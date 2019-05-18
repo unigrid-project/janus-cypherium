@@ -16,12 +16,15 @@
 #include "addrman.h"
 #include "chainparams.h"
 #include "clientversion.h"
+#include "downloader.h"
 #include "miner.h"
 #include "obfuscation.h"
 #include "primitives/transaction.h"
 #include "scheduler.h"
 #include "ui_interface.h"
 #include "wallet.h"
+#include <chrono>
+#include <memory>
 
 #ifdef WIN32
 #include <string.h>
@@ -2350,6 +2353,16 @@ static std::list<ComparableVersion> parse_releases(std::string result)
 
     versions.sort();
     return versions;
+}
+
+std::list<ComparableVersion> GetAllReleases()
+{
+    static std::string releaseFeed;
+
+    Downloader downloader(UNIGRIDCORE_RELEASES_ATOM_LOCATION, std::addressof(releaseFeed));
+    downloader.fetch();
+
+    return parse_releases(releaseFeed);
 }
 
 std::string GetLatestRelease()
