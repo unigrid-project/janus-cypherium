@@ -2367,28 +2367,7 @@ std::list<ComparableVersion> GetAllReleases()
 
 std::string GetLatestRelease()
 {
-    CURL *curl;
-    CURLcode res;
-    curl = curl_easy_init();
-    std::string result;
-
-    if(curl)
-    {
-        curl_easy_setopt(curl, CURLOPT_URL, UNIGRIDCORE_RELEASES_ATOM_LOCATION);
-        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, handle_chunk);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &result);
-        res = curl_easy_perform(curl);
-
-        if(res != CURLE_OK)
-        {
-            LogPrintf("Download of UNIGRID core release list failed: %s\n", curl_easy_strerror(res));
-        }
-
-        curl_easy_cleanup(curl);
-    }
-
-    curl_global_cleanup();
-    std::list<ComparableVersion> versions = parse_releases(result);
-    return versions.empty() ? "unknown" : "v" + versions.back().ToString();
+    std::list<ComparableVersion> versions = GetAllReleases();
+    return versions.empty() ? "unknown" : versions.back().ToString();
 }
+
