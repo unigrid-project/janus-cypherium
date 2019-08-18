@@ -1,0 +1,11 @@
+[Protocol]
+exec=unigrid-qt '%u'
+protocol=unigrid
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false
