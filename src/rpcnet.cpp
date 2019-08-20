@@ -623,14 +623,20 @@ UniValue sendalert(const UniValue& params, bool fHelp)
     CDataStream sMsg(SER_NETWORK, PROTOCOL_VERSION);
     sMsg << (CUnsignedAlert) alert;
     alert.vchMsg = vector<unsigned char>(sMsg.begin(), sMsg.end());
-    vector<unsigned char> vchPrivKey = ParseHex(params[1].get_str());
-    key.SetPrivKey(CPrivKey(vchPrivKey.begin(), vchPrivKey.end()), false); // if key is not correct openssl may crash
+    vector<unsigned char> vchPrivKey(ParseHex(params[1].get_str()));
 
-    if (!key.Sign(Hash(alert.vchMsg.begin(), alert.vchMsg.end()), alert.vchSig))
+    // if key is not correct openssl may crash
+    if (!key.SetPrivKey(CPrivKey(vchPrivKey.begin(), vchPrivKey.end()), false)) {
+        throw runtime_error("Unable to set private key, is it valid?\n");
+    }
+
+    if (!key.Sign(Hash(alert.vchMsg.begin(), alert.vchMsg.end()), alert.vchSig)) {
         throw runtime_error("Unable to sign alert, check private key?\n");
+    }
 
-    if(!alert.ProcessAlert())
+    if(!alert.ProcessAlert()) {
         throw runtime_error("Failed to process alert.\n");
+    }
 
     // Relay alert
     {

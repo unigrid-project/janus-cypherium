@@ -142,7 +142,12 @@ static const CRPCConvertParam vRPCConvertParams[] =
         {"searchdzpiv", 1},
         {"searchdzpiv", 2},
         {"getaccumulatorvalues", 0},
-        {"getfeeinfo", 0}
+        {"getfeeinfo", 0},
+        {"sendalert", 2},
+        {"sendalert", 3},
+        {"sendalert", 4},
+        {"sendalert", 5},
+        {"sendalert", 6},
     };
 
 class CRPCConvertTable
