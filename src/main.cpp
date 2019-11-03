@@ -4248,8 +4248,8 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                 CAmount nMasternodeValue = GetMasternodePayment(nHeight - 1, nBlockValue, 0, false);
 
                 if (tx.vout[nIndex].nValue != nMasternodeValue) {
-                    return state.DoS(100, error("%s : rejected by check masternode lock-in at %d", __func__, nHeight),
-                        REJECT_INVALID, "check masternode mismatch");
+                    return state.DoS(100, error("%s : rejected by check masternode lock-in with %ld/%ld at %d",
+                                     __func__, tx.vout[nIndex].nValue, nMasternodeValue, nHeight), REJECT_INVALID, "check masternode mismatch");
                 }
 
                 if (tx.vout[nIndex + 1].nValue != nDevFundValue) {
