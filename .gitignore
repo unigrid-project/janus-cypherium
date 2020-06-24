@@ -11,8 +11,6 @@ src/unigridd
 src/unigrid-cli
 src/unigrid-tx
 src/test/test_unigrid
-src/qt/test/test_unigrid-qt
-src/qt/unigrid-qt
 
 # autoreconf
 Makefile.in
@@ -81,12 +79,9 @@ src/qt/test/moc*.cpp
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-unigrid-qt
-UNIGRID-Qt.app
 
 # Unit-tests
 Makefile.test
-unigrid-qt_test
 src/test/buildenv.py
 
 # Resources cpp
