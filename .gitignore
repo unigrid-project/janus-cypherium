@@ -40,14 +40,7 @@ src/config/unigrid-config.h
 src/config/unigrid-config.h.in
 **/stamp-h1
 share/setup.nsi
-share/qt/Info.plist
 contrib/devtools/split-debug.sh
-
-src/qt/*.moc
-src/qt/moc_*.cpp
-src/qt/forms/ui_*.h
-
-src/qt/test/moc*.cpp
 
 .deps
 .dirstamp
@@ -76,7 +69,7 @@ src/qt/test/moc*.cpp
 *.lo
 *.la
 
-# Compilation and Qt preprocessor part
+# Compilation
 *.qm
 Makefile
 
@@ -86,9 +79,6 @@ src/test/buildenv.py
 
 # Resources cpp
 qrc_*.cpp
-
-# Qt creator
-*.pro.user
 
 # Mac specific
 .DS_Store
