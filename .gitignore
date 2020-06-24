@@ -6,11 +6,11 @@ reset-files.bash
 *.tar.gz
 
 *.exe
-src/unigrid
-src/unigridd
-src/unigrid-cli
-src/unigrid-tx
-src/test/test_unigrid
+daemon/unigrid
+daemon/unigridd
+daemon/unigrid-cli
+daemon/unigrid-tx
+daemon/test/test_unigrid
 
 # autoreconf
 Makefile.in
@@ -36,8 +36,8 @@ confdefs.h
 conftest.cpp
 conftest.err
 libtool
-src/config/unigrid-config.h
-src/config/unigrid-config.h.in
+daemon/config/unigrid-config.h
+daemon/config/unigrid-config.h.in
 **/stamp-h1
 share/setup.nsi
 contrib/devtools/split-debug.sh
@@ -75,7 +75,7 @@ Makefile
 
 # Unit-tests
 Makefile.test
-src/test/buildenv.py
+daemon/test/buildenv.py
 
 # Resources cpp
 qrc_*.cpp
@@ -100,7 +100,7 @@ qa/pull-tester/tests-config.sh
 qa/pull-tester/cache/*
 qa/pull-tester/test.*/*
 
-!src/leveldb*/Makefile
+!daemon/leveldb*/Makefile
 
 .cproject
 .project
