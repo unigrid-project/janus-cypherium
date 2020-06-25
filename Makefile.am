@@ -160,20 +160,17 @@ if TARGET_WINDOWS
 deploy: $(BITCOIN_WIN_INSTALLER)
 endif
 
-$(BITCOIN_QT_BIN): FORCE
-	$(MAKE) -C src qt/$(@F)
-
 $(BITCOIND_BIN): FORCE
-	$(MAKE) -C src $(@F)
+	$(MAKE) -C daemon $(@F)
 
 $(BITCOIN_CLI_BIN): FORCE
-	$(MAKE) -C src $(@F)
+	$(MAKE) -C daemon $(@F)
 
 if USE_LCOV
 LCOV_FILTER_PATTERN=-p "/usr/include/" -p "/usr/lib/" -p "daemon/leveldb/" -p "daemon/univalue" -p "daemon/secp256k1"
 
 baseline.info:
-	$(LCOV) -c -i -d $(abs_builddir)/src -o $@
+	$(LCOV) -c -i -d $(abs_builddir)/daemon -o $@
 
 baseline_filtered.info: baseline.info
 	$(abs_builddir)/contrib/filter-lcov.py $(LCOV_FILTER_PATTERN) $< $@
@@ -181,8 +178,8 @@ baseline_filtered.info: baseline.info
 
 test_unigrid.info: baseline_filtered.info
 	$(MAKE) -C daemon/ check
-	$(LCOV) -c $(LCOV_OPTS) -d $(abs_builddir)/src -t test_unigrid -o $@
-	$(LCOV) -z $(LCOV_OPTS) -d $(abs_builddir)/src
+	$(LCOV) -c $(LCOV_OPTS) -d $(abs_builddir)/daemon -t test_unigrid -o $@
+	$(LCOV) -z $(LCOV_OPTS) -d $(abs_builddir)/daemon
 
 test_unigrid_filtered.info: test_unigrid.info
 	$(abs_builddir)/contrib/filter-lcov.py $(LCOV_FILTER_PATTERN) $< $@
@@ -190,8 +187,8 @@ test_unigrid_filtered.info: test_unigrid.info
 
 functional_test.info: test_unigrid_filtered.info
 	-@TIMEOUT=15 test/functional/test_runner.py $(EXTENDED_FUNCTIONAL_TESTS)
-	$(LCOV) -c $(LCOV_OPTS) -d $(abs_builddir)/src --t functional-tests -o $@
-	$(LCOV) -z $(LCOV_OPTS) -d $(abs_builddir)/src
+	$(LCOV) -c $(LCOV_OPTS) -d $(abs_builddir)/daemon --t functional-tests -o $@
+	$(LCOV) -z $(LCOV_OPTS) -d $(abs_builddir)/daemon
 
 functional_test_filtered.info: functional_test.info
 	$(abs_builddir)/contrib/filter-lcov.py $(LCOV_FILTER_PATTERN) $< $@
