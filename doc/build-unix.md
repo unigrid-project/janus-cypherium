@@ -136,9 +136,7 @@ It is recommended to use Berkeley DB 4.8. If you have to build it yourself:
 ```
 from the root of the repository
 
-Note: You only need Berkeley DB if the wallet is enabled
-
-**Note**: You only need Berkeley DB if the wallet is enabled (see the section *Disable-Wallet mode* below).
+**Note**: You only need Berkeley DB if the wallet is enabled (see [Disable-Wallet mode](#disable-wallet-mode) ).
 
 Boost
 -----
@@ -196,3 +194,12 @@ Hardening enables the following features:
 	RW- R-- RW-
 
     The STK RW- means that the stack is readable and writeable but not executable.
+
+Disable Wallet Mode
+--------
+When the intention is to run only a P2P node without a wallet, Bitcoin Core may be compiled in disable-wallet mode with:
+```bash
+./configure --disable-wallet
+```
+
+In this case there is no dependency on Berkeley DB 4.8.
