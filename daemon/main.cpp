@@ -1765,7 +1765,7 @@ bool GetTransaction(const uint256& hash, CTransaction& txOut, uint256& hashBlock
 
                 CBlockHeader header;
 
-                if (IsSporkActive(SPORK_19_BLOCK_REWARDS_V2)) {
+                if (IsSporkActive (SPORK_19_BLOCK_REWARDS_V2)) {
                     header.nVersion = CBlockHeader::CURRENT_VERSION;
                 } else {
                     header.nVersion = 4;
@@ -4246,7 +4246,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                 CAmount nDevFundValue = GetDevFundPayment(nHeight - 1, nBlockValue);
                 CAmount nMasternodeValue = GetMasternodePayment(nHeight - 1, nBlockValue, 0, false);
 
-                if (tx.vout[nIndex].nValue != nMasternodeValue && !IsInitialBlockDownload()) {
+                if (tx.vout[nIndex].nValue != nMasternodeValue) {
                     return state.DoS(100, error("%s : rejected by check masternode lock-in with %ld/%ld at %d", __func__, tx.vout[nIndex].nValue, nMasternodeValue, nHeight), REJECT_INVALID, "check masternode mismatch");
                 }
 
@@ -4328,7 +4328,7 @@ bool CheckBlockForBlackListedAddresses(const CBlock& block, int nHeight)
     if (IsSporkActive(SPORK_18_BLACKLIST_BLOCK_REFERENCE)) {
         CBlock referenceBlock;
         uint64_t sporkBlockValue = (GetSporkValue(SPORK_18_BLACKLIST_BLOCK_REFERENCE) >> 16) & 0xffffffffffff; // 48-bit
-        CBlockIndex* referenceIndex = chainActive[sporkBlockValue];
+        CBlockIndex *referenceIndex = chainActive[sporkBlockValue];
 
         if (referenceIndex != NULL) {
             assert(ReadBlockFromDisk(referenceBlock, referenceIndex));
@@ -4670,8 +4670,8 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
         // Check whether is a fork or not
         if (pindexPrev != nullptr && !chainActive.Contains(pindexPrev)) {
             // Start at the block we're adding on to
-            CBlockIndex* prev = pindexPrev;
-            CTransaction& stakeTxIn = block.vtx[1];
+            CBlockIndex *prev = pindexPrev;
+            CTransaction &stakeTxIn = block.vtx[1];
             CBlock bl;
             // Go backwards on the forked chain up to the split
             do {
@@ -4684,7 +4684,7 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
                 for (CTransaction t : bl.vtx) {
                     for (CTxIn in : t.vin) {
                         // Loop through every input of the staking tx
-                        for (CTxIn stakeIn : stakeTxIn.vin) {
+                        for (CTxIn stakeIn: stakeTxIn.vin) {
                             // if it's already spent
                             if (stakeIn.prevout == in.prevout) {
                                 // reject the block
