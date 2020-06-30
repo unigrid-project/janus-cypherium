@@ -25,10 +25,13 @@
 #include <stdint.h>
 #include <boost/assign/list_of.hpp>
 #include <univalue.h>
+//#include "json/json_spirit_utils.h"
+//#include "json/json_spirit_value.h"
 
 using namespace boost;
 using namespace boost::assign;
 using namespace std;
+//using namespace json_spirit;
 
 UniValue getinfo(const UniValue& params, bool fHelp)
 {
@@ -84,6 +87,7 @@ UniValue getinfo(const UniValue& params, bool fHelp)
     proxyType proxy;
     GetProxy(NET_IPV4, proxy);
 
+    //Object diff, bootstraping, obj;
     UniValue obj(UniValue::VOBJ);
     obj.push_back(Pair("version", CLIENT_VERSION));
     obj.push_back(Pair("protocolversion", PROTOCOL_VERSION));
@@ -99,6 +103,17 @@ UniValue getinfo(const UniValue& params, bool fHelp)
         obj.push_back(Pair("zerocoinbalance", ValueFromAmount(pwalletMain->GetZerocoinBalance(true))));
     }
 #endif
+/**
+    bootstraping.push_back(Pair("status",  bootstrapingStatus));
+
+    if (bootstrapingProgress == -1) {
+        bootstraping.push_back(Pair("progress", "none"));
+    } else {
+        bootstraping.push_back(Pair("progress", bootstrapingProgress));
+    }
+*/
+    //obj.push_back(Pair("bootstraping",  bootstraping));
+
     obj.push_back(Pair("blocks", (int)chainActive.Height()));
     obj.push_back(Pair("timeoffset", GetTimeOffset()));
     obj.push_back(Pair("connections", (int)vNodes.size()));
