@@ -88,6 +88,7 @@ BITCOIN_CORE_H = \
   base58.h \
   bip38.h \
   bloom.h \
+  bsarchive.h \
   supplycache.h \
   blocksignature.h \
   chain.h \
@@ -102,6 +103,7 @@ BITCOIN_CORE_H = \
   compat.h \
   compat/sanity.h \
   compressor.h \
+  downloader.h \
   primitives/block.h \
   primitives/deterministicmint.h \
   primitives/transaction.h \
@@ -201,10 +203,12 @@ libbitcoin_server_a_SOURCES = \
   addrman.cpp \
   alert.cpp \
   bloom.cpp \
+  bsarchive.cpp \
   supplycache.cpp \
   blocksignature.cpp \
   chain.cpp \
   checkpoints.cpp \
+  downloader.cpp \
   httprpc.cpp \
   httpserver.cpp \
   init.cpp \
@@ -231,6 +235,9 @@ libbitcoin_server_a_SOURCES = \
   txdb.cpp \
   txmempool.cpp \
   validationinterface.cpp \
+  xz/xz_crc32.c \
+  xz/xz_dec_lzma2.c \
+  xz/xz_dec_stream.c \
   zpivchain.cpp \
   $(BITCOIN_CORE_H)
 
@@ -434,7 +441,7 @@ unigridd_LDADD = \
   $(LIBMEMENV) \
   $(LIBSECP256K1)
 
-unigridd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
+unigridd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CURL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
 
 # unigrid-cli binary #
 unigrid_cli_SOURCES = unigrid-cli.cpp
