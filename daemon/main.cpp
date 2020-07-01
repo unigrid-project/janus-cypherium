@@ -5299,7 +5299,7 @@ void removeBootstrapFiles()
 }
 
 double bootstrapingProgress = 0.0;
-std::string bootstrapingStatus = "inactive";
+std::string bootstrappingStatus = "inactive";
 
 bool LoadExternalBlockFile(boost::filesystem::path path, CDiskBlockPos* dbp)
 {
@@ -5338,7 +5338,7 @@ bool LoadExternalBlockFile(boost::filesystem::path path, CDiskBlockPos* dbp)
     }
     {
         bootstrapingProgress = -1;
-        bootstrapingStatus = "syncing";
+        bootstrappingStatus = "syncing";
         try {
             // This takes over fileIn and calls fclose() on it in the CBufferedFile destructor
             CBufferedFile blkdat(fileIn, 2 * MAX_BLOCK_SIZE_CURRENT, MAX_BLOCK_SIZE_CURRENT + 8, SER_DISK, CLIENT_VERSION);

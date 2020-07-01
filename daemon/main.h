@@ -136,7 +136,7 @@ struct BlockHasher {
 };
 
 extern double bootstrapingProgress;
-extern std::string bootstrapingStatus;
+extern std::string bootstrappingStatus;
 
 extern CScript COINBASE_FLAGS;
 extern CCriticalSection cs_main;

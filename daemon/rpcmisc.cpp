@@ -87,7 +87,7 @@ UniValue getinfo(const UniValue& params, bool fHelp)
     proxyType proxy;
     GetProxy(NET_IPV4, proxy);
 
-    //Object diff, bootstraping, obj;
+    UniValue bootstrapping(UniValue::VOBJ);
     UniValue obj(UniValue::VOBJ);
     obj.push_back(Pair("version", CLIENT_VERSION));
     obj.push_back(Pair("protocolversion", PROTOCOL_VERSION));
@@ -103,16 +103,16 @@ UniValue getinfo(const UniValue& params, bool fHelp)
         obj.push_back(Pair("zerocoinbalance", ValueFromAmount(pwalletMain->GetZerocoinBalance(true))));
     }
 #endif
-/**
-    bootstraping.push_back(Pair("status",  bootstrapingStatus));
+
+    bootstrapping.push_back(Pair("status",  bootstrappingStatus));
 
     if (bootstrapingProgress == -1) {
-        bootstraping.push_back(Pair("progress", "none"));
+        bootstrapping.push_back(Pair("progress", "none"));
     } else {
-        bootstraping.push_back(Pair("progress", bootstrapingProgress));
+        bootstrapping.push_back(Pair("progress", bootstrapingProgress));
     }
-*/
-    //obj.push_back(Pair("bootstraping",  bootstraping));
+
+    obj.push_back(Pair("bootstrapping",  bootstrapping));
 
     obj.push_back(Pair("blocks", (int)chainActive.Height()));
     obj.push_back(Pair("timeoffset", GetTimeOffset()));
