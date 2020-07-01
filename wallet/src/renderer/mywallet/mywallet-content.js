@@ -46,8 +46,8 @@ export default class MyWalletContent extends React.Component {
 			rpcClient.getbalance(),
 			coinGecko.getsupported(),
 		]).then((response) => {
-			coinGecko.getprice("swipp", response[1]).then((rates) => {
-				var currencies = Object.entries(rates.swipp).map((currency) => {
+			coinGecko.getprice("unigrid", response[1]).then((rates) => {
+				var currencies = Object.entries(rates.unigrid).map((currency) => {
 					var v = { value: currency[0], label: currency[0], rate: currency[1] };
 
 					if (currency[0] == this.state.selectedCurrency) {
@@ -74,7 +74,7 @@ export default class MyWalletContent extends React.Component {
 					<script src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js" />
 				</Helmet>
 
-				<coingecko-coin-price-marquee-widget coin-ids="swipp,bitcoin,litecoin,dogecoin"
+				<coingecko-coin-price-marquee-widget coin-ids="unigrid,swipp,bitcoin,litecoin,dogecoin"
 				                                     currency={this.state.selectedCurrency.value}
 				                                     background-color="#000" locale="en" />
 				<div>
