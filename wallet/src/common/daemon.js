@@ -79,9 +79,9 @@ export default class Daemon {
 		var p;
 
 		if (isDevelopment) {
-			p = await Daemon.execute(window, "../daemon/swippd", downloadBootStrap);
+			p = await Daemon.execute(window, "../daemon/unigridd", downloadBootStrap);
 		} else {
-			p = await Daemon.execute(window, process.resourcesPath + "/../swippd", downloadBootStrap);
+			p = await Daemon.execute(window, process.resourcesPath + "/../unigridd", downloadBootStrap);
 		}
 
 		return p;
