@@ -679,6 +679,28 @@ void ThreadImport(std::vector<std::string> arguments)
     RenameThread("Unigrid-loadblock");
     CImportingNow imp;
 
+    // -reindex
+    if (fReindex) {
+        int nFile = 0;
+        while (true) {
+            CDiskBlockPos pos(nFile, 0);
+            if (!boost::filesystem::exists(GetBlockPosFilename(pos, "blk")))
+                break; // No block files left to reindex
+            FILE* file = OpenBlockFile(pos, true);
+            boost::filesystem::path blkLocation = GetBlockPosFilename(pos, "blk");
+            if (!file)
+                break; // This error is logged in OpenBlockFile
+            LogPrintf("Reindexing block file blk%05u.dat...\n", (unsigned int)nFile);
+            LoadExternalBlockFile(blkLocation, &pos);
+            nFile++;
+        }
+        pblocktree->WriteReindexing(false);
+        fReindex = false;
+        LogPrintf("Reindexing finished\n");
+        // To avoid ending up in a situation without genesis block, re-try initializing (no-op if reindexing worked):
+        InitBlockIndex();
+    }
+
     BOOST_FOREACH (std::string arg, arguments) {
         if (arg == "web") {
             downloadBootstrap = true;
@@ -731,73 +753,13 @@ void ThreadImport(std::vector<std::string> arguments)
 
     // Remove any downloaded bootstrap
     removeBootstrapFiles();
-    bootstrapingStatus = "inactive";
+    bootstrappingStatus = "inactive";
     if (GetBoolArg("-stopafterblockimport", false)) {
         LogPrintf("Stopping after block import\n");
         StartShutdown();
     }
 }
-/**
-void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
-{
-    RenameThread("unigrid-loadblk");
 
-    // -reindex
-    if (fReindex) {
-        CImportingNow imp;
-        int nFile = 0;
-        while (true) {
-            CDiskBlockPos pos(nFile, 0);
-            if (!boost::filesystem::exists(GetBlockPosFilename(pos, "blk")))
-                break; // No block files left to reindex
-            //FILE* file = OpenBlockFile(pos, true);
-            filesystem::path file = GetDataDir() / path;
-            if (!file)
-                break; // This error is logged in OpenBlockFile
-            LogPrintf("Reindexing block file blk%05u.dat...\n", (unsigned int)nFile);
-            LoadExternalBlockFile(file, &pos);
-            nFile++;
-        }
-        pblocktree->WriteReindexing(false);
-        fReindex = false;
-        LogPrintf("Reindexing finished\n");
-        // To avoid ending up in a situation without genesis block, re-try initializing (no-op if reindexing worked):
-        InitBlockIndex();
-    }
-
-    // hardcoded $DATADIR/bootstrap.dat
-    filesystem::path pathBootstrap = GetDataDir() / "bootstrap.dat";
-    if (filesystem::exists(pathBootstrap)) {
-        //FILE* file = fopen(pathBootstrap.string().c_str(), "rb");
-        if (file) {
-            CImportingNow imp;
-            filesystem::path pathBootstrapOld = GetDataDir() / "bootstrap.dat.old";
-            LogPrintf("Importing bootstrap.dat...\n");
-            LoadExternalBlockFile(pathBootstrap);
-            RenameOver(pathBootstrap, pathBootstrapOld);
-        } else {
-            LogPrintf("Warning: Could not open bootstrap file %s\n", pathBootstrap.string());
-        }
-    }
-
-    // -loadblock=
-    BOOST_FOREACH (boost::filesystem::path& path, vImportFiles) {
-        FILE* file = fopen(path.string().c_str(), "rb");
-        if (file) {
-            CImportingNow imp;
-            LogPrintf("Importing blocks file %s...\n", path.string());
-            LoadExternalBlockFile(file);
-        } else {
-            LogPrintf("Warning: Could not open blocks file %s\n", path.string());
-        }
-    }
-
-    if (GetBoolArg("-stopafterblockimport", false)) {
-        LogPrintf("Stopping after block import\n");
-        StartShutdown();
-    }
-}
-*/
 /** Sanity checks
  *  Ensure that UNIGRID is running in a usable environment with all
  *  necessary library support.
