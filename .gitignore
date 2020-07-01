@@ -12,6 +12,11 @@ daemon/unigrid-cli
 daemon/unigrid-tx
 daemon/test/test_unigrid
 
+# electron
+wallet/node_modules
+wallet/yarn.lock
+wallet/yarn-err0r.log
+
 # autoreconf
 Makefile.in
 aclocal.m4
