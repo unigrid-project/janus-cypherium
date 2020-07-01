@@ -4269,6 +4269,8 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
         }
     }
 
+   
+
     // Check transactions
     bool fZerocoinActive = block.GetBlockTime() > Params().Zerocoin_StartTime();
     vector<CBigNum> vBlockSerials;
@@ -4307,6 +4309,18 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
             REJECT_INVALID, "bad-blk-sigops", true);
 
     return true;
+}
+
+// Return each change point in changePoints
+void GetBlockValueChangePoints(int *changePoints, int blockVersion)
+{
+    if (blockVersion >= 5)
+    {
+        changePoints[0] = {475000};
+        changePoints[1] = {600000};
+        changePoints[2] = {800000};
+        changePoints[3] = {1000000};
+    } 
 }
 
 // Checks for blacklisted addresses, the blacklisted addresses are fetched from the block and transaction indexes referenced by
