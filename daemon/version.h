@@ -11,8 +11,10 @@
 
 #include "clientversion.h"
 #include <string>
-
-static const int PROTOCOL_VERSION = 70930;
+#include <sstream>
+/**
+ * network protocol versioning
+ */
 
 static const int PROTOCOL_VERSION = 70931;
 
