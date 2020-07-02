@@ -42,7 +42,7 @@ export default class SplashController {
 		});
 
 		if (global.isDevelopment) {
-			window.webContents.openDevTools({ mode : "detach" });
+			window.webContents.openDevTools({ mode: "detach" });
 			window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}?route=splash`);
 		} else {
 			window.loadURL(formatUrl({
@@ -76,7 +76,7 @@ export default class SplashController {
 					resolve();
 				} else {
 					var errorMessage = "The daemon of this wallet is outdated. " +
-					                   `Please download version ${latest_version}`;
+						`Please download version ${latest_version}`;
 
 					this.window.webContents.send("fatal-error", errorMessage);
 					this.window.webContents.send("state", "idle");
@@ -89,7 +89,7 @@ export default class SplashController {
 	}
 
 	async handle_synchronization(remoteHeight, rpcClient) {
-	    var syncing = false;
+		var syncing = false;
 		var startHeight = -1;
 		var localHeight = 0;
 
@@ -121,9 +121,9 @@ export default class SplashController {
 						rpcClient.getinfo(),
 						new Promise(resolve => setTimeout(resolve, 500))
 					]).then((response) => {
-						var progress = response[0].bootstraping.progress;
+						var progress = response[0].bootstrapping.progress;
 
-						switch (response[0].bootstraping.status) {
+						switch (response[0].bootstrapping.status) {
 							case "downloading":
 								this.window.webContents.send(
 									"progress", "indeterminate",
@@ -143,7 +143,7 @@ export default class SplashController {
 									"progress", "indeterminate",
 									"Scanning local block cache..."
 								);
-							    syncing = true;
+								syncing = true;
 								break;
 
 							default:
@@ -167,12 +167,12 @@ export default class SplashController {
 				new Explorer().getblockcount(),
 				new Promise(resolve => setTimeout(resolve, 1000))
 			]).then((response) => {
-			    var remoteHeight = response[1];
+				var remoteHeight = response[1];
 
 				/* Should we restart the daemon and download the bootstrap? */
 				if (remoteHeight - response[0]["blocks"] > BOOTSTRAP_DOWNLOAD_THRESHOLD_BLOCKS) {
 					this.window.webContents.send(
-						"progress", "indeterminate", "Preparing sycnhronization..."
+						"progress", "indeterminate", "Preparing sycnhronization... blocks behind: " + (remoteHeight - response[0]["blocks"])
 					);
 
 					Promise.all([rpcClient.stop(), Daemon.done()]).then((response) => {
@@ -184,9 +184,38 @@ export default class SplashController {
 					resolve();
 				}
 			}).catch((reason) => {
+				this.window.webContents.send(
+					"progress", "indeterminate", reason
+				);
 				reject();
 			});
 		});
+	}
+
+	async daemon_loading(rpcClient) {
+		var blockHeight = -1;
+		var rpcCallCount = 0;
+		do {
+			await new Promise((resolve, reject) => {
+				Promise.all([
+					rpcClient.getinfo(),
+					new Promise(resolve => setTimeout(resolve, 1000))
+				]).then((response) => {
+					this.window.webContents.send(
+						"progress", "indeterminate", "UNIGRID daemon loading... " + rpcCallCount
+					);
+					blockHeight = response[0]["blocks"];
+					rpcCallCount++;
+					resolve();
+				}, (stderr) => {
+					console.error(stderr);
+					reject();
+				});
+			});
+		} while (blockHeight === -1)
+		this.window.webContents.send(
+			"progress", "indeterminate", "UNIGRID daemon loaded..."
+		);
 	}
 }
 

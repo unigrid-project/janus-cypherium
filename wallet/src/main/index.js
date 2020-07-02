@@ -40,9 +40,9 @@ app.on("window-all-closed", () => {
 });
 
 app.on("activate", () => {
-/*	if (mainWindow === null) {
-		mainWindow = createMainWindow();
-	}*/
+	/*	if (mainWindow === null) {
+			mainWindow = createMainWindow();
+		}*/
 });
 
 ipcMain.on("open-asteroids", () => {
@@ -61,10 +61,14 @@ app.on("ready", () => {
 			var rpcClient = new RPCClient();
 
 			splashController.version_control(rpcClient).then(() => {
-				splashController.synchronize_wallet(rpcClient).then(() => {
-					/* If sync was a success, we close the splash and move on to the main wallet window */
-					var mainController = new MainController();
-					splashController.window.close();
+				splashController.daemon_loading(rpcClient).then(() => {
+					splashController.synchronize_wallet(rpcClient).then(() => {
+						/* If sync was a success, we close the splash and move on to the main wallet window */
+						var mainController = new MainController();
+						splashController.window.close();
+					}, (stderr) => {
+						console.error(stderr);
+					});
 				}, (stderr) => {
 					console.error(stderr);
 				});
