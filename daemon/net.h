@@ -43,7 +43,7 @@ namespace boost
 class thread_group;
 } // namespace boost
 
-#define UNIGRIDCORE_RELEASES_ATOM_LOCATION "https://github.com/unigrid-project/UNIGRID/releases.atom";
+#define UNIGRIDCORE_RELEASES_ATOM_LOCATION "https://github.com/unigrid-project/UNIGRID/releases.atom"
 
 /** Time between pings automatically sent out for latency probing and keepalive (in seconds). */
 static const int PING_INTERVAL = 2 * 60;
@@ -744,7 +744,6 @@ void RelayTransaction(const CTransaction& tx, const CDataStream& ss);
 void RelayTransactionLockReq(const CTransaction& tx, bool relayToAll = false);
 void RelayInv(CInv& inv);
 std::string GetLatestRelease();
-void FindReleases();
 
 /** Access to the (IP) address database (peers.dat) */
 class CAddrDB
