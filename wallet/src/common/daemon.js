@@ -1,19 +1,19 @@
 /*
- * This file is part of The Swipp Wallet
+ * This file is part of The UNIGRID Wallet
  * Copyright (C) 2019 The Swipp developers <info@swippcoin.com>
  *
- * The Swipp Wallet is free software: you can redistribute it and/or modify
+ * The UNIGRID Wallet is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
 
- * The Swipp Wallet is distributed in the hope that it will be useful,
+ * The UNIGRID Wallet is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with The Swipp Wallet. If not, see <https://www.gnu.org/licenses/>.
+ * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import { execFile } from "child_process";
@@ -30,48 +30,48 @@ export default class Daemon {
 		return new Promise((resolve, reject) => {
 			var clargs = process.argv.slice(global.isDevelopment ? 3 : 1);
 
-			if (global.credentials == undefined)  {
+			if (global.credentials == undefined) {
 				global.credentials = {
 					user: crypto.randomBytes(6).toString('hex'),
 					password: crypto.randomBytes(20).toString('hex')
 				};
 			}
 
-			clargs.push(`-rpcuser=${global.credentials.user}` , `-rpcpassword=${global.credentials.password}`);
+			clargs.push(`-rpcuser=${global.credentials.user}`, `-rpcpassword=${global.credentials.password}`);
 
 			if (downloadBootstrap) {
 				clargs.push("-loadblock=web");
 			}
 
 			portscanner.findAPortNotInUse(DEFAULT_RPC_PORT, DEFAULT_RPC_PORT + 1024,
-			                              "127.0.0.1", (error, port) => {
-				var executionError = false;
+				"127.0.0.1", (error, port) => {
+					var executionError = false;
 
-				global.rpcPort = port;
-				clargs.push(`-rpcport=${port}`);
+					global.rpcPort = port;
+					clargs.push(`-rpcport=${port}`);
 
-				execFile(location, clargs, { windowsHide: true }, (error, stdout, stderr) => {
-					if (error) {
-						executionError = true;
-						window.webContents.send("fatal-error", stderr);
-						window.webContents.send("state", "idle");
-						reject(stderr);
-					}
-				}).on("exit", () => {
-					DAEMON_DONE_PROMISE.resolve();
+					execFile(location, clargs, { windowsHide: true }, (error, stdout, stderr) => {
+						if (error) {
+							executionError = true;
+							window.webContents.send("fatal-error", stderr);
+							window.webContents.send("state", "idle");
+							reject(stderr);
+						}
+					}).on("exit", () => {
+						DAEMON_DONE_PROMISE.resolve();
+					});
+
+					tcpPortUsed.waitUntilUsed(global.rpcPort, 200, 20000).then(() => {
+						resolve();
+					}, (err) => {
+						if (!executionError) {
+							var errorMessage = `Error waiting for the wallet daemon: ${err.message}`;
+							window.webContents.send("fatal-error", errorMessage);
+							window.webContents.send("state", "idle");
+							reject(errorMessage);
+						}
+					});
 				});
-
-				tcpPortUsed.waitUntilUsed(global.rpcPort, 200, 20000).then(() => {
-					resolve();
-				}, (err) => {
-					if (!executionError) {
-						var errorMessage = `Error waiting for the wallet daemon: ${err.message}`;
-						window.webContents.send("fatal-error", errorMessage);
-						window.webContents.send("state", "idle");
-						reject(errorMessage);
-					}
-				});
-			});
 		});
 	}
 
