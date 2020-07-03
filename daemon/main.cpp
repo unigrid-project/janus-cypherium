@@ -12,8 +12,8 @@
 #include "accumulators.h"
 #include "addrman.h"
 #include "alert.h"
-#include "bsarchive.h"
 #include "blocksignature.h"
+#include "bsarchive.h"
 #include "chainparams.h"
 #include "checkpoints.h"
 #include "checkqueue.h"
@@ -1765,7 +1765,7 @@ bool GetTransaction(const uint256& hash, CTransaction& txOut, uint256& hashBlock
 
                 CBlockHeader header;
 
-                if (IsSporkActive (SPORK_19_BLOCK_REWARDS_V2)) {
+                if (IsSporkActive(SPORK_19_BLOCK_REWARDS_V2)) {
                     header.nVersion = CBlockHeader::CURRENT_VERSION;
                 } else {
                     header.nVersion = 4;
@@ -4269,7 +4269,6 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
         }
     }
 
-   
 
     // Check transactions
     bool fZerocoinActive = block.GetBlockTime() > Params().Zerocoin_StartTime();
@@ -4312,15 +4311,14 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 }
 
 // Return each change point in changePoints
-void GetBlockValueChangePoints(int *changePoints, int blockVersion)
+void GetBlockValueChangePoints(int* changePoints, int blockVersion)
 {
-    if (blockVersion >= 5)
-    {
+    if (blockVersion >= 5) {
         changePoints[0] = {475000};
         changePoints[1] = {600000};
         changePoints[2] = {800000};
         changePoints[3] = {1000000};
-    } 
+    }
 }
 
 // Checks for blacklisted addresses, the blacklisted addresses are fetched from the block and transaction indexes referenced by
@@ -4342,7 +4340,7 @@ bool CheckBlockForBlackListedAddresses(const CBlock& block, int nHeight)
     if (IsSporkActive(SPORK_18_BLACKLIST_BLOCK_REFERENCE)) {
         CBlock referenceBlock;
         uint64_t sporkBlockValue = (GetSporkValue(SPORK_18_BLACKLIST_BLOCK_REFERENCE) >> 16) & 0xffffffffffff; // 48-bit
-        CBlockIndex *referenceIndex = chainActive[sporkBlockValue];
+        CBlockIndex* referenceIndex = chainActive[sporkBlockValue];
 
         if (referenceIndex != NULL) {
             assert(ReadBlockFromDisk(referenceBlock, referenceIndex));
@@ -4684,8 +4682,8 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
         // Check whether is a fork or not
         if (pindexPrev != nullptr && !chainActive.Contains(pindexPrev)) {
             // Start at the block we're adding on to
-            CBlockIndex *prev = pindexPrev;
-            CTransaction &stakeTxIn = block.vtx[1];
+            CBlockIndex* prev = pindexPrev;
+            CTransaction& stakeTxIn = block.vtx[1];
             CBlock bl;
             // Go backwards on the forked chain up to the split
             do {
@@ -4698,7 +4696,7 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
                 for (CTransaction t : bl.vtx) {
                     for (CTxIn in : t.vin) {
                         // Loop through every input of the staking tx
-                        for (CTxIn stakeIn: stakeTxIn.vin) {
+                        for (CTxIn stakeIn : stakeTxIn.vin) {
                             // if it's already spent
                             if (stakeIn.prevout == in.prevout) {
                                 // reject the block
@@ -4890,9 +4888,13 @@ bool ProcessNewBlock(CValidationState& state, CNode* pfrom, CBlock* pblock, CDis
                         nodeStatus = false;
                     }
                     if (!nodeStatus)
+                        // place status here to notify electron wallet
+                        bootstrappingStatus = "restart";
                         return error("%s : AcceptBlock FAILED - block spam protection", __func__);
                 }
             }
+            // place status here to notify electron wallet
+            bootstrappingStatus = "restart";
             return error("%s : AcceptBlock FAILED", __func__);
         }
     }
@@ -5292,13 +5294,14 @@ static std::string unarchivedFilePath;
 void removeBootstrapFiles()
 {
     BOOST_FOREACH (auto path, std::vector<std::string>({downloadedFilePath, unarchivedFilePath})) {
+        LogPrintf("Removing bootstrap files from  \"%s\".\n", path);
         if (!path.empty()) {
             std::remove(path.c_str());
         }
     }
 }
 
-double bootstrapingProgress = 0.0;
+double bootstrappingProgress = 0.0;
 std::string bootstrappingStatus = "inactive";
 
 bool LoadExternalBlockFile(boost::filesystem::path path, CDiskBlockPos* dbp)
@@ -5327,8 +5330,9 @@ bool LoadExternalBlockFile(boost::filesystem::path path, CDiskBlockPos* dbp)
         unarchivedFile = std::fopen(unarchivedPath.c_str(), "w+b");
 
         BSArchive bsArchive(file, [](double percentage) -> void {
-            bootstrapingProgress = percentage;
+            bootstrappingProgress = percentage;
         });
+        bootstrappingStatus = "unarchiving";
         bsArchive.unarchive(unarchivedFile);
 
         fileIn = unarchivedFile;
@@ -5337,8 +5341,9 @@ bool LoadExternalBlockFile(boost::filesystem::path path, CDiskBlockPos* dbp)
         fileIn = file;
     }
     {
-        bootstrapingProgress = -1;
+        bootstrappingProgress = -1;
         bootstrappingStatus = "syncing";
+        LogPrintf("Syncing wallet from \"%s\".\n", fileIn);
         try {
             // This takes over fileIn and calls fclose() on it in the CBufferedFile destructor
             CBufferedFile blkdat(fileIn, 2 * MAX_BLOCK_SIZE_CURRENT, MAX_BLOCK_SIZE_CURRENT + 8, SER_DISK, CLIENT_VERSION);
@@ -5420,6 +5425,7 @@ bool LoadExternalBlockFile(boost::filesystem::path path, CDiskBlockPos* dbp)
                             mapBlocksUnknownParent.erase(it);
                         }
                     }
+                    bootstrappingProgress = nLoaded;
                 } catch (std::exception& e) {
                     LogPrintf("%s : Deserialize or I/O error - %s", __func__, e.what());
                 }
