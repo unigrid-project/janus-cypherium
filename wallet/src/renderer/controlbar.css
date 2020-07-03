@@ -14,7 +14,7 @@ div.controlbar > div:last-child {
 
 div.controlbar img.piclet {
 	width: 32px;
-	heiht: auto;
+	height: auto;
 	padding-right: 10px;
 	vertical-align: middle;
 }
@@ -29,7 +29,7 @@ div.controlbar > div > div {
 }
 
 div.controlbar.nobg {
-	background-color: black;
+	background-color: #171717;
 }
 
 div.controlbar > div:first-child {

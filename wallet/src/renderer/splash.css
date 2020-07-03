@@ -28,8 +28,8 @@ img.logo {
 }
 
 html {
-	background-color: black;
-	color: #3a9;
+	background-color: #000421;
+	color: white;
 }
 
 div#app {
@@ -48,6 +48,12 @@ div.splash > div {
 	width: 400px;
 }
 
+div.spacer {
+	width: 1px;
+	height: 30px;
+	margin: 0 auto;
+}
+
 div.splash > div > div.error {
 	margin-block-start: 0.83em;
 	font-size: 9pt;
@@ -60,8 +66,18 @@ div.splash > div > div.error {
 	color: #d55;
 }
 
+div.splash > div > div.network {
+	margin-block-start: 0.83em;
+	font-size: 9pt;
+	width: 100%;
+	align-self: flex-end;
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	color: rgb(8, 245, 28);
+}
+
 h1 {
-	color: #3dc;
+	color: white;
 	font-size: 16pt;
 	margin-block-start: 0;
 	margin-block-end: 0.1em;
@@ -70,7 +86,7 @@ h1 {
 
 h2 {
 	font-size: 12pt;
-	color: #3dc;
+	color: white;
 	margin-block-start: 0em;
 	font-weight: 400;
 }
@@ -95,7 +111,7 @@ progress[value]::-webkit-progress-bar {
 }
 
 progress::-webkit-progress-value {
-	background-image: -webkit-linear-gradient(left, #3a9, #3dc);
+	background-image: -webkit-linear-gradient(left, #f97104, white);
 	border-radius: 2px;
 }
 
@@ -109,7 +125,7 @@ progress::-webkit-progress-value {
 
 progress:indeterminate {
 	width: 100%;
-	background: -webkit-linear-gradient(left, #171717, #4cb, #371717, #171717);
+	background: -webkit-linear-gradient(left, #171717, #f97104, #d4d1d1, #171717);
 	animation: cycle 20000s linear infinite;
 }
 
