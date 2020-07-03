@@ -101,7 +101,7 @@ UniValue getinfo(const UniValue& params, bool fHelp)
         obj.push_back(Pair("balance", ValueFromAmount(balance)));
         obj.push_back(Pair("lockedbalance", ValueFromAmount(lockedBalance)));
         obj.push_back(Pair("totalbalance", ValueFromAmount(balance + lockedBalance)));
-        obj.push_back(Pair("zerocoinbalance", ValueFromAmount(pwalletMain->GetZerocoinBalance(true))));
+        //obj.push_back(Pair("zerocoinbalance", ValueFromAmount(pwalletMain->GetZerocoinBalance(true))));
     }
 #endif
 
@@ -137,14 +137,14 @@ UniValue getinfo(const UniValue& params, bool fHelp)
     obj.push_back(Pair("governance",ValueFromAmount(governanceSum)));
     obj.push_back(Pair("circulatingsupply",ValueFromAmount(moneySupply - blacklistedSum - governanceSum)));
 
-    UniValue zpivObj(UniValue::VOBJ);
+    /**UniValue zpivObj(UniValue::VOBJ);
 
     for (auto denom : libzerocoin::zerocoinDenomList) {
         zpivObj.push_back(Pair(to_string(denom), ValueFromAmount(chainActive.Tip()->mapZerocoinSupply.at(denom) * (denom*COIN))));
     }
 
     zpivObj.push_back(Pair("total", ValueFromAmount(chainActive.Tip()->GetZerocoinSupply())));
-    obj.push_back(Pair("zUNIGRIDsupply", zpivObj));
+    obj.push_back(Pair("zUNIGRIDsupply", zpivObj));*/
 
 #ifdef ENABLE_WALLET
     if (pwalletMain) {
