@@ -58,8 +58,6 @@ app.on("ready", () => {
 		splashController.window.webContents.send("progress", "indeterminate", "Initializing UNIGRID daemon...");
 
 		Daemon.start(splashController.window).then(() => {
-			setTimeout(function () {
-				//adding delay on first run?
 				var rpcClient = new RPCClient();
 				splashController.version_control(rpcClient).then(() => {
 					splashController.daemon_loading(rpcClient).then(() => {
@@ -76,7 +74,6 @@ app.on("ready", () => {
 				}, (stderr) => {
 					console.error(stderr);
 				});
-			}, 3000);
 		}, (stderr) => {
 			console.error(stderr);
 		});
