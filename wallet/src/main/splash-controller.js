@@ -27,7 +27,6 @@ import RPCClient from "common/rpc-client.js"
 import Version from "common/version";
 
 const BOOTSTRAP_DOWNLOAD_THRESHOLD_BLOCKS = 5000;
-
 export default class SplashController {
 	constructor() {
 		this.window = SplashController.create_window();
@@ -110,6 +109,7 @@ export default class SplashController {
 								"progress", localHeight / remoteHeight,
 								`Synchronizing block ${localHeight} of ${remoteHeight}...`
 							);
+							
 						}
 
 						resolve();
@@ -123,7 +123,8 @@ export default class SplashController {
 						new Promise(resolve => setTimeout(resolve, 500))
 					]).then((response) => {
 						var progress = response[0].bootstrapping.progress;
-
+						var connections = response[0].connections;
+						this.window.webContents.send("connections", connections);
 						switch (response[0].bootstrapping.status) {
 							case "downloading":
 								this.window.webContents.send(
@@ -142,11 +143,24 @@ export default class SplashController {
 							case "syncing":
 								this.window.webContents.send(
 									"progress", "indeterminate",
-									"Scanning local block cache..."
+									`Importing blocks...`
 								);
 								syncing = true;
 								break;
+							case "loading":
+								this.window.webContents.send(
+									"progress", "indeterminate",
+									`Loading block index...`
+								);
+								break;
+							case "restart":
+								var errorMessage = "There was an error loading the wallet. " +
+									`Please close and restart UNIGRID.`;
 
+								this.window.webContents.send("fatal-error", errorMessage);
+								this.window.webContents.send("state", "idle");
+								reject(errorMessage);
+								break;
 							default:
 								this.window.webContents.send("progress", "indeterminate", "");
 						}
