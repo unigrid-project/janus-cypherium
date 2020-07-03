@@ -135,7 +135,7 @@ struct BlockHasher {
     size_t operator()(const uint256& hash) const { return hash.GetLow64(); }
 };
 
-extern double bootstrapingProgress;
+extern double bootstrappingProgress;
 extern std::string bootstrappingStatus;
 
 extern CScript COINBASE_FLAGS;
