@@ -84,7 +84,7 @@ export default class CLIContent extends React.Component {
 		return(
 			<Content id="cli">
 				<CustomTerminal inputStr={this.state.inputStr} onInputChange={onInputChange} onStateChange={onStateChange}
-				                emulatorState={this.state.terminal} theme={ReactThemes.sea} promptSymbol={"swippd > "}
+				                emulatorState={this.state.terminal} theme={ReactThemes.sea} promptSymbol={"unigridd > "}
 				                outputRenderers={{...ReactOutputRenderers, [JSON_TYPE]: JsonOutput}} />
 			</Content>
 		);

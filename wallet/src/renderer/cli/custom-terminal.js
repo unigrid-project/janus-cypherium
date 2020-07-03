@@ -27,7 +27,7 @@ export default class CustomTerminal extends ReactTerminalStateless {
 				var msg = output._values.get(1);
 
 				if (typeof msg === "string" && msg.startsWith("emulator:")) {
-					msg = msg.replace("emulator", "swippd")
+					msg = msg.replace("emulator", "unigridd")
 					output._values = output._values.set(1, msg);
 				}
 
