@@ -107,10 +107,10 @@ UniValue getinfo(const UniValue& params, bool fHelp)
 
     bootstrapping.push_back(Pair("status",  bootstrappingStatus));
 
-    if (bootstrapingProgress == -1) {
+    if (bootstrappingProgress == -1) {
         bootstrapping.push_back(Pair("progress", "none"));
     } else {
-        bootstrapping.push_back(Pair("progress", bootstrapingProgress));
+        bootstrapping.push_back(Pair("progress", bootstrappingProgress));
     }
 
     obj.push_back(Pair("bootstrapping",  bootstrapping));
