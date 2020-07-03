@@ -92,7 +92,7 @@ export default class SplashController {
 		var syncing = false;
 		var startHeight = -1;
 		var localHeight = 0;
-
+		var connections = 0;
 		do {
 			await new Promise((resolve, reject) => {
 				if (syncing) {
@@ -101,7 +101,6 @@ export default class SplashController {
 						new Promise(resolve => setTimeout(resolve, 500))
 					]).then((response) => {
 						localHeight = response[0];
-
 						if (startHeight == -1) {
 							startHeight = localHeight;
 						} else if (localHeight > startHeight) {
@@ -109,9 +108,7 @@ export default class SplashController {
 								"progress", localHeight / remoteHeight,
 								`Synchronizing block ${localHeight} of ${remoteHeight}...`
 							);
-							
 						}
-
 						resolve();
 					}, (stderr) => {
 						console.error(stderr);
@@ -123,7 +120,7 @@ export default class SplashController {
 						new Promise(resolve => setTimeout(resolve, 500))
 					]).then((response) => {
 						var progress = response[0].bootstrapping.progress;
-						var connections = response[0].connections;
+						connections = response[0].connections;
 						this.window.webContents.send("connections", connections);
 						switch (response[0].bootstrapping.status) {
 							case "downloading":
