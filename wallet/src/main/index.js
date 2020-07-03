@@ -55,26 +55,28 @@ app.on("ready", () => {
 	var splashController = new SplashController();
 
 	splashController.window.webContents.on("did-finish-load", () => {
-		splashController.window.webContents.send("progress", "indeterminate", "Initializing Swipp daemon...");
+		splashController.window.webContents.send("progress", "indeterminate", "Initializing UNIGRID daemon...");
 
 		Daemon.start(splashController.window).then(() => {
-			var rpcClient = new RPCClient();
-
-			splashController.version_control(rpcClient).then(() => {
-				splashController.daemon_loading(rpcClient).then(() => {
-					splashController.synchronize_wallet(rpcClient).then(() => {
-						/* If sync was a success, we close the splash and move on to the main wallet window */
-						var mainController = new MainController();
-						splashController.window.close();
+			setTimeout(function () {
+				//adding delay on first run?
+				var rpcClient = new RPCClient();
+				splashController.version_control(rpcClient).then(() => {
+					splashController.daemon_loading(rpcClient).then(() => {
+						splashController.synchronize_wallet(rpcClient).then(() => {
+							/* If sync was a success, we close the splash and move on to the main wallet window */
+							var mainController = new MainController();
+							splashController.window.close();
+						}, (stderr) => {
+							console.error(stderr);
+						});
 					}, (stderr) => {
 						console.error(stderr);
 					});
 				}, (stderr) => {
 					console.error(stderr);
 				});
-			}, (stderr) => {
-				console.error(stderr);
-			});
+			}, 3000);
 		}, (stderr) => {
 			console.error(stderr);
 		});
