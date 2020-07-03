@@ -33,6 +33,7 @@ export default class Splash extends React.Component {
 		this.state = {
 			infoMessage: null,
 			errorMessage: null,
+			totalConnections: null,
 			percentage: "indeterminate"
 		};
 
@@ -43,24 +44,29 @@ export default class Splash extends React.Component {
 		ipcRenderer.on("progress", (event, percentage, message) => {
 			this.setState({ infoMessage: message, errorMessage: null, percentage: percentage });
 		});
+
+		ipcRenderer.on("connections", (event, message) => {
+			this.setState({ totalConnections: message })
+		});
 	}
 
 	render() {
-		return(
+		return (
 			<div className="splash">
 				<img className="logo" src={File.get("logo.png")}></img>
 				<div>
-					<h1>The modern cryptocurrency</h1>
-					<h2>Copyright © 2017-2019 The Swipp Developers</h2>
+					<h1>Sharded Internet</h1>
+					<h2>Copyright © 2018-2020 The UNIGRID Organization</h2>
 					<p>
 						This project is using code based on the work of
 						<strong> Satoshi Nakamoto</strong>,
 						<strong> The Bitcoin Developers</strong>,
-						<strong> The Peercoin Developers</strong>,
-						<strong> The Novacoin Developers</strong> and
-						<strong> The Darkcoin Developers</strong>,
-						based on work between 2009 and 2017.
+						<strong> The DASH Developers</strong>,
+						<strong> The PIVX Developers</strong> and
+						<strong> The Swipp Developers</strong>,
+						based on work between 2009 and 2018.
 					</p>
+
 					<div className="error">{this.state.errorMessage}</div>
 					{this.state.infoMessage != null && this.state.percentage == "indeterminate" &&
 						<progress />
@@ -69,7 +75,12 @@ export default class Splash extends React.Component {
 						<progress value={this.state.percentage} />
 					}
 					<p>{this.state.infoMessage}</p>
+					{this.state.totalConnections != null ?
+						<div className="network">Connections: {this.state.totalConnections}</div>
+						: null
+					}
 				</div>
+
 			</div>
 		);
 	}
