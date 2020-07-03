@@ -21,8 +21,8 @@
 #include "checkpoints.h"
 #include "compat/sanity.h"
 #include "downloader.h"
-#include "httpserver.h"
 #include "httprpc.h"
+#include "httpserver.h"
 #include "invalid.h"
 #include "key.h"
 #include "main.h"
@@ -33,13 +33,13 @@
 #include "miner.h"
 #include "net.h"
 #include "rpcserver.h"
-#include "script/standard.h"
 #include "scheduler.h"
+#include "script/standard.h"
 #include "spork.h"
 #include "sporkdb.h"
 #include "supplycache.h"
-#include "txdb.h"
 #include "torcontrol.h"
+#include "txdb.h"
 #include "ui_interface.h"
 #include "util.h"
 #include "utilmoneystr.h"
@@ -47,10 +47,10 @@
 #include "zpivchain.h"
 
 #ifdef ENABLE_WALLET
+#include "accumulators.h"
 #include "db.h"
 #include "wallet.h"
 #include "walletdb.h"
-#include "accumulators.h"
 
 #endif
 
@@ -65,9 +65,9 @@
 
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/filesystem/fstream.hpp>
-#include <boost/filesystem/convenience.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/filesystem/convenience.hpp>
+#include <boost/filesystem/fstream.hpp>
 #include <boost/interprocess/sync/file_lock.hpp>
 #include <boost/thread.hpp>
 #include <openssl/crypto.h>
@@ -386,7 +386,6 @@ static void ImportLegacyFile(std::vector<std::string> fromFileNames, std::string
 
 std::string HelpMessage(HelpMessageMode mode)
 {
-
     // When adding new options to the categories, please keep and ensure alphabetical ordering.
     string strUsage = HelpMessageGroup(_("Options:"));
     strUsage += HelpMessageOpt("-?", _("This help message"));
@@ -457,7 +456,7 @@ std::string HelpMessage(HelpMessageMode mode)
 #endif
     strUsage += HelpMessageOpt("-whitebind=<addr>", _("Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6"));
     strUsage += HelpMessageOpt("-whitelist=<netmask>", _("Whitelist peers connecting from the given netmask or IP address. Can be specified multiple times.") +
-        " " + _("Whitelisted peers cannot be DoS banned and their transactions are always relayed, even if they are already in the mempool, useful e.g. for a gateway"));
+                                                           " " + _("Whitelisted peers cannot be DoS banned and their transactions are always relayed, even if they are already in the mempool, useful e.g. for a gateway"));
 
 
 #ifdef ENABLE_WALLET
@@ -469,7 +468,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-keypool=<n>", strprintf(_("Set key pool size to <n> (default: %u)"), 100));
     if (GetBoolArg("-help-debug", false))
         strUsage += HelpMessageOpt("-mintxfee=<amt>", strprintf(_("Fees (in UNIGRID/Kb) smaller than this are considered zero fee for transaction creation (default: %s)"),
-            FormatMoney(CWallet::minTxFee.GetFeePerK())));
+                                                          FormatMoney(CWallet::minTxFee.GetFeePerK())));
     strUsage += HelpMessageOpt("-paytxfee=<amt>", strprintf(_("Fee (in UNIGRID/kB) to add to transactions you send (default: %s)"), FormatMoney(payTxFee.GetFeePerK())));
     strUsage += HelpMessageOpt("-rescan", _("Rescan the block chain for missing wallet transactions") + " " + _("on startup"));
     strUsage += HelpMessageOpt("-salvagewallet", _("Attempt to recover private keys from a corrupt wallet.dat") + " " + _("on startup"));
@@ -478,14 +477,14 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-disablesystemnotifications", strprintf(_("Disable OS notifications for incoming transactions (default: %u)"), 0));
     strUsage += HelpMessageOpt("-txconfirmtarget=<n>", strprintf(_("If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)"), 1));
     strUsage += HelpMessageOpt("-maxtxfee=<amt>", strprintf(_("Maximum total fees to use in a single wallet transaction, setting too low may abort large transactions (default: %s)"),
-        FormatMoney(maxTxFee)));
+                                                      FormatMoney(maxTxFee)));
     strUsage += HelpMessageOpt("-upgradewallet", _("Upgrade wallet to latest format") + " " + _("on startup"));
     strUsage += HelpMessageOpt("-wallet=<file>", _("Specify wallet file (within data directory)") + " " + strprintf(_("(default: %s)"), "wallet.dat"));
     strUsage += HelpMessageOpt("-walletnotify=<cmd>", _("Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)"));
     if (mode == HMM_BITCOIN_QT)
         strUsage += HelpMessageOpt("-windowtitle=<name>", _("Wallet window title"));
     strUsage += HelpMessageOpt("-zapwallettxes=<mode>", _("Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup") +
-        " " + _("(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)"));
+                                                            " " + _("(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)"));
 #endif
 
 #if ENABLE_ZMQ
@@ -512,13 +511,13 @@ std::string HelpMessage(HelpMessageMode mode)
         strUsage += HelpMessageOpt("-maxreorg", strprintf(_("Use a custom max chain reorganization depth (default: %u)"), 100));
         strUsage += HelpMessageOpt("-stopafterblockimport", strprintf(_("Stop running after importing blocks from disk (default: %u)"), 0));
         strUsage += HelpMessageOpt("-sporkkey=<privkey>", _("Enable spork administration functionality with the appropriate private key.") +
-            strprintf(_("On the testnet, the spork key can be signed with the key \"%s\"."), "69qADuX8688KnzdNm2BqyV9YYeyEPpoqhbrJrcHNbJ6wrznc6Yz"));
+                                                              strprintf(_("On the testnet, the spork key can be signed with the key \"%s\"."), "69qADuX8688KnzdNm2BqyV9YYeyEPpoqhbrJrcHNbJ6wrznc6Yz"));
     }
     string debugCategories = "addrman, alert, bench, coindb, db, lock, rand, rpc, selectcoins, tor, mempool, net, proxy, http, libevent, unigrid, (obfuscation, swiftx, masternode, mnpayments, mnbudget, zero)"; // Don't translate these and qt below
     if (mode == HMM_BITCOIN_QT)
         debugCategories += ", qt";
     strUsage += HelpMessageOpt("-debug=<category>", strprintf(_("Output debugging information (default: %u, supplying <category> is optional)"), 0) + ". " +
-        _("If <category> is not supplied, output all debugging information.") + _("<category> can be:") + " " + debugCategories + ".");
+                                                        _("If <category> is not supplied, output all debugging information.") + _("<category> can be:") + " " + debugCategories + ".");
     if (GetBoolArg("-help-debug", false))
         strUsage += HelpMessageOpt("-nodebug", "Turn off debugging messages, same as -debug=0");
 #ifdef ENABLE_WALLET
@@ -539,8 +538,8 @@ std::string HelpMessage(HelpMessageMode mode)
         strUsage += HelpMessageOpt("-printpriority", strprintf(_("Log transaction priority and fee per kB when mining blocks (default: %u)"), 0));
         strUsage += HelpMessageOpt("-privdb", strprintf(_("Sets the DB_PRIVATE flag in the wallet db environment (default: %u)"), 1));
         strUsage += HelpMessageOpt("-regtest", _("Enter regression test mode, which uses a special chain in which blocks can be solved instantly.") + " " +
-            _("This is intended for regression testing tools and app development.") + " " +
-            _("In this mode -genproclimit controls how many blocks are generated immediately."));
+                                                   _("This is intended for regression testing tools and app development.") + " " +
+                                                   _("In this mode -genproclimit controls how many blocks are generated immediately."));
     }
     strUsage += HelpMessageOpt("-shrinkdebugfile", _("Shrink debug.log file on client startup (default: 1 when no -debug)"));
     strUsage += HelpMessageOpt("-testnet", _("Use the test network"));
@@ -576,8 +575,8 @@ std::string HelpMessage(HelpMessageMode mode)
 #endif // ENABLE_WALLET
     strUsage += HelpMessageOpt("-reindexzerocoin=<n>", strprintf(_("Delete all zerocoin spends and mints that have been recorded to the blockchain database and reindex them (0-1, default: %u)"), 0));
 
-//    strUsage += "  -anonymizeunigridamount=<n>     " + strprintf(_("Keep N UNIGRID anonymized (default: %u)"), 0) + "\n";
-//    strUsage += "  -liquidityprovider=<n>       " + strprintf(_("Provide liquidity to Obfuscation by infrequently mixing coins on a continual basis (0-100, default: %u, 1=very frequent, high fees, 100=very infrequent, low fees)"), 0) + "\n";
+    //    strUsage += "  -anonymizeunigridamount=<n>     " + strprintf(_("Keep N UNIGRID anonymized (default: %u)"), 0) + "\n";
+    //    strUsage += "  -liquidityprovider=<n>       " + strprintf(_("Provide liquidity to Obfuscation by infrequently mixing coins on a continual basis (0-100, default: %u, 1=very frequent, high fees, 100=very infrequent, low fees)"), 0) + "\n";
 
     strUsage += HelpMessageGroup(_("SwiftX options:"));
     strUsage += HelpMessageOpt("-enableswifttx=<n>", strprintf(_("Enable SwiftX, show confirmations for locked transactions (bool, default: %s)"), "true"));
@@ -718,7 +717,11 @@ void ThreadImport(std::vector<std::string> arguments)
 
         if (downloadedFile) {
             LogPrintf("Starting to download bootstrap \"%s\" to \"%s\"...\n", UNIGRIDCORE_BOOTSTRAP_LOCATION, downloadedFilePath);
-            Downloader downloader(UNIGRIDCORE_BOOTSTRAP_LOCATION, downloadedFile);
+            Downloader downloader(UNIGRIDCORE_BOOTSTRAP_LOCATION, downloadedFile, [](double percentage) -> void {
+                bootstrappingProgress = percentage;
+            });
+
+            bootstrappingStatus = "downloading";
             downloader.fetch();
             std::rewind(downloadedFile);
             BSArchive bsArchive(downloadedFile);
@@ -753,7 +756,8 @@ void ThreadImport(std::vector<std::string> arguments)
 
     // Remove any downloaded bootstrap
     removeBootstrapFiles();
-    bootstrappingStatus = "inactive";
+    // we're still syncing here
+    // bootstrappingStatus = "inactive";
     if (GetBoolArg("-stopafterblockimport", false)) {
         LogPrintf("Stopping after block import\n");
         StartShutdown();
@@ -1132,7 +1136,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     int64_t nStart;
 
-// ********************************************************* Step 4.5: Masternode configuration handling
+    // ********************************************************* Step 4.5: Masternode configuration handling
     std::string strMasternodeFile = GetArg("-mnconf", "masternode.conf");
     std::string status = _("Importing masternode configuration from the old HUZU wallet...");
     std::vector<std::string> fileNames = {strMasternodeFile, "masternode.conf"};
@@ -1231,22 +1235,22 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             LogPrintf("Deleting blockchain folders blocks, chainstate, sporks and zerocoin\n");
             // We delete in 4 individual steps in case one of the folder is missing already
             try {
-                if (filesystem::exists(blocksDir)){
+                if (filesystem::exists(blocksDir)) {
                     boost::filesystem::remove_all(blocksDir);
                     LogPrintf("-resync: folder deleted: %s\n", blocksDir.string().c_str());
                 }
 
-                if (filesystem::exists(chainstateDir)){
+                if (filesystem::exists(chainstateDir)) {
                     boost::filesystem::remove_all(chainstateDir);
                     LogPrintf("-resync: folder deleted: %s\n", chainstateDir.string().c_str());
                 }
 
-                if (filesystem::exists(sporksDir)){
+                if (filesystem::exists(sporksDir)) {
                     boost::filesystem::remove_all(sporksDir);
                     LogPrintf("-resync: folder deleted: %s\n", sporksDir.string().c_str());
                 }
 
-                if (filesystem::exists(zerocoinDir)){
+                if (filesystem::exists(zerocoinDir)) {
                     boost::filesystem::remove_all(zerocoinDir);
                     LogPrintf("-resync: folder deleted: %s\n", zerocoinDir.string().c_str());
                 }
@@ -1357,7 +1361,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     // An empty string is used to not override the onion proxy (in which case it defaults to -proxy set above, or none)
     std::string onionArg = GetArg("-onion", "");
     if (onionArg != "") {
-        if (onionArg == "0") { // Handle -noonion/-onion=0
+        if (onionArg == "0") {   // Handle -noonion/-onion=0
             SetLimited(NET_TOR); // set onions as unreachable
         } else {
             CService onionProxy;
@@ -1504,6 +1508,8 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                 LoadSporksFromDB();
 
                 uiInterface.InitMessage(_("Loading block index..."));
+                //set a message here for status
+                bootstrappingStatus = "loading";
                 string strBlockIndexError = "";
                 if (!LoadBlockIndex(strBlockIndexError)) {
                     strLoadError = _("Error loading block database");
@@ -1556,10 +1562,10 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                 // Force recalculation of accumulators.
                 if (GetBoolArg("-reindexaccumulators", false)) {
                     if (chainActive.Height() > Params().Zerocoin_Block_V2_Start()) {
-                        CBlockIndex *pindex = chainActive[Params().Zerocoin_Block_V2_Start()];
+                        CBlockIndex* pindex = chainActive[Params().Zerocoin_Block_V2_Start()];
                         while (pindex->nHeight < chainActive.Height()) {
                             if (!count(listAccCheckpointsNoDB.begin(), listAccCheckpointsNoDB.end(),
-                                       pindex->nAccumulatorCheckpoint))
+                                    pindex->nAccumulatorCheckpoint))
                                 listAccCheckpointsNoDB.emplace_back(pindex->nAccumulatorCheckpoint);
                             pindex = chainActive.Next(pindex);
                         }
@@ -1632,7 +1638,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         mempool.ReadFeeEstimates(est_filein);
     fFeeEstimatesInitialized = true;
 
-// ********************************************************* Step 7.5: load supply cache
+    // ********************************************************* Step 7.5: load supply cache
 
     {
         uiInterface.InitMessage(_("Loading supply cache..."));
@@ -1652,7 +1658,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                 LogPrintf("file format is unknown or invalid, please fix it manually\n");
             }
         }
-	}
+    }
 
 // ********************************************************* Step 8: load wallet
 #ifdef ENABLE_WALLET
@@ -1796,9 +1802,8 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     // ********************************************************* Step 9: import blocks
     std::vector<std::string> arguments;
 
-    if (mapArgs.count("-loadblock"))
-    {
-        BOOST_FOREACH(string arg, mapMultiArgs["-loadblock"])
+    if (mapArgs.count("-loadblock")) {
+        BOOST_FOREACH (string arg, mapMultiArgs["-loadblock"])
             arguments.push_back(arg);
     }
 
@@ -1819,8 +1824,8 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     //std::vector<boost::filesystem::path> vImportFiles;
     //if (mapArgs.count("-loadblock")) {
-        //BOOST_FOREACH (string strFile, mapMultiArgs["-loadblock"])
-            //vImportFiles.push_back(strFile);
+    //BOOST_FOREACH (string strFile, mapMultiArgs["-loadblock"])
+    //vImportFiles.push_back(strFile);
     //}
     //threadGroup.create_thread(boost::bind(&ThreadImport, vImportFiles));
     if (chainActive.Tip() == NULL) {
@@ -1939,26 +1944,26 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     if (nZeromintPercentage > 100) nZeromintPercentage = 100;
     if (nZeromintPercentage < 1) nZeromintPercentage = 1;
 
-    nPreferredDenom  = GetArg("-preferredDenom", 0);
+    nPreferredDenom = GetArg("-preferredDenom", 0);
     if (nPreferredDenom != 0 && nPreferredDenom != 1 && nPreferredDenom != 5 && nPreferredDenom != 10 && nPreferredDenom != 50 &&
-        nPreferredDenom != 100 && nPreferredDenom != 500 && nPreferredDenom != 1000 && nPreferredDenom != 5000){
+        nPreferredDenom != 100 && nPreferredDenom != 500 && nPreferredDenom != 1000 && nPreferredDenom != 5000) {
         LogPrintf("-preferredDenom: invalid denomination parameter %d. Default value used\n", nPreferredDenom);
         nPreferredDenom = 0;
     }
 
-// XX42 Remove/refactor code below. Until then provide safe defaults
+    // XX42 Remove/refactor code below. Until then provide safe defaults
     nAnonymizeUnigridAmount = 2;
 
-//    nLiquidityProvider = GetArg("-liquidityprovider", 0); //0-100
-//    if (nLiquidityProvider != 0) {
-//        obfuScationPool.SetMinBlockSpacing(std::min(nLiquidityProvider, 100) * 15);
-//        fEnableZeromint = true;
-//        nZeromintPercentage = 99999;
-//    }
-//
-//    nAnonymizeUnigridAmount = GetArg("-anonymizeunigridamount", 0);
-//    if (nAnonymizeUnigridAmount > 999999) nAnonymizeUnigridAmount = 999999;
-//    if (nAnonymizeUnigridAmount < 2) nAnonymizeUnigridAmount = 2;
+    //    nLiquidityProvider = GetArg("-liquidityprovider", 0); //0-100
+    //    if (nLiquidityProvider != 0) {
+    //        obfuScationPool.SetMinBlockSpacing(std::min(nLiquidityProvider, 100) * 15);
+    //        fEnableZeromint = true;
+    //        nZeromintPercentage = 99999;
+    //    }
+    //
+    //    nAnonymizeUnigridAmount = GetArg("-anonymizeunigridamount", 0);
+    //    if (nAnonymizeUnigridAmount > 999999) nAnonymizeUnigridAmount = 999999;
+    //    if (nAnonymizeUnigridAmount < 2) nAnonymizeUnigridAmount = 2;
 
     fEnableSwiftTX = GetBoolArg("-enableswifttx", fEnableSwiftTX);
     nSwiftTXDepth = GetArg("-swifttxdepth", nSwiftTXDepth);
