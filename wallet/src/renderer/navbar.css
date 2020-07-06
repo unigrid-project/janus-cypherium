@@ -26,23 +26,23 @@ div.nav {
 	flex-grow: 1;
 }
 
-div.nav > nav, div.nav > nav > ul {
+div.nav>nav, div.nav>nav>ul {
 	display: flex;
 }
 
-div.nav > nav {
+div.nav>nav {
 	flex-direction: column;
 }
 
-div.nav > nav > ul:first-child {
+div.nav>nav>ul:first-child {
 	flex-direction: column;
 }
 
-nav > ul {
+nav>ul {
 	margin: 0;
 	color: white;
 	list-style-type: none;
-	padding-top: 30px;
+	padding-top: 10px;
 	padding-inline-start: 35px;
 	padding-inline-end: 35px;
 	font-size: 12pt;
@@ -50,15 +50,24 @@ nav > ul {
 	flex-grow: 1;
 }
 
-nav > ul:last-child {
+.settings--normal {
+	padding: 5px;
+	justify-content: space-evenly;
 	flex-grow: 0;
 }
 
-nav > ul:last-child > li {
+nav>ul:last-child {
+	flex-grow: 0;
+}
+
+nav>ul:last-child>li {
 	width: fit-content;
 }
 
-nav > ul:last-child {
+nav>ul:last-child {
 	justify-content: space-evenly;
 }
 
+.blockInfo{
+	justify-content: flex-end;
+}

@@ -24,22 +24,31 @@ import Addresses from "./addresses/addresses.js";
 import Settings from "./settings/settings.js";
 import CLI from "./cli/cli.js";
 import "./navbar.css"
+import BlockInfo from "./blockinfo/blockinfo.js";
+import Explorer from "./explorer/explorer.js";
+import Masternodes from "./masternodes/masternodes.js";
 
 export default class NavBar extends React.Component {
 	render() {
-		return(
+		return (
 			<nav>
 				<ul>
 					<MyWallet key="mywallet" active={true} />
 					<Addresses key="addressbook" />
+					<Masternodes key="masternodes" />
 					<Transactions key="transactions" />
+					
+				</ul>
+				<ul >
+					<Settings key="settings" />
+					<CLI key="cli"  />
 				</ul>
 				<ul>
-					<Settings key="settings" />
-					<CLI key="cli" />
+					<BlockInfo className="blockInfo" />
 				</ul>
 			</nav>
 		);
 	}
 }
 
+/*<Explorer key="explorer" />*/
