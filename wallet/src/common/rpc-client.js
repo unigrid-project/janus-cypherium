@@ -27,15 +27,19 @@ export default class RPCClient {
 		this.client = new Client({
 			user: credentials.user,
 			password: credentials.password,
-			port: rpcPort /* Should have been initialized by daemon */
+			port: rpcPort, /* Should have been initialized by daemon */
+			//method: "POST"
 		});
 
 		this.send_command = (command, args = []) => {
 			return new Promise((resolve, reject) => {
 				this.client.call({ method: command, params: args }, (err, response) => {
-					if(err) {
+
+					if (err) {
+
 						reject(err);
 					} else {
+
 						resolve(response.result);
 					}
 				});
@@ -59,12 +63,24 @@ export default class RPCClient {
 		return await this.send_command("getinfo");
 	}
 
+	async getStatus() {
+		return await this.send_command("getstakingstatus");
+	}
+
 	async help() {
 		return await this.send_command("help");
 	}
 
+	async walletLock() {
+		return await this.send_command("walletlock");
+	}
+
 	async stop() {
 		return await this.send_command("stop");
+	}
+
+	async unlockWallet(args) {
+		return await this.send_command("walletpassphrase", args);
 	}
 }
 
