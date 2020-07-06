@@ -44,9 +44,11 @@ export default class CLIContent extends React.Component {
 				var c = line.split(" ")[0];
 
 				/* We return command results in onStateChange instead */
-				commands[c] = { "function": () => {
-					return { output: undefined }
-				}, "optDef": {} }
+				commands[c] = {
+					"function": () => {
+						return { output: undefined }
+					}, "optDef": {}
+				}
 			});
 
 			const customState = EmulatorState.create({
@@ -59,7 +61,7 @@ export default class CLIContent extends React.Component {
 
 	render() {
 		var onInputChange = (input) => {
-			this.setState({ inputStr : input });
+			this.setState({ inputStr: input });
 		}
 
 		var onStateChange = (state, command) => {
@@ -74,18 +76,18 @@ export default class CLIContent extends React.Component {
 					}
 
 					const newState = state.setOutputs(Outputs.addRecord(state.getOutputs(), msg));
-					this.setState({ terminal: newState, inputStr : "" });
+					this.setState({ terminal: newState, inputStr: "" });
 				});
 			} else {
-				this.setState({ terminal: state, inputStr : "" });
+				this.setState({ terminal: state, inputStr: "" });
 			}
 		}
 
-		return(
+		return (
 			<Content id="cli">
 				<CustomTerminal inputStr={this.state.inputStr} onInputChange={onInputChange} onStateChange={onStateChange}
-				                emulatorState={this.state.terminal} theme={ReactThemes.sea} promptSymbol={"unigridd > "}
-				                outputRenderers={{...ReactOutputRenderers, [JSON_TYPE]: JsonOutput}} />
+					emulatorState={this.state.terminal} theme={ReactThemes.sea} promptSymbol={"unigridd > "}
+					outputRenderers={{ ...ReactOutputRenderers, [JSON_TYPE]: JsonOutput }} />
 			</Content>
 		);
 	}

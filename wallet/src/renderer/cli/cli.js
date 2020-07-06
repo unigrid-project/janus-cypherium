@@ -28,7 +28,7 @@ export default class CLI extends React.Component {
 	render() {
 		return(
 			<NavEntry className={this.props.className}>
-				<FontAwesomeIcon size="lg" icon="terminal"/>
+				<FontAwesomeIcon size="sm" icon="terminal"/>
 			</NavEntry>
 		);
 	}
