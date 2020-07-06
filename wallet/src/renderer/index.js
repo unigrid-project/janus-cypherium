@@ -35,6 +35,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRocket } from "@fortawesome/free-solid-svg-icons";
 import "./index.css";
+import ExplorerContent from "./explorer/explorer-content";
+import MasternodesContent from "./masternodes/masternodes-content";
 
 library.add(faRocket);
 
@@ -55,6 +57,8 @@ const routes = {
 				<MyWalletContent key="mywallet-content" active={true} />
 				<AddressesContent key="addressbook-content" />
 				<TransactionsContent key="transactions-content" />
+				<MasternodesContent key="masternodes-content" />
+				<ExplorerContent key ="explorer-content" />
 				<SettingsContent key="settings-content" />
 				<CLIContent key="cli-content" />
 			</div>
