@@ -21,14 +21,15 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCogs } from "@fortawesome/free-solid-svg-icons";
 import NavEntry from "../naventry";
-
+import { faServer } from "@fortawesome/free-solid-svg-icons";
+import { faSatelliteDish } from "@fortawesome/free-solid-svg-icons";
 library.add(faCogs);
 
 export default class Settings extends React.Component {
 	render() {
 		return(
 			<NavEntry className={this.props.className}>
-				<FontAwesomeIcon size="lg" icon="cogs"/>
+				<FontAwesomeIcon size="sm" icon="cogs"/>
 			</NavEntry>
 		);
 	}
