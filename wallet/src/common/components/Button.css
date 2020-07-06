@@ -1,0 +1,132 @@
+/*
+ * This file is part of The UNIGRID Wallet
+ * Copyright (C) 2019 The UNIGRID Organization
+ *
+ * The UNIGRID Wallet is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * The UNIGRID Wallet is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+:root {
+    --primary: rgb(0, 22, 63);
+    --warning: rgb(197, 113, 4);
+    --danger: rgb(219, 47, 47);
+    --success: rgb(75, 177, 75);
+    --white: white;
+    --dark: rgb(31, 30, 30);
+}
+
+.btn {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+}
+
+.btn:active {
+    transform: scale(.9);
+}
+
+.btn:focus {
+    outline: none;
+}
+
+.btn--primary--solid {
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+}
+
+.btn--warning--solid {
+    background-color: var(--warning);
+    color: var(--white);
+    border: none;
+}
+
+.btn--danger--solid {
+    background-color: var(--danger);
+    color: var(--white);
+    border: none;
+}
+
+.btn--success--solid {
+    background-color: var(--success);
+    color: var(--white);
+    border: none;
+}
+
+.btn--white--solid {
+    background-color: var(--white);
+    color: var(--white);
+    border: none;
+}
+
+.btn--dark--solid {
+    background-color: var(--dark);
+    color: var(--dark);
+    border: none;
+}
+
+.btn--primary--outline {
+    background-color: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn--warning--outline {
+    background-color: transparent;
+    border: 2px solid var(--warning);
+    color: var(--warning);
+}
+
+.btn--danger--outline {
+    background-color: transparent;
+    border: 2px solid var(--danger);
+    color: var(--danger);
+}
+
+.btn--success--outline {
+    background-color: transparent;
+    border: 2px solid var(--success);
+    color: var(--success);
+}
+
+.btn--white--outline {
+    background-color: transparent;
+    border: 2px solid var(--white);
+    color: var(--white);
+}
+
+.btn--dark--outline {
+    background-color: transparent;
+    border: 2px solid var(--dark);
+    color: var(--dark);
+}
+
+/* button sizes */
+
+.btn--medium {
+    padding: 10px 20px;
+    font-size: 18px;
+    color: white;
+}
+
+.btn--large {
+    padding: 15px 30px;
+    font-size: 20px;
+    color: white;
+}
