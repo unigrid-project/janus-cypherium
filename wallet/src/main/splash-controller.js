@@ -26,7 +26,7 @@ import Explorer from "common/explorer";
 import RPCClient from "common/rpc-client.js"
 import Version from "common/version";
 
-const BOOTSTRAP_DOWNLOAD_THRESHOLD_BLOCKS = 5000;
+const BOOTSTRAP_DOWNLOAD_THRESHOLD_BLOCKS = 20000;
 export default class SplashController {
 	constructor() {
 		this.window = SplashController.create_window();
