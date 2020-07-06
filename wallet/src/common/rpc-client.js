@@ -75,12 +75,20 @@ export default class RPCClient {
 		return await this.send_command("walletlock");
 	}
 
+	async masternodeConf() {
+		return await this.send_command("masternode list-conf");
+	}
+
 	async stop() {
 		return await this.send_command("stop");
 	}
 
 	async unlockWallet(args) {
 		return await this.send_command("walletpassphrase", args);
+	}
+
+	async listMasternodes(args) {
+		return await this.send_command("listmasternodes", args);
 	}
 }
 
