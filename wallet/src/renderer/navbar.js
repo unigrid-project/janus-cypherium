@@ -37,11 +37,10 @@ export default class NavBar extends React.Component {
 					<Addresses key="addressbook" />
 					<Masternodes key="masternodes" />
 					<Transactions key="transactions" />
-					
 				</ul>
 				<ul >
 					<Settings key="settings" />
-					<CLI key="cli"  />
+					<CLI key="cli" />
 				</ul>
 				<ul>
 					<BlockInfo className="blockInfo" />
@@ -51,4 +50,5 @@ export default class NavBar extends React.Component {
 	}
 }
 
-/*<Explorer key="explorer" />*/
+/*<Explorer key="explorer" />
+*/
