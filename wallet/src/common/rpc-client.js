@@ -28,7 +28,7 @@ export default class RPCClient {
 			user: credentials.user,
 			password: credentials.password,
 			port: rpcPort, /* Should have been initialized by daemon */
-			//method: "POST"
+			//method: "POST" is default
 		});
 
 		this.send_command = (command, args = []) => {
@@ -75,8 +75,18 @@ export default class RPCClient {
 		return await this.send_command("walletlock");
 	}
 
-	async masternodeConf() {
-		return await this.send_command("masternode list-conf");
+	async masternodeCommand(args) {
+		return await this.send_command("masternode", args);
+	}
+
+	async generateNewAddress(args){
+		// args = string of account name can be null
+		return await this.send_command("getnewaddress", args);
+	}
+
+	async sendToAddress(args){
+		//sendtoaddress "SMJRSsuU9zfyrvxVaAEFQqK4MxZg6vgeS6" 0.1
+		return await this.send_command("sendtoaddress", args);
 	}
 
 	async stop() {
@@ -87,8 +97,13 @@ export default class RPCClient {
 		return await this.send_command("walletpassphrase", args);
 	}
 
-	async listMasternodes(args) {
-		return await this.send_command("listmasternodes", args);
+	async listAddressGroupings(){
+		const args = [parseInt(0), Boolean(true), Boolean(true)];
+		return await this.send_command("listreceivedbyaddress");
+	}
+
+	async validateAddress(args){
+		return await this.send_command("validateaddress", args);
 	}
 }
 
