@@ -84,7 +84,7 @@ function UnlockWallet(props) {
             case "unlock":
                 console.log("passphrase: " + passPhrase);
                 console.log("staking: " + isStaking);
-
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
                 const args = [passPhrase, 0, true];
                 sendPassphrase(args);
 
@@ -157,6 +157,7 @@ function UnlockWallet(props) {
             new Promise(resolve => setTimeout(resolve, 500))
         ]).then((response) => {
             console.log("should update info");
+            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
             closeWindow();
         }).catch((error) => {
