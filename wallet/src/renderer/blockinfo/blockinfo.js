@@ -24,7 +24,6 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faServer, faLock, faLockOpen, faCoins } from "@fortawesome/free-solid-svg-icons";
 import { faSatelliteDish } from "@fortawesome/free-solid-svg-icons";
-import SkyLight from 'react-skylight';
 import './blockinfo.css';
 import '../../common/theme.css';
 import { fontFamily } from "../../common/theme.js";
@@ -48,7 +47,7 @@ export default class BlockInfo extends React.Component {
 			toolTipFontSize: "10",
 			toolTipFadeIn: 150
 		};
-		
+
 		this.getBlockHeight(30000);
 		this.updateInfo();
 
@@ -70,14 +69,7 @@ export default class BlockInfo extends React.Component {
 			toolTipFontSize,
 			toolTipFadeIn
 		} = this.state;
-		var myBigGreenDialog = {
-			backgroundColor: 'grey',
-			color: '#ffffff',
-			width: '70%',
-			height: '200px',
-			marginTop: '-200px',
-			marginLeft: '-35%',
-		};
+
 		return (
 			<div className="container">
 
@@ -144,9 +136,6 @@ export default class BlockInfo extends React.Component {
 				<UnlockWallet
 					isChecked={false}
 				/>
-				<SkyLight dialogStyles={myBigGreenDialog} hideOnOverlayClicked ref={ref => this.simpleDialog = ref}>
-
-				</SkyLight>
 			</div>
 		);
 	}
@@ -157,7 +146,6 @@ export default class BlockInfo extends React.Component {
 			//lock wallet
 			this.lockWallet();
 		} else {
-			// open unlock
 			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
 		}
 	}
