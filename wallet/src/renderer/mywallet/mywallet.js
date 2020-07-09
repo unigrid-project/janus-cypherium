@@ -27,7 +27,7 @@ library.add(faWallet);
 export default class MyWallet extends React.Component {
 	render() {
 		return(
-			<NavEntry><FontAwesomeIcon size="lg" icon="wallet"/>My Wallet</NavEntry>
+			<NavEntry><FontAwesomeIcon size="2x" icon="wallet"/>My Wallet</NavEntry>
 		);
 	}
 }
