@@ -34,7 +34,7 @@ const STYLES = [
     "btn--white--outline",
 ];
 
-const SIZES = ["btn--medium", "btn--large"];
+const SIZES = ["btn--medium", "btn--large", "btn--small"];
 
 function Button(props) {
     const [children] = useState(props.children);
