@@ -26,7 +26,7 @@ const DEFAULT_RPC_PORT = 35075;
 const DAEMON_DONE_PROMISE = emptyPromise();
 
 export default class Daemon {
-	static execute(window, location, downloadBootstrap) {
+	static execute(window, location, downloadBootstrap, debug) {
 		return new Promise((resolve, reject) => {
 			var clargs = process.argv.slice(global.isDevelopment ? 3 : 1);
 
@@ -41,6 +41,10 @@ export default class Daemon {
 
 			if (downloadBootstrap) {
 				clargs.push("-loadblock=web");
+			}
+
+			if(debug){
+				clargs.push("-debug");
 			}
 
 			portscanner.findAPortNotInUse(DEFAULT_RPC_PORT, DEFAULT_RPC_PORT + 1024,
@@ -79,9 +83,9 @@ export default class Daemon {
 		var p;
 
 		if (isDevelopment) {
-			p = await Daemon.execute(window, "../daemon/unigridd", downloadBootStrap);
+			p = await Daemon.execute(window, "../daemon/unigridd", downloadBootStrap, true);
 		} else {
-			p = await Daemon.execute(window, process.resourcesPath + "/../unigridd", downloadBootStrap);
+			p = await Daemon.execute(window, process.resourcesPath + "/../unigridd", downloadBootStrap, false);
 		}
 
 		return p;
