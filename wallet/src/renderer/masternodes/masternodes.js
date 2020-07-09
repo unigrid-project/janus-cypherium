@@ -27,7 +27,7 @@ library.add(faNetworkWired);
 export default class Masternodes extends React.Component {
 	render() {
 		return(
-			<NavEntry><FontAwesomeIcon size="lg" icon="network-wired"/>Masternodes</NavEntry>
+			<NavEntry><FontAwesomeIcon size="2x" icon="network-wired"/>Masternodes</NavEntry>
 		);
 	}
 }

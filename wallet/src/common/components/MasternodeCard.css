@@ -1,0 +1,111 @@
+/*
+ * This file is part of The UNIGRID Wallet
+ * Copyright (C) 2019 The Swipp developers <info@swippcoin.com>
+ *
+ * The UNIGRID Wallet is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * The UNIGRID Wallet is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+body {
+    font-family: "Roboto", sans-serif;
+    font-size: small;
+    color: rgb(255, 255, 255);
+}
+.spacing{
+    padding-bottom: 5px;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 0.5fr 1.8fr 0.7fr;
+    grid-template-rows: 0.9fr 1.9fr 0.5fr;
+    gap: 10px 10px;
+    grid-template-areas: "upper-left title-mid upper-right" ". center-right middle-right" "lower-left lower-center lower-right";
+    border-radius: 10px;
+    border: 2px transparent solid;
+    background-color: rgb(26, 28, 43);
+    width: 500px;
+    height: 125px;
+}
+
+
+
+.grid-container::shadow {
+    border-radius: 10px;
+    background: #131515;
+    box-shadow: 28px 28px 56px #121414, -28px -28px 56px #141616;
+}
+
+.grid-container:hover {
+    border: 1.5px solid #d8d8d8;
+    background-color: rgb(34, 37, 56);
+}
+
+.lower-left {
+    padding-left: 10px;
+    padding-bottom: 10px;
+    font-size: small;
+    grid-area: lower-left;
+}
+
+.upper-left {
+    grid-area: upper-left;
+    padding-left: 10px;
+    padding-top: 10px;
+    align-self: center;
+}
+
+.title-mid {
+    padding-top: 10px;
+    grid-area: title-mid;
+    font-size: small;
+    font-weight: bold;
+}
+.upper-right {
+    padding-top: 13px;
+    grid-area: upper-right;
+    font-size: x-small;
+}
+.center-right {
+    grid-area: center-right;
+    font-weight: 500;
+    font-size: x-small;
+    color: grey;
+}
+.middle-right{
+    text-align: left;
+    padding-right: 10px;
+    grid-area: middle-right;
+    font-weight: 500;
+    font-size: x-small;
+    color: whitesmoke;
+}
+
+.lower-center {
+    grid-area: lower-center;
+    padding-bottom: 10px;
+    font-size: small;
+}
+.lower-right {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    grid-area: lower-right;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    font-size: small;
+}
+
+.masternodeHeader {
+    flex-direction: row;
+    justify-content: flex-start;
+}
