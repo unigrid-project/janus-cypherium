@@ -27,7 +27,7 @@ library.add(faAddressBook);
 export default class Addresses extends React.Component {
 	render() {
 		return(
-			<NavEntry><FontAwesomeIcon size="lg" icon="address-book"/>Address Book</NavEntry>
+			<NavEntry><FontAwesomeIcon size="2x" icon={faAddressBook}/>Address Book</NavEntry>
 		);
 	}
 }
