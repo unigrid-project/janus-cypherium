@@ -58,8 +58,7 @@ UniValue masternode(const UniValue& params, bool fHelp)
         (strCommand != "start" && strCommand != "start-alias" && strCommand != "start-many" && strCommand != "start-all" && strCommand != "start-missing" &&
             strCommand != "start-disabled" && strCommand != "list" && strCommand != "list-conf" && strCommand != "count" && strCommand != "enforce" &&
             strCommand != "debug" && strCommand != "current" && strCommand != "winners" && strCommand != "genkey" && strCommand != "connect" &&
-            strCommand != "outputs" && strCommand != "status" && strCommand != "calcscore")) 
-    {
+            strCommand != "outputs" && strCommand != "status" && strCommand != "calcscore")) {
         throw runtime_error("masternode <start|start-alias|start-many|stop|stop-alias|stop-many|"
                             "list|list-conf|count|debug|current|winners|genkey|enforce|outputs> [passphrase]\n");
     }
@@ -478,6 +477,8 @@ UniValue startmasternode(const UniValue& params, bool fHelp)
             if (result) {
                 successful++;
                 statusObj.push_back(Pair("error", ""));
+                mnodeman.UpdateMasternodeList(mnb);
+                mnb.Relay();
             } else {
                 failed++;
                 statusObj.push_back(Pair("error", errorMessage));
