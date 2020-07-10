@@ -28,11 +28,11 @@ nav > ul > li, nav > ul > div > li {
 }
 
 nav > ul > li:hover {
-	border-color: #255;
+	border-color: rgb(22, 26, 56);
 }
 
 nav > ul > li.active {
-	border-color: #255;
+	border-color: rgb(22, 26, 56);
 	background-color: #000;
 	pointer-events: none;
 }
