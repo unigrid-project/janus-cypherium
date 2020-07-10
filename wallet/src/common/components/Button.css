@@ -113,17 +113,17 @@
 .btn--medium {
     padding: 10px 20px;
     font-size: 18px;
-    color: white;
+    color: var(--white)
 }
 
 .btn--large {
     padding: 15px 30px;
     font-size: 20px;
-    color: white;
+    color: var(--white)
 }
 
 .btn--small {
     padding: 5px 10px;
     font-size: 15px;
-    color: white;
+    color: var(--white)
 }

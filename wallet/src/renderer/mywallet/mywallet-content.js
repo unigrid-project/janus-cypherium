@@ -31,7 +31,10 @@ import _ from "lodash";
 import path from "path";
 import { discordLink, twitterLink, telegramLink } from "../../common/consts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTwitter, faDiscord, faTelegram } from "@fortawesome/free-brands-svg-icons"
+import { faTwitter, faDiscord, faTelegram } from "@fortawesome/free-brands-svg-icons";
+import Tooltip from "react-simple-tooltip";
+import { css } from "styled-components";
+
 function MyWalletContent(props) {
 	const store = new Store();
 	const currency = store.get("currency", "usd");
@@ -80,17 +83,62 @@ function MyWalletContent(props) {
 			<div className="align--row social--conatiner">
 				<div className="social--padding">
 					<a href={twitterLink} target="_blank">
-						<FontAwesomeIcon size="lg" icon={faTwitter} color="#1DA1F3" />
+						<Tooltip
+							arrow={10}
+							zIndex={200}
+							fadeDuration={150}
+							radius={10}
+							fontFamily='Roboto'
+							fontSize='5'
+							fadeEasing="linear"
+							background="rgba(0, 0, 0, 0.85)"
+							content="Follow us"
+							customCss={css`
+                    white-space: nowrap;
+                  `}
+						>
+							<FontAwesomeIcon size="lg" icon={faTwitter} color="#1DA1F3" />
+						</Tooltip>
 					</a>
 				</div>
 				<div className="social--padding">
 					<a href={discordLink} target="_blank">
-						<FontAwesomeIcon size="lg" icon={faDiscord} color="#7289DA" />
+						<Tooltip
+							arrow={10}
+							zIndex={200}
+							fadeDuration={150}
+							radius={10}
+							fontFamily='Roboto'
+							fontSize='5'
+							fadeEasing="linear"
+							background="rgba(0, 0, 0, 0.85)"
+							content="Join discord"
+							customCss={css`
+                    white-space: nowrap;
+                  `}
+						>
+							<FontAwesomeIcon size="lg" icon={faDiscord} color="#7289DA" />
+						</Tooltip>
 					</a>
 				</div>
 				<div className="social--padding">
 					<a href={telegramLink} target="_blank">
-						<FontAwesomeIcon size="lg" icon={faTelegram} color="#24A1DE" />
+						<Tooltip
+							arrow={10}
+							zIndex={200}
+							fadeDuration={150}
+							radius={10}
+							fontFamily='Roboto'
+							fontSize='5'
+							fadeEasing="linear"
+							background="rgba(0, 0, 0, 0.85)"
+							content="Join telegram"
+							customCss={css`
+                    white-space: nowrap;
+                  `}
+						>
+							<FontAwesomeIcon size="lg" icon={faTelegram} color="#24A1DE" />
+						</Tooltip>
 					</a>
 				</div>
 			</div>

@@ -70,6 +70,6 @@ div.asteroids button {
 
 div.asteroids button:hover {
 	background-color: #fff;
-	color: #000;
+	color: var(--select--background);
 }
 

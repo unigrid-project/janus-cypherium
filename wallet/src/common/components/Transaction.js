@@ -20,9 +20,9 @@ import React, { useState } from "react";
 import "./Transaction.css";
 import { faSignInAlt, faSignOutAlt, faCoins, faClock, faCompass } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import Tooltip from "react-simple-tooltip"
+import Tooltip from "react-simple-tooltip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { css } from "styled-components"
+import { css } from "styled-components";
 library.add(faSignInAlt, faSignOutAlt, faCoins, faClock);
 
 function Transaction({ data, index }) {

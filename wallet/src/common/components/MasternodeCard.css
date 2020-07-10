@@ -19,7 +19,7 @@
 body {
     font-family: "Roboto", sans-serif;
     font-size: small;
-    color: rgb(255, 255, 255);
+    color: var(--white);
 }
 .spacing{
     padding-bottom: 5px;
@@ -32,7 +32,7 @@ body {
     grid-template-areas: "upper-left title-mid upper-right" ". center-right middle-right" "lower-left lower-center lower-right";
     border-radius: 10px;
     border: 2px transparent solid;
-    background-color: rgb(26, 28, 43);
+    background-color: var(--container--background);
     width: 500px;
     height: 125px;
 }
@@ -47,7 +47,7 @@ body {
 
 .grid-container:hover {
     border: 1.5px solid #d8d8d8;
-    background-color: rgb(34, 37, 56);
+    background-color: var(--hover--border);
 }
 
 .lower-left {

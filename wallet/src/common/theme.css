@@ -16,8 +16,9 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
- /* global styles to be used anywhere */
- :root {
+/* global styles to be used anywhere */
+
+:root {
     --primary: rgb(0, 22, 63);
     --warning: rgb(197, 113, 4);
     --danger: rgb(219, 47, 47);
@@ -28,7 +29,12 @@
     --border--hover: rgb(22, 26, 56);
     --button--background: #000;
     --fontFamily: 'Roboto', sans-serif;
+    --container--background: rgb(26, 28, 43);
+    --select--background: #070707;
+    --hover--border: rgb(34, 37, 56);
+    --select--background: #000;
 }
+
 .fontRegular {
     font-family: var(--fontFamily);
     font-size: 14pt;
@@ -36,6 +42,7 @@
     margin: 0;
     user-select: none;
 }
+
 .fontRegularBold {
     font-family: var(--fontFamily);
     font-size: 14pt;
@@ -45,13 +52,14 @@
     user-select: none;
 }
 
-.fontSmallBold{
+.fontSmallBold {
     font-family: var(--fontFamily);
     font-size: 11pt;
     font-weight: bold;
     margin: 0;
     user-select: none;
 }
+
 .fontSmall {
     font-family: var(--fontFamily);
     font-size: 11pt;
@@ -66,16 +74,14 @@
     user-select: none;
 }
 
-.toolTip{
+.toolTip {
     height: 50;
-    background-color: red;
+    background-color: var(--warning);
 }
 
-.align--row{
+.align--row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
 }
-
-

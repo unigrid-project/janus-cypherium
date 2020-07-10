@@ -112,7 +112,7 @@
 }
 
 .error--text {
-    color: red;
+    color: var(--danger);
     font-family: var(--fontFamily);
     font-size: 15;
 }
@@ -122,7 +122,7 @@
 }
 
 .error--text--animation {
-    color: red;
+    color: var(--danger);
     font-family: var(--fontFamily);
     font-size: 15;
     animation: errortextanimation 3s forwards;
