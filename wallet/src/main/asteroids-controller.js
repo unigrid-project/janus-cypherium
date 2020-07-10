@@ -34,7 +34,10 @@ export default class AsteroidsController {
 			minHeight: 500,
 			frame: false,
 			resizable: true,
-			show: false
+			show: false,
+			webPreferences: {
+                nodeIntegration: true
+            }, frame:false // comment this line to get DEV TOOls
 		});
 
 		if (global.isDevelopment) {

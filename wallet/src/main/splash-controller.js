@@ -38,8 +38,12 @@ export default class SplashController {
 			height: 236,
 			frame: false,
 			resizable: false,
-			show: false
+			show: false,
+			webPreferences: {
+                nodeIntegration: true
+            }, frame:false // comment this line to get DEV TOOls
 		});
+		
 
 		if (global.isDevelopment) {
 			window.webContents.openDevTools({ mode: "detach" });
