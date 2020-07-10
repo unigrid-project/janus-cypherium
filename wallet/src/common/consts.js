@@ -1,6 +1,6 @@
 /*
  * This file is part of The UNIGRID Wallet
- * Copyright (C) 2019 The Swipp developers <info@swippcoin.com>
+ * Copyright (C) 2019 The UNIGRID Organization
  *
  * The UNIGRID Wallet is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,49 +16,10 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-div#mywallet>div {
-	border-top: 4px solid #0a0a0a;
-	text-align: center;
-	padding-top: 10px !important;
-}
+export const discordLink = "https://discord.gg/CRWZ7V5";
 
-div#mywallet>div h1 {
-	font-size: 28pt;
-	font-weight: 600;
-	padding-bottom: 5px;
-}
+export const twitterLink = "https://twitter.com/unigrid_org";
 
-div#mywallet>div h2 {
-	font-size: 14pt;
-	font-weight: 400;
-}
+export const telegramLink = "https://t.me/unigrid";
 
-div#mywallet>div div.select {
-	display: inline-block;
-	width: 5em;
-	margin-left: 12px;
-	text-transform: uppercase;
-}
 
-div#mywallet>div h3 {
-	text-align: left;
-}
-
-.flex-container--home>* {
-	flex: 1 1 500px;
-	margin: 5px;
-}
-
-.cellPadding {
-	max-width: 230px;
-	padding: 0px;
-}
-.social--conatiner{
-	max-width: 200px;
-	position: absolute;
-	bottom: 0px;
-	right: 0px;
-}
-.social--padding{
-	padding: 5px;
-}

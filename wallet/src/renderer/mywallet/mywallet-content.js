@@ -28,7 +28,10 @@ import EnterField from "../../common/components/EnterField";
 import Button from "../../common/components/Button";
 import Transaction from "../../common/components/Transaction";
 import _ from "lodash";
-
+import path from "path";
+import { discordLink, twitterLink, telegramLink } from "../../common/consts";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTwitter, faDiscord, faTelegram } from "@fortawesome/free-brands-svg-icons"
 function MyWalletContent(props) {
 	const store = new Store();
 	const currency = store.get("currency", "usd");
@@ -66,16 +69,39 @@ function MyWalletContent(props) {
 				<div className="cardGridContainer">
 					{renderTransactions()}
 				</div>
+				{renderSocial()}
 			</div>
 		</Content>
 	);
 
+	function renderSocial() {
+		console.log('discord ', discordLink)
+		return (
+			<div className="align--row social--conatiner">
+				<div className="social--padding">
+					<a href={twitterLink} target="_blank">
+						<FontAwesomeIcon size="lg" icon={faTwitter} color="#1DA1F3" />
+					</a>
+				</div>
+				<div className="social--padding">
+					<a href={discordLink} target="_blank">
+						<FontAwesomeIcon size="lg" icon={faDiscord} color="#7289DA" />
+					</a>
+				</div>
+				<div className="social--padding">
+					<a href={telegramLink} target="_blank">
+						<FontAwesomeIcon size="lg" icon={faTelegram} color="#24A1DE" />
+					</a>
+				</div>
+			</div>
+		)
+	}
 	function renderTransactions() {
 		if (!transactions) return null
 		return (
 			Object.keys(transactions).map(key => {
 				return (
-					<div key={key} className="cellPadding"><Transaction data={transactions[key]} index={key}/></div>
+					<div key={key} className="cellPadding"><Transaction data={transactions[key]} index={key} /></div>
 				)
 			})
 		)
