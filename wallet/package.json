@@ -34,6 +34,7 @@
     "react-terminal-component": "^1.4.1",
     "roboto-fontface": "^0.10.0",
     "source-map-support": "^0.5.19",
+    "styled-components": "^5.1.1",
     "tcp-port-used": "^1.0.1"
   },
   "devDependencies": {
