@@ -24,7 +24,7 @@ import RPCClient from "common/rpc-client.js"
 import AsteroidsController from "./asteroids-controller";
 import MainController from "./main-controller";
 import SplashController from "./splash-controller";
-
+import { Notification } from "electron";
 global.isDevelopment = process.env.NODE_ENV !== "production";
 
 if (app.getGPUFeatureStatus().gpu_compositing.includes("disabled")) {
@@ -53,7 +53,9 @@ const defaultRPCPort = 35075;
 
 app.on("ready", () => {
 	var splashController = new SplashController();
-
+	// for notifications on windows
+	app.setAppUserModelId("unigrid-electron");
+	
 	splashController.window.webContents.on("did-finish-load", () => {
 		splashController.window.webContents.send("progress", "indeterminate", "Initializing UNIGRID daemon...");
 
