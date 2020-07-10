@@ -15,15 +15,37 @@
  * You should have received a copy of the GNU General Public License
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
- body{
-     font-family: "Roboto", sans-serif;
-     font-size: x-small;
- }
- .transaction--main{
-     display: flex;
-     flex-direction: row;
-     justify-content: space-around;
-     border-radius: 5;
-     border-width: 1;
-     border-color: tomato;
- }
+
+body {
+    font-family: "Roboto", sans-serif;
+    font-size: 15;
+    font-weight: 500;
+    margin: 0px;
+    padding: 0px;
+}
+
+.transaction--main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: 1.5px solid var(--border--active);
+    border-radius: 5px;
+    min-height: 40px;
+}
+
+.pad--divs {
+    padding: 2px 5px 2px 5px;
+}
+
+.circle {
+ 
+    width: 25px;
+    height: 25px;
+    padding: 5px;
+    border-right: 0.5px solid whitesmoke;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    font: 15px Arial, sans-serif;
+}
