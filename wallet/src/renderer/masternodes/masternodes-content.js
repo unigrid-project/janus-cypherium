@@ -22,6 +22,9 @@ import RPCClient from "../../common/rpc-client.js";
 import Button from "../../common/components/Button";
 import './masternodes-content.css';
 import MasternodeCard from "../../common/components/MasternodeCard";
+import path from "path";
+import notifier from 'node-notifier';
+import _ from 'lodash';
 
 function MasternodesContent(props) {
 	const [masternodeList, setMasternodeList] = useState({});
@@ -31,24 +34,30 @@ function MasternodesContent(props) {
 	const [currentAlias, setCurrentAlias] = useState();
 
 	useEffect(() => {
+
 		var rpcClient = new RPCClient();
-		Promise.all([
-			rpcClient.masternodeCommand(["list-conf"]),
-			rpcClient.masternodeCommand(["list"]),
-			new Promise(resolve => setTimeout(resolve, 500))
-		]).then((response) => {
-			setMasternodeList(response[0]);
-			setListMasternodes(response[1]);
-			filterMasternodeData(response[1], response[0]);
-		}, (stderr) => {
-			console.error(stderr);
-		});
+		//update masternode info every 60 seconds
+		const interval = setInterval(() => {
+			Promise.all([
+				rpcClient.masternodeCommand(["list-conf"]),
+				rpcClient.masternodeCommand(["list"]),
+				new Promise(resolve => setTimeout(resolve, 500))
+			]).then((response) => {
+				setMasternodeList(response[0]);
+				setListMasternodes(response[1]);
+				filterMasternodeData(response[1], response[0]);
+			}, (stderr) => {
+				console.error(stderr);
+			});
+		}, 60000);
+		return () => clearInterval(interval);
+
 	}, []);
 
 	return (
 		<Content id="masternodes">
 			<div className="topButtons">
-				<Button handleClick={() => getMasternodeList()} buttonSize="btn--small">MASTERNODES</Button >
+				<Button handleClick={() => getMasternodeList()} buttonSize="btn--small">REFRESH</Button >
 				<Button handleClick={() => masternodeCommand("MISSING")} buttonSize="btn--small">START MISSING</Button >
 				<Button handleClick={() => masternodeCommand("STARTALL")} buttonSize="btn--small">START ALL</Button >
 				<Button handleClick={() => null} buttonSize="btn--small">CREATE</Button >
@@ -74,9 +83,21 @@ function MasternodesContent(props) {
 			)
 		} else return null
 	}
+	function sendDesktopNotification(message) {
+		console.log('notify ', message)
+		let iconAddress = path.join(__static, '/solid_logo.png');
+		
+		notifier.notify({
+			'title': 'UNIGRID',
+			'message': message,
+			'wait': true,
+			'icon': iconAddress
+		});
+
+	}
 	async function onAliasStartClicked(alias) {
 		//"alias" "0" "my_mn"
-		console.log("start ", alias);
+		//console.log("start ", alias);
 		setCurrentAlias(alias);
 		var rpcClient = new RPCClient();
 		const args = ["start-alias", "0", alias];
@@ -88,6 +109,7 @@ function MasternodesContent(props) {
 			// response[0].overall
 			// more info on errors
 			// response[0].detail[0] 
+			sendDesktopNotification(response[0].overall)
 			console.log("start masternode ", response[0]);
 			getMasternodeList();
 		}, (stderr) => {
@@ -95,27 +117,17 @@ function MasternodesContent(props) {
 		});
 	}
 
-	async function showDisabled() {
-		const args = [];
-		var rpcClient = new RPCClient();
-		Promise.all([
-			rpcClient.masternodeCommand(["start"]),
-			new Promise(resolve => setTimeout(resolve, 500))
-		]).then((response) => {
-			console.log(response);
-		}, (stderr) => {
-			console.error(stderr);
-		});
-	}
 	async function masternodeCommand(command) {
 		var rpcClient = new RPCClient();
 		switch (command) {
 			case "STARTALL":
 				Promise.all([
-					rpcClient.masternodeCommand(["start"]),
+					rpcClient.masternodeCommand(["start-many", "0"]),
 					new Promise(resolve => setTimeout(resolve, 500))
 				]).then((response) => {
 					console.log(response);
+					sendDesktopNotification(response[0].overall);
+					getMasternodeList();
 				}, (stderr) => {
 					console.error(stderr);
 				});
@@ -132,10 +144,12 @@ function MasternodesContent(props) {
 				break;
 			case "MISSING":
 				Promise.all([
-					rpcClient.masternodeCommand(["missing"]),
+					rpcClient.masternodeCommand(["start-missing", "0"]),
 					new Promise(resolve => setTimeout(resolve, 500))
 				]).then((response) => {
 					console.log(response);
+					sendDesktopNotification(response[0].overall);
+					getMasternodeList();
 				}, (stderr) => {
 					console.error(stderr);
 				});
@@ -154,7 +168,7 @@ function MasternodesContent(props) {
 		]).then((response) => {
 			setMasternodeList(response[0]);
 			setListMasternodes(response[1]);
-
+			//console.log('nodes: ', response[1])
 			filterMasternodeData(response[1], response[0]);
 		}, (stderr) => {
 			console.error(stderr);
@@ -179,13 +193,17 @@ function MasternodesContent(props) {
 		const res = filtered.map(x => Object.assign(x, localNodes.find(y => y.address == x.ipaddr)));
 		// add nodes from conf if they are missing or not yet activated
 		Object.keys(localNodes).map(ln => {
-			if (res.some(item => item.alias === ln.alias) && (!res.some(item => item.ipaddr === ln.address))) {
+			//console.log("res ", localNodes[ln])
+			if (!_.find(res, { ipaddr: localNodes[ln].address })) {
+				console.log('did not find ', localNodes[ln].address)
 				res.push(localNodes[ln]);
+			} else {
+				console.log("found ip address do nothing ", localNodes[ln].address)
 			}
 		});
 
-		console.log("newFilter length" + Object.keys(res).length);
-		console.log("newFilter", res);
+		//console.log("newFilter length" + Object.keys(res).length);
+		//console.log("newFilter", res);
 
 		setFilteredList(res);
 	}
