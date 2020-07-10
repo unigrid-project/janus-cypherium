@@ -52,10 +52,10 @@ function MasternodeCard({ onStartClicked, data, onStopClicked }) {
             <div className="center-right">
                 <div className="spacing">{data.privateKey}</div>
 
-                <div>Address: {data.ipaddr}</div>
+                <div>Address: {/*☺☺☺☺☺☺☺☺☺☺☺☺*/}{data.ipaddr}</div>
             </div>
             <div className="middle-right">
-                <div>Active: {convertEpochTime(data.activetime)}</div>
+                <div>Running: {convertEpochTime(data.activetime)}</div>
             </div>
             <div className="lower-center">Rank: {setData(data.rank)}</div>
             <div className="lower-right">
@@ -124,7 +124,8 @@ function MasternodeCard({ onStartClicked, data, onStopClicked }) {
     }
 
     function convertEpochTime(epoch) {
-        if (!epoch) return "unknown";
+        //if (!epoch) 
+        return "unknown";
         const date_now = Date.now();
         var start_time = new Date(0);
         start_time.setUTCSeconds(epoch);
