@@ -16,7 +16,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Content from "../content";
 import Button from "../../common/components/Button";
 import RPCClient from "../../common/rpc-client.js";
@@ -32,6 +32,19 @@ function AddressesContent() {
 	const [addressName, setAddressName] = useState("");
 	const [clearField, setClearField] = useState();
 	const [responseAddress, setResponseAddress] = useState();
+	const [localAddresses, setLocaAddresses] = useState();
+	useEffect(() => {
+		var rpcClient = new RPCClient();
+		Promise.all([
+			rpcClient.listAddressGroupings(),
+			new Promise(resolve => setTimeout(resolve, 500))
+		]).then((response) => {
+			console.log('address groupings', response[0]);
+			setLocaAddresses(response[0][0]);
+		}, (stderr) => {
+			console.error(stderr);
+		});
+	}, []);
 	return (
 		<Content id="addressbook">
 			<h1>Enter Address Name:</h1>
@@ -47,8 +60,25 @@ function AddressesContent() {
 				<FontAwesomeIcon size="2x" icon={faClipboard} color="white" onClick={copyToClipboard} />
 			</span>
 			<Button handleClick={() => listAddressGroupings()}>Address Groupings</Button>
+			<div>{getLocalAddresses()}</div>
 		</Content>
 	);
+
+	function getLocalAddresses() {
+		// address, amount, account
+		if (!localAddresses) return null;
+		return (
+			Object.keys(localAddresses).map(key => {
+				return (
+					<div key={key}>
+						<div className="cellPadding">{localAddresses[key][0]}</div>
+						<div className="cellPadding">{localAddresses[key][1]}</div>
+						<div className="cellPadding">{localAddresses[key][2]}</div>
+					</div>
+				)
+			})
+		)
+	}
 
 	function copyToClipboard() {
 		clipboard.writeText(responseAddress, 'selection')
@@ -61,8 +91,8 @@ function AddressesContent() {
 			rpcClient.listAddressGroupings(),
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
-			console.log('groupings');
-			console.log(response);
+			console.log('address groupings', response[0][0]);
+			setLocaAddresses(response[0][0]);
 		}, (stderr) => {
 			console.error(stderr);
 		});
@@ -71,7 +101,7 @@ function AddressesContent() {
 		console.log("addres name: " + addressName);
 		var rpcClient = new RPCClient();
 		Promise.all([
-			rpcClient.generateNewAddress(addressName),
+			rpcClient.generateNewAddress([addressName]),
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
 			console.log('address');
