@@ -71,6 +71,10 @@ export default class RPCClient {
 		return await this.send_command("help");
 	}
 
+	async listTransactions(args) {
+		return await this.send_command("listtransactions", args);
+	}
+
 	async walletLock() {
 		return await this.send_command("walletlock");
 	}
@@ -79,12 +83,12 @@ export default class RPCClient {
 		return await this.send_command("masternode", args);
 	}
 
-	async generateNewAddress(args){
+	async generateNewAddress(args) {
 		// args = string of account name can be null
 		return await this.send_command("getnewaddress", args);
 	}
 
-	async sendToAddress(args){
+	async sendToAddress(args) {
 		//sendtoaddress "SMJRSsuU9zfyrvxVaAEFQqK4MxZg6vgeS6" 0.1
 		return await this.send_command("sendtoaddress", args);
 	}
@@ -97,12 +101,12 @@ export default class RPCClient {
 		return await this.send_command("walletpassphrase", args);
 	}
 
-	async listAddressGroupings(){
+	async listAddressGroupings() {
 		const args = [parseInt(0), Boolean(true), Boolean(true)];
-		return await this.send_command("listreceivedbyaddress");
+		return await this.send_command("listaddressgroupings");
 	}
 
-	async validateAddress(args){
+	async validateAddress(args) {
 		return await this.send_command("validateaddress", args);
 	}
 }
