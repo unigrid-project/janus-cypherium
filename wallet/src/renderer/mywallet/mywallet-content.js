@@ -26,6 +26,7 @@ import Content from "../content";
 import "./mywallet-content.css";
 import EnterField from "../../common/components/EnterField";
 import Button from "../../common/components/Button";
+import Transaction from "../../common/components/Transaction";
 
 function MyWalletContent(props) {
 	const store = new Store();
@@ -36,9 +37,46 @@ function MyWalletContent(props) {
 	const [sendAmount, setSendAmount] = useState();
 	const [resetValue, setResetValue] = useState();
 	const [sendAddress, setSendAddress] = useState();
+	const [transactions, setTransactions] = useState();
 	useEffect(() => {
 		getData();
+		getlatestTransactions();
 	}, []);
+
+	return (
+		<Content id="mywallet">
+			<Helmet>
+				<script src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js" />
+			</Helmet>
+
+			<coingecko-coin-price-marquee-widget coin-ids="unigrid,swipp,bitcoin,litecoin,dogecoin"
+				currency={selectedCurrency.value}
+				background-color="#000" locale="en" />
+			<div>
+				<h1>{balance} UGD</h1>
+				<h2>
+					<span>Valued at {balance * selectedCurrency.rate}</span>
+					<Select className="select" classNamePrefix="select" options={currencies}
+						value={selectedCurrency} onChange={onChange} />
+				</h2>
+			</div>
+			<div>
+				{renderTransactions()}
+
+			</div>
+		</Content>
+	);
+
+	function renderTransactions(){
+		if(!transactions) return null
+		return(
+			Object.keys(transactions).map(key => {
+				return(
+					<div key={key}><Transaction data={transactions[key]}/></div>
+				)
+			})
+		)
+	}
 	async function getData() {
 		var coinGecko = new CoinGecko();
 		var rpcClient = new RPCClient();
@@ -59,8 +97,22 @@ function MyWalletContent(props) {
 				});
 				setBalance(response[0]);
 				setCurrencies(currencies)
-
 			});
+		});
+	}
+
+	async function getlatestTransactions(args) {
+		var rpcClient = new RPCClient();
+		Promise.all([
+			rpcClient.listTransactions(args),
+			new Promise(resolve => setTimeout(resolve, 500))
+		]).then((response) => {
+			console.log('send');
+			console.log(response);
+			setTransactions(response[0]);
+			setResetValue("");
+		}, (stderr) => {
+			console.error(stderr);
 		});
 	}
 
@@ -86,25 +138,13 @@ function MyWalletContent(props) {
 			console.error(stderr);
 		});
 	}
-	return (
-		<Content id="mywallet">
-			<Helmet>
-				<script src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js" />
-			</Helmet>
 
-			<coingecko-coin-price-marquee-widget coin-ids="unigrid,swipp,bitcoin,litecoin,dogecoin"
-				currency={selectedCurrency.value}
-				background-color="#000" locale="en" />
-			<div>
-				<h1>{balance} UGD</h1>
-				<h2>
-					<span>Valued at {balance * selectedCurrency.rate}</span>
-					<Select className="select" classNamePrefix="select" options={currencies}
-						value={selectedCurrency} onChange={onChange} />
-				</h2>
-			</div>
-			<div>
-				<h1>Send UGD</h1>
+}
+
+export default MyWalletContent;
+
+/*
+	<h1>Send UGD</h1>
 				<h2>
 					<span>Send to:
 						<EnterField
@@ -126,11 +166,4 @@ function MyWalletContent(props) {
 				</h2>
 
 				<span><Button handleClick={() => sendCoins()}>SEND</Button></span>
-
-			</div>
-		</Content>
-	);
-
-}
-
-export default MyWalletContent;
+				*/
