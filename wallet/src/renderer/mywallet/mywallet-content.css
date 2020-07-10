@@ -19,13 +19,13 @@
 div#mywallet>div {
 	border-top: 4px solid #0a0a0a;
 	text-align: center;
-	padding-top: 50px !important;
+	padding-top: 10px !important;
 }
 
 div#mywallet>div h1 {
 	font-size: 28pt;
 	font-weight: 600;
-	padding-bottom: 10px;
+	padding-bottom: 5px;
 }
 
 div#mywallet>div h2 {
@@ -40,6 +40,16 @@ div#mywallet>div div.select {
 	text-transform: uppercase;
 }
 
+div#mywallet>div h3 {
+	text-align: left;
+}
 
+.flex-container--home>* {
+	flex: 1 1 500px;
+	margin: 5px;
+}
 
-
+.cellPadding {
+	max-width: 230px;
+	padding: 0px;
+}

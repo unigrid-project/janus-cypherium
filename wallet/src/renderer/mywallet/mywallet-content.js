@@ -27,6 +27,7 @@ import "./mywallet-content.css";
 import EnterField from "../../common/components/EnterField";
 import Button from "../../common/components/Button";
 import Transaction from "../../common/components/Transaction";
+import _ from "lodash";
 
 function MyWalletContent(props) {
 	const store = new Store();
@@ -53,26 +54,28 @@ function MyWalletContent(props) {
 				currency={selectedCurrency.value}
 				background-color="#000" locale="en" />
 			<div>
-				<h1>{balance} UGD</h1>
-				<h2>
-					<span>Valued at {balance * selectedCurrency.rate}</span>
-					<Select className="select" classNamePrefix="select" options={currencies}
-						value={selectedCurrency} onChange={onChange} />
-				</h2>
-			</div>
-			<div>
-				{renderTransactions()}
-
+				<div>
+					<h1>{balance} UGD</h1>
+					<h2>
+						<span>Valued at {balance * selectedCurrency.rate}</span>
+						<Select className="select" classNamePrefix="select" options={currencies}
+							value={selectedCurrency} onChange={onChange} />
+					</h2>
+				</div>
+				<h3>Latest Transactions:</h3>
+				<div className="cardGridContainer">
+					{renderTransactions()}
+				</div>
 			</div>
 		</Content>
 	);
 
-	function renderTransactions(){
-		if(!transactions) return null
-		return(
+	function renderTransactions() {
+		if (!transactions) return null
+		return (
 			Object.keys(transactions).map(key => {
-				return(
-					<div key={key}><Transaction data={transactions[key]}/></div>
+				return (
+					<div key={key} className="cellPadding"><Transaction data={transactions[key]} index={key}/></div>
 				)
 			})
 		)
@@ -109,7 +112,9 @@ function MyWalletContent(props) {
 		]).then((response) => {
 			console.log('send');
 			console.log(response);
-			setTransactions(response[0]);
+			// sort by epoch received time
+			const order = _.orderBy(response[0], ['timereceived'], ['desc']);
+			setTransactions(order);
 			setResetValue("");
 		}, (stderr) => {
 			console.error(stderr);
@@ -144,26 +149,28 @@ function MyWalletContent(props) {
 export default MyWalletContent;
 
 /*
-	<h1>Send UGD</h1>
-				<h2>
-					<span>Send to:
+<div className="grid--left">
+						<h3>Send UGD</h3>
+						<h2>
+							<span>Send to:
 						<EnterField
-							type={"text"}
-							clearField={resetValue}
-							style={"unlockInput"}
-							onChange={v => setSendAddress(v)}
-						/>
-					</span>
-				</h2>
-				<h2>
-					<span>Amount:
+									type={"text"}
+									clearField={resetValue}
+									style={"smallInput"}
+									onChange={v => setSendAddress(v)}
+								/>
+							</span>
+						</h2>
+						<h2>
+							<span>Amount:
 					<EnterField
-							type={"tenumberxt"}
-							clearField={resetValue}
-							style={"unlockInput"}
-							onChange={v => setSendAmount(v)} />
-					</span>
-				</h2>
+									type={"number"}
+									clearField={resetValue}
+									style={"smallInput"}
+									onChange={v => setSendAmount(v)} />
+							</span>
+						</h2>
 
-				<span><Button handleClick={() => sendCoins()}>SEND</Button></span>
+						<span><Button handleClick={() => sendCoins()}>SEND</Button></span>
+					</div>
 				*/
