@@ -16,7 +16,18 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-
+ /* global styles to be used anywhere */
+ :root {
+    --primary: rgb(0, 22, 63);
+    --warning: rgb(197, 113, 4);
+    --danger: rgb(219, 47, 47);
+    --success: rgb(75, 177, 75);
+    --white: white;
+    --dark: rgb(31, 30, 30);
+    --border--active: rgb(22, 26, 56);
+    --border--hover: rgb(22, 26, 56);
+    --button--background: #000;
+}
 .fontRegular {
     font-family: 'Roboto', sans-serif;
     font-size: 14pt;

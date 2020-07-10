@@ -22,6 +22,12 @@
     border-radius: 5;
     font-family: 'Roboto', sans-serif;
 }
+.smallInput{
+    margin-left: 10px;
+    width: 150px;
+    border-radius: 5;
+    font-family: 'Roboto', sans-serif;
+}
 
 .unlockInput:focus {
     outline: none;

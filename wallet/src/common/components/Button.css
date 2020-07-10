@@ -16,15 +16,6 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-:root {
-    --primary: rgb(0, 22, 63);
-    --warning: rgb(197, 113, 4);
-    --danger: rgb(219, 47, 47);
-    --success: rgb(75, 177, 75);
-    --white: white;
-    --dark: rgb(31, 30, 30);
-}
-
 .btn {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
