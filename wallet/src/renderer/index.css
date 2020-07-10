@@ -28,7 +28,7 @@ div#app {
 }
 
 body {
-	font-family: 'Roboto', sans-serif;
+	font-family: var(--fontFamily);
 	font-size: 16pt;
 	margin: 0;
 	user-select: none;

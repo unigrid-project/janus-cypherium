@@ -27,16 +27,17 @@
     --border--active: rgb(22, 26, 56);
     --border--hover: rgb(22, 26, 56);
     --button--background: #000;
+    --fontFamily: 'Roboto', sans-serif;
 }
 .fontRegular {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--fontFamily);
     font-size: 14pt;
     font-weight: 300;
     margin: 0;
     user-select: none;
 }
 .fontRegularBold {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--fontFamily);
     font-size: 14pt;
     font-weight: 300;
     font-weight: bold;
@@ -45,21 +46,21 @@
 }
 
 .fontSmallBold{
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--fontFamily);
     font-size: 11pt;
     font-weight: bold;
     margin: 0;
     user-select: none;
 }
 .fontSmall {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--fontFamily);
     font-size: 11pt;
     margin: 0;
     user-select: none;
 }
 
 .fontLarge {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--fontFamily);
     font-size: 22pt;
     margin: 0;
     user-select: none;

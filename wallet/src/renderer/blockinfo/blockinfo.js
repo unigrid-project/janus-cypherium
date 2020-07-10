@@ -26,10 +26,8 @@ import { faServer, faLock, faLockOpen, faCoins } from "@fortawesome/free-solid-s
 import { faSatelliteDish } from "@fortawesome/free-solid-svg-icons";
 import './blockinfo.css';
 import '../../common/theme.css';
-import { fontFamily } from "../../common/theme.js";
 import UnlockWallet from "./UnlockWallet.js";
 import { ipcRenderer, remote } from "electron";
-
 
 library.add(faServer, faLock, faLockOpen, faSatelliteDish, faCoins);
 
@@ -96,7 +94,7 @@ export default class BlockInfo extends React.Component {
 						fadeDuration={toolTipFadeIn}
 						fadeEasing="linear"
 						radius={10}
-						fontFamily={fontFamily}
+						fontFamily='Roboto'
 						fontSize={toolTipFontSize}
 						content={stakingMessage}
 					>
@@ -113,7 +111,7 @@ export default class BlockInfo extends React.Component {
 						fadeDuration={toolTipFadeIn}
 						fadeEasing="linear"
 						radius={10}
-						fontFamily={fontFamily}
+						fontFamily='Roboto'
 						fontSize={toolTipFontSize}
 						content={connections}
 					>
@@ -126,7 +124,7 @@ export default class BlockInfo extends React.Component {
 						fadeDuration={toolTipFadeIn}
 						fadeEasing="linear"
 						radius={10}
-						fontFamily={fontFamily}
+						fontFamily='Roboto'
 						fontSize={toolTipFontSize}
 						content={currentBlock}
 					>

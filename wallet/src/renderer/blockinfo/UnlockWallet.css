@@ -113,7 +113,7 @@
 
 .error--text {
     color: red;
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--fontFamily);
     font-size: 15;
 }
 
@@ -123,7 +123,7 @@
 
 .error--text--animation {
     color: red;
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--fontFamily);
     font-size: 15;
     animation: errortextanimation 3s forwards;
     transition-timing-function: ease-in-out;
