@@ -32,6 +32,7 @@ body {
     border: 1.5px solid var(--border--active);
     border-radius: 5px;
     min-height: 40px;
+    background-color: var(--select--background);
 }
 
 .pad--divs {

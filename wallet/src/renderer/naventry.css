@@ -17,32 +17,35 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-nav > ul > li, nav > ul > div > li {
+nav>ul>li, nav>ul>div>li {
 	cursor: pointer;
-	margin: 0px 0px 30px 0px;
-	padding: 12px 16px 12px 16px;
+	margin: 5px 5px 25px 10px;
+	padding: 5px 5px 5px 20px;
+	max-width: 175px;
 	border-radius: 6px;
 	border: 2px transparent solid;
 	transition: background-color .2s ease-in-out;
 	transition: border-color .2s ease-in-out;
 	pointer-events: auto;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
 
-nav > ul > li:hover {
+nav>ul>li:hover {
 	border-color: var(--border--active);
 }
 
-nav > ul > li.active {
+nav>ul>li.active {
 	border-color: var(--border--active);
 	background-color: var(--button--background);
 	pointer-events: none;
 }
 
-nav > ul > div {
+nav>ul>div {
 	margin-top: auto;
 }
 
-nav > ul:first-child > li > svg {
+nav>ul:first-child>li>svg {
 	padding-right: 15px;
 }
-

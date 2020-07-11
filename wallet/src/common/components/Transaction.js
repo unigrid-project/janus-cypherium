@@ -43,7 +43,9 @@ function Transaction({ data, index }) {
                     fontFamily='Roboto'
                     fontSize='5'
                     fadeEasing="linear"
-                    background="rgba(0, 0, 0, 0.85)"
+                    background={css`
+                    var(--tooltip--background)
+                  `}
                     content={calculateDateFromEpoch(data.timereceived)}
                     customCss={css`
                     white-space: nowrap;
@@ -61,7 +63,9 @@ function Transaction({ data, index }) {
                     fontFamily='Roboto'
                     fontSize='5'
                     fadeEasing="linear"
-                    background="rgba(0, 0, 0, 0.85)"
+                    background={css`
+                    var(--tooltip--background)
+                  `}
                     content={getCategory(data.category)}
                 >{getCategroyIcon(data.category)}
                 </Tooltip>
@@ -77,7 +81,9 @@ function Transaction({ data, index }) {
                     fontFamily='Roboto'
                     fontSize='5'
                     fadeEasing="linear"
-                    background="rgba(0, 0, 0, 0.85)"
+                    background={css`
+                    var(--tooltip--background)
+                  `}
                     content="Show in explorer"
                     customCss={css`
                     white-space: nowrap;

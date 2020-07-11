@@ -44,8 +44,8 @@ nav>ul {
 	color: var(--white);
 	list-style-type: none;
 	padding-top: 10px;
-	padding-inline-start: 35px;
-	padding-inline-end: 35px;
+	padding-inline-start: 10px;
+	padding-inline-end: 10px;
 	font-size: 12pt;
 	display: flex;
 	flex-grow: 1;
@@ -69,6 +69,6 @@ nav>ul:last-child {
 	justify-content: space-evenly;
 }
 
-.blockInfo{
+.blockInfo {
 	justify-content: flex-end;
 }

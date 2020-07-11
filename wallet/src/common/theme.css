@@ -32,7 +32,8 @@
     --container--background: rgb(26, 28, 43);
     --select--background: #070707;
     --hover--border: rgb(34, 37, 56);
-    --select--background: #000;
+    --select--background: rgb(0, 0, 0, 0.8);
+    --tooltip--background: rgb(48, 48, 100, 0.8);
 }
 
 .fontRegular {
