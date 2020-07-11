@@ -245,6 +245,9 @@ export default class BlockInfo extends React.Component {
 			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
 			console.log("wallet locked");
 		}, (stderr) => {
+			// walletlock is only avaible after encryption
+			// promt user if they would like to 
+			// encrypt their wallet here?
 			console.error(stderr);
 		});
 	}

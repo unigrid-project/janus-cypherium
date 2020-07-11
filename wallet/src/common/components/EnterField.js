@@ -18,20 +18,37 @@
 
 import React, { useState, useEffect } from "react";
 import './EnterField.css';
+import { update } from "lodash";
 
-function EnterField(props) {
-  const [inputType] = useState(props.type)
-  const [inputValue, setInputValue] = useState(props.clearField);
-  const [style] = useState(props.style);
+function EnterField({
+  updateEntry,
+  type,
+  clearField,
+  myStyle,
+  enterPressed
+}) {
+  const [inputType] = useState(type)
+  const [inputValue, setInputValue] = useState(clearField);
+  const [style] = useState(myStyle);
 
   function handleChange(event) {
     setInputValue(event.target.value);
-    //console.log(event.target.value);
-    if (props.onChange) props.onChange(event.target.value)
+    console.log(event.target.value);
+    if (updateEntry) updateEntry(event.target.value)
+  }
+  function handleKeyDown(e) {
+    if (e.key === 'Enter') {
+      console.log('do validate');
+      if (enterPressed) enterPressed();
+    }
   }
   return (
     <>
-      <input type={inputType} value={inputValue} name="input-form" onChange={handleChange} className={style} />
+      <input type={inputType}
+        value={inputValue} name="input-form"
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        className={style} />
     </>
   );
 }

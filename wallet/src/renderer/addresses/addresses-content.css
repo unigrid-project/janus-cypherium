@@ -17,11 +17,12 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
- body{
-	 font-family: "Roboto", sans-serif;
-	 font-size: medium;
- }
- .address--result{
-	 display: flex;
-	 flex-direction: row;
- }
+body {
+	font-family: "Roboto", sans-serif;
+	font-size: medium;
+}
+
+.address--result {
+	display: flex;
+	flex-direction: row;
+}

@@ -16,24 +16,31 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-.unlockInput {
-    margin-left: 10px;
-    width: 450px;
-    border-radius: 5;
+.addressContainer {
+    border-radius: 5px;
+    border: 1.5px solid var(--border--active);
+    background-color: var(--select--background);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
     font-family: var(--fontFamily);
 }
-.smallInput{
-    margin-left: 10px;
-    width: 150px;
-    border-radius: 5;
-    font-family: var(--fontFamily);
+.addressContainer > div{
+    margin: 5px;
 }
-.xsmallInput{
-    margin-left: 10px;
-    width: 100px;
-    border-radius: 5;
-    font-family: var(--fontFamily);
+
+.address--div{
+    min-width: 275px;
 }
-.unlockInput:focus {
-    outline: none;
+
+.amount{
+    min-width: 100px;
+    border-left: 1px solid white;
+    padding-left: 10px;
+}
+.account{
+    border-left: 1px solid white;
+    padding-left: 10px;
 }

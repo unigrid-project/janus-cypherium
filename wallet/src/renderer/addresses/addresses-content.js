@@ -26,12 +26,14 @@ import { faClipboard } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { clipboard } from "electron";
+import _ from 'lodash';
+import Address from "../../common/components/Address";
 
 library.add(faClipboard);
 
 function AddressesContent() {
 	const [addressName, setAddressName] = useState("");
-	const [clearField, setClearField] = useState();
+	const [clearField, setClearField] = useState("");
 	const [responseAddress, setResponseAddress] = useState();
 	const [localAddresses, setLocaAddresses] = useState();
 	useEffect(() => {
@@ -41,7 +43,8 @@ function AddressesContent() {
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
 			console.log('address groupings', response[0]);
-			setLocaAddresses(response[0][0]);
+			let flat = _.flatten(response[0]);
+			setLocaAddresses(flat);
 		}, (stderr) => {
 			console.error(stderr);
 		});
@@ -53,8 +56,8 @@ function AddressesContent() {
 				key={clearField}
 				type={"text"}
 				clearField={clearField}
-				style={"unlockInput"}
-				onChage={(v) => setAddressName(v)} />
+				myStyle={"unlockInput"}
+				updateEntry={onAddressChange} />
 			<Button handleClick={() => onGenerateNewAddressClicked()}>Generate Address</Button>
 			<span>
 				{responseAddress}
@@ -65,20 +68,34 @@ function AddressesContent() {
 		</Content>
 	);
 
+	function onAddressChange(v) {
+		setAddressName(v);
+		setClearField(v);
+	}
 	function getLocalAddresses() {
 		// address, amount, account
 		if (!localAddresses) return null;
 		return (
 			Object.keys(localAddresses).map(key => {
 				return (
-					<div key={key}>
-						<div className="cellPadding">{localAddresses[key][0]}</div>
-						<div className="cellPadding">{localAddresses[key][1]}</div>
-						<div className="cellPadding">{localAddresses[key][2]}</div>
-					</div>
+					<Address key={key} data={localAddresses[key]} setAccountName={(e) => updateAccountName(e)} />
 				)
 			})
 		)
+	}
+
+	function updateAccountName(data) {
+		var rpcClient = new RPCClient();
+		let args = [data[0], data[1]];
+		Promise.all([
+			rpcClient.setAccountName(args),
+			new Promise(resolve => setTimeout(resolve, 500))
+		]).then((response) => {
+			console.log("updating account name ", data[0])
+			listAddressGroupings();
+		}, (stderr) => {
+			console.error(stderr);
+		});
 	}
 
 	function copyToClipboard() {
@@ -92,14 +109,15 @@ function AddressesContent() {
 			rpcClient.listAddressGroupings(),
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
-			console.log('address groupings', response[0][0]);
-			setLocaAddresses(response[0][0]);
+
+			let flat = _.flatten(response[0]);
+			console.log('address groupings flat ', flat);
+			setLocaAddresses(flat);
 		}, (stderr) => {
 			console.error(stderr);
 		});
 	}
 	async function onGenerateNewAddressClicked() {
-		console.log("addres name: " + addressName);
 		var rpcClient = new RPCClient();
 		Promise.all([
 			rpcClient.generateNewAddress([addressName]),

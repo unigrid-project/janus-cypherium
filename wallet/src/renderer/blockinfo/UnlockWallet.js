@@ -118,8 +118,8 @@ function UnlockWallet(props) {
             <EnterField
                 type={"password"}
                 clearField={passPhrase}
-                onChange={textInputChange}
-                style={"unlockInput"}
+                updateEntry={textInputChange}
+                myStyle={"unlockInput"}
             />
             <div className="buttonContainer">
                 <div className="padding">

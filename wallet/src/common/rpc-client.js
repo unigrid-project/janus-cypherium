@@ -29,7 +29,7 @@ export default class RPCClient {
 			user: credentials.user,
 			password: credentials.password,
 			port: rpcPort, /* Should have been initialized by daemon */
-			//method: "POST" is default
+			//method: "POST" //is default
 		});
 
 		this.send_command = (command, args = []) => {
@@ -82,6 +82,16 @@ export default class RPCClient {
 
 	async masternodeCommand(args) {
 		return await this.send_command("masternode", args);
+	}
+
+	async setAccountName(args) {
+		return await this.send_command("setaccount", args);
+	}
+
+	async startMasternodeCommand(args) {
+		//start-all start-many start-missing
+		// start-all "0"
+		return await this.send_command("startmasternode", args);
 	}
 
 	async generateNewAddress(args) {
