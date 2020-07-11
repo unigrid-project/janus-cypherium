@@ -18,12 +18,12 @@
  */
 
 @import "~roboto-fontface/css/roboto/roboto-fontface.css";
-
 body {
-	/* for gradient backgrounds */
-	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000421), color-stop(1, #03082e));
+	/* for gradient backgrounds 
+	
 	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #743e01), color-stop(1, #f58404));
-	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #3b0303), color-stop(1, #f50404));
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #3b0303), color-stop(1, #f50404));*/
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000421), color-stop(1, #03082e));
 }
 
 html, body, div#app {
@@ -42,7 +42,7 @@ body {
 	user-select: none;
 }
 
-div.nav > div {
+div.nav>div {
 	width: -webkit-fill-available;
 	overflow-x: hidden;
 }
@@ -50,4 +50,3 @@ div.nav > div {
 div.nav div.content {
 	padding: 25px 40px;
 }
-
