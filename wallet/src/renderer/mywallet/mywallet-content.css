@@ -20,7 +20,7 @@
 div#mywallet>div {
 	border-top: 4px solid #0a0a0a;
 	text-align: center;
-	padding-top: 10px !important;
+	padding-top: 5px !important;
 }
 
 div#mywallet>div h1 {
@@ -51,13 +51,13 @@ div#mywallet>div h3 {
 }
 
 .cellPadding {
-	max-width: 230px;
+	max-width: 260px;
 	padding: 0px;
 }
 .social--conatiner{
 	max-width: 200px;
 	position: absolute;
-	bottom: 0px;
+	bottom: -10px;
 	right: 40px;
 }
 .social--padding{

@@ -48,7 +48,13 @@ function MyWalletContent(props) {
 	const [transactions, setTransactions] = useState();
 	useEffect(() => {
 		getData();
-		getlatestTransactions();
+		// get data every minute for now
+		// this will be converted to a websocket 
+		// in the future
+		setInterval(() => {
+			getlatestTransactions();
+		}, 60000);
+		return () => clearInterval(interval);
 	}, []);
 
 	return (
@@ -69,7 +75,6 @@ function MyWalletContent(props) {
 							value={selectedCurrency} onChange={onChange} />
 					</h2>
 				</div>
-				<h3>Latest Transactions:</h3>
 				<div className="cardGridContainer">
 					{renderTransactions()}
 				</div>
@@ -92,7 +97,9 @@ function MyWalletContent(props) {
 							fontFamily='Roboto'
 							fontSize='5'
 							fadeEasing="linear"
-							background="rgba(0, 0, 0, 0.85)"
+							background={css`
+                    var(--tooltip--background)
+                  `}
 							content="Follow us"
 							customCss={css`
                     white-space: nowrap;
@@ -112,7 +119,9 @@ function MyWalletContent(props) {
 							fontFamily='Roboto'
 							fontSize='5'
 							fadeEasing="linear"
-							background="rgba(0, 0, 0, 0.85)"
+							background={css`
+                    var(--tooltip--background)
+                  `}
 							content="Join discord"
 							customCss={css`
                     white-space: nowrap;
@@ -132,7 +141,9 @@ function MyWalletContent(props) {
 							fontFamily='Roboto'
 							fontSize='5'
 							fadeEasing="linear"
-							background="rgba(0, 0, 0, 0.85)"
+							background={css`
+                    var(--tooltip--background)
+                  `}
 							content="Join telegram"
 							customCss={css`
                     white-space: nowrap;
