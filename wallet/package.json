@@ -50,9 +50,14 @@
   },
   "build": {
     "appId": "org.unigrid.wallet",
+    "mac": {
+      "category": "org.unigrid.wallet"
+    },
     "extraFiles": {
       "from": "../daemon/unigridd",
       "to": "unigridd"
-    }
+    },
+    "files": ["./static", "logo.png", "solid_logo.png"],
+    "copyright": "Copyright (C) 2020 The UNIGRID Organization"
   }
 }
