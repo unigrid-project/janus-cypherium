@@ -57,7 +57,11 @@
       "from": "../daemon/unigridd",
       "to": "unigridd"
     },
-    "files": ["./static", "logo.png", "solid_logo.png"],
+    "files": [
+      "./static",
+      "logo.png",
+      "solid_logo.png"
+    ],
     "copyright": "Copyright (C) 2020 The UNIGRID Organization"
   }
 }
