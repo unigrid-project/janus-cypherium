@@ -30,7 +30,16 @@
     opacity: 0;
 }
 
+.error--text-hidden {
+    color: var(--danger);
+    font-family: var(--fontFamily);
+    font-size: 15;
+    visibility: collapse;
+    opacity: 0;
+}
+
 .error--text--animation {
+    visibility: visible;
     color: var(--danger);
     font-family: var(--fontFamily);
     font-size: 15;
