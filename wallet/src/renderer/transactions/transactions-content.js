@@ -24,6 +24,7 @@ import RPCClient from "../../common/rpc-client.js";
 import Transaction from "../../common/components/Transaction";
 import "./transactions-content.css";
 import _ from "lodash";
+import ExportCSV from "../../common/components/ExportCSV";
 
 function TransactionsContent(props) {
 	const [transactions, setTransactions] = useState(null);
@@ -34,10 +35,16 @@ function TransactionsContent(props) {
 
 	return (
 		<Content id="transactions" >
-			<div className="transaction--container">
-				<Button handleClick={loadTransactionData} buttonSize="btn--small">
-					Load Transactions
+			<div className="transaction--container transaction--top--item">
+				<div className="align--row--flexstart">
+					<Button handleClick={loadTransactionData} buttonSize="btn--small">
+						Load Transactions
+					</Button>
+					<Button handleClick={exportToCSV} buttonSize="btn--small">
+						Export CSV
 					</Button><div></div>
+				</div>
+
 				<div>{transactions !== null ? renderTransactions() : null}</div>
 			</div>
 		</Content>
@@ -55,6 +62,20 @@ function TransactionsContent(props) {
 			const order = _.orderBy(response[0], ['timereceived'], ['desc']);
 			setTransactions(order);
 			console.log("transactions ", order)
+		}, (stderr) => {
+			console.error(stderr);
+		});
+	}
+	function exportToCSV() {
+		var rpcClient = new RPCClient();
+		var exportCSV = new ExportCSV();
+		let args = ["*", parseInt(10000000), parseInt(0)];
+		Promise.all([
+			rpcClient.listTransactions(args),
+			new Promise(resolve => setTimeout(resolve, 500))
+		]).then((response) => {
+			console.log("export CSV ", response[0])
+			exportCSV.convert(response[0]);
 		}, (stderr) => {
 			console.error(stderr);
 		});
