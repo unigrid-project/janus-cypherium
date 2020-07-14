@@ -17,16 +17,61 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import Content from "../content";
+import Button from "../../common/components/Button";
+import RPCClient from "../../common/rpc-client.js";
+import Transaction from "../../common/components/Transaction";
+import "./transactions-content.css";
+import _ from "lodash";
 
-export default class TransactionsContent extends React.Component {
-	render() {
-		return(
-			<Content id="transactions">
-				<div>Trans</div><div></div>
-			</Content>
-		);
+function TransactionsContent(props) {
+	const [transactions, setTransactions] = useState(null);
+	const ref = useRef(props.current);
+	useEffect(() => {
+		loadTransactionData();
+	}, []);
+
+	return (
+		<Content id="transactions" >
+			<div className="transaction--container">
+				<Button handleClick={loadTransactionData} buttonSize="btn--small">
+					Load Transactions
+					</Button><div></div>
+				<div>{transactions !== null ? renderTransactions() : null}</div>
+			</div>
+		</Content>
+	);
+
+	function loadTransactionData() {
+		//console.log('transactions?')
+		var rpcClient = new RPCClient();
+		let args = ["*", parseInt(50), parseInt(0)];
+		Promise.all([
+			rpcClient.listTransactions(args),
+			new Promise(resolve => setTimeout(resolve, 500))
+		]).then((response) => {
+			console.log("trans res ", response)
+			const order = _.orderBy(response[0], ['timereceived'], ['desc']);
+			setTransactions(order);
+			console.log("transactions ", order)
+		}, (stderr) => {
+			console.error(stderr);
+		});
+	}
+	function renderTransactions() {
+		//console.log('render transactions', transactions)
+		if (!transactions) return null;
+		return (
+			Object.keys(transactions).map(key => {
+				return (
+					<div key={key} className="transaction--item">
+						<Transaction data={transactions[key]} index={key} style="trans--long" />
+					</div>
+				)
+			})
+		)
 	}
 }
+export default TransactionsContent;
 
