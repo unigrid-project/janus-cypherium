@@ -25,15 +25,16 @@ function EnterField({
   type,
   clearField,
   myStyle,
-  enterPressed
+  enterPressed,
+  placeHolder,
+  onBlurOut
 }) {
   const [inputType] = useState(type)
   const [inputValue, setInputValue] = useState(clearField);
   const [style] = useState(myStyle);
-
+  const [placeValue] = useState(placeHolder);
   function handleChange(event) {
     setInputValue(event.target.value);
-    console.log(event.target.value);
     if (updateEntry) updateEntry(event.target.value)
   }
   function handleKeyDown(e) {
@@ -45,9 +46,12 @@ function EnterField({
   return (
     <>
       <input type={inputType}
-        value={inputValue} name="input-form"
+        value={inputValue} 
+        name="input-form"
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        onBlur={onBlurOut}
+        placeholder={placeValue}
         className={style} />
     </>
   );

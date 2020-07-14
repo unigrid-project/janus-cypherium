@@ -19,21 +19,69 @@
 .unlockInput {
     margin-left: 10px;
     width: 450px;
-    border-radius: 5;
+    height: 25px;
     font-family: var(--fontFamily);
+    border: none;
+    border: solid 1px var(--border--active);
+    border-radius: 10px;
+    padding-left: 5px;
 }
-.smallInput{
-    margin-left: 10px;
+
+.addressInput {
+    width: 400px;
+    height: 25px;
+    font-family: var(--fontFamily);
+    border: none;
+    border: solid 1px var(--border--active);
+    border-radius: 10px;
+    padding-left: 5px;
+}
+
+.accountNameInput {
+    width: 300px;
+    height: 25px;
+    font-family: var(--fontFamily);
+    border: solid 1px var(--border--active);
+    border-radius: 10px;
+    padding-left: 5px;
+}
+
+.smallInput {
     width: 150px;
-    border-radius: 5;
+    height: 25px;
     font-family: var(--fontFamily);
+    border: none;
+    border: solid 1px var(--border--active);
+    border-radius: 10px;
+    padding-left: 5px;
 }
-.xsmallInput{
-    margin-left: 10px;
+
+.xsmallInput {
     width: 100px;
-    border-radius: 5;
+    height: 25px;
     font-family: var(--fontFamily);
+    border: none;
+    border: solid 1px var(--border--active);
+    border-radius: 10px;
+    padding-left: 5px;
 }
+
+.accountNameInput:focus {
+    outline: none;
+}
+
 .unlockInput:focus {
+    outline: none;
+}
+
+.addressInput {
+    outline: none;
+}
+
+.smallInput:focus {
+    outline: none;
+}
+
+.xsmallInput:focus {
     outline: none;
 }
