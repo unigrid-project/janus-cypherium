@@ -40,10 +40,10 @@ export default class SplashController {
 			resizable: false,
 			show: false,
 			webPreferences: {
-                nodeIntegration: true
-            }, frame:false // comment this line to get DEV TOOls
+				nodeIntegration: true
+			}, frame: false // comment this line to get DEV TOOls
 		});
-		
+
 
 		if (global.isDevelopment) {
 			window.webContents.openDevTools({ mode: "detach" });
@@ -75,10 +75,13 @@ export default class SplashController {
 		return await new Promise((resolve, reject) => {
 			rpcClient.getinfo().then((response) => {
 				var latest_version = Version.get_cleaned_up(response["latest-version"]);
-
 				if (Version.is_latest(response["version"], latest_version)) {
 					resolve();
-				} else {
+				} else if (Version.is_latest(latest_version, "unknown")) {
+					console.log("github is most likely down ", response["latest-version"]);
+					resolve();
+				}
+				else {
 					var errorMessage = "The daemon of this wallet is outdated. " +
 						`Please download version ${latest_version}`;
 
