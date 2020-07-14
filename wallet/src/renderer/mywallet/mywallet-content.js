@@ -104,7 +104,7 @@ function MyWalletContent(props) {
 					onAnimationEnd={onSendAnimationEnd}>
 					<Send
 						sendCoins={(v) => sendCoins(v)}
-						defaultValues={{ "address1": { "address": "", "amount": "" } }}
+						defaultValues={{ "address1": { "address": "", "amount": "", "isValid": false } }}
 						cancelSendOperation={() => cancelSendOperation()}
 						setSendAmount={(v) => setSendAmount(v)}
 						setSendAddress={(v) => setSendAddress(v)}
