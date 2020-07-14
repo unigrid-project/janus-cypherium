@@ -20,6 +20,8 @@
 
 :root {
     --primary: rgb(0, 22, 63);
+    --secondary: rgb(7, 36, 90);
+    ;
     --warning: rgb(197, 113, 4);
     --danger: rgb(219, 47, 47);
     --success: rgb(75, 177, 75);
@@ -31,9 +33,10 @@
     --fontFamily: 'Roboto', sans-serif;
     --container--background: rgb(26, 28, 43);
     --select--background: #070707;
+    --scroll--bar: rgb(36, 36, 37);
     --hover--border: rgb(34, 37, 56);
     --select--background: rgb(0, 0, 0, 0.8);
-    --tooltip--background: rgba(41, 41, 41, 0.8);
+    --tooltip--background: rgba(15, 15, 15, 0.9);
 }
 
 .fontRegular {
@@ -85,4 +88,15 @@
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
+}
+
+.align--row--flexstart {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+.align--row--flexstart>div {
+    padding-left: 10px;
 }

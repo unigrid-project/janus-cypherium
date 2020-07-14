@@ -17,30 +17,34 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ipcRenderer, remote } from "electron";
 import "./content.css";
 
-export default class Content extends React.Component {
-	constructor(props) {
-		super(props);
-		var element = this.props.children[0] == undefined ? this.props.children : this.props.children[0];
-
-		this.state = {
-			active: element._owner.pendingProps.active
-		};
-
+function Content(props) {
+	const [element] = useState(props.children[0] == undefined ? props.children : props.children[0]);
+	const [active, setActive] = useState(element._owner.pendingProps.active);
+	//const container = useRef(props.children);
+	useEffect(() => {
 		ipcRenderer.on("navigate", (event, source) => {
-			this.setState({ active: source.toLowerCase().replace(" ", "") == this.props.id });
+			setActive(source.toLowerCase().replace(" ", "") == props.id);
+			//scrollTo(container);
 		});
-	}
+	}, []);
+	/*const scrollTo = (ref) => {
+		console.log('container ', ref.current);
+		if (ref) {
+			ref.current.scrollIntoView();
+			//ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+		}
+	}*/
 
-	render() {
-		return(
-			<div id={this.props.id} className={this.state.active ? "active " : "inactive " + this.props.className}>
-				{this.props.children}
-			</div>
-		);
-	}
+	return (
+		<div id={props.id} className={active ? "active " : "inactive " + props.className}>
+			{props.children}
+		</div>
+	);
 }
+
+export default Content;
 

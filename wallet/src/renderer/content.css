@@ -17,13 +17,17 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-div.nav > div {
+div.nav>div {
 	width: -webkit-fill-available;
 	overflow-x: hidden;
+	display: inline-flex;
 	position: relative;
+	height: 100%;
+	margin: 0;
+	padding: 0;
 }
 
-div.nav > div > div {
+div.nav>div>div {
 	width: -webkit-fill-available;
 	position: absolute;
 	visibility: hidden;
@@ -31,26 +35,32 @@ div.nav > div > div {
 	transition: visibility .4s, opacity .4s ease-in-out;
 }
 
-div.nav > div > div.active {
+div.nav>div>div.active {
 	visibility: visible;
+	overflow-x: hidden;
 	opacity: 1.0;
+	height: 1000px;
+}
+
+div.nav>div>div.inactive {
+	overflow-x: hidden;
+	height: 500px;
 }
 
 @keyframes fade {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }
 
-div.nav > div > div > div {
-	padding: 25px 40px;
+div.nav>div>div>div {
+	padding: 10px 10px;
 }
 
-div.select > div.select__control {
+div.select>div.select__control {
 	border-radius: 6px;
 	background-color: #000;
 	border: 2px #244 solid;
@@ -58,12 +68,12 @@ div.select > div.select__control {
 	cursor: pointer;
 }
 
-div.select > div.select__control:hover {
+div.select>div.select__control:hover {
 	border: 2px #277 solid;
 	transition: border-color .2s ease-in-out;
 }
 
-div.select > div.select__control--is_focused {
+div.select>div.select__control--is_focused {
 	background-color: var(--danger) !important;
 	color: var(--white)
 }
@@ -80,7 +90,7 @@ div.select span.select__indicator-separator {
 	display: none;
 }
 
-div.select .select__dropdown-indicator > svg {
+div.select .select__dropdown-indicator>svg {
 	margin-right: 0px;
 }
 
@@ -102,7 +112,7 @@ div.select .select__menu {
 	animation: show-menu .2s ease-in-out;
 }
 
-div.select .select__menu-list > div {
+div.select .select__menu-list>div {
 	font-size: 12pt;
 	padding: 6px 5px 5px 5px;
 	border-radius: 5px;
@@ -118,7 +128,7 @@ div.select .select__option--is-selected {
 	background-color: #333;
 }
 
-div.select .select__menu-list > div:hover {
+div.select .select__menu-list>div:hover {
 	background-color: #222;
 	border: 3px solid var(--select--background);
 }
@@ -132,10 +142,9 @@ div.select .select__menu-list > div:hover {
 
 ::-webkit-scrollbar-thumb {
 	border-radius: 2px;
-	background-color: #2cb;
+	background-color: var(--scroll--bar);
 }
 
 ::-webkit-scrollbar-corner {
 	background-color: #171717;
 }
-
