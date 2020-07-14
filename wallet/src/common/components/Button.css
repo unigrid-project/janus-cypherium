@@ -21,7 +21,7 @@
     font-weight: 400;
     border-radius: 10px;
     cursor: pointer;
-    transition: transform 0.15s ease;
+    transition: transform 0.1s ease;
 }
 
 .btn:hover {
@@ -38,6 +38,12 @@
 
 .btn--primary--solid {
     background-color: var(--primary);
+    color: var(--white);
+    border: none;
+}
+
+.btn--secondary--solid {
+    background-color: var(--secondary);
     color: var(--white);
     border: none;
 }
