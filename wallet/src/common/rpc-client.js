@@ -104,6 +104,12 @@ export default class RPCClient {
 		return await this.send_command("sendtoaddress", args);
 	}
 
+	async sendMany(account, args) {
+		//sendmany "account" "{"address":0.01,"addres":0.02}" 6 "message"
+		const send = [account, args, parseInt(6), "sendmany"];
+		return await this.send_command("sendmany", send);
+	}
+
 	async stop() {
 		return await this.send_command("stop");
 	}
@@ -115,6 +121,11 @@ export default class RPCClient {
 	async listAddressGroupings() {
 		const args = [parseInt(0), Boolean(true), Boolean(true)];
 		return await this.send_command("listaddressgroupings");
+	}
+
+	async listTransactions(args) {
+		//listtransactions "*" 50 100
+		return await this.send_command("listtransactions", args);
 	}
 
 	async validateAddress(args) {
