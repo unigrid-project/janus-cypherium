@@ -36,6 +36,7 @@ function SendInputs({
     setSendAmount,
     recipientKey,
     removeRecipient,
+    setIsValid
 }) {
     const [warningMessage, setWarningMessage] = useState("");
 
@@ -43,7 +44,7 @@ function SendInputs({
         <div className="send--input--container">
             <div>
                 <EnterField
-                    key={inputValueAddress+"address"}
+                    key={inputValueAddress + "address"}
                     type={"text"}
                     clearField={inputValueAddress}
                     myStyle={"addressInput"}
@@ -53,7 +54,7 @@ function SendInputs({
                 />
                 <EnterField
                     placeHolder="Amount"
-                    key={inputValueAmount+"amount"}
+                    key={inputValueAmount + "amount"}
                     type={"float"}
                     clearField={inputValueAmount}
                     myStyle={"smallInput"}
@@ -68,13 +69,13 @@ function SendInputs({
                     :
                     null}
             </div>
-            {warningMessage !== "" ? renderWarning() : null}
+            {warningMessage !== "" ? null : null}
+            {renderWarning()}
         </div>
     )
     function renderWarning() {
         return (
             <WarningMessage
-                className="warning--position"
                 message={warningMessage}
                 onAnimationComplete={onAnimationComplete}
                 startAnimation="error--text-start error--text--animation" />
@@ -91,6 +92,7 @@ function SendInputs({
             rpcClient.validateAddress([address]),
             new Promise(resolve => setTimeout(resolve, 500))
         ]).then((response) => {
+            setIsValid(response[0].isvalid, recipientKey);
             if (!response[0].isvalid) setWarningMessage("Address is not valid!");
         }, (stderr) => {
             console.error(stderr);

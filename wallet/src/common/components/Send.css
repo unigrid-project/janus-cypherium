@@ -44,11 +44,11 @@
 
 .send--inner--container>div {
     display: flex;
-    
+    padding: 0px;
 }
 
 .btn--row--send {
-    margin-top: 20px;
+    margin-top: 5px;
     flex-direction: row;
     align-items: flex-start;
     padding-left: 60px;

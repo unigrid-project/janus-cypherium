@@ -36,9 +36,7 @@ function Send({
     const [recipients, setRecipients] = useState(defaultValues);
     const [rerender, setRerender] = useState(false);
     const [recipientCounter, setRecipientCounter] = useState(2);
-    useEffect(() => {
-        //console.log("updating state ", recipients);
-    });
+
     useEffect(() => {
         setRecipients(defaultValues);
     }, [defaultValues]);
@@ -51,7 +49,7 @@ function Send({
                 <Button
                     buttonStyle="btn--secondary--solid"
                     buttonSize="btn--small"
-                    handleClick={() => sendCoins(recipients)}>SEND</Button>
+                    handleClick={() => checkSendInputs()}>SEND</Button>
                 <Button
                     buttonStyle="btn--secondary--solid"
                     buttonSize="btn--small"
@@ -63,15 +61,18 @@ function Send({
                    buttonStyle="btn--secondary--solid"
                    buttonSize="btn--small"
                    handleClick={() => addRecipient()}>ADD RECIPIENT</Button> */
+    function checkSendInputs() {
+        sendCoins(recipients)
+    }
     function onCancelPressed() {
-        setRecipients({ "address1": { "address": "", "amount": "" } });
+        setRecipients({ "address1": { "address": "", "amount": "", "isValid": false } });
         setRecipientCounter(2);
         cancelSendOperation();
     }
     function addRecipient() {
         const key = "address".concat(recipientCounter);
         setRecipientCounter(recipientCounter + 1);
-        setRecipients(Object.assign(recipients, { [key]: { "address": "", "amount": "" } }));
+        setRecipients(Object.assign(recipients, { [key]: { "address": "", "amount": "", "isValid": false } }));
         setRerender(!rerender);
     }
     function removeRecipient(e) {
@@ -100,12 +101,25 @@ function Send({
         // console.log("updateAmount ", updateAmount);
         setRecipients(updateAmount);
     }
+
+    function setIsValid(v, recipientKey) {
+        const updateValid = recipients;
+        Object.keys(updateValid).map(key => {
+            if (key === recipientKey) {
+                updateValid[key].isValid = v;
+            }
+        })
+        console.log("updateValid ", updateValid);
+        setRecipients(updateValid);
+    }
+
     function createRecipient(key) {
         const showRemove = key !== "address1";
         console.log("render address", recipients[key].address);
         console.log("render amount", recipients[key].amount);
         const amount = recipients[key].amount;
         const address = recipients[key].address;
+        const isValid = recipients[key].isValid;
         return (
             <SendInputs
                 showRemove={showRemove}
@@ -113,9 +127,11 @@ function Send({
                 removeRecipient={(e) => removeRecipient(e)}
                 setSendAddress={setSendAddress}
                 setSendAmount={setSendAmount}
+                setIsValid={setIsValid}
                 recipientKey={key}
                 inputValueAmount={amount}
                 inputValueAddress={address}
+                isValid={isValid}
             />
         )
     }
