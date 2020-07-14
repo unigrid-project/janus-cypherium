@@ -204,7 +204,7 @@ function Transaction({ data, index, style }) {
                 return <FontAwesomeIcon size="lg" icon={faSignOutAlt} color="lightsalmon" />
                 break;
             case "stake":
-                return <FontAwesomeIcon size="lg" icon={faCoins} color="white" />
+                return <FontAwesomeIcon size="lg" icon={faCoins} color="lightgoldenrodyellow" />
                 break;
             default:
                 return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="white" />
