@@ -16,7 +16,20 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
+div#transactions.active {
+    overflow-y: scroll;
+    height: 100%;
+}
+
+div#transactions.inactive {
+    overflow-y: hidden;
+    height: 500px;
+}
 
 .transaction--item {
     padding-bottom: 5px;
+}
+
+.transaction--top--item {
+    padding: 10px 0px 10px 20px;
 }

@@ -32,8 +32,8 @@ body {
 }
 
 div#masternodes.active {
-	overflow-y: hidden;
-	height: 1100px;
+	overflow-y: scroll;
+    height: 100%;
 }
 
 div#masternodes.inactive {

@@ -22,8 +22,8 @@ body {
 	font-size: medium;
 }
 div#addressbook.active {
-	overflow-y: hidden;
-	height: 1500px;
+	overflow-y: scroll;
+    height: 100%;
 }
 
 div#addressbook.inactive {
