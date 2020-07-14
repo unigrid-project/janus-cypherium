@@ -27,8 +27,11 @@ library.add(faExchangeAlt);
 
 export default class Transactions extends React.Component {
 	render() {
-		return(
-			<NavEntry><FontAwesomeIcon size="2x" icon="exchange-alt"/>Transactions</NavEntry>
+		return (
+			<NavEntry>
+				<div className="menu--icon"><FontAwesomeIcon size="lg" icon={faExchangeAlt} /></div>
+				<div className="menu-title">Transactions</div>
+			</NavEntry>
 		);
 	}
 }
