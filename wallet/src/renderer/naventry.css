@@ -28,8 +28,23 @@ nav>ul>li, nav>ul>div>li {
 	transition: border-color .2s ease-in-out;
 	pointer-events: auto;
 	display: flex;
-	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-content: stretch;
 	align-items: center;
+	flex-direction: row;
+}
+
+.menu--icon {
+	flex: 1 1 0px;
+	align-self: auto;
+}
+
+.menu-title {
+	text-align: center;
+	padding-left: 15px;
+	flex: 3 1 0px;
+	align-self: auto;
 }
 
 nav>ul>li:hover {

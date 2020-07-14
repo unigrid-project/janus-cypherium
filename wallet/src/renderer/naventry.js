@@ -17,37 +17,34 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from "react";
+import React, {  useState, useEffect } from "react";
 import { ipcRenderer, remote } from "electron";
 import "./naventry.css"
 
-export default class NavEntry extends React.Component {
-	constructor(props) {
-		super(props);
-		this.element = this.props.children[0] == undefined ? this.props.children : this.props.children[0];
+function NavEntry(props) {
+	const [element] = useState(props.children[0] == undefined ? props.children : props.children[0]);
+	const [active, setActive] = useState(element._owner.pendingProps.active);
 
-		this.state = {
-			active: this.element._owner.pendingProps.active
-		}
-
+	useEffect(() => {
 		ipcRenderer.on("navigate", (event, source) => {
-			if (source != this.element._owner.key) {
-				this.setState({ active: false });
+			if (source != element._owner.key) {
+				setActive(false);
 			}
 		});
+	}, []);
+
+	function onClick(e) {
+		ipcRenderer.sendTo(remote.getCurrentWebContents().id, "navigate", element._owner.key);
+		setActive(true);
 	}
 
-	render() {
-		var onClick = (e) => {
-			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "navigate", this.element._owner.key);
-			this.setState({ active: true });
-		}
+	return (
+		<li onClick={onClick} className={active ? "active " : "inactive " + props.className}>
+			{props.children}
+		</li>
+	);
 
-		return(
-			<li onClick={onClick} className={this.state.active ? "active " : "inactive " + this.props.className}>
-				{this.props.children}
-			</li>
-		);
-	}
 }
+
+export default NavEntry;
 
