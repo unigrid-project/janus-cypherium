@@ -16,7 +16,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Transaction.css";
 import { faSignInAlt, faSignOutAlt, faCoins, faClock, faCompass } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -25,16 +25,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { css } from "styled-components";
 library.add(faSignInAlt, faSignOutAlt, faCoins, faClock);
 
-function Transaction({ data, index }) {
+function Transaction({ data, index, style }) {
     const [amount] = useState(data.amount);
-
+    const [numWidth, setNumberWidth] = useState();
+    const [largeTrans, setLargeTrans] = useState(false);
+    useEffect(() => {
+        if (style === "trans--long") {
+            setNumberWidth("long--div");
+            setLargeTrans(true);
+        } else {
+            setNumberWidth("short--div");
+            setLargeTrans(false);
+        }
+        console.log("transaction style: ", style);
+    }, []);
     return (
-        <div className="transaction--main">
-            <div className="">
+        <div className={"transaction--main " + style}>
+            <div className="trans--item">
                 <div className="circle">
                     {getArrayIndex(index)}
                 </div></div>
-            <div className="pad--divs">
+            <div className="trans--item">
                 <Tooltip
                     arrow={10}
                     zIndex={200}
@@ -46,15 +57,16 @@ function Transaction({ data, index }) {
                     background={css`
                     var(--tooltip--background)
                   `}
-                    content={calculateDateFromEpoch(data.timereceived)}
+                    content={calculateDateTimeFromEpoch(data.timereceived)}
                     customCss={css`
                     white-space: nowrap;
                   `}
                 >
-                    <FontAwesomeIcon size="lg" icon={faClock} color="white" />
+                    {getTimeObject(data.timereceived)}
+
                 </Tooltip>
             </div >
-            <div className="pad--divs">
+            <div className="trans--item">
                 <Tooltip
                     arrow={10}
                     zIndex={200}
@@ -71,8 +83,27 @@ function Transaction({ data, index }) {
                 </Tooltip>
 
             </div>
-            <div className="pad--divs">{data.amount}</div>
-            <div className="pad--divs">
+            <div className="trans--item">
+                <Tooltip
+                    arrow={10}
+                    zIndex={200}
+                    fadeDuration={150}
+                    radius={10}
+                    fontFamily='Roboto'
+                    fontSize='5'
+                    fadeEasing="linear"
+                    background={css`
+                    var(--tooltip--background)
+                  `}
+                    content={data.amount.toFixed(8)}
+                    customCss={css`
+                    white-space: nowrap;
+                  `}
+                >
+                    {setAmountColor()}
+                </Tooltip>
+            </div>
+            <div className="trans--item">
                 <Tooltip
                     arrow={10}
                     zIndex={200}
@@ -89,23 +120,74 @@ function Transaction({ data, index }) {
                     white-space: nowrap;
                   `}
                 >
-                    <a href={"http://explorer.unigrid.org/tx/" + data.txid} target="_blank"><FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
+                    <a href={"http://explorer.unigrid.org/tx/" + data.txid} target="_blank">
+                        <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
                 </Tooltip>
             </div>
+            {largeTrans ?
+                <div className="trans--item">
+                    <Tooltip
+                        arrow={10}
+                        zIndex={200}
+                        fadeDuration={150}
+                        radius={10}
+                        fontFamily='Roboto'
+                        fontSize='5'
+                        fadeEasing="linear"
+                        background={css`
+                    var(--tooltip--background)
+                  `}
+                        content={data.address}
+                        customCss={css`
+                    white-space: nowrap;
+                  `}
+                    >
+                        {getAccountName(data.account)}
+                    </Tooltip>
+                </div>
+                : null}
         </div >
     )
+
+    function getTimeObject(epoch) {
+        if (largeTrans === true) {
+            return calculateDateFromEpoch(epoch);
+        } else {
+            return <FontAwesomeIcon size="lg" icon={faClock} color="white" />;
+        }
+    }
     function getCategory(cat) {
         return cat;
+    }
+    function setAmountColor() {
+        let transType = data.category === "send" ? "send--color" : "receive--color";
+        return <div className={numWidth + " " + transType}>{data.amount}</div>
     }
     function getArrayIndex(num) {
         let newNum = parseInt(num);
         return newNum + 1;
     }
+    function getAccountName(account) {
+        if (account === "") {
+            return <div className="unnamed-account">unnamed account</div>
+        } else {
+            return <div>{account}</div>
+        }
+    }
     function calculateDateFromEpoch(epoch) {
         var recDate = new Date(epoch * 1000);
         const date = recDate.toISOString().split('T')[0];
-        const time = recDate.toTimeString().split(" ")[0];
 
+        return (
+            <div>
+                <div>{date}</div>
+            </div>
+        )
+    }
+    function calculateDateTimeFromEpoch(epoch) {
+        var recDate = new Date(epoch * 1000);
+        const date = recDate.toISOString().split('T')[0];
+        const time = recDate.toTimeString().split(" ")[0];
         return (
             <div>
                 <div>{date}</div>
