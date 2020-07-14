@@ -123,11 +123,6 @@ export default class RPCClient {
 		return await this.send_command("listaddressgroupings");
 	}
 
-	async listTransactions(args) {
-		//listtransactions "*" 50 100
-		return await this.send_command("listtransactions", args);
-	}
-
 	async validateAddress(args) {
 		return await this.send_command("validateaddress", args);
 	}
