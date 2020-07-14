@@ -23,6 +23,20 @@ div#mywallet>div {
 	padding-top: 5px !important;
 }
 
+div#mywallet.active {
+	overflow-y: hidden;
+	height: 500px;
+}
+
+div#mywallet.inactive {
+	overflow-y: hidden;
+	height: 500px;
+}
+
+.allow-scroll {
+	overflow-y: scroll;
+}
+
 div#mywallet>div h1 {
 	font-size: 28pt;
 	font-weight: 600;
@@ -51,15 +65,117 @@ div#mywallet>div h3 {
 }
 
 .cellPadding {
-	max-width: 260px;
+	max-width: 45%;
 	padding: 0px;
 }
-.social--conatiner{
+
+.transaction--container--start {
+	position: absolute;
+	width: 100%;
+	padding-right: 20px;
+}
+
+.transaction--open--animation {
+	animation: openanimation 0.5s forwards;
+	transition-timing-function: ease-out;
+}
+
+@keyframes openanimation {
+	0% {
+		right: 0px;
+		opacity: 1;
+	}
+	100% {
+		right: -2000px;
+		opacity: 1;
+	}
+}
+
+.transaction--openposition {
+	position: absolute;
+	width: 100%;
+	right: -2000px;
+}
+
+.close--animation {
+	animation: closeanimation 0.5s forwards;
+	transition-timing-function: ease-out;
+}
+
+@keyframes closeanimation {
+	0% {
+		right: -2000px
+	}
+	100% {
+		right: 0px;
+	}
+}
+
+.send--container--start {
+	position: absolute;
+	width: 100%;
+	left: -800px;
+}
+
+.send--open--animation {
+	animation: opensendanimation 1s forwards;
+	transition-timing-function: ease-out;
+}
+
+@keyframes opensendanimation {
+	0% {
+		left: -800px;
+		opacity: 1;
+	}
+	100% {
+		left: 0px;
+		opacity: 1;
+	}
+}
+
+.send--container--open {
+	position: absolute;
+	width: 100%;
+	left: 0px;
+}
+
+.send--close--animation {
+	animation: closesendanimation 1s forwards;
+	transition-timing-function: ease-out;
+}
+
+@keyframes closesendanimation {
+	0% {
+		left: 0px;
+	}
+	100% {
+		left: -800px;
+	}
+}
+
+.social--conatiner {
 	max-width: 200px;
 	position: absolute;
-	bottom: -10px;
+	bottom: 0px;
 	right: 40px;
 }
-.social--padding{
+
+.social--padding {
 	padding: 5px;
+}
+
+.currency--send {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.btn--send {
+	display: flex;
+	align-items: center;
+	padding-left: 20px;
+}
+
+.btn--send>* {
+	padding-right: 10px;
 }

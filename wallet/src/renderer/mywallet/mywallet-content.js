@@ -35,6 +35,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter, faDiscord, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import Tooltip from "react-simple-tooltip";
 import { css } from "styled-components";
+import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
+import { ipcRenderer, remote } from "electron";
+import Send from "../../common/components/Send";
 
 function MyWalletContent(props) {
 	const store = new Store();
@@ -46,19 +49,24 @@ function MyWalletContent(props) {
 	const [resetValue, setResetValue] = useState();
 	const [sendAddress, setSendAddress] = useState();
 	const [transactions, setTransactions] = useState();
+	const [sendState, setSendState] = useState(false);
+	const [transactionClasses, setTransactionClasses] = useState("transaction--container--start");
+	const [sendClasses, setSendClasses] = useState("send--container--start");
 	useEffect(() => {
 		getData();
 		// get data every minute for now
 		// this will be converted to a websocket 
 		// in the future
-		setInterval(() => {
+		const interval = setInterval(() => {
 			getlatestTransactions();
 		}, 60000);
 		return () => clearInterval(interval);
 	}, []);
-
+	useEffect(() => {
+		console.log("State was updated ", transactionClasses);
+	});
 	return (
-		<Content id="mywallet">
+		<Content id="mywallet" className="allow-scroll">
 			<Helmet>
 				<script src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js" />
 			</Helmet>
@@ -68,23 +76,83 @@ function MyWalletContent(props) {
 				background-color="#000" locale="en" />
 			<div>
 				<div>
-					<h1>{balance} UGD</h1>
+					<div className="currency--send">
+						<h1>{balance} UGD</h1>
+						<div className="btn--send">
+							<Button
+								buttonStyle="btn--secondary--solid"
+								handleClick={() => onSendClicked()}
+								buttonSize="btn--small">Send</Button>
+
+						</div>
+					</div>
 					<h2>
 						<span>Valued at {balance * selectedCurrency.rate}</span>
 						<Select className="select" classNamePrefix="select" options={currencies}
 							value={selectedCurrency} onChange={onChange} />
 					</h2>
 				</div>
-				<div className="cardGridContainer">
-					{renderTransactions()}
+				<div className={transactionClasses}
+					onAnimationEnd={onTransactionAnimationEnd}
+					onAnimationStart={onTransactionAnimationStart}>
+					<div className="cardGridContainer">
+						{renderTransactions()}
+					</div>
+				</div>
+
+				<div className={sendClasses}
+					onAnimationEnd={onSendAnimationEnd}>
+					<Send
+						sendCoins={(v) => sendCoins(v)}
+						defaultValues={{ "address1": { "address": "", "amount": "" } }}
+						cancelSendOperation={() => cancelSendOperation()}
+						setSendAmount={(v) => setSendAmount(v)}
+						setSendAddress={(v) => setSendAddress(v)}
+					/>
 				</div>
 				{renderSocial()}
 			</div>
 		</Content>
 	);
 
+	function cancelSendOperation() {
+		setSendState(false);
+		setTransactionClasses("transaction--openposition close--animation");
+		setSendClasses("send--close--animation send--container--open");
+	}
+
+	function onSendClicked() {
+		if (sendState === false) {
+			// set this to true so you cant keep opening the send window
+			setSendState(true);
+			setTransactionClasses("transaction--container--start transaction--open--animation");
+			setSendClasses("send--container--start send--open--animation");
+		}
+	}
+
+	function onTransactionAnimationEnd() {
+		if (transactionClasses === "transaction--container--start transaction--open--animation") {
+			setTransactionClasses("transaction--openposition");
+		} else if (transactionClasses === "transaction--openposition close--animation") {
+			setTransactionClasses("transaction--container--start");
+			// back to false so we can open again
+			setSendState(false);
+		}
+	}
+
+	function onSendAnimationEnd() {
+		if (sendClasses === "send--container--start send--open--animation") {
+			setSendClasses("send--container--open");
+		} else if (sendClasses === "transaction--openposition close--animation") {
+			setSendClasses("transaction--container--start");
+			setSendState(false);
+		}
+	}
+	function onTransactionAnimationStart() {
+		console.log("onAnimationStart");
+	}
 	function renderSocial() {
-		console.log('discord ', discordLink)
+		//console.log('discord ', discordLink)
 		return (
 			<div className="align--row social--conatiner">
 				<div className="social--padding">
@@ -161,7 +229,9 @@ function MyWalletContent(props) {
 		return (
 			Object.keys(transactions).map(key => {
 				return (
-					<div key={key} className="cellPadding"><Transaction data={transactions[key]} index={key} /></div>
+					<div key={key} className="cellPadding">
+						<Transaction data={transactions[key]} index={key} style="trans--short" />
+					</div>
 				)
 			})
 		)
@@ -173,6 +243,7 @@ function MyWalletContent(props) {
 		Promise.all([
 			rpcClient.getbalance(),
 			coinGecko.getsupported(),
+			rpcClient.listTransactions(),
 		]).then((response) => {
 			coinGecko.getprice("unigrid", response[1]).then((rates) => {
 				var currencies = Object.entries(rates.unigrid).map((currency) => {
@@ -185,7 +256,9 @@ function MyWalletContent(props) {
 					return v;
 				});
 				setBalance(response[0]);
-				setCurrencies(currencies)
+				setCurrencies(currencies);
+				const order = _.orderBy(response[2], ['timereceived'], ['desc']);
+				setTransactions(order);
 			});
 		});
 	}
@@ -196,9 +269,7 @@ function MyWalletContent(props) {
 			rpcClient.listTransactions(args),
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
-			console.log('send');
-			console.log(response);
-			// sort by epoch received time
+			console.log('getlatestTransactions ', response);
 			const order = _.orderBy(response[0], ['timereceived'], ['desc']);
 			setTransactions(order);
 			setResetValue("");
@@ -213,50 +284,61 @@ function MyWalletContent(props) {
 	}
 
 
-	async function sendCoins() {
-		// we need to validate the address first
-		// rpcClient.validateAddress(args),
+	async function sendCoins(recipients) {
+		ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
+		console.log("length ", Object.keys(recipients).length)
+		console.log(recipients);
+		//console.log("sendObject",)
 		var rpcClient = new RPCClient();
-		const args = [sendAddress, parseInt(sendAmount)];
-		Promise.all([
-			rpcClient.sendToAddress(args),
-			new Promise(resolve => setTimeout(resolve, 500))
-		]).then((response) => {
-			console.log('send');
-			console.log(response);
-			setResetValue("");
-		}, (stderr) => {
-			console.error(stderr);
-		});
+		if (Object.keys(recipients).length === 1) {
+			// single send
+			const address = recipients["address1"].address;
+			const amount = recipients["address1"].amount;
+			const args = [address, parseInt(amount)];
+			Promise.all([
+				rpcClient.sendToAddress(args),
+				new Promise(resolve => setTimeout(resolve, 500))
+			]).then((response) => {
+				console.log('send response: ', response[0]);
+
+				cancelSendOperation();
+				sendDesktopNotification(`Successfully sent ${amount} UGD to ${address}`);
+				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+
+				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
+				setResetValue("");
+			}, (stderr) => {
+				console.error(stderr);
+				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+			});
+		} else {
+			// multisend
+			const sendObject = new Object();
+			Object.keys(recipients).map(key => {
+				Object.assign(sendObject, { [recipients[key].address]: parseInt(recipients[key].amount) });
+			});
+			console.log("sendObject ", JSON.stringify(sendObject))
+
+			Promise.all([
+				rpcClient.sendMany("staking_2", sendObject),
+				new Promise(resolve => setTimeout(resolve, 500))
+			]).then((response) => {
+				console.log('send response: ', response[0]);
+
+				cancelSendOperation();
+				sendDesktopNotification(`Successfully sent to many`);
+				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+
+				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
+				setResetValue("");
+			}, (stderr) => {
+				console.error(stderr);
+				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+			});
+		}
+
 	}
 
 }
 
 export default MyWalletContent;
-
-/*
-<div className="grid--left">
-						<h3>Send UGD</h3>
-						<h2>
-							<span>Send to:
-						<EnterField
-									type={"text"}
-									clearField={resetValue}
-									style={"smallInput"}
-									onChange={v => setSendAddress(v)}
-								/>
-							</span>
-						</h2>
-						<h2>
-							<span>Amount:
-					<EnterField
-									type={"number"}
-									clearField={resetValue}
-									style={"smallInput"}
-									onChange={v => setSendAmount(v)} />
-							</span>
-						</h2>
-
-						<span><Button handleClick={() => sendCoins()}>SEND</Button></span>
-					</div>
-				*/

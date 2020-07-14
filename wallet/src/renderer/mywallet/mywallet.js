@@ -29,8 +29,8 @@ export default class MyWallet extends React.Component {
 	render() {
 		return (
 			<NavEntry>
-				<FontAwesomeIcon size="2x" icon="wallet" />
-				<div>My Wallet</div>
+				<div className="menu--icon"><FontAwesomeIcon size="lg" icon="wallet" /></div>
+				<div className="menu-title">Wallet</div>
 			</NavEntry >
 		);
 	}

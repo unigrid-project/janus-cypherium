@@ -31,12 +31,23 @@ body {
 	font-size: small;
 }
 
+div#masternodes.active {
+	overflow-y: hidden;
+	height: 1100px;
+}
+
+div#masternodes.inactive {
+	overflow-y: hidden;
+	height: 500px;
+}
+
+
 .topButtons {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
 	position: sticky;
-	height: 70px;
+	height: 45px;
 	top: 0;
 	background-color: rgb(15, 17, 24);
 	z-index: 100;
