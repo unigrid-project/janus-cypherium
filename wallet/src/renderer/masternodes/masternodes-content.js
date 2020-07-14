@@ -17,7 +17,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Content from "../content";
 import RPCClient from "../../common/rpc-client.js";
 import Button from "../../common/components/Button";
@@ -87,7 +87,7 @@ function MasternodesContent(props) {
 	function sendDesktopNotification(message) {
 		console.log('notify ', message)
 		let iconAddress = path.join(__static, '/solid_logo.png');
-		
+
 		notifier.notify({
 			'title': 'UNIGRID',
 			'message': message,
