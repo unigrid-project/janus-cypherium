@@ -19,40 +19,76 @@
 import React, { useState } from "react";
 import "./Address.css"
 import EnterField from "./EnterField";
+import { faClipboard } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Tooltip from "react-simple-tooltip";
+import { css } from "styled-components";
 
-function Address({ data, setAccountName }) {
+function Address({ data, setAccountName, copyAddress }) {
     const [showInput, setShowInput] = useState(false);
     const [address] = useState(data[0]);
     const [accountName] = useState(data[2]);
     const [changeAcountName, setChangeAccountName] = useState("");
     const [resetInput, setResetInput] = useState();
+
     return (
         <div className="addressContainer">
-            <div className="address--div">{data[0]}</div>
-            <div className="amount">{data[1]}</div>
-            <div className="account">{getAccountField(data[2])}</div>
+            <div className="address--div address--item">
+                {data[0]}</div>
+            <div className="clipboard address--item">
+                <FontAwesomeIcon size="sm" icon={faClipboard} color="white" onClick={() => copyAddress(data[0])} />
+            </div>
+            <div className="amount address--item">
+                <Tooltip
+                    arrow={10}
+                    zIndex={200}
+                    fadeDuration={150}
+                    radius={10}
+                    fontFamily='Roboto'
+                    fontSize='5'
+                    fadeEasing="linear"
+                    background={css`
+                    var(--success)
+                  `}
+                    content={data[1].toFixed(8)}
+                    customCss={css`
+                    white-space: nowrap;
+                  `}
+                >
+                    {data[1]}
+                </Tooltip>
+            </div>
+            <div className="account address--item">{getAccountField(data[2])}</div>
         </div>
     )
     function getAccountField(account) {
-        if (!account) account = "add name";
+        if (!account || account === " ") account = "add name";
+
         return (showInput === true ?
-            <EnterField inputType="text"
+            <EnterField
+                inputType="text"
                 inputValue={account} myStyle="xsmallInput"
                 updateEntry={updateAccountName}
                 clearField={resetInput}
+                placeHolder="Enter Name"
+                onBlurOut={() => switchInput()}
                 enterPressed={() => switchInput()} />
             :
-            <div onClick={switchInput}>{account}</div>
+            <div className={account === "add name" ? "noaccountname" : "accountname"}
+                onClick={switchInput}>{account}</div>
         )
     }
+
     function updateAccountName(e) {
         setChangeAccountName(e);
     }
+
     function switchInput() {
-        console.log("switch input");
+        console.log("switch input: ", address , " ", changeAcountName);
         let data = [address, changeAcountName];
         if (showInput === true) setAccountName(data);
         setResetInput("");
+        setChangeAccountName("");
         setShowInput(!showInput);
     }
 }

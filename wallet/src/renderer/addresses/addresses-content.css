@@ -21,8 +21,57 @@ body {
 	font-family: "Roboto", sans-serif;
 	font-size: medium;
 }
+div#addressbook.active {
+	overflow-y: hidden;
+	height: 1500px;
+}
+
+div#addressbook.inactive {
+	overflow-y: hidden;
+	height: 500px;
+}
+
+.address--top--item {
+	padding: 10px 0px 10px 20px;
+}
+
+.address--item {
+	padding: 0px 5px 5px 5px;
+}
 
 .address--result {
 	display: flex;
 	flex-direction: row;
+}
+
+.content--title {
+	padding: 0px 0px 5px 10px;
+}
+
+div#addressbook>* {
+	padding: 0px;
+}
+
+.address-clipboard--hidden {
+	visibility: hidden;
+}
+
+.address-clipboard--shown {
+	visibility: visible;
+}
+
+.align--row--flexstart svg {
+	transition: transform .2s ease-in-out;
+	cursor: pointer;
+	transform: scale(1.15);
+}
+
+.align--row--flexstart svg:hover {
+	transform: scale(1.5);
+	color: lawngreen;
+}
+
+.align--row--flexstart svg:active {
+	transform: scale(0.5);
+	color: #fff;
 }

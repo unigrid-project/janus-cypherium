@@ -28,7 +28,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { clipboard } from "electron";
 import _ from 'lodash';
 import Address from "../../common/components/Address";
-
+import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
+import "./addresses-content.css"
 library.add(faClipboard);
 
 function AddressesContent() {
@@ -36,35 +37,61 @@ function AddressesContent() {
 	const [clearField, setClearField] = useState("");
 	const [responseAddress, setResponseAddress] = useState();
 	const [localAddresses, setLocaAddresses] = useState();
+	const [renderBool, setRenderBool] = useState(false);
+	const [addressClipboard, setAddressClipboard] = useState("address-clipboard--hidden");
 	useEffect(() => {
 		var rpcClient = new RPCClient();
 		Promise.all([
 			rpcClient.listAddressGroupings(),
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
-			console.log('address groupings', response[0]);
+			//console.log('address groupings', response[0]);
 			let flat = _.flatten(response[0]);
-			setLocaAddresses(flat);
+			const order = _.orderBy(flat, [1], ['desc']);
+			setLocaAddresses(order);
 		}, (stderr) => {
 			console.error(stderr);
 		});
 	}, []);
 	return (
 		<Content id="addressbook">
-			<h1>Enter Address Name:</h1>
-			<EnterField
-				key={clearField}
-				type={"text"}
-				clearField={clearField}
-				myStyle={"unlockInput"}
-				updateEntry={onAddressChange} />
-			<Button handleClick={() => onGenerateNewAddressClicked()}>Generate Address</Button>
-			<span>
-				{responseAddress}
-				<FontAwesomeIcon size="2x" icon={faClipboard} color="white" onClick={copyToClipboard} />
-			</span>
-			<Button handleClick={() => listAddressGroupings()}>Address Groupings</Button>
-			<div>{getLocalAddresses()}</div>
+			<div>
+				<div className="align--row--flexstart address--top--item">
+					<EnterField
+						key={renderBool}
+						type={"text"}
+						clearField={clearField}
+						myStyle="accountNameInput"
+						placeHolder="Enter Address Name:"
+						updateEntry={onAddressChange} />
+					<Button
+						buttonStyle="btn--secondary--solid"
+						buttonSize="btn--small"
+						handleClick={() => onGenerateNewAddressClicked()}>Generate Address</Button>
+				</div>
+			</div>
+
+			<div>
+				<div className={addressClipboard}>
+					<div className="align--row--flexstart address--top--item">
+						{responseAddress}
+						<div>
+							<FontAwesomeIcon size="lg" icon={faClipboard} color="white" onClick={copyToClipboardAndHide} />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div />
+			<div>
+				<div className="content--title">
+					<h4>Local Addresses:</h4>
+				</div>
+			</div>
+			<div>
+				<div className="address--item">{getLocalAddresses()}</div>
+			</div>
+
 		</Content>
 	);
 
@@ -78,7 +105,11 @@ function AddressesContent() {
 		return (
 			Object.keys(localAddresses).map(key => {
 				return (
-					<Address key={key} data={localAddresses[key]} setAccountName={(e) => updateAccountName(e)} />
+					<Address
+						key={key}
+						data={localAddresses[key]}
+						copyAddress={(v) => copyToClipboard(v)}
+						setAccountName={(e) => updateAccountName(e)} />
 				)
 			})
 		)
@@ -91,16 +122,24 @@ function AddressesContent() {
 			rpcClient.setAccountName(args),
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
-			console.log("updating account name ", data[0])
+			//console.log("updating account name ", data[0])
 			listAddressGroupings();
 		}, (stderr) => {
 			console.error(stderr);
 		});
 	}
 
-	function copyToClipboard() {
-		clipboard.writeText(responseAddress, 'selection')
-		console.log(clipboard.readText('selection'))
+	function copyToClipboardAndHide() {
+		clipboard.writeText(responseAddress, 'clipboard');
+		console.log(clipboard.readText('clipboard'));
+		sendDesktopNotification(`${responseAddress} copied to clipboard`);
+		setAddressClipboard("address-clipboard--hidden");
+	}
+	function copyToClipboard(v) {
+		//responseAddress
+		clipboard.writeText(v, 'clipboard')
+		console.log(clipboard.readText('clipboard'))
+		sendDesktopNotification(`${v} copied to clipboard`);
 	}
 
 	async function listAddressGroupings() {
@@ -111,8 +150,8 @@ function AddressesContent() {
 		]).then((response) => {
 
 			let flat = _.flatten(response[0]);
-			console.log('address groupings flat ', flat);
-			setLocaAddresses(flat);
+			const order = _.orderBy(flat, [1], ['desc']);
+			setLocaAddresses(order);
 		}, (stderr) => {
 			console.error(stderr);
 		});
@@ -123,9 +162,9 @@ function AddressesContent() {
 			rpcClient.generateNewAddress([addressName]),
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
-			console.log('address');
-			console.log(response);
 			setClearField("");
+			setRenderBool(!renderBool);
+			setAddressClipboard("address-clipboard--shown");
 			setResponseAddress(response[0]);
 		}, (stderr) => {
 			console.error(stderr);
