@@ -70,6 +70,7 @@ function TransactionsContent(props) {
 		var rpcClient = new RPCClient();
 		var exportCSV = new ExportCSV();
 		let args = ["*", parseInt(10000000), parseInt(0)];
+		console.log("time start: ",new Date());
 		Promise.all([
 			rpcClient.listTransactions(args),
 			new Promise(resolve => setTimeout(resolve, 500))

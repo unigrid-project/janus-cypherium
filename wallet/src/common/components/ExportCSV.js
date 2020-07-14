@@ -24,7 +24,7 @@ export default class ExportCSV {
 
         // Save to file:
         await csv.toDisk('./test.csv');
-
+        console.log("time end: ",new Date());
         // Return the CSV file as string:
         console.log(await csv.toString());
     }
