@@ -69,8 +69,8 @@ function SendInputs({
                     :
                     null}
             </div>
-            {warningMessage !== "" ? null : null}
-            {renderWarning()}
+            {warningMessage !== "" ? renderWarning() : null}
+
         </div>
     )
     function renderWarning() {

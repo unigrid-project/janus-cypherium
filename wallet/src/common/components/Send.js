@@ -115,8 +115,8 @@ function Send({
 
     function createRecipient(key) {
         const showRemove = key !== "address1";
-        console.log("render address", recipients[key].address);
-        console.log("render amount", recipients[key].amount);
+        //console.log("render address", recipients[key].address);
+        //console.log("render amount", recipients[key].amount);
         const amount = recipients[key].amount;
         const address = recipients[key].address;
         const isValid = recipients[key].isValid;

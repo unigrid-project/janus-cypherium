@@ -40,6 +40,7 @@
     flex-direction: row;
     align-items: center;
     text-align: left;
+    color: lightgoldenrodyellow;
 }
 
 .send--inner--container>div {
