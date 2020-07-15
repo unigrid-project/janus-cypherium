@@ -21,56 +21,112 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import Content from "../content";
 import Button from "../../common/components/Button";
 import RPCClient from "../../common/rpc-client.js";
-import Transaction from "../../common/components/Transaction";
 import "./transactions-content.css";
-import _ from "lodash";
 import ExportCSV from "../../common/components/ExportCSV";
+import TransactionLoader from "./TransactionLoader";
+import _ from "lodash";
+import { ipcRenderer, remote } from "electron";
 
 function TransactionsContent(props) {
-	const [transactions, setTransactions] = useState(null);
-	const ref = useRef(props.current);
+	const [transactions, setTransactions] = useState({});
+	const scroll = useRef(null);
+	const [pageCount, setPageCount] = useState(1);
+	//const [dataLength, setDataLength] = useState(0);
+	const [doneLoading, setDoneLoading] = useState(false);
+	const [loadingStatus, setLoadingStatus] = useState("idle");
+	const [loadMore, setLoadMore] = useState(false);
 	useEffect(() => {
-		loadTransactionData();
+		loadTransactionData(true);
 	}, []);
+
+	useEffect(() => {
+		// load more transactions 
+		loadTransactionData(loadMore);
+	}, [loadMore]);
 
 	return (
 		<Content id="transactions" >
-			<div className="transaction--container transaction--top--item">
+			<div className="transaction--container transaction--top--item" ref={scroll}>
 				<div className="align--row--flexstart">
-					<Button handleClick={loadTransactionData} buttonSize="btn--small">
+					<Button handleClick={() => loadTransactionData(false)} buttonSize="btn--small">
 						Load Transactions
 					</Button>
 					<Button handleClick={exportToCSV} buttonSize="btn--small">
 						Export CSV
 					</Button><div></div>
 				</div>
-
-				<div>{transactions !== null ? renderTransactions() : null}</div>
+				<div >
+					<TransactionLoader
+						key={Object.keys(transactions).length}
+						loadMore={loadMore}
+						transactions={transactions}
+						readyForMore={readyForMore}
+						scroll={scroll}
+						doneLoading={doneLoading} />
+				</div>
 			</div>
 		</Content>
 	);
-
-	function loadTransactionData() {
-		//console.log('transactions?')
-		var rpcClient = new RPCClient();
-		let args = ["*", parseInt(50), parseInt(0)];
-		Promise.all([
-			rpcClient.listTransactions(args),
-			new Promise(resolve => setTimeout(resolve, 500))
-		]).then((response) => {
-			console.log("trans res ", response)
-			const order = _.orderBy(response[0], ['timereceived'], ['desc']);
-			setTransactions(order);
-			console.log("transactions ", order)
-		}, (stderr) => {
-			console.error(stderr);
-		});
+	function readyForMore() {
+		console.log("ready for more")
+		setLoadMore(true);
+		
 	}
+	async function loadTransactionData(load) {
+		if (load) {
+			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
+			setLoadingStatus("loading");
+			//console.log('transactions?')
+
+			var count = 1;
+			var startNumber = Object.keys(transactions).length;
+			if (pageCount > 1) {
+				console.log("startNum ", startNumber)
+				count = pageCount + 1;
+				setPageCount(count);
+				//setLoadCount(startNumber);
+			}
+
+			var rpcClient = new RPCClient();
+			let args = ["*", parseInt(20), parseInt(startNumber)];
+
+			Promise.all([
+				rpcClient.listTransactions(args),
+				new Promise(resolve => setTimeout(resolve, 500))
+			]).then((response) => {
+				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+				//console.log("trans res ", response[0].length)
+				if (response[0].length === 0) {
+					console.log("DONE LOADING ALL TRANSACTIONS!");
+					setDoneLoading(true);
+					setLoadMore(true);
+					return;
+				}
+				const order = _.orderBy(response[0], ['timereceived'], ['desc']);
+				let mergedLength = 0;
+				// if loading new data merge transactions here
+				if (count > 1) {
+					const newOrder = transactions.concat(order);
+					setTransactions(newOrder);
+					setLoadMore(false);
+				} else {
+					count = pageCount + 1;
+					setPageCount(count);
+					setTransactions(order);
+					setLoadMore(false);
+				}
+			}, (stderr) => {
+				console.error(stderr);
+			});
+		}
+
+	}
+
 	function exportToCSV() {
 		var rpcClient = new RPCClient();
 		var exportCSV = new ExportCSV();
 		let args = ["*", parseInt(10000000), parseInt(0)];
-		console.log("time start: ",new Date());
+		console.log("time start: ", new Date());
 		Promise.all([
 			rpcClient.listTransactions(args),
 			new Promise(resolve => setTimeout(resolve, 500))
@@ -81,19 +137,10 @@ function TransactionsContent(props) {
 			console.error(stderr);
 		});
 	}
-	function renderTransactions() {
-		//console.log('render transactions', transactions)
-		if (!transactions) return null;
-		return (
-			Object.keys(transactions).map(key => {
-				return (
-					<div key={key} className="transaction--item">
-						<Transaction data={transactions[key]} index={key} style="trans--long" />
-					</div>
-				)
-			})
-		)
-	}
+
 }
 export default TransactionsContent;
 
+/*
+
+		*/
