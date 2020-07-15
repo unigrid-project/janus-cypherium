@@ -53,7 +53,7 @@ const routes = {
 		<ControlBar key={1} headerText="UNIGRID" fullControls={true} />,
 		<div className="nav" key={2}>
 			<NavBar />
-			<div>
+			<div id="maincontainer">
 				<MyWalletContent key="mywallet-content" active={true} />
 				<AddressesContent key="addressbook-content" />
 				<TransactionsContent key="transactions-content" />

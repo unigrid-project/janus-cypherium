@@ -25,12 +25,12 @@ div#mywallet>div {
 
 div#mywallet.active {
 	overflow-y: hidden;
-	height: 500px;
+	height: 100%;
 }
 
 div#mywallet.inactive {
 	overflow-y: hidden;
-	height: 500px;
+	height: 100%;
 }
 
 .allow-scroll {

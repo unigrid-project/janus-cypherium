@@ -30,6 +30,7 @@ import _ from 'lodash';
 import Address from "../../common/components/Address";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import "./addresses-content.css"
+
 library.add(faClipboard);
 
 function AddressesContent() {
@@ -53,6 +54,7 @@ function AddressesContent() {
 			console.error(stderr);
 		});
 	}, []);
+	
 	return (
 		<Content id="addressbook">
 			<div>

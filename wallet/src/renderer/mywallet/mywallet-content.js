@@ -62,9 +62,7 @@ function MyWalletContent(props) {
 		}, 60000);
 		return () => clearInterval(interval);
 	}, []);
-	useEffect(() => {
-		console.log("State was updated ", transactionClasses);
-	});
+	
 	return (
 		<Content id="mywallet" className="allow-scroll">
 			<Helmet>

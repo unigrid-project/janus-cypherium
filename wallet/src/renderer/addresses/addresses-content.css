@@ -28,7 +28,7 @@ div#addressbook.active {
 
 div#addressbook.inactive {
 	overflow-y: hidden;
-	height: 500px;
+	height: 100%;
 }
 
 .address--top--item {
