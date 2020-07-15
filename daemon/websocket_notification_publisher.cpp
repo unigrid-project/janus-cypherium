@@ -29,9 +29,9 @@ class WebSocketNotificationPublisher : public std::enable_shared_from_this<WebSo
     int data;
     websocket::stream<beast::tcp_stream> ws_;
     beast::flat_buffer buffer_;
-    boost::asio::make_strand(socket.get_executor())
-        // Private constructor so that no objects can be created.
-        WebSocketNotificationPublisher()
+    boost::asio::make_strand(socket.get_executor());
+    // Private constructor so that no objects can be created.
+    WebSocketNotificationPublisher()
     {
         data = 0;
     }
@@ -224,8 +224,6 @@ WebSocketNotificationPublisher* WebSocketNotificationPublisher::instance = 0;
 int main()
 {
     WebSocketNotificationPublisher* s = s->getInstance();
-    cout << s->getData() << endl;
-    s->setData(100);
-    cout << s->getData() << endl;
+
     return 0;
 }
