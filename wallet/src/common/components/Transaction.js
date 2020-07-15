@@ -18,12 +18,12 @@
 
 import React, { useState, useEffect } from "react";
 import "./Transaction.css";
-import { faSignInAlt, faSignOutAlt, faCoins, faClock, faCompass } from "@fortawesome/free-solid-svg-icons";
+import { faSignInAlt, faSignOutAlt, faCoins, faClock, faCompass, faCubes } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import Tooltip from "react-simple-tooltip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { css } from "styled-components";
-library.add(faSignInAlt, faSignOutAlt, faCoins, faClock);
+library.add(faSignInAlt, faSignOutAlt, faCoins, faClock, faCubes);
 
 function Transaction({ data, index, style }) {
     const [amount] = useState(data.amount);
@@ -37,7 +37,7 @@ function Transaction({ data, index, style }) {
             setNumberWidth("short--div");
             setLargeTrans(false);
         }
-        console.log("transaction style: ", style);
+        //console.log("transaction style: ", style);
     }, []);
     return (
         <div className={"transaction--main " + style}>
@@ -63,6 +63,27 @@ function Transaction({ data, index, style }) {
                   `}
                 >
                     {getTimeObject(data.timereceived)}
+
+                </Tooltip>
+            </div >
+            <div className="trans--item">
+                <Tooltip
+                    arrow={10}
+                    zIndex={200}
+                    fadeDuration={150}
+                    radius={10}
+                    fontFamily='Roboto'
+                    fontSize='5'
+                    fadeEasing="linear"
+                    background={css`
+                    var(--tooltip--background)
+                  `}
+                    content={getBlockCount(data.confirmations)}
+                    customCss={css`
+                    white-space: nowrap;
+                  `}
+                >
+                    {getBlockObject(data.confirmations)}
 
                 </Tooltip>
             </div >
@@ -155,6 +176,41 @@ function Transaction({ data, index, style }) {
         } else {
             return <FontAwesomeIcon size="lg" icon={faClock} color="white" />;
         }
+    }
+    function getBlockCount(conf) {
+        return (
+            <div>
+                <div>{conf}</div>
+                <div>confirmations</div>
+            </div>
+        )
+
+    }
+    function getBlockObject(conf) {
+        let color = "";
+        switch (conf) {
+            case 0:
+                color = "grey";
+                break;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                color = "lightcoral";
+                break;
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+                color = "lightyellow";
+                break;
+
+            default:
+                color = "lightgreen";
+                break;
+        }
+        return <FontAwesomeIcon size="lg" icon={faCubes} color={color} />;
     }
     function getCategory(cat) {
         return cat;

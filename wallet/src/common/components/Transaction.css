@@ -69,7 +69,7 @@ body {
 
 .trans--item:nth-child(2) {
     order: 0;
-    flex: 1 1 40px;
+    flex: 2 1 0px;
     align-self: auto;
 }
 
@@ -81,17 +81,22 @@ body {
 
 .trans--item:nth-child(4) {
     order: 0;
-    flex: 4 1 0px;
+    flex: 1 1 0px;
     align-self: auto;
 }
 
 .trans--item:nth-child(5) {
     order: 0;
-    flex: 1 1 0px;
+    flex: 3 1 0px;
     align-self: auto;
 }
 
 .trans--item:nth-child(6) {
+    order: 0;
+    flex: 1 1 0px;
+    align-self: auto;
+}
+.trans--item:nth-child(7) {
     order: 0;
     flex: 3 1 0px;
     align-self: auto;
