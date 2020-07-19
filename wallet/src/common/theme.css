@@ -29,6 +29,7 @@
     --dark: rgb(31, 30, 30);
     --border--active: rgb(22, 26, 56);
     --border--hover: rgb(22, 26, 56);
+    --btn--disabled: rgb(39, 39, 39);
     --button--background: #000;
     --fontFamily: 'Roboto', sans-serif;
     --container--background: rgb(26, 28, 43);
