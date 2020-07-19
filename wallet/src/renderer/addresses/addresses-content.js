@@ -30,6 +30,7 @@ import _ from 'lodash';
 import Address from "../../common/components/Address";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import "./addresses-content.css"
+import { ipcRenderer, remote } from "electron";
 
 library.add(faClipboard);
 
@@ -53,6 +54,9 @@ function AddressesContent() {
 		}, (stderr) => {
 			console.error(stderr);
 		});
+		ipcRenderer.on('reload-addresses', (event, message) => {
+            listAddressGroupings();
+        });
 	}, []);
 	
 	return (
