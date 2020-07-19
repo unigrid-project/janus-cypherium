@@ -22,4 +22,6 @@ export const twitterLink = "https://twitter.com/unigrid_org";
 
 export const telegramLink = "https://t.me/unigrid";
 
+export const explorerLink = "http://explorer.unigrid.org/";
+
 
