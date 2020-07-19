@@ -26,6 +26,7 @@ const CheckBox = (props) => {
         setIschecked(event.target.checked);
         if (props.handleCheckBox) props.handleCheckBox(event);
     }
+
     return (
         <div>
             <label className={labelTheme}>

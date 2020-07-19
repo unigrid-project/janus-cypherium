@@ -35,6 +35,12 @@ div#settings.inactive {
     padding: 5px;
 }
 
+.settings--fonts{
+    font-family: "Roboto", sans-serif;
+    font-size: 15;
+    font-weight: 500;
+    color: whitesmoke;
+}
 .input--container {
     align-items: flex-start;
     padding: 10px;

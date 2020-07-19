@@ -21,6 +21,7 @@ import React, { useEffect, useState } from "react";
 import Content from "../content";
 import Store from "electron-store";
 import Button from "../../common/components/Button";
+import CheckBox from "../../common/components/CheckBox";
 import WarningMessage from "../../common/components/WarningMessage";
 import Expand from "react-expand-animated";
 import EnterField from "../../common/components/EnterField";
@@ -41,10 +42,17 @@ function SettingsContent(props) {
 	const [repeatKey, setRepeatKey] = useState();
 	const [encryptKey, setEncryptKey] = useState();
 	const [encryptingWallet, setEncryptingWallet] = useState(false);
+	const [hideZeroBalances, setHideZeroBalances] = useState(false);
 	useEffect(() => {
-		console.log("getting store: ");
+		checkLocalStore();
+		//console.log("showzerobalance ", store.get("showzerobalance"));
 		setIsEncrypted(store.get("encrypted"));
 	}, [])
+	useEffect(() => {
+		console.log("hideZeroBalances ", hideZeroBalances);
+		store.set("showzerobalance", hideZeroBalances);
+		ipcRenderer.sendTo(remote.getCurrentWebContents().id, 'reload-addresses');
+	}, [hideZeroBalances])
 	useEffect(() => {
 		console.log("isEncrypted: ", isEncrypted);
 
@@ -58,7 +66,6 @@ function SettingsContent(props) {
 		<Content id="settings">
 			<div className="main--settings-container" >
 				<div>Settings</div>
-
 				<Button
 					key={encryptKey}
 					handleClick={() => setOpenEncrypt(!openEncrypt)}
@@ -68,7 +75,14 @@ function SettingsContent(props) {
 				<div>
 					{renderEncryptWallet()}
 				</div>
-
+				<div>
+					<CheckBox
+						key={hideZeroBalances}
+						selected={hideZeroBalances}
+						labelTheme="settings--fonts"
+						label="Hide zero balance addresses"
+						handleCheckBox={(e) => setHideZeroBalances(e.target.checked)} />
+				</div>
 				<Button
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid">Backup Wallet</Button>
@@ -125,7 +139,7 @@ function SettingsContent(props) {
 		});
 	}
 	function renderEncryptWallet() {
-		if (!openEncrypt) return null
+		//if (!openEncrypt) return <div/>
 		return (
 			<Expand open={openEncrypt}>
 				<div className="input--container" key={passKey}>
@@ -165,6 +179,7 @@ function SettingsContent(props) {
 			</Expand >
 		)
 	}
+
 	function renderWarning() {
 		return (
 			<WarningMessage
@@ -175,6 +190,14 @@ function SettingsContent(props) {
 	}
 	function onAnimationComplete() {
 		setWarningMessage("");
+	}
+	function checkLocalStore() {
+		let v = store.get("showzerobalance");
+		if (v === undefined) {
+			setHideZeroBalances(true);
+		} else {
+			setHideZeroBalances(v);
+		}
 	}
 }
 

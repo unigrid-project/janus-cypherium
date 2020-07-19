@@ -31,7 +31,9 @@ import Address from "../../common/components/Address";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import "./addresses-content.css"
 import { ipcRenderer, remote } from "electron";
+import Store from "electron-store";
 
+const store = new Store();
 library.add(faClipboard);
 
 function AddressesContent() {
@@ -41,24 +43,14 @@ function AddressesContent() {
 	const [localAddresses, setLocaAddresses] = useState();
 	const [renderBool, setRenderBool] = useState(false);
 	const [addressClipboard, setAddressClipboard] = useState("address-clipboard--hidden");
+
 	useEffect(() => {
-		var rpcClient = new RPCClient();
-		Promise.all([
-			rpcClient.listAddressGroupings(),
-			new Promise(resolve => setTimeout(resolve, 500))
-		]).then((response) => {
-			//console.log('address groupings', response[0]);
-			let flat = _.flatten(response[0]);
-			const order = _.orderBy(flat, [1], ['desc']);
-			setLocaAddresses(order);
-		}, (stderr) => {
-			console.error(stderr);
-		});
+		listAddressGroupings();
 		ipcRenderer.on('reload-addresses', (event, message) => {
-            listAddressGroupings();
-        });
+			listAddressGroupings();
+		});
 	}, []);
-	
+
 	return (
 		<Content id="addressbook">
 			<div>
@@ -150,13 +142,28 @@ function AddressesContent() {
 
 	async function listAddressGroupings() {
 		var rpcClient = new RPCClient();
+
+		let showZeroBalanceAddresses = store.get("showzerobalance");
 		Promise.all([
 			rpcClient.listAddressGroupings(),
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
 
 			let flat = _.flatten(response[0]);
-			const order = _.orderBy(flat, [1], ['desc']);
+			let order = []
+			if (showZeroBalanceAddresses) {
+				var filterArr = [];
+				flat.forEach((address) => {
+					if (address[1] != 0) {
+						filterArr.push(address);
+					}
+				})
+				order = _.orderBy(filterArr, [1], ['desc']);
+				console.log("omit 0 ", order);
+			} else {
+				order = _.orderBy(flat, [1], ['desc']);
+			}
+
 			setLocaAddresses(order);
 		}, (stderr) => {
 			console.error(stderr);
