@@ -52,6 +52,10 @@ export default class RPCClient {
 		return await this.send_command(command, args);
 	}
 
+	async encryptWallet(args) {
+		return await this.send_command("encryptwallet", args);
+	}
+
 	async getbalance() {
 		return await this.send_command("getbalance");
 	}
@@ -86,6 +90,10 @@ export default class RPCClient {
 
 	async setAccountName(args) {
 		return await this.send_command("setaccount", args);
+	}
+
+	async setTxFee(args) {
+		return await this.send_command("settxfee", args);
 	}
 
 	async startMasternodeCommand(args) {
