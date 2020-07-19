@@ -43,17 +43,25 @@ function EnterField({
       if (enterPressed) enterPressed();
     }
   }
+
   return (
     <>
-      <input type={inputType}
-        value={inputValue} 
+      <input
+        type={inputType}
+        value={inputValue}
         name="input-form"
-        onChange={handleChange}
+        onChange={(e) => {
+          e.preventDefault();
+          handleChange(e);
+        }}
+        step="0.01"
         onKeyDown={handleKeyDown}
         onBlur={onBlurOut}
         placeholder={placeValue}
+        precision={8}
         className={style} />
     </>
   );
+  
 }
 export default EnterField;
