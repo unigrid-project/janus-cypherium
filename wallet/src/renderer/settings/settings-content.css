@@ -1,0 +1,65 @@
+/*
+ * This file is part of The UNIGRID Wallet
+ * Copyright (C) 2020 The UNIGRID Organization
+ *
+ * The UNIGRID Wallet is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * The UNIGRID Wallet is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+div#settings.active {
+    overflow-y: scroll;
+    height: 100%;
+}
+
+div#settings.inactive {
+    overflow-y: hidden;
+    height: 500px;
+}
+
+.main--settings-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.main--settings-container>div {
+    padding: 5px;
+}
+
+.input--container {
+    align-items: flex-start;
+    padding: 10px;
+    background-color: var(--select--background);
+    border-radius: 10px;
+    border: 1.5px solid var(--border--active);
+}
+
+.confirm-btns {
+    padding-left: 5px;
+    display: flex;
+    flex-direction: row;
+    max-height: 19px;
+}
+
+.input--container>div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    color: lightcyan;
+}
+
+.input--fields {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
