@@ -35,7 +35,7 @@ const STYLES = [
     "btn--white--outline",
 ];
 
-const SIZES = ["btn--medium", "btn--large", "btn--small"];
+const SIZES = ["btn--medium", "btn--large", "btn--small", "btn--tiny"];
 
 function Button(props) {
     const [children] = useState(props.children);
@@ -43,17 +43,27 @@ function Button(props) {
     const [titleStyle] = useState(props.titleStyle);
     const [buttonSize] = useState(props.buttonSize);
     const [name] = useState(props.name);
+    const [disabled] = useState(props.disabled);
     const checkButtonStyles = STYLES.includes(buttonStyle)
         ? buttonStyle : STYLES[0];
     const checkButtonSize = SIZES.includes(buttonSize)
         ? buttonSize : SIZES[0];
-
+    /*useEffect(() => {
+        effect
+        return () => {
+            cleanup
+        }
+    }, [input])*/
     return (
         <div >
             <button
                 key={name}
+                disabled={disabled}
                 className={`btn ${checkButtonStyles} ${checkButtonSize}`}
-                onClick={() => props.handleClick(name)}>
+                onClick={(e) => {
+                    e.preventDefault();
+                    props.handleClick(name)
+                }}>
                 <div className={titleStyle}>
                     {children}
                 </div>

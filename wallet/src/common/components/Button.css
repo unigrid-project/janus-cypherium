@@ -32,6 +32,19 @@
     transform: scale(.9);
 }
 
+.btn:disabled {
+    background-color: var(--btn--disabled);
+    color: var(--white);
+    border: none;
+}
+
+.btn:disabled:hover {
+    background-color: var(--btn--disabled);
+    transform: scale(1);
+    color: var(--white);
+    border: none;
+}
+
 .btn:focus {
     outline: none;
 }
@@ -131,5 +144,12 @@
 .btn--small {
     padding: 5px 10px;
     font-size: 15px;
+    color: var(--white)
+}
+
+.btn--tiny {
+    padding: 3px 7px;
+    font-size: 11px;
+    font-weight: 600;
     color: var(--white)
 }
