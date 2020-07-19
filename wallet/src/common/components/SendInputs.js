@@ -26,6 +26,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RPCClient from "common/rpc-client.js";
 import WarningMessage from "./WarningMessage";
+import { ipcRenderer, remote } from "electron";
+
 library.add(faTimesCircle);
 
 function SendInputs({
@@ -47,18 +49,18 @@ function SendInputs({
                     key={inputValueAddress + "address"}
                     type={"text"}
                     clearField={inputValueAddress}
-                    myStyle={"addressInput"}
+                    myStyle={"medium--input"}
                     onBlurOut={onBlurOutAddress}
                     placeHolder="Address"
-                    updateEntry={(v) => setSendAddress(v, recipientKey)}
+                    updateEntry={(v) => sendAddressChangeSignal(v)}
                 />
                 <EnterField
                     placeHolder="Amount"
                     key={inputValueAmount + "amount"}
-                    type={"float"}
+                    type={"number"}
                     clearField={inputValueAmount}
                     myStyle={"smallInput"}
-                    updateEntry={(v) => setSendAmount(v, recipientKey)}
+                    updateEntry={(v) => sendAmountChangeSignal(v)}
                 />
                 {showRemove === true ?
                     <div onClick={() => removeRecipient(recipientKey)}>
@@ -73,6 +75,21 @@ function SendInputs({
 
         </div>
     )
+
+    function sendAmountChangeSignal(v) {
+        let obj = {
+            amount: v,
+            key: recipientKey
+        };
+        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "update-amount", obj);
+    }
+    function sendAddressChangeSignal(v) {
+        let obj = {
+            address: v,
+            key: recipientKey
+        };
+        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "update-address", obj);
+    }
     function renderWarning() {
         return (
             <WarningMessage
@@ -84,6 +101,12 @@ function SendInputs({
     function onAnimationComplete() {
         setWarningMessage("");
     }
+
+    function onBlurOutAmount(e) {
+        //updateEntry={(a) => setSendAmount(a, recipientKey)}
+        let amount = e.target.value;
+        setSendAmount(amount, recipientKey)
+    }
     async function onBlurOutAddress(e) {
         console.log(e.target.value);
         var rpcClient = new RPCClient();
@@ -93,7 +116,11 @@ function SendInputs({
             new Promise(resolve => setTimeout(resolve, 500))
         ]).then((response) => {
             setIsValid(response[0].isvalid, recipientKey);
-            if (!response[0].isvalid) setWarningMessage("Address is not valid!");
+            if (!response[0].isvalid) {
+                setWarningMessage("Address is not valid!");
+                // make sure send button is disabled until 
+                // it's valid
+            }
         }, (stderr) => {
             console.error(stderr);
         });

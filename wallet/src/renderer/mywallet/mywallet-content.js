@@ -25,7 +25,6 @@ import CoinGecko from "common/coingecko.js";
 import RPCClient from "common/rpc-client.js";
 import Content from "../content";
 import "./mywallet-content.css";
-import EnterField from "../../common/components/EnterField";
 import Button from "../../common/components/Button";
 import Transaction from "../../common/components/Transaction";
 import _ from "lodash";
@@ -45,15 +44,19 @@ function MyWalletContent(props) {
 	const [balance, setBalance] = useState(0);
 	const [currencies, setCurrencies] = useState([]);
 	const [selectedCurrency, setSelectedCurrency] = useState({ value: currency, label: currency, rate: 0 });
-	const [sendAmount, setSendAmount] = useState();
-	const [resetValue, setResetValue] = useState();
-	const [sendAddress, setSendAddress] = useState();
 	const [transactions, setTransactions] = useState();
+	const [sendKey, setSendKey] = useState();
 	const [sendState, setSendState] = useState(false);
 	const [transactionClasses, setTransactionClasses] = useState("transaction--container--start");
 	const [sendClasses, setSendClasses] = useState("send--container--start");
 	useEffect(() => {
 		getData();
+		ipcRenderer.on("cancel-send-operation", (event, message) => {
+			console.log("cencel send ");
+			cancelSendOperation();
+		});
+
+
 		// get data every minute for now
 		// this will be converted to a websocket 
 		// in the future
@@ -62,7 +65,7 @@ function MyWalletContent(props) {
 		}, 60000);
 		return () => clearInterval(interval);
 	}, []);
-	
+
 	return (
 		<Content id="mywallet" className="allow-scroll">
 			<Helmet>
@@ -100,13 +103,7 @@ function MyWalletContent(props) {
 
 				<div className={sendClasses}
 					onAnimationEnd={onSendAnimationEnd}>
-					<Send
-						sendCoins={(v) => sendCoins(v)}
-						defaultValues={{ "address1": { "address": "", "amount": "", "isValid": false } }}
-						cancelSendOperation={() => cancelSendOperation()}
-						setSendAmount={(v) => setSendAmount(v)}
-						setSendAddress={(v) => setSendAddress(v)}
-					/>
+					<Send />
 				</div>
 				{renderSocial()}
 			</div>
@@ -120,6 +117,7 @@ function MyWalletContent(props) {
 	}
 
 	function onSendClicked() {
+		setSendKey(Math.random());
 		if (sendState === false) {
 			// set this to true so you cant keep opening the send window
 			setSendState(true);
@@ -270,7 +268,7 @@ function MyWalletContent(props) {
 			console.log('getlatestTransactions ', response);
 			const order = _.orderBy(response[0], ['timereceived'], ['desc']);
 			setTransactions(order);
-			setResetValue("");
+
 		}, (stderr) => {
 			console.error(stderr);
 		});
@@ -282,60 +280,7 @@ function MyWalletContent(props) {
 	}
 
 
-	async function sendCoins(recipients) {
-		ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
-		console.log("length ", Object.keys(recipients).length)
-		console.log(recipients);
-		//console.log("sendObject",)
-		var rpcClient = new RPCClient();
-		if (Object.keys(recipients).length === 1) {
-			// single send
-			const address = recipients["address1"].address;
-			const amount = recipients["address1"].amount;
-			const args = [address, parseInt(amount)];
-			Promise.all([
-				rpcClient.sendToAddress(args),
-				new Promise(resolve => setTimeout(resolve, 500))
-			]).then((response) => {
-				console.log('send response: ', response[0]);
 
-				cancelSendOperation();
-				sendDesktopNotification(`Successfully sent ${amount} UGD to ${address}`);
-				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-
-				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
-				setResetValue("");
-			}, (stderr) => {
-				console.error(stderr);
-				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-			});
-		} else {
-			// multisend
-			const sendObject = new Object();
-			Object.keys(recipients).map(key => {
-				Object.assign(sendObject, { [recipients[key].address]: parseInt(recipients[key].amount) });
-			});
-			console.log("sendObject ", JSON.stringify(sendObject))
-
-			Promise.all([
-				rpcClient.sendMany("staking_2", sendObject),
-				new Promise(resolve => setTimeout(resolve, 500))
-			]).then((response) => {
-				console.log('send response: ', response[0]);
-
-				cancelSendOperation();
-				sendDesktopNotification(`Successfully sent to many`);
-				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-
-				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
-				setResetValue("");
-			}, (stderr) => {
-				console.error(stderr);
-				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-			});
-		}
-
-	}
 
 }
 

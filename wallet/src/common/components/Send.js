@@ -17,29 +17,46 @@
  */
 
 import React, { useState, useEffect } from "react";
-import Expand from "react-expand-animated";
-import EnterField from "./EnterField";
 import Button from "./Button";
+import { ipcRenderer, remote } from "electron";
+import RPCClient from "../../common/rpc-client.js";
 import "./Send.css"
 import SendInputs from "./SendInputs";
 import _ from "lodash";
+import Store from "electron-store";
+import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 
-function Send({
-    setSendAddress,
-    sendCoins,
-    cancelSendOperation,
-    resetState,
-    setSendAmount,
-    defaultValues
-}) {
-    const [inputValues, setInputValues] = useState({});
-    const [recipients, setRecipients] = useState(defaultValues);
+const store = new Store();
+
+function Send() {
+    const [recipients, setRecipients] = useState({ "address1": { "address": "", "amount": "", "isValid": false } });
     const [rerender, setRerender] = useState(false);
     const [recipientCounter, setRecipientCounter] = useState(2);
+    const [disableSendBtn, setDisableSendButton] = useState(true);
+    const [sendBtnKey, setSendButtonKey] = useState(1);
 
     useEffect(() => {
-        setRecipients(defaultValues);
-    }, [defaultValues]);
+        setSendButtonKey(Math.random());
+        console.log("button state changed ", disableSendBtn)
+    }, [disableSendBtn])
+    useEffect(() => {
+        console.log("recipients changed: ", recipients);
+
+    }, [recipients]);
+    useEffect(() => {
+        ipcRenderer.on('send-coins', (event, message) => {
+            // send back from UnlockWallet
+            console.log("try and send coins ");
+            sendCoins();
+        });
+        ipcRenderer.on('update-amount', (event, message) => {
+            setSendAmount(message.amount, message.key);
+        });
+        ipcRenderer.on('update-address', (event, message) => {
+            setSendAddress(message.address, message.key);
+        });
+    }, []);
+
     return (
         <div
             key={Object.keys(recipients).length}
@@ -47,9 +64,11 @@ function Send({
             {createRecipients()}
             <div className="btn--row--send">
                 <Button
+                    key={sendBtnKey}
                     buttonStyle="btn--secondary--solid"
                     buttonSize="btn--small"
-                    handleClick={() => checkSendInputs()}>SEND</Button>
+                    disabled={disableSendBtn}
+                    handleClick={() => checkForLockedWallet()}>SEND</Button>
                 <Button
                     buttonStyle="btn--secondary--solid"
                     buttonSize="btn--small"
@@ -61,13 +80,104 @@ function Send({
                    buttonStyle="btn--secondary--solid"
                    buttonSize="btn--small"
                    handleClick={() => addRecipient()}>ADD RECIPIENT</Button> */
+
+    function checkForLockedWallet() {
+        setDisableSendButton(true);
+        // unlocked_until !== 0 is unlocked
+        // unlocked_until = null not encrypted
+        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
+        // for encrypted wallets we should always assume the wallet is locked
+        // because if its unlocked for staking checking unlocked_until
+        // wont work so its best to just always ask for password
+        if (store.get("encrypted")) {
+            console.log("wallets is locked")
+            //wallet locked
+            // call unlock pass message this is for a send
+            console.log("recipients at unlock ", recipients);
+
+            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", "unlockfortime");
+            workCompleted();
+        } else {
+            console.log("wallets isnt locked")
+            checkSendInputs();
+            workCompleted();
+        }
+
+    }
+    async function sendCoins() {
+        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
+
+        var rpcClient = new RPCClient();
+
+        if (Object.keys(recipients).length === 1) {
+            Promise.all([
+                rpcClient.setTxFee([0.0000001]),
+            ]).then((feeSet) => {
+                console.log("feeSet ", feeSet);
+                // single send
+                const address = recipients["address1"].address;
+                const amount = recipients["address1"].amount;
+                const args = [address, parseInt(amount)];
+                Promise.all([
+                    rpcClient.sendToAddress(args),
+                    new Promise(resolve => setTimeout(resolve, 500))
+                ]).then((response) => {
+                    console.log('send response: ', response[0]);
+
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "cancel-send-operation");
+                    sendDesktopNotification(`Successfully sent ${amount} UGD to ${address}`);
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
+                    setRecipients({ "address1": { "address": "", "amount": "", "isValid": false } });
+                }, (stderr) => {
+                    console.error(stderr);
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                });
+            }, (stderr) => {
+                console.error(stderr);
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+            });
+        } else {
+            // multisend
+            const sendObject = new Object();
+            Object.keys(recipients).map(key => {
+                Object.assign(sendObject, { [recipients[key].address]: parseInt(recipients[key].amount) });
+            });
+            console.log("sendObject ", JSON.stringify(sendObject))
+
+            Promise.all([
+                rpcClient.sendMany("staking_2", sendObject),
+                new Promise(resolve => setTimeout(resolve, 500))
+            ]).then((response) => {
+                console.log('send response: ', response[0]);
+
+
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "cancel-send-operation");
+                sendDesktopNotification(`Successfully sent to many`);
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
+                setRecipients({ "address1": { "address": "", "amount": "", "isValid": false } });
+            }, (stderr) => {
+                console.error(stderr);
+                // send error notification
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+            });
+        }
+
+    }
+    function workCompleted() {
+        setDisableSendButton(false);
+        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+    }
     function checkSendInputs() {
+        console.log("recipients ", recipients);
         sendCoins(recipients)
     }
     function onCancelPressed() {
         setRecipients({ "address1": { "address": "", "amount": "", "isValid": false } });
         setRecipientCounter(2);
-        cancelSendOperation();
+        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "cancel-send-operation");
     }
     function addRecipient() {
         const key = "address".concat(recipientCounter);
@@ -81,36 +191,53 @@ function Send({
         setRerender(!rerender);
     }
     function setSendAddress(v, recipientKey) {
-        const updateAddress = recipients;
-        Object.keys(updateAddress).map(key => {
+        //const updateAddress = recipients;
+        Object.keys(recipients).map(key => {
             if (key === recipientKey) {
-                updateAddress[key].address = v;
+                recipients[key].address = v;
             }
         })
-        // console.log("updateAddress ", updateAddress);
-        setRecipients(updateAddress);
+        //console.log("updateAddress ", recipients);
+        updateRecipients(recipients, recipientKey);
     }
 
     function setSendAmount(v, recipientKey) {
-        const updateAmount = recipients;
-        Object.keys(updateAmount).map(key => {
+        // const updateAmount = recipients;
+        Object.keys(recipients).map(key => {
             if (key === recipientKey) {
-                updateAmount[key].amount = v;
+                recipients[key].amount = v;
             }
         })
-        // console.log("updateAmount ", updateAmount);
-        setRecipients(updateAmount);
+        //console.log("updateAmount ", recipients);
+        updateRecipients(recipients, recipientKey);
     }
 
     function setIsValid(v, recipientKey) {
-        const updateValid = recipients;
-        Object.keys(updateValid).map(key => {
+        // const recipients = recipients;
+        Object.keys(recipients).map(key => {
             if (key === recipientKey) {
-                updateValid[key].isValid = v;
+                recipients[key].isValid = v;
             }
-        })
-        console.log("updateValid ", updateValid);
-        setRecipients(updateValid);
+        });
+
+        // console.log("recipients ", recipients);
+        updateRecipients(recipients, recipientKey);
+    }
+
+    function updateRecipients(o, recipientKey) {
+        setRecipients(o);
+        // check if we can unlock the send button
+        console.log("setting recipients ", o);
+        let unlockButton = true;
+        Object.keys(o).map(key => {
+            if (key === recipientKey) {
+                if (o[key].isValid && o[key].amount > 0) {
+                    console.log("unlock send button");
+                    unlockButton = false;
+                }
+            }
+        });
+        setDisableSendButton(unlockButton);
     }
 
     function createRecipient(key) {

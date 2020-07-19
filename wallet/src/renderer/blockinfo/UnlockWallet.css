@@ -39,12 +39,14 @@
     width: 500px;
     z-index: 100;
 }
-.copy--align{
+
+.copy--align {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-end;
 }
+
 .padding {
     padding: 10px;
 }
@@ -56,11 +58,11 @@
 }
 
 .open--animation {
-    animation: openanimation 0.5s forwards;
+    animation: slideinanimation 0.5s forwards;
     transition-timing-function: ease-out;
 }
 
-@keyframes openanimation {
+@keyframes slideinanimation {
     0% {
         left: 0px;
         bottom: 30px;
@@ -73,12 +75,12 @@
     }
 }
 
-.close--animation {
-    animation: closeanimation 1s forwards;
+.close--unlock--animation {
+    animation: closelockanimation 1s forwards;
     transition-timing-function: ease-out;
 }
 
-@keyframes closeanimation {
+@keyframes closelockanimation {
     0% {
         left: 150px;
         bottom: 30px;

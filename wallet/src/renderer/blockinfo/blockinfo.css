@@ -16,11 +16,15 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
+
 .container {
     display: grid;
     grid-template-columns: auto auto auto auto;
     grid-gap: 30px;
     padding: 30px;
+    font-family: "Roboto", sans-serif;
+    font-size: 15;
+    font-weight: 500;
 }
 
 .dish {
@@ -40,4 +44,3 @@
     color: #fff !important;
     fill: #fff !important;
 }
-

@@ -32,60 +32,81 @@ function UnlockWallet(props) {
     const [errorClasses, setErrorClasses] = useState("error--text-start");
     const [isWindowOpen, setIsWindowOpen] = useState(false);
     const [animationFinished, setIsAnimationFinished] = useState(true);
+    const [infoCopy, setInfoCopy] = useState();
     const [classNames, setClassNames] = useState("unlock--container--start");
+    const [isSend, setIsSend] = useState(false);
     useEffect(() => {
         ipcRenderer.on('wallet-lock-trigger', (event, message) => {
-            console.log("wallet-lock-trigger: " + message)
+            //console.log("wallet-lock-trigger: " + message)
+            if (message === "unlockfortime") {
+                // set params for unlock time 
+                console.log("unlock for send");
+                setInfoCopy("Unlock wallet for transactions");
+                setIsSend(true);
+            } else {
+                setInfoCopy("Unlock wallet for staking");
+                setIsSend(false);
+            }
             openWindow();
         });
     }, []);
+    useEffect(() => {
+        setKeyContainer(Math.random());
+        console.log("classNames ", classNames)
+    }, [classNames])
 
     function openWindow() {
         setIsWindowOpen(true);
         console.log("open window ");
-        setKeyContainer("open");
+        setKeyContainer(Math.random());
         setClassNames("unlock--container--start open--animation");
     }
+
     function closeWindow() {
         setIsWindowOpen(false);
         setPassPhrase("");
         setErrorClasses("error--text-start");
-        setClassNames("unlock--container--openposition close--animation");
+        setClassNames("unlock--container--openposition close--unlock--animation");
     }
+
     function errorPassphrase() {
         setClassNames("unlock--container--openposition error-animation");
         setErrorClasses("error--text--animation");
     }
+
     function onAnimationEnd() {
         if (classNames === "unlock--container--openposition error-animation") {
             setClassNames("unlock--container--openposition");
-        } else if (classNames === "unlock--container--openposition close--animation") {
+        } else if (classNames === "unlock--container--openposition close--unlock--animation") {
             setClassNames("unlock--container--start");
-            setKeyContainer("close");
+            setKeyContainer(Math.random());
         }
         setIsAnimationFinished(true);
     }
+
     function onErrorEnd() {
         setErrorClasses("error--text-start");
     }
+
     function onAnimationStart() {
         console.log("onAnimationStart");
     }
+
     function handleCheckBox(event) {
         setIsStaking(event.target.value);
     }
+
     function textInputChange(value) {
         //console.log("text: " + value);
         setPassPhrase(value);
     }
+
     function clickListener(button) {
         //console.log(button);
         switch (button) {
             case "unlock":
-                console.log("passphrase: " + passPhrase);
-                console.log("staking: " + isStaking);
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
-                const args = [passPhrase, 0, true];
+                const args = passPhrase;
                 sendPassphrase(args);
 
                 // call RPC walletpassphrase passPhrase 0 isStaking 
@@ -111,7 +132,7 @@ function UnlockWallet(props) {
             onAnimationStart={onAnimationStart}
         >
             <div className="copy--align">
-                <div className="fontRegularBold padding">Unlock wallet</div>
+                <div className="fontRegularBold padding">{infoCopy}</div>
                 <div className={errorClasses} onAnimationEnd={onErrorEnd}> <div className="error--text padding">Passphrase Error!</div></div>
             </div>
 
@@ -151,18 +172,35 @@ function UnlockWallet(props) {
 
     async function sendPassphrase(args) {
         var rpcClient = new RPCClient();
+        let sendArgs = [];
+        console.log("send? ", isSend)
+        if (isSend) {
+            //const args = [passPhrase, 0, true];
+            sendArgs = [args, 5];
+        } else {
+            sendArgs = [args, 0, true];
+        }
+
         Promise.all([
-            rpcClient.unlockWallet(args),
+            rpcClient.unlockWallet(sendArgs),
             //rpcClient.raw_command("walletpassphrase", args),
             new Promise(resolve => setTimeout(resolve, 500))
         ]).then((response) => {
+            if (isSend) {
+                console.log("unlock response ", response);
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "send-coins");
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "sending");
+            } else {
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "staking");
+            }
             console.log("should update info");
             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
             closeWindow();
         }).catch((error) => {
             errorPassphrase();
-            console.log("wallet unlock error")
+            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+            console.log("wallet unlock error");
             console.error(error.message);
         });
     }

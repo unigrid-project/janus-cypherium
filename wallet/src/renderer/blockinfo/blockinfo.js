@@ -28,7 +28,10 @@ import './blockinfo.css';
 import '../../common/theme.css';
 import UnlockWallet from "./UnlockWallet.js";
 import { ipcRenderer, remote } from "electron";
+import Store from "electron-store";
+import { css } from "styled-components";
 
+const store = new Store();
 library.add(faServer, faLock, faLockOpen, faSatelliteDish, faCoins);
 
 export default class BlockInfo extends React.Component {
@@ -38,6 +41,7 @@ export default class BlockInfo extends React.Component {
 			currentBlock: 0,
 			connections: 0,
 			unlocked: true,
+			unlockedFor: "",
 			walletMessage: "unlocked",
 			staking: false,
 			stakingMessage: "Staking inactive",
@@ -53,6 +57,10 @@ export default class BlockInfo extends React.Component {
 	componentDidMount() {
 		ipcRenderer.on("trigger-info-update", (event, message) => {
 			this.updateInfo();
+		});
+		ipcRenderer.on("trigger-unlock-wallet", (event, message) => {
+			console.log("message unlock wallet ", message);
+			this.setState({ unlockedFor: message });
 		});
 	}
 	render() {
@@ -77,9 +85,16 @@ export default class BlockInfo extends React.Component {
 						fadeDuration={toolTipFadeIn}
 						radius={10}
 						fontFamily='Roboto'
-						fontSize='5'
+						fontSize='1'
 						fadeEasing="linear"
 						content={walletMessage}
+						background={css`
+						var(--tooltip--background);
+					  `}
+						customCss={css`
+							white-space: wrap;
+							text-align: center;
+						`}
 					>
 						{unlocked ?
 							<FontAwesomeIcon size="sm" icon="lock-open" color="green" onClick={() => this.openWalletUnlock("unlocked")} />
@@ -94,9 +109,16 @@ export default class BlockInfo extends React.Component {
 						fadeDuration={toolTipFadeIn}
 						fadeEasing="linear"
 						radius={10}
+						fontSize='5'
 						fontFamily='Roboto'
 						fontSize={toolTipFontSize}
 						content={stakingMessage}
+						background={css`
+						var(--tooltip--background);
+					  `}
+						customCss={css`
+						white-space: nowrap;
+						`}
 					>
 						{staking ?
 							<FontAwesomeIcon size="sm" icon="coins" color="yellow" />
@@ -111,9 +133,16 @@ export default class BlockInfo extends React.Component {
 						fadeDuration={toolTipFadeIn}
 						fadeEasing="linear"
 						radius={10}
+						fontSize='5'
 						fontFamily='Roboto'
 						fontSize={toolTipFontSize}
 						content={connections}
+						background={css`
+						var(--tooltip--background);
+					  `}
+						customCss={css`
+                    white-space: nowrap;
+                  `}
 					>
 						{this.getConnectionIcon()}
 					</Tooltip>
@@ -124,9 +153,16 @@ export default class BlockInfo extends React.Component {
 						fadeDuration={toolTipFadeIn}
 						fadeEasing="linear"
 						radius={10}
+						fontSize='5'
 						fontFamily='Roboto'
 						fontSize={toolTipFontSize}
 						content={currentBlock}
+						background={css`
+						var(--tooltip--background);
+					  `}
+						customCss={css`
+							white-space: nowrap;
+						`}
 					>
 						<FontAwesomeIcon size="sm" icon="server" className="dish" />
 					</Tooltip>
@@ -181,9 +217,16 @@ export default class BlockInfo extends React.Component {
 					unlocked: response[1].walletunlocked,
 					staking: response[1]["staking status"]
 				});
+				// this should happen as soon as the daemon is ready
+				// detect encrypted wallet at startup and set the value in store
+				// TODO move to a better location
+				let isEncrypted = (response[0].unlocked_until !== undefined);
+				//console.log("response[0].unlocked_until ",response[0].unlocked_until)
+				console.log("isEncrypted ", isEncrypted);
+				store.set("encrypted", isEncrypted);
 				if (response[1].walletunlocked) {
 					this.setState({
-						walletMessage: "unlocked"
+						walletMessage: "unlocked for ".concat(this.state.unlockedFor)
 					});
 				} else {
 					this.setState({
@@ -218,7 +261,7 @@ export default class BlockInfo extends React.Component {
 			});
 			if (response[1].walletunlocked) {
 				this.setState({
-					walletMessage: "unlocked"
+					walletMessage: "unlocked for ".concat(this.state.unlockedFor)
 				});
 			} else {
 				this.setState({
@@ -233,7 +276,6 @@ export default class BlockInfo extends React.Component {
 		}, (stderr) => {
 			console.error(stderr);
 		});
-
 	}
 
 	async lockWallet() {
@@ -248,6 +290,7 @@ export default class BlockInfo extends React.Component {
 			// walletlock is only avaible after encryption
 			// promt user if they would like to 
 			// encrypt their wallet here?
+			console.log("wallet is not encrypted")
 			console.error(stderr);
 		});
 	}
