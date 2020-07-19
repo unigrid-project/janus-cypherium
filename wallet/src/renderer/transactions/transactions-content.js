@@ -116,6 +116,7 @@ function TransactionsContent(props) {
 					setLoadMore(false);
 				}
 			}, (stderr) => {
+				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
 				console.error(stderr);
 			});
 		}
