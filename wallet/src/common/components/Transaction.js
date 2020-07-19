@@ -23,6 +23,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import Tooltip from "react-simple-tooltip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { css } from "styled-components";
+import { explorerLink } from "../consts";
 library.add(faSignInAlt, faSignOutAlt, faCoins, faClock, faCubes);
 
 function Transaction({ data, index, style }) {
@@ -47,7 +48,7 @@ function Transaction({ data, index, style }) {
                 </div></div>
             <div className="trans--item">
                 <Tooltip
-                    arrow={10}
+
                     zIndex={200}
                     fadeDuration={150}
                     radius={10}
@@ -68,7 +69,7 @@ function Transaction({ data, index, style }) {
             </div >
             <div className="trans--item">
                 <Tooltip
-                    arrow={10}
+
                     zIndex={200}
                     fadeDuration={150}
                     radius={10}
@@ -89,7 +90,7 @@ function Transaction({ data, index, style }) {
             </div >
             <div className="trans--item">
                 <Tooltip
-                    arrow={10}
+
                     zIndex={200}
                     fadeDuration={150}
                     radius={10}
@@ -99,14 +100,14 @@ function Transaction({ data, index, style }) {
                     background={css`
                     var(--tooltip--background)
                   `}
-                    content={getCategory(data.category)}
-                >{getCategroyIcon(data.category)}
+                    content={getCategory(data)}
+                >{getCategroyIcon(data)}
                 </Tooltip>
 
             </div>
             <div className="trans--item">
                 <Tooltip
-                    arrow={10}
+
                     zIndex={200}
                     fadeDuration={150}
                     radius={10}
@@ -126,7 +127,7 @@ function Transaction({ data, index, style }) {
             </div>
             <div className="trans--item">
                 <Tooltip
-                    arrow={10}
+
                     zIndex={200}
                     fadeDuration={150}
                     radius={10}
@@ -141,14 +142,14 @@ function Transaction({ data, index, style }) {
                     white-space: nowrap;
                   `}
                 >
-                    <a href={"http://explorer.unigrid.org/tx/" + data.txid} target="_blank">
+                    <a href={explorerLink + "tx/" + data.txid} target="_blank">
                         <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
                 </Tooltip>
             </div>
             {largeTrans ?
                 <div className="trans--item">
                     <Tooltip
-                        arrow={10}
+
                         zIndex={200}
                         fadeDuration={150}
                         radius={10}
@@ -196,14 +197,14 @@ function Transaction({ data, index, style }) {
             case 2:
             case 3:
             case 4:
-                color = "lightcoral";
+                color = "lightyellow";
                 break;
             case 5:
             case 6:
             case 7:
             case 8:
             case 9:
-                color = "lightyellow";
+                color = "yellow";
                 break;
 
             default:
@@ -212,8 +213,13 @@ function Transaction({ data, index, style }) {
         }
         return <FontAwesomeIcon size="lg" icon={faCubes} color={color} />;
     }
-    function getCategory(cat) {
-        return cat;
+    function getCategory(data) {
+        if(data.generated){
+            return "minted";
+        }else{
+            return data.category;
+        }
+        
     }
     function setAmountColor() {
         let transType = data.category === "send" ? "send--color" : "receive--color";
@@ -251,16 +257,17 @@ function Transaction({ data, index, style }) {
             </div>
         )
     }
-    function getCategroyIcon(category) {
-        switch (category) {
+    function getCategroyIcon(data) {
+        switch (data.category) {
             case "receive":
-                return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="lightgreen" />
+                if (data.generated) {
+                    return <FontAwesomeIcon size="lg" icon={faCoins} color="lightgoldenrodyellow" />
+                } else {
+                    return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="lightgreen" />
+                }
                 break;
             case "send":
                 return <FontAwesomeIcon size="lg" icon={faSignOutAlt} color="lightsalmon" />
-                break;
-            case "stake":
-                return <FontAwesomeIcon size="lg" icon={faCoins} color="lightgoldenrodyellow" />
                 break;
             default:
                 return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="white" />
