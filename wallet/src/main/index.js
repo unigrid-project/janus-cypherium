@@ -39,6 +39,14 @@ app.on("window-all-closed", () => {
 
 	app.quit();
 });
+ipcMain.on("wallet-restart", () => {
+	console.log('calling relaunch app')
+	if (global.rpcPort != undefined) {
+		new RPCClient().stop();
+	}
+	app.relaunch();
+	app.quit();
+});
 
 app.on("activate", () => {
 	/*	if (mainWindow === null) {
@@ -56,27 +64,27 @@ app.on("ready", () => {
 	var splashController = new SplashController();
 	// for notifications on windows
 	app.setAppUserModelId("unigrid-electron");
-	
+
 	splashController.window.webContents.on("did-finish-load", () => {
 		splashController.window.webContents.send("progress", "indeterminate", "Initializing UNIGRID daemon...");
 
 		Daemon.start(splashController.window).then(() => {
-				var rpcClient = new RPCClient();
-				splashController.version_control(rpcClient).then(() => {
-					splashController.daemon_loading(rpcClient).then(() => {
-						splashController.synchronize_wallet(rpcClient).then(() => {
-							/* If sync was a success, we close the splash and move on to the main wallet window */
-							var mainController = new MainController();
-							splashController.window.close();
-						}, (stderr) => {
-							console.error(stderr);
-						});
+			var rpcClient = new RPCClient();
+			splashController.version_control(rpcClient).then(() => {
+				splashController.daemon_loading(rpcClient).then(() => {
+					splashController.synchronize_wallet(rpcClient).then(() => {
+						/* If sync was a success, we close the splash and move on to the main wallet window */
+						var mainController = new MainController();
+						splashController.window.close();
 					}, (stderr) => {
 						console.error(stderr);
 					});
 				}, (stderr) => {
 					console.error(stderr);
 				});
+			}, (stderr) => {
+				console.error(stderr);
+			});
 		}, (stderr) => {
 			console.error(stderr);
 		});
