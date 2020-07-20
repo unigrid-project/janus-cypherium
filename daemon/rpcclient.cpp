@@ -148,6 +148,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
         {"sendalert", 4},
         {"sendalert", 5},
         {"sendalert", 6},
+        {"getdatadirectory", 0},
     };
 
 class CRPCConvertTable
