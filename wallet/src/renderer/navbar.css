@@ -39,6 +39,12 @@ div.nav>nav>ul:first-child {
 	flex-direction: column;
 }
 
+.settings--container {
+	flex-direction: row;
+	max-height: 75px;
+	justify-content: center;
+}
+
 nav>ul {
 	margin: 0;
 	color: var(--white);

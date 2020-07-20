@@ -29,7 +29,7 @@ export default class Masternodes extends React.Component {
 	render() {
 		return (
 			<NavEntry>
-				<div className="menu--icon"><FontAwesomeIcon size="lg" icon={faNetworkWired} /></div>
+				<div className="menu--icon"><FontAwesomeIcon size="sm" icon={faNetworkWired} /></div>
 				<div className="menu-title">Masternodes</div>
 			</NavEntry>
 		);

@@ -28,7 +28,7 @@ library.add(faCompass);
 export default class Explorer extends React.Component {
 	render() {
 		return(
-			<NavEntry><FontAwesomeIcon size="lg" icon="compass"/>Explorer</NavEntry>
+			<NavEntry><FontAwesomeIcon size="sm" icon="compass"/>Explorer</NavEntry>
 		);
 	}
 }

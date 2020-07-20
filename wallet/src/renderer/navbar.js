@@ -39,7 +39,7 @@ export default class NavBar extends React.Component {
 					<Masternodes key="masternodes" />
 					<Transactions key="transactions" />
 				</ul>
-				<ul >
+				<ul className="settings--container" >
 					<Settings key="settings" />
 					<CLI key="cli" />
 				</ul>

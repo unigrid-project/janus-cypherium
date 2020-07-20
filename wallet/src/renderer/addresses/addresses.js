@@ -29,7 +29,7 @@ export default class Addresses extends React.Component {
 	render() {
 		return (
 			<NavEntry>
-				<div className="menu--icon"><FontAwesomeIcon size="lg" icon={faAddressBook} /></div>
+				<div className="menu--icon"><FontAwesomeIcon size="sm" icon={faAddressBook} /></div>
 				<div className="menu-title">Addresses</div>
 			</NavEntry>
 		);
