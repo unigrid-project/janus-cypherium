@@ -56,7 +56,9 @@ function MyWalletContent(props) {
 			cancelSendOperation();
 		});
 
-
+		ipcRenderer.on("trigger-info-update", (event, message)  => {
+			getData();
+		});
 		// get data every minute for now
 		// this will be converted to a websocket 
 		// in the future
