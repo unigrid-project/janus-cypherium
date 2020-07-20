@@ -34,7 +34,7 @@ function UnlockWallet(props) {
     const [animationFinished, setIsAnimationFinished] = useState(true);
     const [infoCopy, setInfoCopy] = useState();
     const [classNames, setClassNames] = useState("unlock--container--start");
-    const [isSend, setIsSend] = useState(false);
+    const [unlockFor, setUnlockFor] = useState("");
     useEffect(() => {
         ipcRenderer.on('wallet-lock-trigger', (event, message) => {
             //console.log("wallet-lock-trigger: " + message)
@@ -42,10 +42,13 @@ function UnlockWallet(props) {
                 // set params for unlock time 
                 console.log("unlock for send");
                 setInfoCopy("Unlock wallet for transactions");
-                setIsSend(true);
+                setUnlockFor("SEND");
+            } else if (message === "unlockfordump") {
+                setInfoCopy("Unlock wallet for maintenance");
+                setUnlockFor("DUMP");
             } else {
                 setInfoCopy("Unlock wallet for staking");
-                setIsSend(false);
+                setUnlockFor("STAKE");
             }
             openWindow();
         });
@@ -173,24 +176,34 @@ function UnlockWallet(props) {
     async function sendPassphrase(args) {
         var rpcClient = new RPCClient();
         let sendArgs = [];
-        console.log("send? ", isSend)
-        if (isSend) {
-            //const args = [passPhrase, 0, true];
-            sendArgs = [args, 5];
-        } else {
-            sendArgs = [args, 0, true];
+        console.log("send? ", unlockFor )
+        switch (unlockFor) {
+            case "SEND":
+                sendArgs = [args, 5];
+                break;
+            case "STAKE":
+                sendArgs = [args, 0, true];
+                break;
+            case "DUMP":
+                sendArgs = [args, 30];
+                break;
+            default:
+                sendArgs = [args, 30];
+                break;
         }
-
+      
         Promise.all([
             rpcClient.unlockWallet(sendArgs),
             //rpcClient.raw_command("walletpassphrase", args),
             new Promise(resolve => setTimeout(resolve, 500))
         ]).then((response) => {
-            if (isSend) {
+            if (unlockFor === "SEND") {
                 console.log("unlock response ", response);
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "send-coins");
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "sending");
-            } else {
+            } else if(unlockFor === "DUMP"){
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "dump");
+            }else if(unlockFor === "STAKE"){
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "staking");
             }
             console.log("should update info");
