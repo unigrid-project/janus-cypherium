@@ -52,6 +52,19 @@ export default class RPCClient {
 		return await this.send_command(command, args);
 	}
 
+	async autocombinerewards(args) {
+		return await this.send_command("autocombinerewards", args);
+	}
+
+	async backupWallet(args) {
+		//backupwallet "destination"
+		return await this.send_command("backupwallet", args);
+	}
+
+	async dumpWallet(args) {
+		return await this.send_command("dumpwallet", args);
+	}
+
 	async encryptWallet(args) {
 		return await this.send_command("encryptwallet", args);
 	}
@@ -64,6 +77,10 @@ export default class RPCClient {
 		return await this.send_command("getblockcount");
 	}
 
+	async getdatadirectory() {
+		return await this.send_command("getdatadirectory");
+	}
+
 	async getinfo() {
 		return await this.send_command("getinfo");
 	}
@@ -74,6 +91,10 @@ export default class RPCClient {
 
 	async help() {
 		return await this.send_command("help");
+	}
+
+	async importwallet(args) {
+		return await this.send_command("importwallet", args);
 	}
 
 	async listTransactions(args) {
