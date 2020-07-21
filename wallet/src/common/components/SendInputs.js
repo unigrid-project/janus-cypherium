@@ -77,6 +77,7 @@ function SendInputs({
     )
 
     function sendAmountChangeSignal(v) {
+        //console.log("amount: ", v);
         let obj = {
             amount: v,
             key: recipientKey

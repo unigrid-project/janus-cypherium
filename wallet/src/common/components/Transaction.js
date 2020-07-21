@@ -24,6 +24,7 @@ import Tooltip from "react-simple-tooltip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { css } from "styled-components";
 import { explorerLink } from "../consts";
+
 library.add(faSignInAlt, faSignOutAlt, faCoins, faClock, faCubes);
 
 function Transaction({ data, index, style }) {
@@ -213,13 +214,14 @@ function Transaction({ data, index, style }) {
         }
         return <FontAwesomeIcon size="lg" icon={faCubes} color={color} />;
     }
+
     function getCategory(data) {
-        if(data.generated){
+        if (data.generated) {
             return "minted";
-        }else{
+        } else {
             return data.category;
         }
-        
+
     }
     function setAmountColor() {
         let transType = data.category === "send" ? "send--color" : "receive--color";

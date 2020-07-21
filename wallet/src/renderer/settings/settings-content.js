@@ -390,7 +390,4 @@ function SettingsContent(props) {
 
 export default SettingsContent;
 
-/*
-HRZtCy2e1kfTUXyYWKBX4RTcPzjEB9LUwC
-*/
 

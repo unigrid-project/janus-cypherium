@@ -117,7 +117,7 @@ function Send() {
                 // single send
                 const address = recipients["address1"].address;
                 const amount = recipients["address1"].amount;
-                const args = [address, parseInt(amount)];
+                const args = [address, parseFloat(amount)];
                 Promise.all([
                     rpcClient.sendToAddress(args),
                     new Promise(resolve => setTimeout(resolve, 500))
@@ -227,7 +227,7 @@ function Send() {
     function updateRecipients(o, recipientKey) {
         setRecipients(o);
         // check if we can unlock the send button
-        console.log("setting recipients ", o);
+       // console.log("setting recipients ", o);
         let unlockButton = true;
         Object.keys(o).map(key => {
             if (key === recipientKey) {
