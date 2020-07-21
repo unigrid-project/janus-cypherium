@@ -16,17 +16,31 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { remote } from "electron";
+
 const ObjectsToCsv = require('objects-to-csv');
 
 export default class ExportCSV {
     async convert(data) {
+        console.log("time start csv: ", new Date());
         const csv = new ObjectsToCsv(data);
 
         // Save to file:
-        await csv.toDisk('./test.csv');
-        console.log("time end: ",new Date());
-        // Return the CSV file as string:
-        console.log(await csv.toString());
+        const options = {
+            title: "Export all transactions to CSV",
+            defaultPath: "UGD-transactions.csv"
+        };
+
+         remote.dialog.showSaveDialog(null, options, {})
+            .then(async result => {
+                await csv.toDisk(result.filePath);
+                console.log("time end csv: ", new Date());
+                // Return the CSV file as string:
+                //console.log(await csv.toString());
+            }
+            ).catch(err => {
+                console.log(err)
+            })
     }
 }
 
