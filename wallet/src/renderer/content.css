@@ -63,13 +63,13 @@ div.nav>div>div>div {
 div.select>div.select__control {
 	border-radius: 6px;
 	background-color: #000;
-	border: 2px #244 solid;
+	border: 2px var(--border--active) solid;
 	transition: border-color .2s ease-in-out;
 	cursor: pointer;
 }
 
 div.select>div.select__control:hover {
-	border: 2px #277 solid;
+	border: 2px var(--border--hover) solid;
 	transition: border-color .2s ease-in-out;
 }
 
