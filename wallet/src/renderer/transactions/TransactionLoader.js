@@ -35,8 +35,8 @@ function TransactionLoader({
         if (loadMore === false) {
             $("div#transactions").scroll(function () {
                 let added = $("div#transactions").scrollTop() + parseInt($("div#transactions").height());
-               // console.log("added ", added);
-               // console.log("clientHeight ", scroll.current.clientHeight);
+                // console.log("added ", added);
+                // console.log("clientHeight ", scroll.current.clientHeight);
                 if (parseInt($("div#transactions").scrollTop()) + parseInt($("div#transactions").height())
                     == parseInt(scroll.current.clientHeight)) {
                     //console.log("LOAD MORE DATA")
@@ -49,10 +49,10 @@ function TransactionLoader({
         <div>
             {renderTransactions()}
         </div>
-
     )
+
     function renderTransactions() {
-        console.log('render transactions', transactions)
+        //console.log('render transactions', transactions)
         if (!transactions) return null;
         return (
             Object.keys(transactions).map(key => {

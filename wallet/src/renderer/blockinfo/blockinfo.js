@@ -174,9 +174,13 @@ export default class BlockInfo extends React.Component {
 		);
 	}
 
-	openWalletUnlock(message) {
-		console.log(message);
-		if (message === "unlocked") {
+	openWalletUnlock(msg) {
+		console.log("openWalletUnlock ", msg);
+		let message = {
+			command: msg,
+			alias: null
+		}
+		if (msg === "unlocked") {
 			//lock wallet
 			this.lockWallet();
 		} else {

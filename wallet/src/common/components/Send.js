@@ -94,8 +94,11 @@ function Send() {
             //wallet locked
             // call unlock pass message this is for a send
             console.log("recipients at unlock ", recipients);
-
-            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", "unlockfortime");
+            let message = {
+                command: "unlockfortime",
+                alias: null
+            }
+            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
             workCompleted();
         } else {
             console.log("wallets isnt locked")
@@ -227,7 +230,7 @@ function Send() {
     function updateRecipients(o, recipientKey) {
         setRecipients(o);
         // check if we can unlock the send button
-       // console.log("setting recipients ", o);
+        // console.log("setting recipients ", o);
         let unlockButton = true;
         Object.keys(o).map(key => {
             if (key === recipientKey) {

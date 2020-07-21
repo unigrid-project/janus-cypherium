@@ -299,9 +299,12 @@ function SettingsContent(props) {
 
 	function checkIfEncryptedForDump() {
 		//setDisableDumpButton(true);
-
+		let message = {
+			command:  "unlockfordump",
+			alias: null
+		}
 		if (isEncrypted === true) {
-			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", "unlockfordump");
+			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
 		} else {
 			console.log("wallets isnt locked");
 			openSaveDialog("DUMP");

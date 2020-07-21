@@ -26,6 +26,11 @@ import MasternodeCard from "../../common/components/MasternodeCard";
 import path from "path";
 import notifier from 'node-notifier';
 import _ from 'lodash';
+import Store from "electron-store";
+import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
+import { ipcRenderer, remote } from "electron";
+
+const store = new Store();
 
 function MasternodesContent(props) {
 	const [masternodeList, setMasternodeList] = useState({});
@@ -33,35 +38,40 @@ function MasternodesContent(props) {
 	const [filteredList, setFilteredList] = useState({});
 	const [uniqueTxhashes, setUniqueTxashes] = useState({});
 	const [currentAlias, setCurrentAlias] = useState();
-
+	const [isEncrypted, setIsEncrypted] = useState(false);
 	useEffect(() => {
-
+		setIsEncrypted(store.get("encrypted"));
 		var rpcClient = new RPCClient();
+		getMasternodeList();
+		ipcRenderer.on("trigger-start-masternode", (event, message) => {
+			// sent back from UnlockWallet
+			switch (message.command) {
+				case "MISSING":
+				case "STARTALL":
+					masternodeCommand(message.command);
+					break;
+				case "ALIAS":
+					console.log("alias passed into start: ", message.alias)
+					startMasternodeAlias(message.alias);
+					break;
+				default:
+					break;
+			}
+		});
 		//update masternode info every 60 seconds
 		const interval = setInterval(() => {
-			Promise.all([
-				rpcClient.masternodeCommand(["list-conf"]),
-				rpcClient.masternodeCommand(["list"]),
-				new Promise(resolve => setTimeout(resolve, 500))
-			]).then((response) => {
-				setMasternodeList(response[0]);
-				setListMasternodes(response[1]);
-				filterMasternodeData(response[1], response[0]);
-			}, (stderr) => {
-				console.error(stderr);
-			});
+			getMasternodeList();
 		}, 60000);
 		return () => clearInterval(interval);
-
 	}, []);
 
 	return (
 		<Content id="masternodes">
 			<div className="topButtons">
 				<Button handleClick={() => getMasternodeList()} buttonSize="btn--small">REFRESH</Button >
-				<Button handleClick={() => masternodeCommand("MISSING")} buttonSize="btn--small">START MISSING</Button >
-				<Button handleClick={() => masternodeCommand("STARTALL")} buttonSize="btn--small">START ALL</Button >
-				<Button handleClick={() => null} buttonSize="btn--small">CREATE</Button >
+				<Button handleClick={() => checkIfEncryptedStart("MISSING", null)} buttonSize="btn--small">START MISSING</Button >
+				<Button handleClick={() => checkIfEncryptedStart("STARTALL", null)} buttonSize="btn--small">START ALL</Button >
+				<Button handleClick={() => debugMasternode()} buttonSize="btn--small">CREATE</Button >
 			</div>
 			<div className="expanable--collapsed">
 
@@ -77,26 +87,30 @@ function MasternodesContent(props) {
 				Object.keys(filteredList).map(item => {
 					return (
 						<MasternodeCard className="cellPadding" key={item} data={filteredList[item]}
-							onStartClicked={(e) => onAliasStartClicked(e)}
+							onStartClicked={(e) => checkIfEncryptedStart("ALIAS", e)}
 						/>
 					)
 				})
 			)
 		} else return null
 	}
-	function sendDesktopNotification(message) {
-		console.log('notify ', message)
-		let iconAddress = path.join(__static, '/solid_logo.png');
 
-		notifier.notify({
-			'title': 'UNIGRID',
-			'message': message,
-			'wait': true,
-			'icon': iconAddress
+	async function debugMasternode(){
+
+		var rpcClient = new RPCClient();
+		const args = ["outputs"];
+		Promise.all([
+			rpcClient.masternodeCommand(args),
+			new Promise(resolve => setTimeout(resolve, 500))
+		]).then((response) => {
+		
+			console.log("masternode outputs: ", response[0]);
+			
+		}, (stderr) => {
+			console.error(stderr);
 		});
-
 	}
-	async function onAliasStartClicked(alias) {
+	async function startMasternodeAlias(alias) {
 		//"alias" "0" "my_mn"
 		//console.log("start ", alias);
 		setCurrentAlias(alias);
@@ -118,6 +132,21 @@ function MasternodesContent(props) {
 		});
 	}
 
+	function checkIfEncryptedStart(cmd, node) {
+		//setDisableDumpButton(true);
+
+		let message = {
+			command: cmd,
+			alias: node
+		}
+		if (isEncrypted === true) {
+			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
+		} else {
+			if (cmd === "ALIAS") startMasternodeAlias(node);
+			masternodeCommand(cmd);
+		}
+	}
+
 	async function masternodeCommand(command) {
 		var rpcClient = new RPCClient();
 		switch (command) {
@@ -133,7 +162,7 @@ function MasternodesContent(props) {
 					console.error(stderr);
 				});
 				break;
-			case "ALAIS":
+			case "ALIAS":
 				Promise.all([
 					rpcClient.startMastrernodeAlias(currentAlias),
 					new Promise(resolve => setTimeout(resolve, 500))

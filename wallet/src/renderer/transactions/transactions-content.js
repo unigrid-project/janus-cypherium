@@ -38,11 +38,7 @@ function TransactionsContent(props) {
 	useEffect(() => {
 		loadTransactionData(true);
 	}, []);
-	useEffect(() => {
-		ipcRenderer.on("trigger-info-update", (event, message) => {
-			loadTransactionData(true);
-		});
-	});
+
 	useEffect(() => {
 		// load more transactions 
 		loadTransactionData(loadMore);

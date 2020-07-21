@@ -35,20 +35,37 @@ function UnlockWallet(props) {
     const [infoCopy, setInfoCopy] = useState();
     const [classNames, setClassNames] = useState("unlock--container--start");
     const [unlockFor, setUnlockFor] = useState("");
+    const [masternodeAlias, setMasternodeAlias] = useState();
     useEffect(() => {
         ipcRenderer.on('wallet-lock-trigger', (event, message) => {
             //console.log("wallet-lock-trigger: " + message)
-            if (message === "unlockfortime") {
-                // set params for unlock time 
-                console.log("unlock for send");
-                setInfoCopy("Unlock wallet for transactions");
-                setUnlockFor("SEND");
-            } else if (message === "unlockfordump") {
-                setInfoCopy("Unlock wallet for maintenance");
-                setUnlockFor("DUMP");
-            } else {
-                setInfoCopy("Unlock wallet for staking");
-                setUnlockFor("STAKE");
+            switch (message.command) {
+                case "unlockfortime":
+                    setInfoCopy("Unlock wallet for transactions");
+                    setUnlockFor("SEND");
+                    break;
+                case "unlockfordump":
+                    setInfoCopy("Unlock wallet for maintenance");
+                    setUnlockFor("DUMP");
+                    break;
+                case "STARTALL":
+                    setInfoCopy("Unlock wallet for masternodes");
+                    setUnlockFor("STARTALL");
+                    break;
+                case "MISSING":
+                    setInfoCopy("Unlock wallet for masternodes");
+                    setUnlockFor("MISSING");
+                    break;
+                case "ALIAS":
+                    console.log("alias passed into unlock: ", message.alias)
+                    setInfoCopy("Unlock wallet for masternodes");
+                    setUnlockFor("ALIAS");
+                    setMasternodeAlias(message.alias);
+                    break;
+                default:
+                    setInfoCopy("Unlock wallet for staking");
+                    setUnlockFor("STAKE");
+                    break;
             }
             openWindow();
         });
@@ -176,9 +193,11 @@ function UnlockWallet(props) {
     async function sendPassphrase(args) {
         var rpcClient = new RPCClient();
         let sendArgs = [];
-        console.log("send? ", unlockFor )
+        console.log("send? ", unlockFor)
         switch (unlockFor) {
             case "SEND":
+            case "STARTALL":
+            case "MISSING":
                 sendArgs = [args, 5];
                 break;
             case "STAKE":
@@ -191,21 +210,47 @@ function UnlockWallet(props) {
                 sendArgs = [args, 30];
                 break;
         }
-      
+
         Promise.all([
             rpcClient.unlockWallet(sendArgs),
             //rpcClient.raw_command("walletpassphrase", args),
             new Promise(resolve => setTimeout(resolve, 500))
         ]).then((response) => {
-            if (unlockFor === "SEND") {
-                console.log("unlock response ", response);
-                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "send-coins");
-                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "sending");
-            } else if(unlockFor === "DUMP"){
-                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "dump");
-            }else if(unlockFor === "STAKE"){
-                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "staking");
+            let message = {
+                command: "",
+                alias: null
             }
+            switch (unlockFor) {
+                case "SEND":
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "send-coins");
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "sending");
+                    break;
+                case "DUMP":
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "dump");
+                    break;
+                case "STAKE":
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "staking");
+                    break;
+                case "STARTALL":
+                    message.command = unlockFor;
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-start-masternode", message);
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "masternode");
+                    break;
+                case "MISSING":
+                    message.command = unlockFor;
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-start-masternode", message);
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "masternode");
+                    break;
+                case "ALIAS":
+                    message.command = unlockFor;
+                    message.alias = masternodeAlias;
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-start-masternode", message);
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "masternode");
+                    break;
+                default:
+                    break;
+            }
+
             console.log("should update info");
             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
