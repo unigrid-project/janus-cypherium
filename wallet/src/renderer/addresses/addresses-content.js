@@ -49,6 +49,9 @@ function AddressesContent() {
 		ipcRenderer.on('reload-addresses', (event, message) => {
 			listAddressGroupings();
 		});
+		ipcRenderer.on("trigger-info-update", (event, message)  => {
+			listAddressGroupings();
+		});
 	}, []);
 
 	return (
