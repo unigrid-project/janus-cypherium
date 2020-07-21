@@ -31,9 +31,10 @@ function MasternodeCard({ onStartClicked, data, onStopClicked }) {
             <div className="upper-left">
                 <Tooltip
                     arrow={10}
-                    zIndex={200}
+                    zIndex={2000}
                     fadeDuration={150}
                     radius={10}
+                    placement="right"
                     fontFamily='Roboto'
                     fontSize='5'
                     fadeEasing="linear"
