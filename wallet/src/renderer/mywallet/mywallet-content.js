@@ -50,6 +50,8 @@ function MyWalletContent(props) {
 	const [transactionClasses, setTransactionClasses] = useState("transaction--container--start");
 	const [sendClasses, setSendClasses] = useState("send--container--start");
 	useEffect(() => {
+		// testing mini-breakpad crash reports
+		//process.crash();
 		getData();
 		ipcRenderer.on("cancel-send-operation", (event, message) => {
 			console.log("cencel send ");

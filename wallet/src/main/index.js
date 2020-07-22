@@ -26,6 +26,15 @@ import AsteroidsController from "./asteroids-controller";
 import MainController from "./main-controller";
 import SplashController from "./splash-controller";
 import { Notification } from "electron";
+const { crashReporter } = require('electron');
+
+crashReporter.start({
+	productName: 'UNIGRID Wallet',
+	companyName: 'UNIGRID Organization',
+	submitURL: 'http://crashreports.unigrid.org/POST',
+	uploadToServer: true
+});
+
 global.isDevelopment = process.env.NODE_ENV !== "production";
 
 if (app.getGPUFeatureStatus().gpu_compositing.includes("disabled")) {
