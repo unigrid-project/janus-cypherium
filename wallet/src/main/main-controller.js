@@ -19,8 +19,10 @@
 
 import { BrowserWindow, globalShortcut, shell } from "electron";
 import { format as formatUrl } from "url";
-import path from "path";
+import * as path from "path";
 import electron from "electron";
+
+const isDevelopment = process.env.NODE_ENV !== 'production'
 
 export default class MainController {
 	constructor() {
@@ -41,7 +43,7 @@ export default class MainController {
             }, frame:false // comment this line to get DEV TOOls
 		});
 
-		if (global.isDevelopment) {
+		if (isDevelopment) {
 			window.webContents.openDevTools({ mode : "detach" });
 			window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}?route=main`);
 
@@ -51,7 +53,7 @@ export default class MainController {
 
 		} else {
 			window.loadURL(formatUrl({
-				pathname: path.join(__dirname, "main-window.html?route=main"),
+				pathname: path.join(__dirname, "index.html?route=main"),
 				protocol: "file",
 				slashes: true
 			}));

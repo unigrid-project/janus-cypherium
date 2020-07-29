@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "electron": "^9.1.1",
-    "electron-builder": "22.7.0",
+    "electron-builder": "^22.8.0",
     "electron-webpack": "2.8.2",
     "electron-webpack-eslint": "6.0.0",
     "webpack": "4.43.0"
@@ -55,6 +55,10 @@
       "category": "org.unigrid.wallet"
     },
     "linux": {
+      "asar": "true",
+      "target": [
+        "AppImage"
+      ],
       "category": "science"
     },
     "extraFiles": {
@@ -63,9 +67,8 @@
     },
     "files": [
       "**/*",
-      "./static",
       "logo.png",
-      "solid_logo.png"      
+      "solid_logo.png"
     ],
     "copyright": "Copyright (C) 2020 The UNIGRID Organization"
   }

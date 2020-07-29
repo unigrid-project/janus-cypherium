@@ -19,13 +19,14 @@
 
 import { BrowserWindow } from "electron";
 import { format as formatUrl } from "url";
-import path from "path";
+import * as path from "path";
 import tcpPortUsed from "tcp-port-used";
 import Daemon from "common/daemon";
 import Explorer from "common/explorer";
 import RPCClient from "common/rpc-client.js"
 import Version from "common/version";
 
+const isDevelopment = process.env.NODE_ENV !== 'production';
 const BOOTSTRAP_DOWNLOAD_THRESHOLD_BLOCKS = 20000;
 export default class SplashController {
 	constructor() {
@@ -45,7 +46,7 @@ export default class SplashController {
 		});
 
 
-		if (global.isDevelopment) {
+		if (isDevelopment) {
 			window.webContents.openDevTools({ mode: "detach" });
 			window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}?route=splash`);
 		} else {

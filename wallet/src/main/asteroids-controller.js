@@ -51,7 +51,7 @@ export default class AsteroidsController {
 
 		} else {
 			window.loadURL(formatUrl({
-				pathname: path.join(__dirname, "main-window.html?route=asteroids"),
+				pathname: path.join(__dirname, "index.html?route=asteroids"),
 				protocol: "file",
 				slashes: true
 			}));
