@@ -39,24 +39,26 @@ export default class MainController {
 			resizable: true,
 			show: false,
 			webPreferences: {
-                nodeIntegration: true
-            }, frame:false // comment this line to get DEV TOOls
+				nodeIntegration: true
+			}, frame: false // comment this line to get DEV TOOls
 		});
 
 		if (isDevelopment) {
-			window.webContents.openDevTools({ mode : "detach" });
+			window.webContents.openDevTools({ mode: "detach" });
 			window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}?route=main`);
 
-			globalShortcut.register('f5', function() {
+			globalShortcut.register('f5', function () {
 				window.reload();
 			});
 
 		} else {
 			window.loadURL(formatUrl({
-				pathname: path.join(__dirname, "index.html?route=main"),
+				pathname: path.join(__dirname, "index.html"),
 				protocol: "file",
-				slashes: true
+				slashes: true,
+				hash: "main"
 			}));
+
 		}
 
 		window.webContents.on("devtools-opened", () => {

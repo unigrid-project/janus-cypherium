@@ -19,11 +19,9 @@
 
 import { BrowserWindow } from "electron";
 import { format as formatUrl } from "url";
-import * as path from "path";
-import tcpPortUsed from "tcp-port-used";
+import path from "path";
 import Daemon from "common/daemon";
 import Explorer from "common/explorer";
-import RPCClient from "common/rpc-client.js"
 import Version from "common/version";
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -40,21 +38,25 @@ export default class SplashController {
 			frame: false,
 			resizable: false,
 			show: false,
+			
 			webPreferences: {
-				nodeIntegration: true
+				nodeIntegration: true,
+				webSecurity: false
 			}, frame: false // comment this line to get DEV TOOls
 		});
-
 
 		if (isDevelopment) {
 			window.webContents.openDevTools({ mode: "detach" });
 			window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}?route=splash`);
 		} else {
+			
 			window.loadURL(formatUrl({
-				pathname: path.join(__dirname, "index.html?route=splash"),
+				pathname: path.join(__dirname, 'index.html'),
 				protocol: "file",
-				slashes: true
+				slashes: true,
+				hash: "splash"
 			}));
+			
 		}
 
 		window.webContents.on("devtools-opened", () => {

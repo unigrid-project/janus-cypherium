@@ -18,11 +18,16 @@
  */
 
 import * as React from "react";
-
-function Router ({ routes }) {
-	const route = new URLSearchParams ( window.location.search ).get ("route") || "default";
+const isDevelopment = process.env.NODE_ENV !== 'production'
+function Router({ routes }) {
+	let route;
+	if (isDevelopment) {
+		route = new URLSearchParams(window.location.search).get("route") || "default";
+	} else {
+		route = window.location.hash.toString().substring(1);
+	}
 	return routes[route] || routes.default;
 }
 
-export {Router};
+export { Router };
 

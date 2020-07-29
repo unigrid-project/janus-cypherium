@@ -26,7 +26,7 @@ export default class Version {
 	}
 
 	static get_cleaned_up(version) {
-		console.log("Version: " + version);
+		//console.log("Version: " + version);
 		return String(version).replace(/^v/, "").replace("-", "");
 	}
 }
