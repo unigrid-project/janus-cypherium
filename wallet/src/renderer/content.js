@@ -22,22 +22,23 @@ import { ipcRenderer, remote } from "electron";
 import "./content.css";
 
 function Content(props) {
-	const [element] = useState(props.children[0] == undefined ? props.children : props.children[0]);
-	const [active, setActive] = useState(element._owner.pendingProps.active);
+	//var element = props.children[0] == undefined ? props.children : props.children[0];
+	const [active, setActive] = useState();
 	//const container = useRef(props.children);
 	useEffect(() => {
 		ipcRenderer.on("navigate", (event, source) => {
 			setActive(source.toLowerCase().replace(" ", "") == props.id);
 			//scrollTo(container);
 		});
-	}, []);
-	/*const scrollTo = (ref) => {
-		console.log('container ', ref.current);
-		if (ref) {
-			ref.current.scrollIntoView();
-			//ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+		// passing the active through content now
+		// i dont think _owner.pendingProps is available outside dev mode
+		if(props.active === undefined){
+			setActive(false);
+		}else{
+			setActive(props.active);
 		}
-	}*/
+		//setActive(element._owner.pendingProps.active);
+	}, []);
 
 	return (
 		<div id={props.id} className={active ? "active " : "inactive " + props.className}>
@@ -47,4 +48,3 @@ function Content(props) {
 }
 
 export default Content;
-

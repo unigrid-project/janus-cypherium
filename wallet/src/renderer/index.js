@@ -58,17 +58,18 @@ const routes = {
 				<AddressesContent key="addressbook-content" />
 				<TransactionsContent key="transactions-content" />
 				<MasternodesContent key="masternodes-content" />
-				<ExplorerContent key ="explorer-content" />
+				<ExplorerContent key="explorer-content" />
 				<SettingsContent key="settings-content" />
 				<CLIContent key="cli-content" />
 			</div>
 		</div>
 	],
+	shitpickle: [<div>shitpickle</div>],
 	splash: [
 		<ControlBar key={1} className="nobg" fullControls={false} extraButton="rocket"
-		            extraButtonOnClick={onStartGame}/>, <Splash key={2} />
+			extraButtonOnClick={onStartGame} />, <Splash key={2} />
 	]
 };
 
-ReactDOM.render (<Router routes={routes} />, document.getElementById ("app"));
+ReactDOM.render(<Router routes={routes} />, document.getElementById("app"));
 

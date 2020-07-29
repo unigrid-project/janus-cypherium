@@ -22,8 +22,8 @@ import { ipcRenderer, remote } from "electron";
 import "./naventry.css"
 
 function NavEntry(props) {
-	const [element] = useState(props.children[0] == undefined ? props.children : props.children[0]);
-	const [active, setActive] = useState(element._owner.pendingProps.active);
+	var element = props.children[0] == undefined ? props.children : props.children[0];
+	const [active, setActive] = useState();
 
 	useEffect(() => {
 		ipcRenderer.on("navigate", (event, source) => {
@@ -31,6 +31,8 @@ function NavEntry(props) {
 				setActive(false);
 			}
 		});
+		//console.log("props.children ", props.children)
+		setActive(element._owner.pendingProps.active);
 	}, []);
 
 	function onClick(e) {

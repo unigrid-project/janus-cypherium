@@ -26,7 +26,6 @@ import Settings from "./settings/settings.js";
 import CLI from "./cli/cli.js";
 import "./navbar.css"
 import BlockInfo from "./blockinfo/blockinfo.js";
-import Explorer from "./explorer/explorer.js";
 import Masternodes from "./masternodes/masternodes.js";
 
 export default class NavBar extends React.Component {
@@ -50,6 +49,3 @@ export default class NavBar extends React.Component {
 		);
 	}
 }
-
-/*<Explorer key="explorer" />
-*/

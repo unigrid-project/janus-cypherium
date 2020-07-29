@@ -71,7 +71,7 @@ function MyWalletContent(props) {
 	}, []);
 
 	return (
-		<Content id="mywallet" className="allow-scroll">
+		<Content id="mywallet" className="allow-scroll" active={props.active}>
 			<Helmet>
 				<script src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js" />
 			</Helmet>
@@ -165,9 +165,7 @@ function MyWalletContent(props) {
 							fontFamily='Roboto'
 							fontSize='5'
 							fadeEasing="linear"
-							background={css`
-                    var(--tooltip--background)
-                  `}
+							
 							content="Follow us"
 							customCss={css`
                     white-space: nowrap;
@@ -187,9 +185,7 @@ function MyWalletContent(props) {
 							fontFamily='Roboto'
 							fontSize='5'
 							fadeEasing="linear"
-							background={css`
-                    var(--tooltip--background)
-                  `}
+							
 							content="Join discord"
 							customCss={css`
                     white-space: nowrap;
@@ -209,9 +205,7 @@ function MyWalletContent(props) {
 							fontFamily='Roboto'
 							fontSize='5'
 							fadeEasing="linear"
-							background={css`
-                    var(--tooltip--background)
-                  `}
+							
 							content="Join telegram"
 							customCss={css`
                     white-space: nowrap;
