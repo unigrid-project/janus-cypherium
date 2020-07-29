@@ -48,6 +48,7 @@ daemon/config/unigrid-config.h.in
 share/setup.nsi
 contrib/devtools/split-debug.sh
 
+.vscode
 .deps
 .dirstamp
 .libs
