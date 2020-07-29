@@ -19,12 +19,12 @@
 import React, { useState, useEffect } from "react";
 import Button from "./Button";
 import { ipcRenderer, remote } from "electron";
-import RPCClient from "../../common/rpc-client.js";
+import RPCClient from "../rpc-client.js";
 import "./Send.css"
 import SendInputs from "./SendInputs";
 import _ from "lodash";
 import Store from "electron-store";
-import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
+import { sendDesktopNotification } from "./DesktopNotifications";
 
 const store = new Store();
 
