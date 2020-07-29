@@ -710,7 +710,7 @@ void ThreadImport(std::vector<std::string> arguments)
 
     // Download bootstrap archive from the project web site
     if (downloadBootstrap) {
-        std::string basePath = (boost::filesystem::temp_directory_path() / boost::filesystem::unique_path()).native();
+        std::string basePath = (boost::filesystem::temp_directory_path() / boost::filesystem::unique_path()).string();
 
         downloadedFilePath = basePath + ".bsa";
         downloadedFile = std::fopen(downloadedFilePath.c_str(), "w+");

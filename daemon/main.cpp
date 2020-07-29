@@ -4890,7 +4890,7 @@ bool ProcessNewBlock(CValidationState& state, CNode* pfrom, CBlock* pblock, CDis
                     if (!nodeStatus)
                         // place status here to notify electron wallet
                         bootstrappingStatus = "restart";
-                        return error("%s : AcceptBlock FAILED - block spam protection", __func__);
+                    return error("%s : AcceptBlock FAILED - block spam protection", __func__);
                 }
             }
             // place status here to notify electron wallet
@@ -5325,7 +5325,7 @@ bool LoadExternalBlockFile(boost::filesystem::path path, CDiskBlockPos* dbp)
 
     // Handle compressed bootstrap archives (*.bsa)
     if (boost::algorithm::ends_with(path.native(), ".bsa")) {
-        unarchivedPath = (boost::filesystem::temp_directory_path() / boost::filesystem::unique_path()).native();
+        unarchivedPath = (boost::filesystem::temp_directory_path() / boost::filesystem::unique_path()).string();
         unarchivedPath = unarchivedPath + ".bootstrap";
         unarchivedFile = std::fopen(unarchivedPath.c_str(), "w+b");
 
