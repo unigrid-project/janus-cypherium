@@ -11,9 +11,9 @@
 #include <string>
 
 /**
- * Name of client reported in the 'version' message. Report the same name
- * for both unigridd and unigrid-qt, to make it harder for attackers to
- * target servers or GUI users specifically.
+ * Name of client reported in the 'version' message for 
+ * unigridd to make it harder for attackers to
+ * target servers.
  */
 const std::string CLIENT_NAME("UNIGRID Core");
 

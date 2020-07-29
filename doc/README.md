@@ -11,18 +11,15 @@ The following are some helpful notes on how to run UNIGRID on your native platfo
 
 ### Unix
 
-Unpack the files into a directory and run:
-
-- bin/32/unigrid-qt (GUI, 32-bit) or bin/32/unigridd (headless, 32-bit)
-- bin/64/unigrid-qt (GUI, 64-bit) or bin/64/unigridd (headless, 64-bit)
+#TODO
 
 ### Windows
 
-Unpack the files into a directory, and then run unigrid-qt.exe.
+#TODO
 
 ### OSX
 
-Drag UNIGRID-Qt to your applications folder, and then run UNIGRID-Qt.
+#TODO
 
 ### Need Help?
 

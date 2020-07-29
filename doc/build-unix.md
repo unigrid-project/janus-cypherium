@@ -22,8 +22,6 @@ make
 make install # optional
 ```
 
-This will build unigrid-qt as well if the dependencies are met.
-
 Dependencies
 ---------------------
 
@@ -41,7 +39,6 @@ Optional dependencies:
  ------------|------------------|----------------------
  miniupnpc   | UPnP Support     | Firewall-jumping support
  libdb4.8    | Berkeley DB      | Wallet storage (only needed when wallet enabled)
- qt          | GUI              | GUI toolkit (only needed when GUI enabled)
  protobuf    | Payments in GUI  | Data interchange format used for payment protocol (only needed when GUI enabled)
  libqrencode | QR codes in GUI  | Optional for generating QR codes (only needed when GUI enabled)
  univalue    | Utility          | JSON parsing and encoding (bundled version will be used unless --with-system-univalue passed to configure)
@@ -84,22 +81,6 @@ Optional:
 
 Dependencies for the GUI: Ubuntu & Debian
 -----------------------------------------
-
-If you want to build UNIGRID-Qt, make sure that the required packages for Qt development
-are installed. Qt 5 is necessary to build the GUI.
-If both Qt 4 and Qt 5 are installed, Qt 5 will be used.
-To build without GUI pass `--without-gui`.
-
-For Qt 5 you need the following:
-
-    sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
-
-libqrencode (optional) can be installed with:
-
-    sudo apt-get install libqrencode-dev
-
-Once these are installed, they will be found by configure and a unigrid-qt executable will be
-built by default.
 
 Notes
 -----

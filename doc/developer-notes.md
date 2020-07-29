@@ -113,9 +113,6 @@ error and debugging messages are written there.
 The -debug=... command-line option controls debugging; running with just -debug or -debug=1 will turn
 on all categories (and give you a very large debug.log file).
 
-The Qt code routes qDebug() output to debug.log under category "qt": run with -debug=qt
-to see it.
-
 **testnet mode**
 
 Run with the -testnet option to run with "play UNIGRIDs (tUNIGRID)" on the test network, if you
