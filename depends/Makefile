@@ -18,6 +18,7 @@ DOWNLOAD_CONNECT_TIMEOUT:=30
 DOWNLOAD_RETRIES:=3
 HOST_ID_SALT ?= salt
 BUILD_ID_SALT ?= salt
+PREFIX_DIR = "$(CURDIR)/build/$(HOST)/"
 
 host:=$(BUILD)
 ifneq ($(HOST),)
@@ -91,14 +92,10 @@ $(host_arch)_$(host_os)_id_string+=$(shell $(host_STRIP) --version 2>/dev/null)
 
 wallet_packages_$(NO_WALLET) = $(wallet_packages)
 upnp_packages_$(NO_UPNP) = $(upnp_packages)
-zmq_packages_$(NO_ZMQ) = $(zmq_packages)
 
-packages += $($(host_arch)_$(host_os)_packages) $($(host_os)_packages) $(qt_packages_) $(wallet_packages_) $(upnp_packages_)
+
+packages += $($(host_arch)_$(host_os)_packages) $($(host_os)_packages) $(wallet_packages_) $(upnp_packages_)
 native_packages += $($(host_arch)_$(host_os)_native_packages) $($(host_os)_native_packages)
-
-ifneq ($(qt_packages_),)
-native_packages += $(qt_native_packages)
-endif
 
 ifneq ($(zmq_packages_),)
 packages += $(zmq_packages)
