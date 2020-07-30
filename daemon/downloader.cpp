@@ -11,21 +11,21 @@
 
 #define CURL_CONNECTION_TIMEOUT (5 * 1000)
 
-static size_t handle_file_chunk(void *downloaded, size_t size, size_t nmemb, void *destination)
+static size_t handle_file_chunk(void* downloaded, size_t size, size_t nmemb, void* destination)
 {
-    return std::fwrite(downloaded, size, nmemb, (std::FILE *) destination);
+    return std::fwrite(downloaded, size, nmemb, (std::FILE*)destination);
 }
 
-static size_t handle_string_chunk(void *downloaded, size_t size, size_t nmemb, void *destination)
+static size_t handle_string_chunk(void* downloaded, size_t size, size_t nmemb, void* destination)
 {
-    ((std::string *) destination)->append((char *) downloaded);
+    ((std::string*)destination)->append((char*)downloaded);
     return size * nmemb;
 }
 
-int handle_progress(void *clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)
+int handle_progress(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)
 {
-    Downloader *downloader = (Downloader *) clientp;
-    downloader->progress(((double) dlnow) / dltotal * 100);
+    Downloader* downloader = (Downloader*)clientp;
+    downloader->progress(dltotal == 0 ? 0.0 : ((double)dlnow) / dltotal * 100);
     return 0;
 }
 
@@ -33,7 +33,7 @@ Downloader::Downloader(std::string url, std::function<void(double percentage)> p
 {
     curl = curl_easy_init();
 
-    if(curl) {
+    if (curl) {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
         curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, CURL_CONNECTION_TIMEOUT);
@@ -41,27 +41,25 @@ Downloader::Downloader(std::string url, std::function<void(double percentage)> p
         curl_easy_setopt(curl, CURLOPT_XFERINFODATA, this);
         curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, handle_progress);
 
-        #ifdef WIN32
+#ifdef WIN32
         // NOTE: The data here is not critical, so disabling verification should not have any unforseen consequences.
         // However, we only do this under Windows, as certificates are usually bundled with Linux and OS X distributions.
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-        #endif
+#endif
     }
 }
 
-Downloader::Downloader(std::string url, std::string *destination,
-                       std::function<void(double percentage)> progress) : Downloader(url, progress)
+Downloader::Downloader(std::string url, std::string* destination, std::function<void(double percentage)> progress) : Downloader(url, progress)
 {
-    if(curl) {
+    if (curl) {
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, handle_string_chunk);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, destination);
     }
 }
 
-Downloader::Downloader(std::string url, std::FILE *destination,
-                       std::function<void(double percentage)> progress) : Downloader(url, progress)
+Downloader::Downloader(std::string url, std::FILE* destination, std::function<void(double percentage)> progress) : Downloader(url, progress)
 {
-    if(curl) {
+    if (curl) {
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, handle_file_chunk);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, destination);
     }
@@ -78,9 +76,7 @@ void Downloader::fetch()
 {
     CURLcode res = curl_easy_perform(curl);
 
-    if(res != CURLE_OK) {
+    if (res != CURLE_OK) {
         LogPrintf("Download of file failed: %s\n", curl_easy_strerror(res));
     }
-
 }
-

@@ -22,8 +22,8 @@
 #include "walletdb.h"
 #endif
 
-#include <stdint.h>
 #include <boost/assign/list_of.hpp>
+#include <stdint.h>
 #include <univalue.h>
 //#include "json/json_spirit_utils.h"
 //#include "json/json_spirit_value.h"
@@ -105,15 +105,15 @@ UniValue getinfo(const UniValue& params, bool fHelp)
     }
 #endif
 
-    bootstrapping.push_back(Pair("status",  bootstrappingStatus));
+    bootstrapping.push_back(Pair("status", bootstrappingStatus));
 
-    if (bootstrappingProgress == -1 || bootstrappingProgress != bootstrappingProgress) {
+    if (bootstrappingProgress == -1) {
         bootstrapping.push_back(Pair("progress", "none"));
     } else {
         bootstrapping.push_back(Pair("progress", bootstrappingProgress));
     }
 
-    obj.push_back(Pair("bootstrapping",  bootstrapping));
+    obj.push_back(Pair("bootstrapping", bootstrapping));
 
     obj.push_back(Pair("blocks", (int)chainActive.Height()));
     obj.push_back(Pair("timeoffset", GetTimeOffset()));
@@ -132,10 +132,10 @@ UniValue getinfo(const UniValue& params, bool fHelp)
     CAmount blacklistedSum = supplyCache.GetBlackListedSum();
     CAmount governanceSum = supplyCache.GetGovernanceSum();
 
-    obj.push_back(Pair("moneysupply",ValueFromAmount(moneySupply)));
-    obj.push_back(Pair("blacklisted",ValueFromAmount(blacklistedSum)));
-    obj.push_back(Pair("governance",ValueFromAmount(governanceSum)));
-    obj.push_back(Pair("circulatingsupply",ValueFromAmount(moneySupply - blacklistedSum - governanceSum)));
+    obj.push_back(Pair("moneysupply", ValueFromAmount(moneySupply)));
+    obj.push_back(Pair("blacklisted", ValueFromAmount(blacklistedSum)));
+    obj.push_back(Pair("governance", ValueFromAmount(governanceSum)));
+    obj.push_back(Pair("circulatingsupply", ValueFromAmount(moneySupply - blacklistedSum - governanceSum)));
 
     /**UniValue zpivObj(UniValue::VOBJ);
 
@@ -246,9 +246,10 @@ private:
 public:
     DescribeAddressVisitor(isminetype mineIn) : mine(mineIn) {}
 
-    UniValue operator()(const CNoDestination &dest) const { return UniValue(UniValue::VOBJ); }
+    UniValue operator()(const CNoDestination& dest) const { return UniValue(UniValue::VOBJ); }
 
-    UniValue operator()(const CKeyID &keyID) const {
+    UniValue operator()(const CKeyID& keyID) const
+    {
         UniValue obj(UniValue::VOBJ);
         CPubKey vchPubKey;
         obj.push_back(Pair("isscript", false));
@@ -260,7 +261,8 @@ public:
         return obj;
     }
 
-    UniValue operator()(const CScriptID &scriptID) const {
+    UniValue operator()(const CScriptID& scriptID) const
+    {
         UniValue obj(UniValue::VOBJ);
         obj.push_back(Pair("isscript", true));
         if (mine != ISMINE_NO) {
