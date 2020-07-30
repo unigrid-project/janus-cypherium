@@ -20,9 +20,9 @@
 import { BrowserWindow } from "electron";
 import { format as formatUrl } from "url";
 import path from "path";
-import Daemon from "common/daemon";
-import Explorer from "common/explorer";
-import Version from "common/version";
+import Daemon from "../common/daemon";
+import Explorer from "../common/explorer";
+import Version from "../common/version";
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const BOOTSTRAP_DOWNLOAD_THRESHOLD_BLOCKS = 20000;
@@ -49,7 +49,7 @@ export default class SplashController {
 			window.webContents.openDevTools({ mode: "detach" });
 			window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}?route=splash`);
 		} else {
-			
+			window.webContents.openDevTools({ mode: "detach" });
 			window.loadURL(formatUrl({
 				pathname: path.join(__dirname, 'index.html'),
 				protocol: "file",
@@ -132,6 +132,7 @@ export default class SplashController {
 						var progress = response[0].bootstrapping.progress;
 						connections = response[0].connections;
 						this.window.webContents.send("connections", connections);
+						console.log("response[0].bootstrapping.status ",response[0].bootstrapping.status)
 						switch (response[0].bootstrapping.status) {
 							case "downloading":
 								this.window.webContents.send(
