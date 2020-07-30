@@ -64,7 +64,6 @@ const routes = {
 			</div>
 		</div>
 	],
-	shitpickle: [<div>shitpickle</div>],
 	splash: [
 		<ControlBar key={1} className="nobg" fullControls={false} extraButton="rocket"
 			extraButtonOnClick={onStartGame} />, <Splash key={2} />
