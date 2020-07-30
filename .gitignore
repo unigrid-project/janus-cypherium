@@ -107,7 +107,7 @@ qa/pull-tester/tests-config.sh
 qa/pull-tester/cache/*
 qa/pull-tester/test.*/*
 
-!daemon/leveldb*/Makefile
+daemon/leveldb*/Makefile
 
 .cproject
 .project

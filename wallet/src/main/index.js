@@ -17,16 +17,36 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { app, ipcMain } from "electron";
+import { app, ipcMain, remote } from "electron";
 import * as path from "path";
 import { format as formatUrl } from "url";
-import Daemon from "common/daemon";
-import RPCClient from "common/rpc-client.js"
+import Daemon from "../common/daemon";
+import RPCClient from "../common/rpc-client.js"
 import AsteroidsController from "./asteroids-controller";
 import MainController from "./main-controller";
 import SplashController from "./splash-controller";
 import { Notification } from "electron";
+import request from 'request';
+
 const { crashReporter } = require('electron');
+const packageJSON = require('../../package.json');
+const deps = packageJSON.dependencies;
+
+process.on('uncaughtException', (err) => {
+	console.log("uncaughtException: ", err)
+	request.post('http://crashreports.unigrid.org/POST', {
+		form: {
+			ver: deps['electron-prebuilt'],
+			platform: process.platform,
+			process_type: remote ? 'renderer' : 'main',
+			version: packageJSON.version,
+			productName: packageJSON.productName,
+			prod: 'Electron',
+			companyName: 'UNIGRID Organization',
+			upload_file_minidump: err.stack,
+		}
+	});
+});
 
 crashReporter.start({
 	productName: 'UNIGRID Wallet',
@@ -71,6 +91,7 @@ const defaultRPCPort = 35075;
 
 app.on("ready", () => {
 	var splashController = new SplashController();
+	
 	// for notifications on windows
 	app.setAppUserModelId("unigrid-electron");
 
