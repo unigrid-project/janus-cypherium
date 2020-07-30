@@ -12,7 +12,7 @@ $(package)_config_env_default=LIBS="" LD_LIBRARY_PATH="$(PREFIX_DIR)lib" PKG_CON
 $(package)_config_opts_default=--without-ssl --disable-ftp --disable-file --disable-ldap --disable-ldaps --disable-rtsp --disable-dict --disable-telnet --disable-tftp --disable-pop3 --disable-imap --disable-smb --disable-smtp --disable-gopher --enable-proxy --with-gnutls="$(PREFIX_DIR)" --without-ca-path --without-ca-bundle --with-ca-fallback --disable-telnet --enable-threaded-resolver
 
 # mingw specific settings typo? -DCURL_STATIC_LIB
-$(package)_config_env_mingw32=LIBS="-lcrypt32 " LD_LIBRARY_PATH="$(PREFIX_DIR)lib" PKG_CONFIG_LIBDIR="$(PREFIX_DIR)lib/pkgconfig" CPPFLAGS="-I$(PREFIX_DIR)include -lcrypto -lssl -DCURL_STATICLIB -static" LDFLAGS="-L$(PREFIX_DIR)lib"
+$(package)_config_env_mingw32=LIBS="" LD_LIBRARY_PATH="$(PREFIX_DIR)lib" PKG_CONFIG_LIBDIR="$(PREFIX_DIR)lib/pkgconfig" CPPFLAGS="-I$(PREFIX_DIR)include -lssl -lcrypto -lgdi32 -lws2_32 -lcrypt32 -DCURL_STATICLIB -static" LDFLAGS="-L$(PREFIX_DIR)lib"
 $(package)_config_opts_mingw32=--disable-shared --without-ssl --disable-ftp --disable-file --disable-ldap --disable-ldaps --disable-rtsp --disable-dict --disable-telnet --disable-tftp --disable-pop3 --disable-imap --disable-smb --disable-smtp --disable-gopher --enable-proxy --with-gnutls="$(PREFIX_DIR)" --without-ca-path --without-ca-bundle --with-ca-fallback --disable-telnet
 $(package)_config_env_x86_64-w64-mingw32=$($(package)_config_env_mingw32)
 $(package)_config_env_i686-w64-mingw32=$($(package)_config_env_mingw32)
