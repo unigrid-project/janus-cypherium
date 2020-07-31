@@ -49,7 +49,7 @@ export default class SplashController {
 			window.webContents.openDevTools({ mode: "detach" });
 			window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}?route=splash`);
 		} else {
-			window.webContents.openDevTools({ mode: "detach" });
+			//window.webContents.openDevTools({ mode: "detach" });
 			window.loadURL(formatUrl({
 				pathname: path.join(__dirname, 'index.html'),
 				protocol: "file",
@@ -102,7 +102,7 @@ export default class SplashController {
 		var syncing = false;
 		var startHeight = -1;
 		var localHeight = 0;
-		var connections = 0;
+		
 		do {
 			await new Promise((resolve, reject) => {
 				if (syncing) {
@@ -113,7 +113,7 @@ export default class SplashController {
 						localHeight = response[0];
 						if (startHeight == -1) {
 							startHeight = localHeight;
-						} else if (localHeight > startHeight) {
+						} else if (remoteHeight > startHeight) {
 							this.window.webContents.send(
 								"progress", localHeight / remoteHeight,
 								`Synchronizing block ${localHeight} of ${remoteHeight}...`
@@ -130,8 +130,6 @@ export default class SplashController {
 						new Promise(resolve => setTimeout(resolve, 500))
 					]).then((response) => {
 						var progress = response[0].bootstrapping.progress;
-						connections = response[0].connections;
-						this.window.webContents.send("connections", connections);
 						console.log("response[0].bootstrapping.status ", response[0].bootstrapping.status)
 						switch (response[0].bootstrapping.status) {
 							case "downloading":
@@ -140,20 +138,18 @@ export default class SplashController {
 									`Downloading bootstrap archive (${progress.toFixed(2)}%)...`
 								);
 								break;
-
 							case "unarchiving":
 								this.window.webContents.send(
 									"progress", "indeterminate",
 									`Unarchiving bootstrap archive (${progress.toFixed(2)}%)...`
 								);
 								break;
-
 							case "syncing":
+								syncing = true;
 								this.window.webContents.send(
 									"progress", "indeterminate",
 									`Importing blocks...`
 								);
-								syncing = true;
 								break;
 							case "loading":
 								this.window.webContents.send(
@@ -217,7 +213,7 @@ export default class SplashController {
 	}
 
 	async check_errors(rpcClient) {
-		var bootstrapingStatus = "";
+		var walletStatus = "";
 		var count = 1;
 		do {
 			await new Promise((resolve, reject) => {
@@ -225,11 +221,10 @@ export default class SplashController {
 					rpcClient.getinfo(),
 					new Promise(resolve => setTimeout(resolve, 1000))
 				]).then((response) => {
-					
 					console.log("errors message: ", response[0]);
-					bootstrapingStatus = response[0].bootstrapping.status;
+					walletStatus = response[0].bootstrapping.walletstatus;
 					this.window.webContents.send(
-						"progress", "indeterminate", "Checking Wallet.dat... ".concat(bootstrapingStatus)
+						"progress", "indeterminate", "Checking Wallet.dat... ".concat(walletStatus)
 					);
 					count++;
 					resolve();
@@ -237,7 +232,7 @@ export default class SplashController {
 					reject();
 				});
 			});
-		} while (bootstrapingStatus != "Done loading")
+		} while (walletStatus != "Done loading")
 	}
 
 	async daemon_loading(rpcClient) {
@@ -257,7 +252,7 @@ export default class SplashController {
 					resolve();
 				}, (stderr) => {
 					console.error(stderr);
-					
+
 					reject();
 				});
 			});

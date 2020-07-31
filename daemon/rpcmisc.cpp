@@ -106,7 +106,7 @@ UniValue getinfo(const UniValue& params, bool fHelp)
 #endif
 
     bootstrapping.push_back(Pair("status", bootstrappingStatus));
-
+    bootstrapping.push_back(Pair("walletstatus", walletStatus));
     if (bootstrappingProgress == -1) {
         bootstrapping.push_back(Pair("progress", "none"));
     } else {

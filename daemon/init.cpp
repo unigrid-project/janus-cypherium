@@ -1802,7 +1802,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 #endif // !ENABLE_WALLET
     // ********************************************************* Step 9: import blocks
     std::vector<std::string> arguments;
-
+    walletStatus = "loading";
     if (mapArgs.count("-loadblock")) {
         BOOST_FOREACH (string arg, mapMultiArgs["-loadblock"])
             arguments.push_back(arg);
@@ -2038,7 +2038,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     // ********************************************************* Step 12: finished
 
     SetRPCWarmupFinished();
-    bootstrappingStatus = "Done loading";
+    walletStatus = "Done loading";
     uiInterface.InitMessage(_("Done loading"));
 
 #ifdef ENABLE_WALLET
