@@ -45,10 +45,6 @@ export default class Splash extends React.Component {
 		ipcRenderer.on("progress", (event, percentage, message) => {
 			this.setState({ infoMessage: message, errorMessage: null, percentage: percentage });
 		});
-
-		ipcRenderer.on("connections", (event, message) => {
-			this.setState({ totalConnections: message })
-		});
 	}
 
 	render() {
@@ -76,10 +72,6 @@ export default class Splash extends React.Component {
 						<progress value={this.state.percentage} />
 					}
 					<p>{this.state.infoMessage}</p>
-					{this.state.totalConnections != null ?
-						<div className="network">Connections: {this.state.totalConnections}</div>
-						: null
-					}
 				</div>
 
 			</div>
