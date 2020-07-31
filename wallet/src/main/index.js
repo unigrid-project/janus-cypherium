@@ -91,7 +91,7 @@ const defaultRPCPort = 35075;
 
 app.on("ready", () => {
 	var splashController = new SplashController();
-	
+
 	// for notifications on windows
 	app.setAppUserModelId("unigrid-electron");
 
@@ -103,9 +103,13 @@ app.on("ready", () => {
 			splashController.version_control(rpcClient).then(() => {
 				splashController.daemon_loading(rpcClient).then(() => {
 					splashController.synchronize_wallet(rpcClient).then(() => {
-						/* If sync was a success, we close the splash and move on to the main wallet window */
-						var mainController = new MainController();
-						splashController.window.close();
+						splashController.check_errors(rpcClient).then(() => {
+							/* If sync was a success, we close the splash and move on to the main wallet window */
+							var mainController = new MainController();
+							splashController.window.close();
+						}, (stderr) => {
+							console.error(stderr);
+						});
 					}, (stderr) => {
 						console.error(stderr);
 					});

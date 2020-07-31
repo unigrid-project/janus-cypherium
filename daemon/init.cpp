@@ -1693,6 +1693,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         DBErrors nLoadWalletRet = pwalletMain->LoadWallet(fFirstRun);
         if (nLoadWalletRet != DB_LOAD_OK) {
             if (nLoadWalletRet == DB_CORRUPT)
+
                 strErrors << _("Error loading wallet.dat: Wallet corrupted") << "\n";
             else if (nLoadWalletRet == DB_NONCRITICAL_ERROR) {
                 string msg(_("Warning: error reading wallet.dat! All keys read correctly, but transaction data"
@@ -1784,7 +1785,6 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             }
         }
         fVerifyingBlocks = false;
-
         //Inititalize zUNIGRIDWallet
         uiInterface.InitMessage(_("Syncing zUNIGRID wallet..."));
 
@@ -1795,6 +1795,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         pwalletMain->zpivTracker->Init();
         zwalletMain->LoadMintPoolFromDB();
         zwalletMain->SyncWithChain();
+
     }  // (!fDisableWallet)
 #else  // ENABLE_WALLET
     LogPrintf("No wallet compiled in!\n");
@@ -2037,6 +2038,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     // ********************************************************* Step 12: finished
 
     SetRPCWarmupFinished();
+    bootstrappingStatus = "Done loading";
     uiInterface.InitMessage(_("Done loading"));
 
 #ifdef ENABLE_WALLET

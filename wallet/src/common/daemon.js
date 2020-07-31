@@ -82,13 +82,11 @@ export default class Daemon {
 
 	static async start(window, downloadBootStrap = false) {
 		var p;
-
 		if (isDevelopment) {
 			p = await Daemon.execute(window, "../daemon/unigridd", downloadBootStrap, true);
 		} else {
 			p = await Daemon.execute(window, process.resourcesPath + "/../unigridd", downloadBootStrap, false);
 		}
-
 		return p;
 	}
 

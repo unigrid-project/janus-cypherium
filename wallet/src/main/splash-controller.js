@@ -38,7 +38,7 @@ export default class SplashController {
 			frame: false,
 			resizable: false,
 			show: false,
-			
+
 			webPreferences: {
 				nodeIntegration: true,
 				webSecurity: false
@@ -56,7 +56,7 @@ export default class SplashController {
 				slashes: true,
 				hash: "splash"
 			}));
-			
+
 		}
 
 		window.webContents.on("devtools-opened", () => {
@@ -132,7 +132,7 @@ export default class SplashController {
 						var progress = response[0].bootstrapping.progress;
 						connections = response[0].connections;
 						this.window.webContents.send("connections", connections);
-						console.log("response[0].bootstrapping.status ",response[0].bootstrapping.status)
+						console.log("response[0].bootstrapping.status ", response[0].bootstrapping.status)
 						switch (response[0].bootstrapping.status) {
 							case "downloading":
 								this.window.webContents.send(
@@ -184,14 +184,15 @@ export default class SplashController {
 	}
 
 	async synchronize_wallet(rpcClient) {
+		console.log("synchronize wallet")
 		return await new Promise((resolve, reject) => {
 			Promise.all([
 				rpcClient.getinfo(),
 				new Explorer().getblockcount(),
 				new Promise(resolve => setTimeout(resolve, 1000))
 			]).then((response) => {
+				console.log("sync call response ", response)
 				var remoteHeight = response[1];
-
 				/* Should we restart the daemon and download the bootstrap? */
 				if (remoteHeight - response[0]["blocks"] > BOOTSTRAP_DOWNLOAD_THRESHOLD_BLOCKS) {
 					this.window.webContents.send(
@@ -215,6 +216,30 @@ export default class SplashController {
 		});
 	}
 
+	async check_errors(rpcClient) {
+		var bootstrapingStatus = "";
+		var count = 1;
+		do {
+			await new Promise((resolve, reject) => {
+				Promise.all([
+					rpcClient.getinfo(),
+					new Promise(resolve => setTimeout(resolve, 1000))
+				]).then((response) => {
+					
+					console.log("errors message: ", response[0]);
+					bootstrapingStatus = response[0].bootstrapping.status;
+					this.window.webContents.send(
+						"progress", "indeterminate", "Checking Wallet.dat... ".concat(bootstrapingStatus)
+					);
+					count++;
+					resolve();
+				}).catch((reason) => {
+					reject();
+				});
+			});
+		} while (bootstrapingStatus != "Done loading")
+	}
+
 	async daemon_loading(rpcClient) {
 		var blockHeight = -1;
 		var rpcCallCount = 0;
@@ -232,12 +257,13 @@ export default class SplashController {
 					resolve();
 				}, (stderr) => {
 					console.error(stderr);
+					
 					reject();
 				});
 			});
 		} while (blockHeight === -1)
 		this.window.webContents.send(
-			"progress", "indeterminate", "UNIGRID daemon loaded..."
+			"progress", "indeterminate", "Done loading daemon..."
 		);
 	}
 }
