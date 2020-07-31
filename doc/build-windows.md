@@ -92,6 +92,8 @@ Note that for WSL the UNIGRID source path MUST be somewhere in the default mount
 example /usr/src/unigrid, AND not under /mnt/d/. If this is not the case the dependency autoconf scripts will fail.
 This means you cannot use a directory that is located directly on the host Windows file system to perform the build.
 
+You must add the CPPFLAG for the curl static lib like below for the library to link properly from depends.
+
 Build using:
 
     PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
@@ -99,26 +101,12 @@ Build using:
     make HOST=x86_64-w64-mingw32
     cd ..
     ./autogen.sh # not required when building from tarball
-    CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
+    CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/ CPPFLAGS="-DCURL_STATICLIB" --disable-shared
     make
 
 ## Depends system
 
 For further documentation on the depends system see [README.md](../depends/README.md) in the depends directory.
-
-Installation
--------------
-
-After building using the Windows subsystem it can be useful to copy the compiled
-executables to a directory on the Windows drive in the same directory structure
-as they appear in the release `.zip` archive. This can be done in the following
-way. This will install to `c:\workspace\unigrid`, for example:
-
-    make install DESTDIR=/mnt/c/workspace/unigrid
-
-You can also create an installer using:
-
-    make deploy
 
 Footnotes
 ---------
