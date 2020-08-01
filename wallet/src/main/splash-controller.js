@@ -23,7 +23,7 @@ import path from "path";
 import Daemon from "../common/daemon";
 import Explorer from "../common/explorer";
 import Version from "../common/version";
-
+const log = require('electron-log');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const BOOTSTRAP_DOWNLOAD_THRESHOLD_BLOCKS = 20000;
 export default class SplashController {
@@ -66,6 +66,7 @@ export default class SplashController {
 		});
 
 		window.webContents.on("did-finish-load", () => {
+			log.info("did-finish-load");
 			window.show();
 			window.webContents.send("state", "working");
 		});
