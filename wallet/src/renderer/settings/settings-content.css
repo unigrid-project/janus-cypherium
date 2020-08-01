@@ -69,3 +69,8 @@ div#settings.inactive {
     flex-direction: column;
     padding: 5px;
 }
+.version--release{
+    position: absolute;
+	bottom: 0px;
+	right: 0px;
+}

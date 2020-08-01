@@ -31,6 +31,7 @@ import { ipcRenderer, remote } from "electron";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import { projectName, SHITPICKLE, confFile, masternodeFile } from "../../common/consts";
 
+const packageJSON = require('../../../package.json');
 const store = new Store();
 
 function SettingsContent(props) {
@@ -71,6 +72,7 @@ function SettingsContent(props) {
 
 	return (
 		<Content id="settings">
+			{renderVersionNumber()}
 			<div className="main--settings-container" >
 				<div>Settings</div>
 				<Button
@@ -300,7 +302,7 @@ function SettingsContent(props) {
 	function checkIfEncryptedForDump() {
 		//setDisableDumpButton(true);
 		let message = {
-			command:  "unlockfordump",
+			command: "unlockfordump",
 			alias: null
 		}
 		if (isEncrypted === true) {
@@ -388,6 +390,17 @@ function SettingsContent(props) {
 		} else {
 			setHideZeroBalances(v);
 		}
+	}
+
+	function renderVersionNumber() {
+		var coinName = packageJSON.name;
+		var coinVersion = packageJSON.version;
+
+		return (
+			<div className="version--release">
+				{coinName.concat("-").concat(coinVersion)}
+			</div>
+		)
 	}
 }
 
