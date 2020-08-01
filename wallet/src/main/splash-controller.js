@@ -49,7 +49,7 @@ export default class SplashController {
 			window.webContents.openDevTools({ mode: "detach" });
 			window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}?route=splash`);
 		} else {
-			window.webContents.openDevTools({ mode: "detach" });
+			//window.webContents.openDevTools({ mode: "detach" });
 			window.loadURL(formatUrl({
 				pathname: path.join(__dirname, 'index.html'),
 				protocol: "file",

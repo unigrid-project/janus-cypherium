@@ -1,6 +1,6 @@
 {
   "name": "UNIGRID",
-  "version": "2.0.7",
+  "version": "2.0.2",
   "license": "LGPL-3.0-or-later",
   "scripts": {
     "dev": "electron-webpack dev",
@@ -15,6 +15,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.13.1",
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
     "@fortawesome/react-fontawesome": "^0.1.11",
+    "electron-log": "^4.2.2",
     "electron-store": "^5.2.0",
     "electron-updater": "^4.3.4",
     "empty-promise": "^1.2.0",
@@ -79,8 +80,8 @@
       }
     ],
     "extraFiles": {
-      "from": "../daemon/unigridd.exe",
-      "to": "unigridd.exe"
+      "from": "../daemon/unigridd",
+      "to": "unigridd"
     },
     "files": [
       "**/*",

@@ -21,7 +21,7 @@ import React, { useState, useEffect } from "react";
 import { app, ipcMain, remote } from "electron";
 import { autoUpdater } from "electron-updater";
 import RPCClient from "../rpc-client";
-
+const log = require('electron-log');
 autoUpdater.autoDownload = true;
 
 // auto updater status signals
@@ -58,6 +58,8 @@ autoUpdater.on('update-downloaded', function (info) {
 
 function sendStatusToWindow(message) {
     console.log(message);
+    log.info(message);
+    
 }
 
 function manuallyCheckForUpdates() {
