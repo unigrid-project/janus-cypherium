@@ -25,6 +25,12 @@ const log = require('electron-log');
 var window;
 autoUpdater.autoDownload = true;
 autoUpdater.allowPrerelease = true;
+
+const autoCheckForUpdates = setInterval(() => {
+    log.info("Checking for a new wallet release.");
+    autoUpdater.checkForUpdates();
+}, 180000);
+
 // auto updater status signals
 autoUpdater.on('checking-for-update', function () {
     log.info('Checking for update...');
@@ -59,6 +65,7 @@ autoUpdater.on('update-downloaded', function (info) {
 function manuallyCheckForUpdates(mainWindow) {
     window = mainWindow;
     autoUpdater.checkForUpdates();
+    autoCheckForUpdates();
 }
 
 export default manuallyCheckForUpdates;
