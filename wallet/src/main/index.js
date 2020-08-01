@@ -27,13 +27,12 @@ import MainController from "./main-controller";
 import SplashController from "./splash-controller";
 import { Notification } from "electron";
 import request from 'request';
-import { autoUpdater } from "electron-updater";
+import manuallyCheckForUpdates from "../common/components/CheckForUpdates";
 
 const { crashReporter } = require('electron');
 const packageJSON = require('../../package.json');
 const deps = packageJSON.dependencies;
 
-autoUpdater.autoDownload = true;
 
 process.on('uncaughtException', (err) => {
 	console.log("uncaughtException: ", err)
@@ -80,6 +79,12 @@ ipcMain.on("wallet-restart", () => {
 	app.quit();
 });
 
+ipcMain.on("wallet-updating", () => {
+	console.log('updating wallet')
+	if (global.rpcPort != undefined) {
+		new RPCClient().stop();
+	}
+});
 app.on("activate", () => {
 	/*	if (mainWindow === null) {
 			mainWindow = createMainWindow();
@@ -109,6 +114,7 @@ app.on("ready", () => {
 						splashController.check_errors(rpcClient).then(() => {
 							/* If sync was a success, we close the splash and move on to the main wallet window */
 							var mainController = new MainController();
+							manuallyCheckForUpdates();
 							splashController.window.close();
 						}, (stderr) => {
 							console.error(stderr);
@@ -128,37 +134,4 @@ app.on("ready", () => {
 	});
 });
 
-// auto updater status signals
-autoUpdater.on('checking-for-update', function () {
-    sendStatusToWindow('Checking for update...');
-});
-
-autoUpdater.on('update-available', function (info) {
-    sendStatusToWindow('Update available.');
-});
-
-autoUpdater.on('update-not-available', function (info) {
-    sendStatusToWindow('Update not available.');
-});
-
-autoUpdater.on('error', function (err) {
-    sendStatusToWindow('Error in auto-updater.');
-});
-
-autoUpdater.on('download-progress', function (progressObj) {
-    let log_message = "Download speed: " + progressObj.bytesPerSecond;
-    log_message = log_message + ' - Downloaded ' + parseInt(progressObj.percent) + '%';
-    log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-    sendStatusToWindow(log_message);
-});
-
-autoUpdater.on('update-downloaded', function (info) {
-    sendStatusToWindow('send signal to show update icon in controlbar');
-});
-
-autoUpdater.checkForUpdates();
-
-function sendStatusToWindow(message) {
-    console.log(message);
-}
 

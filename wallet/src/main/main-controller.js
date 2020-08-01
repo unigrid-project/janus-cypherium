@@ -52,7 +52,7 @@ export default class MainController {
 			});
 
 		} else {
-			//window.webContents.openDevTools({ mode: "detach" });
+			window.webContents.openDevTools({ mode: "detach" });
 			window.loadURL(formatUrl({
 				pathname: path.join(__dirname, "index.html"),
 				protocol: "file",

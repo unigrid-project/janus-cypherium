@@ -38,6 +38,7 @@ import { sendDesktopNotification } from "../../common/components/DesktopNotifica
 import { ipcRenderer, remote } from "electron";
 import Send from "../../common/components/Send";
 
+
 function MyWalletContent(props) {
 	const store = new Store();
 	const currency = store.get("currency", "usd");

@@ -56,7 +56,6 @@ export default class SplashController {
 				slashes: true,
 				hash: "splash"
 			}));
-
 		}
 
 		window.webContents.on("devtools-opened", () => {

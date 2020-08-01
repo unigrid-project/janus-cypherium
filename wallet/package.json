@@ -1,6 +1,6 @@
 {
   "name": "UNIGRID",
-  "version": "2.0.4",
+  "version": "2.0.7",
   "license": "LGPL-3.0-or-later",
   "scripts": {
     "dev": "electron-webpack dev",
@@ -62,15 +62,22 @@
       ],
       "category": "science"
     },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
     },
-    "publish": [{
-      "provider": "github",
-      "owner": "unigrid-project",
-      "repo": "UNIGRID"
-    }],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "unigrid-project",
+        "repo": "UNIGRID"
+      }
+    ],
     "extraFiles": {
       "from": "../daemon/unigridd.exe",
       "to": "unigridd.exe"
