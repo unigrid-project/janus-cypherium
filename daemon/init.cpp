@@ -731,6 +731,9 @@ void ThreadImport(std::vector<std::string> arguments)
             if (!std::feof(downloadedFile) && bsArchive.verifyHash()) {
                 vImportFiles.push_back(downloadedFilePath);
             } else {
+                // tell the GUI we're now syncing otherwise it wont display information about the sync progress
+                bootstrappingProgress = -1;
+                bootstrappingStatus = "syncing";
                 LogPrintf("Downloaded bootstrap archive appears to be empty or corrupted - will not be used\n");
             }
 
