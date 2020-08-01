@@ -24,6 +24,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faWindowMinimize, faWindowMaximize, faWindowClose } from "@fortawesome/free-solid-svg-icons";
 import File from "common/file";
 import "./controlbar.css"
+import { homePage } from "../common/consts";
 
 library.add(faSpinner, faWindowMinimize, faWindowMaximize, faWindowClose);
 
@@ -60,7 +61,9 @@ export default class ControlBar extends React.Component {
 			<div className={"controlbar " + this.props.className}>
 				<div>
 					{this.props.fullControls == true &&
+					 <a href={homePage} target="_blank">
 						<img src={File.get("logo.png")} className="piclet" />
+						</a>
 					}
 					<div>{this.props.headerText}</div>
 				</div>
