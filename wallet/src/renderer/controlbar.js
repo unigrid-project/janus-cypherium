@@ -60,12 +60,12 @@ export default class ControlBar extends React.Component {
 		return(
 			<div className={"controlbar " + this.props.className}>
 				<div>
-					{this.props.fullControls == true &&
-					 <a href={homePage} target="_blank">
-						<img src={File.get("logo.png")} className="piclet" />
-						</a>
-					}
-					<div>{this.props.headerText}</div>
+						{this.props.fullControls == true &&
+						<a href={homePage} target="_blank">
+							<img src={File.get("logo.png")} className="piclet" />
+							</a>
+						}
+						<div>{this.props.headerText}</div>			
 				</div>
 				<div>
 					{this.state.showSpinner == true &&

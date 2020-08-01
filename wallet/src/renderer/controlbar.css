@@ -38,6 +38,8 @@ div.controlbar img.piclet {
 	height: auto;
 	padding-right: 10px;
 	vertical-align: middle;
+	-webkit-app-region: no-drag;
+	border: none;
 }
 
 div.controlbar>div:first-child {

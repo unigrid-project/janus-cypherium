@@ -24,7 +24,7 @@ export const telegramLink = "https://t.me/unigrid";
 
 export const explorerLink = "http://explorer.unigrid.org/";
 
-export const homePage = "https/unigrid.org";
+export const homePage = "https://unigrid.org";
 
 export const projectName = "UNIGRID";
 
