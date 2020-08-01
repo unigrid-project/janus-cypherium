@@ -61,6 +61,10 @@
       ],
       "category": "science"
     },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
     "extraFiles": {
       "from": "../daemon/unigridd.exe",
       "to": "unigridd.exe"
