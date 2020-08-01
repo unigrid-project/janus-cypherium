@@ -1,6 +1,6 @@
 {
   "name": "UNIGRID",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "license": "LGPL-3.0-or-later",
   "scripts": {
     "dev": "electron-webpack dev",
