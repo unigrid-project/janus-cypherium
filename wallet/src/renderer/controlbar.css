@@ -69,6 +69,10 @@ div.controlbar svg.close {
 	color: #d55;
 }
 
+div.controlbar svg.update {
+	color: green;
+}
+
 div.controlbar svg {
 	transition: transform .2s ease-in-out;
 	cursor: pointer;

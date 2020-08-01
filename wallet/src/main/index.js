@@ -28,9 +28,11 @@ import SplashController from "./splash-controller";
 import { Notification } from "electron";
 import request from 'request';
 import manuallyCheckForUpdates from "../common/components/CheckForUpdates";
+import { autoUpdater } from "electron-updater";
 
 const { crashReporter } = require('electron');
 const packageJSON = require('../../package.json');
+const log = require('electron-log');
 const deps = packageJSON.dependencies;
 
 
@@ -79,17 +81,20 @@ ipcMain.on("wallet-restart", () => {
 	app.quit();
 });
 
-ipcMain.on("wallet-updating", () => {
-	console.log('updating wallet')
-	if (global.rpcPort != undefined) {
-		new RPCClient().stop();
-	}
-});
 app.on("activate", () => {
 	/*	if (mainWindow === null) {
 			mainWindow = createMainWindow();
 		}*/
 });
+
+ipcMain.on('update-the-wallet', () => {
+    console.log("restart and update")
+    log.info('Restarting wallet to install the update!');
+    if (global.rpcPort != undefined) {
+        new RPCClient().stop();
+    }
+    autoUpdater.quitAndInstall();
+})
 
 ipcMain.on("open-asteroids", () => {
 	var asteroidsController = new AsteroidsController();
@@ -99,22 +104,28 @@ const defaultRPCPort = 35075;
 
 app.on("ready", () => {
 	var splashController = new SplashController();
-
+	log.info("app ready");
 	// for notifications on windows
 	app.setAppUserModelId("unigrid-electron");
 
 	splashController.window.webContents.on("did-finish-load", () => {
+		log.info("did-finish-load");
 		splashController.window.webContents.send("progress", "indeterminate", "Initializing UNIGRID daemon...");
-
+		log.info("Initializing UNIGRID daemon...");
 		Daemon.start(splashController.window).then(() => {
+			log.info("daemon start...");
 			var rpcClient = new RPCClient();
 			splashController.version_control(rpcClient).then(() => {
+				log.info("version_control");
 				splashController.daemon_loading(rpcClient).then(() => {
+					log.info("daemon_loading");
 					splashController.synchronize_wallet(rpcClient).then(() => {
+						log.info("synchronize_wallet");
 						splashController.check_errors(rpcClient).then(() => {
+							log.info("Load MainController");
 							/* If sync was a success, we close the splash and move on to the main wallet window */
 							var mainController = new MainController();
-							manuallyCheckForUpdates();
+							manuallyCheckForUpdates(mainController.window);
 							splashController.window.close();
 						}, (stderr) => {
 							console.error(stderr);

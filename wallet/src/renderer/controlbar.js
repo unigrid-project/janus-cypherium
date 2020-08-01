@@ -21,21 +21,31 @@ import React from "react";
 import { ipcRenderer, remote } from "electron";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner, faWindowMinimize, faWindowMaximize, faWindowClose } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner, faWindowMinimize, faWindowMaximize, faWindowClose, faArrowDown, faArrowCircleDown } from "@fortawesome/free-solid-svg-icons";
 import File from "common/file";
 import "./controlbar.css"
 import { homePage } from "../common/consts";
 
-library.add(faSpinner, faWindowMinimize, faWindowMaximize, faWindowClose);
+library.add(faSpinner, faWindowMinimize, faWindowMaximize, faWindowClose, faArrowDown, faArrowCircleDown);
 
 export default class ControlBar extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { showSpinner: false };
+		this.state = {
+			showSpinner: false,
+			isUpdateAvailable: false
+		};
 
+		ipcRenderer.on("wallet-update-available", (event, message) => {
+			this.setState({ isUpdateAvailable: true });
+		})
 		ipcRenderer.on("state", (event, message) => {
 			this.setState({ showSpinner: (message == "working" ? true : false) });
 		});
+	}
+
+	updateWallet(){
+		ipcRenderer.send("update-the-wallet");
 	}
 
 	render() {
@@ -57,31 +67,35 @@ export default class ControlBar extends React.Component {
 			remote.getCurrentWindow().close();
 		}
 
-		return(
+		return (
 			<div className={"controlbar " + this.props.className}>
 				<div>
-						{this.props.fullControls == true &&
+					{this.props.fullControls == true &&
 						<a href={homePage} target="_blank">
 							<img src={File.get("logo.png")} className="piclet" />
-							</a>
-						}
-						<div>{this.props.headerText}</div>			
+						</a>
+					}
+					<div>{this.props.headerText}</div>
 				</div>
 				<div>
+
 					{this.state.showSpinner == true &&
 						<FontAwesomeIcon className="spinner" icon="spinner" spin />
+					}
+					{this.state.isUpdateAvailable == true &&
+						<FontAwesomeIcon onClick={() => this.updateWallet()} className="update" icon={faArrowCircleDown} />
 					}
 					{this.props.fullControls == true &&
 						<div>
 							<FontAwesomeIcon onClick={onMinimize} className="minimize"
-							                 icon="window-minimize" />
+								icon="window-minimize" />
 							<FontAwesomeIcon onClick={onMaximize} className="maximize"
-							                 icon="window-maximize" />
+								icon="window-maximize" />
 						</div>
 					}
 					{this.props.extraButton &&
 						<FontAwesomeIcon className="extra" onClick={this.props.extraButtonOnClick}
-						                 icon={this.props.extraButton} />
+							icon={this.props.extraButton} />
 					}
 					<FontAwesomeIcon onClick={onClose} className="close" icon="window-close" />
 				</div>

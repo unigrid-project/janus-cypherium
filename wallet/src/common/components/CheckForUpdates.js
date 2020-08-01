@@ -22,47 +22,42 @@ import { app, ipcMain, remote } from "electron";
 import { autoUpdater } from "electron-updater";
 import RPCClient from "../rpc-client";
 const log = require('electron-log');
+var window;
 autoUpdater.autoDownload = true;
-
+autoUpdater.allowPrerelease = true;
 // auto updater status signals
 autoUpdater.on('checking-for-update', function () {
-    sendStatusToWindow('Checking for update...');
+    log.info('Checking for update...');
 });
 
 autoUpdater.on('update-available', function (info) {
-    sendStatusToWindow('Update available.');
+    log.info('Update available.');
 });
 
 autoUpdater.on('update-not-available', function (info) {
-    sendStatusToWindow('Update not available.');
+    log.info('Update not available.');
 });
 
 autoUpdater.on('error', function (err) {
-    sendStatusToWindow('Error in auto-updater.');
+    log.warn("Update error: ", err);
 });
 
 autoUpdater.on('download-progress', function (progressObj) {
     let log_message = "Download speed: " + progressObj.bytesPerSecond;
     log_message = log_message + ' - Downloaded ' + parseInt(progressObj.percent) + '%';
     log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-    sendStatusToWindow(log_message);
+    log.info(log_message);
 });
 
 autoUpdater.on('update-downloaded', function (info) {
-    sendStatusToWindow('send signal to show update icon in controlbar');
-    if (global.rpcPort != undefined) {
-		new RPCClient().stop();
-	}
-    autoUpdater.quitAndInstall();
+    log.info('Download complete: ', info);
+
+    window.webContents.send("wallet-update-available");
+
 });
 
-function sendStatusToWindow(message) {
-    console.log(message);
-    log.info(message);
-    
-}
-
-function manuallyCheckForUpdates() {
+function manuallyCheckForUpdates(mainWindow) {
+    window = mainWindow;
     autoUpdater.checkForUpdates();
 }
 
