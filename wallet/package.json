@@ -16,6 +16,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
     "@fortawesome/react-fontawesome": "^0.1.11",
     "electron-store": "^5.2.0",
+    "electron-updater": "^4.3.4",
     "empty-promise": "^1.2.0",
     "javascript-terminal": "^1.0.3",
     "jquery": "^3.5.1",
@@ -65,6 +66,11 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
     },
+    "publish": [{
+      "provider": "github",
+      "owner": "unigrid-project",
+      "repo": "UNIGRID"
+    }],
     "extraFiles": {
       "from": "../daemon/unigridd.exe",
       "to": "unigridd.exe"

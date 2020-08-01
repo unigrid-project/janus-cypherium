@@ -27,6 +27,7 @@ import MainController from "./main-controller";
 import SplashController from "./splash-controller";
 import { Notification } from "electron";
 import request from 'request';
+import { autoUpdater } from "electron-updater";
 
 const { crashReporter } = require('electron');
 const packageJSON = require('../../package.json');
