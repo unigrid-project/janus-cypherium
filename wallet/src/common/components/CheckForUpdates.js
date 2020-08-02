@@ -23,7 +23,6 @@ import { autoUpdater } from "electron-updater";
 import RPCClient from "../rpc-client";
 const log = require('electron-log');
 var window;
-var updateDownloaded = false;
 autoUpdater.autoDownload = true;
 autoUpdater.allowPrerelease = true;
 
@@ -46,7 +45,7 @@ autoUpdater.on('update-not-available', function (info) {
 });
 
 autoUpdater.on('error', function (err) {
-    log.warn("Update error: ", err);
+    log.warn("Auto Updater: ", err);
 });
 
 autoUpdater.on('download-progress', function (progressObj) {
@@ -57,13 +56,8 @@ autoUpdater.on('download-progress', function (progressObj) {
 });
 
 autoUpdater.on('update-downloaded', function (info) {
-    if(!updateDownloaded) updateDownloaded = true;
-    // stop the continual check for updates
-    // otherwise autoUpdater will keep downloading the release
-    clearInterval(autoCheckForUpdates);
     log.info('Download complete: ', info);
-    window.webContents.send("wallet-update-available");
-
+    window.webContents.send("wallet-update-available", info);
 });
 
 function manuallyCheckForUpdates(mainWindow) {
