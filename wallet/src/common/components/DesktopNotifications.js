@@ -18,17 +18,18 @@
 
 import path from "path";
 import notifier from 'node-notifier';
+import packageJSON from '../../../package.json';
 
 export const sendDesktopNotification = (message) => {
     console.log('notify ', message)
     let iconAddress = path.join(__static, '/solid_logo.png');
 
     notifier.notify({
-        'title': 'UNIGRID',
+        'title': packageJSON.name,
         'message': message,
         'wait': true,
         'icon': iconAddress,
-        'appID': 'org.unigrid.wallet'
+        'appID': packageJSON.build.appId
     });
 }
 
