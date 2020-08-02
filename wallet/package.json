@@ -1,6 +1,6 @@
 {
   "name": "UNIGRID",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "license": "LGPL-3.0-or-later",
   "scripts": {
     "dev": "electron-webpack dev",
@@ -76,12 +76,13 @@
       {
         "provider": "github",
         "owner": "unigrid-project",
-        "repo": "UNIGRID"
+        "repo": "UNIGRID",
+        "releaseType": "release"
       }
     ],
     "extraFiles": {
-      "from": "../daemon/unigridd",
-      "to": "unigridd"
+      "from": "../daemon/unigridd.exe",
+      "to": "unigridd.exe"
     },
     "files": [
       "**/*",
