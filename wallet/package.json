@@ -1,6 +1,6 @@
 {
   "name": "UNIGRID",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "license": "LGPL-3.0-or-later",
   "scripts": {
     "dev": "electron-webpack dev",
@@ -15,6 +15,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.13.1",
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
     "@fortawesome/react-fontawesome": "^0.1.11",
+    "add": "^2.0.6",
     "electron-log": "^4.2.2",
     "electron-store": "^5.2.0",
     "electron-updater": "^4.3.4",
@@ -39,7 +40,8 @@
     "roboto-fontface": "^0.10.0",
     "source-map-support": "^0.5.19",
     "styled-components": "^5.1.1",
-    "tcp-port-used": "^1.0.1"
+    "tcp-port-used": "^1.0.1",
+    "yarn": "^1.22.4"
   },
   "devDependencies": {
     "electron": "^9.1.1",
@@ -88,7 +90,6 @@
         "releaseType": "release"
       }
     ],
-   
     "files": [
       "**/*",
       "logo.png",
