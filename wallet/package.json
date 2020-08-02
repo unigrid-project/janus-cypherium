@@ -1,6 +1,6 @@
 {
   "name": "UNIGRID",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "license": "LGPL-3.0-or-later",
   "scripts": {
     "dev": "electron-webpack dev",
@@ -80,8 +80,8 @@
       }
     ],
     "extraFiles": {
-      "from": "../daemon/unigridd.exe",
-      "to": "unigridd.exe"
+      "from": "../daemon/unigridd",
+      "to": "unigridd"
     },
     "files": [
       "**/*",
