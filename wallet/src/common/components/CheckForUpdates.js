@@ -27,13 +27,12 @@ autoUpdater.autoDownload = true;
 autoUpdater.allowPrerelease = true;
 
 const autoCheckForUpdates = setInterval(() => {
-    log.info("Checking for a new wallet release.");
     autoUpdater.checkForUpdates();
 }, 180000);
 
 // auto updater status signals
 autoUpdater.on('checking-for-update', function () {
-    log.info('Checking for update...');
+    log.info("Checking for a new wallet release.");
 });
 
 autoUpdater.on('update-available', function (info) {
