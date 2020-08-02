@@ -125,8 +125,8 @@ app.on("ready", () => {
 							log.info("Load MainController");
 							/* If sync was a success, we close the splash and move on to the main wallet window */
 							var mainController = new MainController();
-							manuallyCheckForUpdates(mainController.window);
 							splashController.window.close();
+							manuallyCheckForUpdates(mainController.window);
 						}, (stderr) => {
 							console.error(stderr);
 						});
