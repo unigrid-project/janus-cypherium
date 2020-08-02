@@ -33,18 +33,19 @@ export default class ControlBar extends React.Component {
 		super(props);
 		this.state = {
 			showSpinner: false,
-			isUpdateAvailable: false
+			isUpdateAvailable: false,
+			version: ""
 		};
 
 		ipcRenderer.on("wallet-update-available", (event, message) => {
-			this.setState({ isUpdateAvailable: true });
+			this.setState({ isUpdateAvailable: true, version: message.version });
 		})
 		ipcRenderer.on("state", (event, message) => {
 			this.setState({ showSpinner: (message == "working" ? true : false) });
 		});
 	}
 
-	updateWallet(){
+	updateWallet() {
 		ipcRenderer.send("update-the-wallet");
 	}
 
@@ -78,12 +79,14 @@ export default class ControlBar extends React.Component {
 					<div>{this.props.headerText}</div>
 				</div>
 				<div>
-
 					{this.state.showSpinner == true &&
 						<FontAwesomeIcon className="spinner" icon="spinner" spin />
 					}
 					{this.state.isUpdateAvailable == true &&
 						<FontAwesomeIcon onClick={() => this.updateWallet()} className="update" icon={faArrowCircleDown} />
+					}
+					{this.state.isUpdateAvailable == true &&
+						<div className="version--number">{this.state.version}</div>
 					}
 					{this.props.fullControls == true &&
 						<div>

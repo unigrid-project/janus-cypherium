@@ -115,3 +115,10 @@ div.controlbar svg {
 div.controlbar>div>svg:last-child {
 	margin-right: 6px;
 }
+
+.version--number{
+	color: grey;
+	padding-right: 15px;
+	font-size: 8pt;
+	font-family: var(--fontFamily);
+}
