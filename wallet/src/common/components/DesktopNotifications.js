@@ -27,7 +27,8 @@ export const sendDesktopNotification = (message) => {
         'title': 'UNIGRID',
         'message': message,
         'wait': true,
-        'icon': iconAddress
+        'icon': iconAddress,
+        'appID': 'org.unigrid.wallet'
     });
 }
 
