@@ -61,12 +61,20 @@
       "target": [
         "AppImage"
       ],
+      "extraFiles": {
+        "from": "../daemon/unigridd",
+        "to": "unigridd"
+      },
       "category": "science"
     },
     "win": {
       "target": [
         "nsis"
-      ]
+      ],
+      "extraFiles": {
+        "from": "../daemon/unigridd.exe",
+        "to": "unigridd.exe"
+      }
     },
     "nsis": {
       "oneClick": false,
@@ -80,10 +88,7 @@
         "releaseType": "release"
       }
     ],
-    "extraFiles": {
-      "from": "../daemon/unigridd.exe",
-      "to": "unigridd.exe"
-    },
+   
     "files": [
       "**/*",
       "logo.png",
