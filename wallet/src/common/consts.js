@@ -26,6 +26,8 @@ export const explorerLink = "http://explorer.unigrid.org/";
 
 export const homePage = "https://unigrid.org";
 
+export const githubLink = "https://github.com/unigrid-project/UNIGRID";
+
 export const projectName = "UNIGRID";
 
 export const SHITPICKLE = "💩🥒";
