@@ -38,6 +38,7 @@ const packageJSON = require('../../package.json');
 const log = require('electron-log');
 const deps = packageJSON.dependencies;
 var mainWindow;
+var warningWindow;
 var isWarningOpen = false;
 var trackRejectUpdates = 0;
 var skipTimesAllocated = 20;
@@ -217,18 +218,21 @@ autoUpdater.on('update-downloaded', function (info) {
 const openwarningWindow = (data) => {
 	if (!isWarningOpen) {
 		var warningController = new WarningController();
+		warningWindow = warningController.window;
 		warningController.window.webContents.on("did-finish-load", () => {
 			warningController.window.webContents.send("warning-data", data);
 		});
 		isWarningOpen = true;
 		warningController.window.on('close', function () { isWarningOpen = false });
-		ipcMain.on("close-warning-window", () => {
-			trackRejectUpdates++;
-			if(trackRejectUpdates > skipTimesAllocated) dancingPickles();
-			warningController.window.close();
-		});
+		
 	}
 }
+
+ipcMain.on("close-warning-window", () => {
+	trackRejectUpdates++;
+	if(trackRejectUpdates > skipTimesAllocated) dancingPickles();
+	warningWindow.close();
+});
 
 function dancingPickles(){
 
@@ -242,6 +246,6 @@ function manuallyCheckForUpdates(mainWindow) {
 
 const autoCheckForUpdates = setInterval(() => {
 	autoUpdater.checkForUpdates();
-}, 60000);
+}, 180000);
 
 
