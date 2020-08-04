@@ -30,13 +30,13 @@ import AddressesContent from "./addresses/addresses-content.js";
 import SettingsContent from "./settings/settings-content.js";
 import CLIContent from "./cli/cli-content.js";
 import Reacteroids from "./asteroids/reacteroids.js";
-import File from "common/file";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRocket } from "@fortawesome/free-solid-svg-icons";
 import "./index.css";
 import ExplorerContent from "./explorer/explorer-content";
 import MasternodesContent from "./masternodes/masternodes-content";
+import Warning from "./warning/warning";
 
 library.add(faRocket);
 
@@ -67,6 +67,9 @@ const routes = {
 	splash: [
 		<ControlBar key={1} className="nobg" fullControls={false} extraButton="rocket"
 			extraButtonOnClick={onStartGame} />, <Splash key={2} />
+	],
+	warning: [
+		<ControlBar key={1} className="nobg" fullControls={false} />, <Warning key={2} />
 	]
 };
 

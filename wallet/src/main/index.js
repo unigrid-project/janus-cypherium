@@ -27,15 +27,20 @@ import MainController from "./main-controller";
 import SplashController from "./splash-controller";
 import { Notification } from "electron";
 import request from 'request';
-import manuallyCheckForUpdates from "../common/components/CheckForUpdates";
 import { autoUpdater } from "electron-updater";
+import WarningController from "./warning-controller";
 
+autoUpdater.autoDownload = true;
+autoUpdater.allowPrerelease = true;
+let testing = false;
 const { crashReporter } = require('electron');
 const packageJSON = require('../../package.json');
 const log = require('electron-log');
 const deps = packageJSON.dependencies;
-
-
+var mainWindow;
+var isWarningOpen = false;
+var trackRejectUpdates = 0;
+var skipTimesAllocated = 20;
 process.on('uncaughtException', (err) => {
 	console.log("uncaughtException: ", err)
 	request.post('http://crashreports.unigrid.org/POST', {
@@ -88,19 +93,19 @@ app.on("activate", () => {
 });
 
 ipcMain.on('update-the-wallet', () => {
-    console.log("restart and update")
-    log.info('Restarting wallet to install the update!');
-    if (global.rpcPort != undefined) {
-        new RPCClient().stop();
-    }
-    autoUpdater.quitAndInstall();
-})
+	console.log("restart and update")
+	log.info('Restarting wallet to install the update!');
+	if (global.rpcPort != undefined) {
+		new RPCClient().stop();
+	}
+	autoUpdater.quitAndInstall();
+});
 
 ipcMain.on("open-asteroids", () => {
 	var asteroidsController = new AsteroidsController();
 });
 
-const defaultRPCPort = 35075;
+const defaultRPCPort = 51992;
 
 app.on("ready", () => {
 	var splashController = new SplashController();
@@ -125,8 +130,9 @@ app.on("ready", () => {
 							log.info("Load MainController");
 							/* If sync was a success, we close the splash and move on to the main wallet window */
 							var mainController = new MainController();
+							mainWindow = mainController.window;
 							splashController.window.close();
-							manuallyCheckForUpdates(mainController.window);
+							manuallyCheckForUpdates(mainWindow);
 						}, (stderr) => {
 							console.error(stderr);
 						});
@@ -144,5 +150,98 @@ app.on("ready", () => {
 		});
 	});
 });
+
+autoUpdater.on('checking-for-update', function () {
+	log.info("Checking for a new wallet release.");
+	if (testing) {
+		var vCurr = '2.0.14';
+		var nVer = '2.0.15';
+		var currentVersion = vCurr.split('.');
+		var newVersion = nVer.split('.');
+
+		log.info("currentVersion ", currentVersion[1]);
+		log.info("newVersion ", newVersion[1]);
+		// testing === for prod <
+		if (currentVersion[1] === newVersion[1]) {
+			let message = {
+				title: "WARNING!",
+				version: '2.0.15',
+				message: `There is a new wallet release with a protocol change. This update is manadatory! 
+                Please update now to get on the latest version 2.0.15 of ${packageJSON.name}.`
+			}
+			log.info("SEND WARNING UPDATE MESSAGE!");
+			openwarningWindow(message);
+		}
+	}
+});
+
+autoUpdater.on('update-available', function (info) {
+	log.info('Update available.');
+});
+
+autoUpdater.on('update-not-available', function (info) {
+	log.info('Update not available.');
+});
+
+autoUpdater.on('error', function (err) {
+	log.warn("Auto Updater: ", err);
+});
+
+autoUpdater.on('download-progress', function (progressObj) {
+	let log_message = "Download speed: " + progressObj.bytesPerSecond;
+	log_message = log_message + ' - Downloaded ' + parseInt(progressObj.percent) + '%';
+	log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+	log.info(log_message);
+});
+
+autoUpdater.on('update-downloaded', function (info) {
+	log.info('Download complete: ', info);
+	var currentVersion = packageJSON.version.split('.');
+	var newVersion = info.version.split('.');
+	log.info("currentVersion ", currentVersion[1]);
+	log.info("newVersion ", newVersion[1]);
+	// testing === for prod <
+	if (currentVersion[1] < newVersion[1]) {
+		log.info("Your wallet daemon needs updating!");
+		let message = {
+			title: "WARNING!",
+			version: info.version,
+			message: `There is a new wallet release with a protocol change. This update is manadatory! 
+            Please update now to get on the latest version ${info.version} of ${packageJSON.name}.`
+		}
+		openwarningWindow(message);
+	}
+	mainWindow.webContents.send("wallet-update-available", info);
+});
+
+const openwarningWindow = (data) => {
+	if (!isWarningOpen) {
+		var warningController = new WarningController();
+		warningController.window.webContents.on("did-finish-load", () => {
+			warningController.window.webContents.send("warning-data", data);
+		});
+		isWarningOpen = true;
+		warningController.window.on('close', function () { isWarningOpen = false });
+		ipcMain.on("close-warning-window", () => {
+			trackRejectUpdates++;
+			if(trackRejectUpdates > skipTimesAllocated) dancingPickles();
+			warningController.window.close();
+		});
+	}
+}
+
+function dancingPickles(){
+
+}
+
+function manuallyCheckForUpdates(mainWindow) {
+	window = mainWindow;
+	autoUpdater.checkForUpdates();
+	autoCheckForUpdates;
+}
+
+const autoCheckForUpdates = setInterval(() => {
+	autoUpdater.checkForUpdates();
+}, 60000);
 
 

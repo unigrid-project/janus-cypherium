@@ -1,0 +1,101 @@
+/*
+ * This file is part of The UNIGRID Wallet
+ * Copyright (C) 2019 The Swipp developers <info@swippcoin.com>
+ * Copyright (C) 2020 The UNIGRID Organization
+ *
+ * The UNIGRID Wallet is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * The UNIGRID Wallet is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.message--copy {
+  font-size: 9pt;
+  text-align: left;
+  margin: 5px;
+}
+
+img.logo {
+  width: 50px;
+  height: auto;
+  padding-right: 30px;
+}
+
+html {
+  background-color: #000421;
+  color: var(--white);
+}
+
+div#app {
+  border-radius: 5px;
+}
+
+.wanring--message {
+  margin: 5px;
+  padding: 5px;
+  border-radius: 10px;
+  border-color: var(--border--active);
+  border-width: 1px;
+  background-color: var(--container--background);
+  align-items: center;
+}
+div.warning-modal {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-left: 30px;
+  padding-right: 30px;
+  justify-content: center;
+  height: 154px;
+}
+
+div.splash > div {
+  width: 400px;
+}
+
+div.spacer {
+  width: 1px;
+  height: 30px;
+  margin: 0 auto;
+}
+
+h1 {
+  color: var(--white);
+  font-size: 16pt;
+  margin-block-start: 0;
+  margin-block-end: 0.1em;
+  font-weight: 400;
+}
+
+h2 {
+  font-size: 12pt;
+  color: var(--white);
+  margin-block-start: 0em;
+  font-weight: 400;
+}
+
+div:empty,
+p:empty {
+  display: none !important;
+}
+
+.button--spacer {
+  justify-content: space-around;
+  max-width: 150px;
+  padding-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+.button--spacer > * {
+  padding-right: 5px;
+}
