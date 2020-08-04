@@ -1,7 +1,9 @@
 {
   "name": "UNIGRID",
-  "version": "2.1.17",
+  "version": "2.3.18",
   "license": "LGPL-3.0-or-later",
+  "author": "The UNIGRID Organization",
+  "description": "A decentralized consensus driven sharded internet project.",
   "scripts": {
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
@@ -73,6 +75,7 @@
       "target": [
         "nsis"
       ],
+      "icon": "./build/icon.ico",
       "extraFiles": {
         "from": "../daemon/unigridd.exe",
         "to": "unigridd.exe"
