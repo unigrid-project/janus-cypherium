@@ -42,7 +42,7 @@ function Warning() {
 			setVersion(data.version);
 			setMessage(data.message);
 			setTitle(data.title);
-			seetUrlLink(githubLink.concat("/releases/tag/").concat(data.version));
+			seetUrlLink(githubLink.concat("/releases/tag/v").concat(data.version));
 		});
 	}, []);
 
