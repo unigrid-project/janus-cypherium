@@ -240,6 +240,9 @@ function MyWalletContent(props) {
 			coinGecko.getsupported(),
 			rpcClient.listTransactions(),
 		]).then((response) => {
+			setBalance(response[0]);
+			const order = _.orderBy(response[2], ['timereceived'], ['desc']);
+			setTransactions(order);
 			coinGecko.getprice("unigrid", response[1]).then((rates) => {
 				var currencies = Object.entries(rates.unigrid).map((currency) => {
 					var v = { value: currency[0], label: currency[0], rate: currency[1] };
@@ -247,13 +250,9 @@ function MyWalletContent(props) {
 					if (currency[0] == selectedCurrency) {
 						this.setState({ selectedCurrency: v });
 					}
-
 					return v;
 				});
-				setBalance(response[0]);
 				setCurrencies(currencies);
-				const order = _.orderBy(response[2], ['timereceived'], ['desc']);
-				setTransactions(order);
 			});
 		});
 	}
