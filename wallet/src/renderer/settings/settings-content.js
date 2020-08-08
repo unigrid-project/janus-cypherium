@@ -31,6 +31,7 @@ import { ipcRenderer, remote } from "electron";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import { projectName, SHITPICKLE, confFile, masternodeFile } from "../../common/consts";
 
+const log = require('electron-log');
 const packageJSON = require('../../../package.json');
 const store = new Store();
 
@@ -38,6 +39,7 @@ function SettingsContent(props) {
 	const [isEncrypted, setIsEncrypted] = useState(false);
 	const [openEncrypt, setOpenEncrypt] = useState(false);
 	const [openCombine, setOpenCombine] = useState(false);
+	const [openStakeSplit, setOpenStakeSplit] = useState(false);
 	const [passphrase, setPassphrase] = useState("");
 	const [threshold, setThreshold] = useState(0);
 	const [repeatPassphrase, setRepeatPassphrase] = useState("");
@@ -45,30 +47,40 @@ function SettingsContent(props) {
 	const [passKey, setPassKey] = useState();
 	const [repeatKey, setRepeatKey] = useState();
 	const [encryptKey, setEncryptKey] = useState();
+	const [stakeSplitThreshold, setStakeSplitThreshold] = useState(0);
+	const [defaultStakeSplitThreshold, setDefaultStakeSplitThreshold] = useState();
 	const [encryptingWallet, setEncryptingWallet] = useState(false);
 	const [hideZeroBalances, setHideZeroBalances] = useState(false);
+	const [stakeSplitKey, setStakeSplitKey] = useState(Math.random());
 	useEffect(() => {
 		checkLocalStore();
+		getStakeSplitThreshold();
 		//console.log("showzerobalance ", store.get("showzerobalance"));
 		setIsEncrypted(store.get("encrypted"));
 		ipcRenderer.on('trigger-unlock-wallet', (event, message) => {
 			// sent back from UnlockWallet
 			if (message === "dump") openSaveDialog("DUMP");
+			if (message === "split") setSplitThreshold();
 		});
-	}, [])
+	}, []);
 	useEffect(() => {
 		console.log("hideZeroBalances ", hideZeroBalances);
 		store.set("showzerobalance", hideZeroBalances);
 		ipcRenderer.sendTo(remote.getCurrentWebContents().id, 'reload-addresses');
-	}, [hideZeroBalances])
+	}, [hideZeroBalances]);
 	useEffect(() => {
 		console.log("isEncrypted: ", isEncrypted);
-
 		setEncryptKey(Math.random());
-	}, [isEncrypted])
+	}, [isEncrypted]);
 	useEffect(() => {
 		resetPassphraseContainer();
-	}, [openEncrypt, encryptingWallet])
+	}, [openEncrypt, encryptingWallet]);
+	useEffect(() => {
+		setStakeSplitKey(Math.random());
+	}, [openStakeSplit]);
+	useEffect(() => {
+		console.log("stake threshold ", stakeSplitThreshold);
+	}, [stakeSplitThreshold]);
 
 	return (
 		<Content id="settings">
@@ -101,6 +113,14 @@ function SettingsContent(props) {
 					{renderCombine()}
 				</div>
 				<Button
+					handleClick={() => setOpenStakeSplit(!openStakeSplit)}
+					buttonSize="btn--tiny"
+					buttonStyle="btn--secondary--solid"
+				>Stake Split Threshold</Button>
+				<div>
+					{renderStakeSplit()}
+				</div>
+				<Button
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
 					handleClick={() => openSaveDialog("BACKUP")}
@@ -108,7 +128,7 @@ function SettingsContent(props) {
 				<Button
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
-					handleClick={() => checkIfEncryptedForDump()}
+					handleClick={() => checkIfEncrypted("unlockfordump")}
 				>Dump Wallet</Button>
 				<Button
 					buttonSize="btn--tiny"
@@ -243,6 +263,46 @@ function SettingsContent(props) {
 		)
 	}
 
+	function renderStakeSplit() {
+		//if (!openEncrypt) return <div/>
+		return (
+			<Expand open={openStakeSplit}>
+				<div className="input--container" key={passKey}>
+					<div>Enter a stake split threshold amount.</div>
+					<br />
+					<div>This will set the output size of your stakes to never be below this number</div>
+					<br />
+					<div>Warning: this will restart your wallet.</div>
+					<br />
+					<div className="input--fields">
+						<EnterField
+							key={stakeSplitKey}
+							placeHolder={defaultStakeSplitThreshold}
+							type={"number"}
+							myStyle={"smallInput"}
+							updateEntry={(v) => {
+								setStakeSplitThreshold(v)
+							}} />
+					</div>
+					<div className="confirm-btns">
+						<Button
+							handleClick={() => checkIfEncrypted("unlockforsplit")}
+							buttonSize="btn--tiny"
+							buttonStyle="btn--success--solid">Confirm</Button>
+						<Button
+							handleClick={() => {
+								setStakeSplitThreshold("");
+								setOpenStakeSplit(!openStakeSplit)
+							}}
+							buttonSize="btn--tiny"
+							buttonStyle="btn--warning--solid">Cancel</Button>
+						{warningMessage !== "" ? renderWarning() : null}
+					</div>
+				</div>
+			</Expand >
+		)
+	}
+
 	async function openSaveDialog(cmd) {
 		//const savePath = remote.dialog.showSaveDialog(null);
 		let title = "";
@@ -299,17 +359,31 @@ function SettingsContent(props) {
 			})
 	}
 
-	function checkIfEncryptedForDump() {
+	function checkIfEncrypted(check) {
 		//setDisableDumpButton(true);
+		console.log(stakeSplitThreshold)
+		if (check === "unlockforsplit" && !stakeSplitThreshold) {
+			setWarningMessage("Please enter a stake split amount!");
+			return;
+		}
+		console.log(stakeSplitThreshold)
 		let message = {
-			command: "unlockfordump",
+			command: check,
 			alias: null
 		}
 		if (isEncrypted === true) {
 			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
 		} else {
-			console.log("wallets isnt locked");
-			openSaveDialog("DUMP");
+			console.log("wallet isnt locked");
+			switch (check) {
+				case "unlockfordump":
+					openSaveDialog("DUMP");
+					break;
+				case "unlockforsplit":
+					setSplitThreshold();
+					break;
+			}
+
 		}
 	}
 
@@ -370,6 +444,40 @@ function SettingsContent(props) {
 			}).catch(err => {
 				console.log(err)
 			})
+	}
+
+	function getStakeSplitThreshold() {
+		var rpcClient = new RPCClient();
+		Promise.all([
+			rpcClient.getstakesplitthreshold(),
+			new Promise(resolve => setTimeout(resolve, 500))
+		]).then((response) => {
+			log.info("Current stake split threshold is: ", response[0])
+			setDefaultStakeSplitThreshold(response[0]);
+		}).catch((error) => {
+			log.warn(error);
+			console.error(error.message);
+		});
+	}
+
+	function setSplitThreshold() {
+		var rpcClient = new RPCClient();
+		console.log("stakeSplitThreshold ", stakeSplitThreshold);
+		var args = [parseInt(stakeSplitThreshold)];
+		ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
+		Promise.all([
+			rpcClient.setstakesplitthreshold(args),
+			new Promise(resolve => setTimeout(resolve, 500))
+		]).then((response) => {
+			log.info("Stake split threshold was changed ", response[0])
+			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+			ipcRenderer.send("wallet-restart");
+
+		}).catch((error) => {
+			log.warn(error);
+			setWarningMessage(error);
+			console.error(error.message);
+		});
 	}
 
 	function renderWarning() {

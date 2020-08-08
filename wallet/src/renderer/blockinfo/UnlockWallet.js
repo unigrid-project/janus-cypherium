@@ -48,6 +48,10 @@ function UnlockWallet(props) {
                     setInfoCopy("Unlock wallet for maintenance");
                     setUnlockFor("DUMP");
                     break;
+                case "unlockforsplit":
+                    setInfoCopy("Unlock wallet for maintenance");
+                    setUnlockFor("SPLIT");
+                    break;
                 case "STARTALL":
                     setInfoCopy("Unlock wallet for masternodes");
                     setUnlockFor("STARTALL");
@@ -204,6 +208,7 @@ function UnlockWallet(props) {
                 sendArgs = [args, 0, true];
                 break;
             case "DUMP":
+            case "SPLIT":
                 sendArgs = [args, 30];
                 break;
             default:
@@ -227,6 +232,9 @@ function UnlockWallet(props) {
                     break;
                 case "DUMP":
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "dump");
+                    break;
+                case "SPLIT":
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "split");
                     break;
                 case "STAKE":
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "staking");

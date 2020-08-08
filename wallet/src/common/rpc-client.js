@@ -85,6 +85,14 @@ export default class RPCClient {
 		return await this.send_command("getinfo");
 	}
 
+	async getwalletinfo() {
+		return await this.send_command("getwalletinfo");
+	}
+
+	async getstakesplitthreshold() {
+		return await this.send_command("getstakesplitthreshold");
+	}
+
 	async getStatus() {
 		return await this.send_command("getstakingstatus");
 	}
@@ -111,6 +119,10 @@ export default class RPCClient {
 
 	async setAccountName(args) {
 		return await this.send_command("setaccount", args);
+	}
+
+	async setstakesplitthreshold(args) {
+		return await this.send_command("setstakesplitthreshold", args);
 	}
 
 	async setTxFee(args) {

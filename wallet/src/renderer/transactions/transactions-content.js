@@ -34,6 +34,7 @@ function TransactionsContent(props) {
 	//const [dataLength, setDataLength] = useState(0);
 	const [doneLoading, setDoneLoading] = useState(false);
 	const [loadingStatus, setLoadingStatus] = useState("idle");
+	const [totalTxCount, setTotalTxCount] = useState();
 	const [loadMore, setLoadMore] = useState(false);
 	useEffect(() => {
 		loadTransactionData(true);
@@ -88,14 +89,17 @@ function TransactionsContent(props) {
 			}
 
 			var rpcClient = new RPCClient();
-			let args = ["*", parseInt(100), parseInt(startNumber)];
+			let args = ["*", parseInt(25), parseInt(startNumber)];
 
 			Promise.all([
 				rpcClient.listTransactions(args),
+				rpcClient.getwalletinfo(),
 				new Promise(resolve => setTimeout(resolve, 500))
 			]).then((response) => {
 				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-				//console.log("trans res ", response[0].length)
+				console.log("trans res ", response[0]);
+				setTotalTxCount(response[1].txcount);
+				console.log("total tx count: ", response[1].txcount);
 				if (response[0].length === 0) {
 					console.log("DONE LOADING ALL TRANSACTIONS!");
 					setDoneLoading(true);
