@@ -23,12 +23,6 @@
   margin: 5px;
 }
 
-img.logo {
-  width: 50px;
-  height: auto;
-  padding-right: 30px;
-}
-
 html {
   background-color: #000421;
   color: var(--white);
