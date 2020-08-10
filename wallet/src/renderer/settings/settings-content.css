@@ -61,6 +61,10 @@ div#settings.inactive {
     max-height: 19px;
 }
 
+.confirm-btns>div {
+    padding-right: 5px;
+}
+
 /*.input--container>div {
     display: flex;
     flex-direction: row;
