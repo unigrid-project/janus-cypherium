@@ -32,6 +32,7 @@ import { sendDesktopNotification } from "../../common/components/DesktopNotifica
 import "./addresses-content.css"
 import { ipcRenderer, remote } from "electron";
 import Store from "electron-store";
+import HideZeroAddresses from "../../common/components/HideZeroAddresses";
 
 const store = new Store();
 library.add(faClipboard);
@@ -49,7 +50,7 @@ function AddressesContent() {
 		ipcRenderer.on('reload-addresses', (event, message) => {
 			listAddressGroupings();
 		});
-		ipcRenderer.on("trigger-info-update", (event, message)  => {
+		ipcRenderer.on("trigger-info-update", (event, message) => {
 			listAddressGroupings();
 		});
 	}, []);
@@ -86,7 +87,7 @@ function AddressesContent() {
 			<div />
 			<div>
 				<div className="content--title">
-					<h4>Local Addresses:</h4>
+					<HideZeroAddresses />
 				</div>
 			</div>
 			<div>

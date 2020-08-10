@@ -30,6 +30,7 @@ import RPCClient from "../../common/rpc-client.js";
 import { ipcRenderer, remote } from "electron";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import { projectName, SHITPICKLE, confFile, masternodeFile } from "../../common/consts";
+import HideZeroAddresses from "../../common/components/HideZeroAddresses";
 
 const log = require('electron-log');
 const packageJSON = require('../../../package.json');
@@ -52,12 +53,10 @@ function SettingsContent(props) {
 	stakeSplitRef.current = stakeSplitThreshold;
 	const [defaultStakeSplitThreshold, setDefaultStakeSplitThreshold] = useState();
 	const [encryptingWallet, setEncryptingWallet] = useState(false);
-	const [hideZeroBalances, setHideZeroBalances] = useState(false);
 	const [stakeSplitKey, setStakeSplitKey] = useState(Math.random());
-	useEffect(() => {
-		checkLocalStore();
-		getStakeSplitThreshold();
 
+	useEffect(() => {
+		getStakeSplitThreshold();
 		setIsEncrypted(store.get("encrypted"));
 		ipcRenderer.on('trigger-unlock-wallet', (event, message) => {
 			// sent back from UnlockWallet
@@ -65,11 +64,6 @@ function SettingsContent(props) {
 			if (message === "split") setSplitThreshold();
 		});
 	}, []);
-	useEffect(() => {
-		console.log("hideZeroBalances ", hideZeroBalances);
-		store.set("showzerobalance", hideZeroBalances);
-		ipcRenderer.sendTo(remote.getCurrentWebContents().id, 'reload-addresses');
-	}, [hideZeroBalances]);
 	useEffect(() => {
 		console.log("isEncrypted: ", isEncrypted);
 		setEncryptKey(Math.random());
@@ -96,12 +90,7 @@ function SettingsContent(props) {
 					{renderEncryptWallet()}
 				</div>
 				<div>
-					<CheckBox
-						key={hideZeroBalances}
-						selected={hideZeroBalances}
-						labelTheme="settings--fonts"
-						label="Hide zero balance addresses"
-						handleCheckBox={(e) => setHideZeroBalances(e.target.checked)} />
+					<HideZeroAddresses />
 				</div>
 				<Button
 					handleClick={() => setOpenCombine(!openCombine)}
@@ -486,14 +475,6 @@ function SettingsContent(props) {
 	}
 	function onAnimationComplete() {
 		setWarningMessage("");
-	}
-	function checkLocalStore() {
-		let v = store.get("showzerobalance");
-		if (v === undefined) {
-			setHideZeroBalances(true);
-		} else {
-			setHideZeroBalances(v);
-		}
 	}
 
 	function renderVersionNumber() {
