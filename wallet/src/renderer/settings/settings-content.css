@@ -16,6 +16,10 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
+.warning--message {
+    color: tomato !important; 
+}
+
 div#settings.active {
     overflow-y: scroll;
     height: 100%;
@@ -35,12 +39,13 @@ div#settings.inactive {
     padding: 5px;
 }
 
-.settings--fonts{
+.settings--fonts {
     font-family: "Roboto", sans-serif;
     font-size: 15;
     font-weight: 500;
     color: whitesmoke;
 }
+
 .input--container {
     align-items: flex-start;
     padding: 10px;
@@ -56,21 +61,23 @@ div#settings.inactive {
     max-height: 19px;
 }
 
-.input--container>div {
+/*.input--container>div {
     display: flex;
     flex-direction: row;
     align-items: center;
     text-align: left;
     color: lightcyan;
-}
+}*/
+
 
 .input--fields {
     display: flex;
     flex-direction: column;
     padding: 5px;
 }
-.version--release{
+
+.version--release {
     position: absolute;
-	bottom: 0px;
-	right: 0px;
+    top: 0px;
+    right: 0px;
 }

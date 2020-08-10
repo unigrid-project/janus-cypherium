@@ -17,7 +17,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Content from "../content";
 import Store from "electron-store";
 import Button from "../../common/components/Button";
@@ -47,7 +47,9 @@ function SettingsContent(props) {
 	const [passKey, setPassKey] = useState();
 	const [repeatKey, setRepeatKey] = useState();
 	const [encryptKey, setEncryptKey] = useState();
-	const [stakeSplitThreshold, setStakeSplitThreshold] = useState(0);
+	const [stakeSplitThreshold, setStakeSplitThreshold] = useState();
+	const stakeSplitRef = useRef({});
+	stakeSplitRef.current = stakeSplitThreshold;
 	const [defaultStakeSplitThreshold, setDefaultStakeSplitThreshold] = useState();
 	const [encryptingWallet, setEncryptingWallet] = useState(false);
 	const [hideZeroBalances, setHideZeroBalances] = useState(false);
@@ -55,7 +57,7 @@ function SettingsContent(props) {
 	useEffect(() => {
 		checkLocalStore();
 		getStakeSplitThreshold();
-		//console.log("showzerobalance ", store.get("showzerobalance"));
+
 		setIsEncrypted(store.get("encrypted"));
 		ipcRenderer.on('trigger-unlock-wallet', (event, message) => {
 			// sent back from UnlockWallet
@@ -78,9 +80,6 @@ function SettingsContent(props) {
 	useEffect(() => {
 		setStakeSplitKey(Math.random());
 	}, [openStakeSplit]);
-	useEffect(() => {
-		console.log("stake threshold ", stakeSplitThreshold);
-	}, [stakeSplitThreshold]);
 
 	return (
 		<Content id="settings">
@@ -272,7 +271,7 @@ function SettingsContent(props) {
 					<br />
 					<div>This will set the output size of your stakes to never be below this number</div>
 					<br />
-					<div>Warning: this will restart your wallet.</div>
+					<div className="warning--message">Warning: this will restart your wallet.</div>
 					<br />
 					<div className="input--fields">
 						<EnterField
@@ -291,7 +290,7 @@ function SettingsContent(props) {
 							buttonStyle="btn--success--solid">Confirm</Button>
 						<Button
 							handleClick={() => {
-								setStakeSplitThreshold("");
+								//setStakeSplitThreshold("");
 								setOpenStakeSplit(!openStakeSplit)
 							}}
 							buttonSize="btn--tiny"
@@ -361,12 +360,11 @@ function SettingsContent(props) {
 
 	function checkIfEncrypted(check) {
 		//setDisableDumpButton(true);
-		console.log(stakeSplitThreshold)
 		if (check === "unlockforsplit" && !stakeSplitThreshold) {
 			setWarningMessage("Please enter a stake split amount!");
 			return;
 		}
-		console.log(stakeSplitThreshold)
+
 		let message = {
 			command: check,
 			alias: null
@@ -462,17 +460,15 @@ function SettingsContent(props) {
 
 	function setSplitThreshold() {
 		var rpcClient = new RPCClient();
-		console.log("stakeSplitThreshold ", stakeSplitThreshold);
-		var args = [parseInt(stakeSplitThreshold)];
+		var args = [parseInt(stakeSplitRef.current)];
 		ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
 		Promise.all([
 			rpcClient.setstakesplitthreshold(args),
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
-			log.info("Stake split threshold was changed ", response[0])
+			log.info("Stake split threshold was changed to: ", response[0].threshold);
 			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
 			ipcRenderer.send("wallet-restart");
-
 		}).catch((error) => {
 			log.warn(error);
 			setWarningMessage(error);
