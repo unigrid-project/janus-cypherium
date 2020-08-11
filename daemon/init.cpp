@@ -760,7 +760,7 @@ void ThreadImport(std::vector<std::string> arguments)
     // Remove any downloaded bootstrap
     removeBootstrapFiles();
     // we're still syncing here
-    // bootstrappingStatus = "inactive";
+    bootstrappingStatus = "inactive";
     if (GetBoolArg("-stopafterblockimport", false)) {
         LogPrintf("Stopping after block import\n");
         StartShutdown();
@@ -1511,8 +1511,8 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                 LoadSporksFromDB();
 
                 uiInterface.InitMessage(_("Loading block index..."));
-                //set a message here for status
-                bootstrappingStatus = "loading";
+
+                //bootstrappingStatus = "loading";
                 string strBlockIndexError = "";
                 if (!LoadBlockIndex(strBlockIndexError)) {
                     strLoadError = _("Error loading block database");
