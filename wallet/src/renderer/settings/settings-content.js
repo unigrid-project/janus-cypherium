@@ -439,7 +439,7 @@ function SettingsContent(props) {
 			rpcClient.getstakesplitthreshold(),
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
-			log.info("Current stake split threshold is: ", response[0])
+			log.info("Current stake split threshold set at: ", response[0])
 			setDefaultStakeSplitThreshold(response[0]);
 		}).catch((error) => {
 			log.warn(error);
