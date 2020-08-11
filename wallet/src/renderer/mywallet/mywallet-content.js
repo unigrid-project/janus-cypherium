@@ -21,8 +21,8 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import Store from "electron-store";
 import { Helmet } from "react-helmet";
-import CoinGecko from "common/coingecko.js";
-import RPCClient from "common/rpc-client.js";
+import CoinGecko from "../../common/coingecko.js";
+import RPCClient from "../../common/rpc-client.js";
 import Content from "../content";
 import "./mywallet-content.css";
 import Button from "../../common/components/Button";
@@ -67,7 +67,7 @@ function MyWalletContent(props) {
 		// in the future
 		const interval = setInterval(() => {
 			getlatestTransactions();
-		}, 60000);
+		}, 30000);
 		return () => clearInterval(interval);
 	}, []);
 
@@ -257,13 +257,13 @@ function MyWalletContent(props) {
 		});
 	}
 
-	async function getlatestTransactions(args) {
+	async function getlatestTransactions() {
 		var rpcClient = new RPCClient();
 		Promise.all([
-			rpcClient.listTransactions(args),
+			rpcClient.listTransactions(),
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
-			console.log('getlatestTransactions ', response);
+			//console.log('getlatestTransactions ', response[0]);
 			const order = _.orderBy(response[0], ['timereceived'], ['desc']);
 			setTransactions(order);
 

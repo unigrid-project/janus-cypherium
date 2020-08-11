@@ -105,7 +105,7 @@ export default class RPCClient {
 		return await this.send_command("importwallet", args);
 	}
 
-	async listTransactions(args) {
+	async listTransactions(args = []) {
 		return await this.send_command("listtransactions", args);
 	}
 
