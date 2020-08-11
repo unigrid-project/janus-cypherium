@@ -37,11 +37,14 @@ const { crashReporter } = require('electron');
 const packageJSON = require('../../package.json');
 const log = require('electron-log');
 const deps = packageJSON.dependencies;
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
 var mainWindow;
 var warningWindow;
 var isWarningOpen = false;
 var trackRejectUpdates = 0;
 var skipTimesAllocated = 20;
+
 process.on('uncaughtException', (err) => {
 	console.log("uncaughtException: ", err)
 	request.post('http://crashreports.unigrid.org/POST', {
@@ -75,9 +78,9 @@ app.on("window-all-closed", () => {
 	if (global.rpcPort != undefined) {
 		new RPCClient().stop();
 	}
-
 	app.quit();
 });
+
 ipcMain.on("wallet-restart", () => {
 	console.log('calling relaunch app')
 	if (global.rpcPort != undefined) {
@@ -85,12 +88,6 @@ ipcMain.on("wallet-restart", () => {
 	}
 	app.relaunch();
 	app.quit();
-});
-
-app.on("activate", () => {
-	/*	if (mainWindow === null) {
-			mainWindow = createMainWindow();
-		}*/
 });
 
 ipcMain.on('update-the-wallet', () => {
@@ -135,19 +132,19 @@ app.on("ready", () => {
 							splashController.window.close();
 							manuallyCheckForUpdates(mainWindow);
 						}, (stderr) => {
-							console.error(stderr);
+							log.warn(stderr);
 						});
 					}, (stderr) => {
-						console.error(stderr);
+						log.warn(stderr);
 					});
 				}, (stderr) => {
-					console.error(stderr);
+					log.warn(stderr);
 				});
 			}, (stderr) => {
-				console.error(stderr);
+				log.warn(stderr);
 			});
 		}, (stderr) => {
-			console.error(stderr);
+			log.warn(stderr);
 		});
 	});
 });
@@ -245,6 +242,7 @@ function manuallyCheckForUpdates(mainWindow) {
 }
 
 const autoCheckForUpdates = setInterval(() => {
+	if(isDevelopment) return;
 	autoUpdater.checkForUpdates();
 }, 180000);
 
