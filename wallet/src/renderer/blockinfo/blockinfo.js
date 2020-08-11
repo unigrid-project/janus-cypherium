@@ -26,10 +26,11 @@ import { faServer, faLock, faLockOpen, faCoins } from "@fortawesome/free-solid-s
 import { faSatelliteDish } from "@fortawesome/free-solid-svg-icons";
 import './blockinfo.css';
 import '../../common/theme.css';
-import UnlockWallet from "./UnlockWallet.js";
+
 import { ipcRenderer, remote } from "electron";
 import Store from "electron-store";
 import { css } from "styled-components";
+import UnlockWallet from "../../common/components/UnlockWallet.js";
 
 const store = new Store();
 library.add(faServer, faLock, faLockOpen, faSatelliteDish, faCoins);
@@ -225,8 +226,6 @@ export default class BlockInfo extends React.Component {
 				// detect encrypted wallet at startup and set the value in store
 				// TODO move to a better location
 				let isEncrypted = (response[0].unlocked_until !== undefined);
-				//console.log("response[0].unlocked_until ",response[0].unlocked_until)
-				console.log("isEncrypted ", isEncrypted);
 				store.set("encrypted", isEncrypted);
 				if (response[1].walletunlocked) {
 					this.setState({

@@ -17,12 +17,12 @@
  */
 
 import React, { useState, useEffect } from "react";
-import CheckBox from "../../common/components/CheckBox";
-import EnterField from "../../common/components/EnterField";
-import "../../common/theme.css";
+import CheckBox from "./CheckBox";
+import EnterField from "./EnterField";
+import "../theme.css";
 import "./UnlockWallet.css";
-import Button from "../../common/components/Button";
-import RPCClient from "../../common/rpc-client.js";
+import Button from "./Button";
+import RPCClient from "../rpc-client.js";
 import { ipcRenderer, remote } from "electron";
 
 function UnlockWallet(props) {
