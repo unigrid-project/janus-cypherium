@@ -4682,8 +4682,8 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CBlockIndex** ppindex, 
         // Check whether is a fork or not
         if (pindexPrev != nullptr && !chainActive.Contains(pindexPrev)) {
             // Start at the block we're adding on to
-            CBlockIndex* prev = pindexPrev;
-            CTransaction& stakeTxIn = block.vtx[1];
+            CBlockIndex *prev = pindexPrev;
+            CTransaction &stakeTxIn = block.vtx[1];
             CBlock bl;
             // Go backwards on the forked chain up to the split
             do {
