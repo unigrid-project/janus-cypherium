@@ -62,11 +62,11 @@ function MyWalletContent(props) {
 		ipcRenderer.on("trigger-info-update", (event, message)  => {
 			getData();
 		});
-		// get data every minute for now
+		// get data every 30 seconds for now
 		// this will be converted to a websocket 
 		// in the future
 		const interval = setInterval(() => {
-			getlatestTransactions();
+			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
 		}, 30000);
 		return () => clearInterval(interval);
 	}, []);
@@ -256,22 +256,21 @@ function MyWalletContent(props) {
 			});
 		});
 	}
-
+/*
 	async function getlatestTransactions() {
 		var rpcClient = new RPCClient();
 		Promise.all([
 			rpcClient.listTransactions(),
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
-			//console.log('getlatestTransactions ', response[0]);
+			//console.log('fucked up txs: ', response[0]);
 			const order = _.orderBy(response[0], ['timereceived'], ['desc']);
 			setTransactions(order);
-
 		}, (stderr) => {
 			console.error(stderr);
 		});
 	}
-
+*/
 	function onChange(e) {
 		setSelectedCurrency(e);
 		store.set("currency", e.value);

@@ -163,7 +163,7 @@ function AddressesContent() {
 					}
 				})
 				order = _.orderBy(filterArr, [1], ['desc']);
-				console.log("omit 0 ", order);
+				//console.log("omit 0 ", order);
 			} else {
 				order = _.orderBy(flat, [1], ['desc']);
 			}
