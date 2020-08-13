@@ -26,7 +26,7 @@ import AsteroidsController from "./asteroids-controller";
 import MainController from "./main-controller";
 import SplashController from "./splash-controller";
 import { Notification } from "electron";
-import request from 'request';
+//import request from 'request';
 import { autoUpdater } from "electron-updater";
 import WarningController from "./warning-controller";
 
@@ -44,7 +44,7 @@ var warningWindow;
 var isWarningOpen = false;
 var trackRejectUpdates = 0;
 var skipTimesAllocated = 20;
-
+/*
 process.on('uncaughtException', (err) => {
 	console.log("uncaughtException: ", err)
 	request.post('http://crashreports.unigrid.org/POST', {
@@ -59,7 +59,7 @@ process.on('uncaughtException', (err) => {
 			upload_file_minidump: err.stack,
 		}
 	});
-});
+});*/
 
 crashReporter.start({
 	productName: 'UNIGRID Wallet',
