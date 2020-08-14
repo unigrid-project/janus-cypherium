@@ -17,7 +17,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { app, ipcMain, remote } from "electron";
+import { app, ipcMain, remote, powerMonitor } from "electron";
 import * as path from "path";
 import { format as formatUrl } from "url";
 import Daemon from "../common/daemon";
@@ -66,6 +66,17 @@ crashReporter.start({
 	companyName: 'UNIGRID Organization',
 	submitURL: 'http://crashreports.unigrid.org/POST',
 	uploadToServer: true
+});
+
+app.whenReady().then(() => {
+	powerMonitor.on('suspend', () => {
+		console.log('The system is going to sleep')
+	});
+
+	powerMonitor.on('resume', () => {
+		console.log('The system is waking up from sleep');
+		mainWindow.webContents.send("trigger-info-update");
+	});
 });
 
 global.isDevelopment = process.env.NODE_ENV !== "production";
@@ -221,17 +232,17 @@ const openwarningWindow = (data) => {
 		});
 		isWarningOpen = true;
 		warningController.window.on('close', function () { isWarningOpen = false });
-		
+
 	}
 }
 
 ipcMain.on("close-warning-window", () => {
 	trackRejectUpdates++;
-	if(trackRejectUpdates > skipTimesAllocated) dancingPickles();
+	if (trackRejectUpdates > skipTimesAllocated) dancingPickles();
 	warningWindow.close();
 });
 
-function dancingPickles(){
+function dancingPickles() {
 
 }
 
@@ -242,7 +253,7 @@ function manuallyCheckForUpdates(mainWindow) {
 }
 
 const autoCheckForUpdates = setInterval(() => {
-	if(isDevelopment) return;
+	if (isDevelopment) return;
 	autoUpdater.checkForUpdates();
 }, 180000);
 
