@@ -18,14 +18,14 @@
 
 import React, { useState, useEffect } from "react";
 import "./Transaction.css";
-import { faSignInAlt, faSignOutAlt, faCoins, faClock, faCompass, faCubes } from "@fortawesome/free-solid-svg-icons";
+import { faSignInAlt, faSignOutAlt, faCoins, faClock, faCompass, faCubes, faNetworkWired } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import Tooltip from "react-simple-tooltip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { css } from "styled-components";
 import { explorerLink } from "../consts";
 
-library.add(faSignInAlt, faSignOutAlt, faCoins, faClock, faCubes);
+library.add(faSignInAlt, faSignOutAlt, faCoins, faClock, faCubes, faNetworkWired);
 
 function Transaction({ data, index, style }) {
     const [amount] = useState(data.amount);
@@ -102,7 +102,7 @@ function Transaction({ data, index, style }) {
                     var(--tooltip--background)
                   `}
                     content={getCategory(data)}
-                >{getCategroyIcon(data)}
+                >{getCategoryIcon(data)}
                 </Tooltip>
 
             </div>
@@ -216,12 +216,8 @@ function Transaction({ data, index, style }) {
     }
 
     function getCategory(data) {
-        if (data.generated) {
-            return "minted";
-        } else {
-            return data.category;
-        }
-
+        console.log("data: ", data)
+        return data.category;
     }
     function setAmountColor() {
         let transType = data.category === "send" ? "send--color" : "receive--color";
@@ -259,7 +255,7 @@ function Transaction({ data, index, style }) {
             </div>
         )
     }
-    function getCategroyIcon(data) {
+    function getCategoryIcon(data) {
         switch (data.category) {
             case "receive":
                 if (data.generated) {
@@ -270,6 +266,12 @@ function Transaction({ data, index, style }) {
                 break;
             case "send":
                 return <FontAwesomeIcon size="lg" icon={faSignOutAlt} color="lightsalmon" />
+                break;
+            case "stake":
+                return <FontAwesomeIcon size="lg" icon={faCoins} color="lightgoldenrodyellow" />
+                break;
+            case "masternode reward":
+                return <FontAwesomeIcon size="lg" icon={faNetworkWired} color="lightgoldenrodyellow" />
                 break;
             default:
                 return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="white" />
