@@ -1260,7 +1260,7 @@ void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDe
     bool involvesWatchonly = wtx.IsFromMe(ISMINE_WATCH_ONLY);
 
     // Sent
-    if ((!listSent.empty() || nFee != 0) && (fAllAccounts || strAccount == strSentAccount)) {
+    if ((!wtx.IsCoinStake()) && (!listSent.empty() || nFee != 0) && (fAllAccounts || strAccount == strSentAccount)) {
         BOOST_FOREACH (const COutputEntry& s, listSent) {
             UniValue entry(UniValue::VOBJ);
             if (involvesWatchonly || (::IsMine(*pwalletMain, s.destination) & ISMINE_WATCH_ONLY))
@@ -1280,7 +1280,22 @@ void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDe
 
     // Received
     if (listReceived.size() > 0 && wtx.GetDepthInMainChain() >= nMinDepth) {
-        BOOST_FOREACH (const COutputEntry& r, listReceived) {
+         //! check for masternode payment
+        bool bHasMasternodePayment = false;
+        CTxDestination masternodeAddress;
+
+        if (wtx.vout.size() == 5) {
+            ExtractDestination(wtx.vout[3].scriptPubKey, masternodeAddress);
+            bHasMasternodePayment = true;
+            nFee += wtx.vout[3].nValue;
+        } else if (wtx.vout.size() == 4 && wtx.vout[1].scriptPubKey != wtx.vout[2].scriptPubKey) {
+            ExtractDestination(wtx.vout[2].scriptPubKey, masternodeAddress);
+            bHasMasternodePayment = true;
+            nFee += wtx.vout[2].nValue;
+        }
+
+        bool stop = false;
+        BOOST_FOREACH (const COutputEntry& r, listReceived) { 
             string account;
             if (pwalletMain->mapAddressBook.count(r.destination))
                 account = pwalletMain->mapAddressBook[r.destination].name;
@@ -1289,25 +1304,46 @@ void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDe
                 if (involvesWatchonly || (::IsMine(*pwalletMain, r.destination) & ISMINE_WATCH_ONLY))
                     entry.push_back(Pair("involvesWatchonly", true));
                 entry.push_back(Pair("account", account));
-                MaybePushAddress(entry, r.destination);
-                if (wtx.IsCoinBase()) {
+                MaybePushAddress(entry, r.destination);          
+
+                if (wtx.IsCoinBase() || wtx.IsCoinStake()) {
                     if (wtx.GetDepthInMainChain() < 1)
                         entry.push_back(Pair("category", "orphan"));
                     else if (wtx.GetBlocksToMaturity() > 0)
                         entry.push_back(Pair("category", "immature"));
                     else
                         entry.push_back(Pair("category", "generate"));
+                    
+                    if (bHasMasternodePayment && masternodeAddress == r.destination)
+                        entry.push_back(Pair("category", "masternode reward"));
+                    else
+                        entry.push_back(Pair("category", "stake"));
+
                 } else {
                     entry.push_back(Pair("category", "receive"));
                 }
-                entry.push_back(Pair("amount", ValueFromAmount(r.amount)));
-                entry.push_back(Pair("vout", r.vout));
+                if (!wtx.IsCoinStake() || (bHasMasternodePayment && masternodeAddress == r.destination)) {
+                    entry.push_back(Pair("amount", ValueFromAmount(r.amount)));
+                    entry.push_back(Pair("vout", r.vout));
+                } else {
+                    // For UNIGRID we need to remove the governance
+                    if (wtx.vout.size() == 5) {
+                        nFee += wtx.vout[4].nValue;
+                    } else if (wtx.vout.size() == 4) {
+                        nFee += wtx.vout[3].nValue;
+                    }
+                    entry.push_back(Pair("amount", ValueFromAmount(-nFee)));
+                    stop = true; //! only one coinstake output
+                }
                 if (fLong)
                     WalletTxToJSON(wtx, entry);
                 ret.push_back(entry);
             }
+            if (stop)
+                break;
         }
     }
+    
 }
 
 void AcentryToJSON(const CAccountingEntry& acentry, const string& strAccount, UniValue& ret)
