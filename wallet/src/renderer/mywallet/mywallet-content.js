@@ -59,7 +59,7 @@ function MyWalletContent(props) {
 			cancelSendOperation();
 		});
 
-		ipcRenderer.on("trigger-info-update", (event, message)  => {
+		ipcRenderer.on("trigger-info-update", (event, message) => {
 			getData();
 		});
 		// get data every 30 seconds for now
@@ -166,7 +166,7 @@ function MyWalletContent(props) {
 							fontFamily='Roboto'
 							fontSize='5'
 							fadeEasing="linear"
-							
+
 							content="Follow us"
 							customCss={css`
                     white-space: nowrap;
@@ -186,7 +186,7 @@ function MyWalletContent(props) {
 							fontFamily='Roboto'
 							fontSize='5'
 							fadeEasing="linear"
-							
+
 							content="Join discord"
 							customCss={css`
                     white-space: nowrap;
@@ -206,7 +206,7 @@ function MyWalletContent(props) {
 							fontFamily='Roboto'
 							fontSize='5'
 							fadeEasing="linear"
-							
+
 							content="Join telegram"
 							customCss={css`
                     white-space: nowrap;
@@ -234,15 +234,16 @@ function MyWalletContent(props) {
 	async function getData() {
 		var coinGecko = new CoinGecko();
 		var rpcClient = new RPCClient();
-
+		var args = ["*", 10, 0, true];
 		Promise.all([
 			rpcClient.getbalance(),
 			coinGecko.getsupported(),
-			rpcClient.listTransactions(),
+			rpcClient.listTransactions(args),
 		]).then((response) => {
 			setBalance(response[0]);
 			const order = _.orderBy(response[2], ['timereceived'], ['desc']);
 			setTransactions(order);
+			console.log("Transactions: ", order)
 			coinGecko.getprice("unigrid", response[1]).then((rates) => {
 				var currencies = Object.entries(rates.unigrid).map((currency) => {
 					var v = { value: currency[0], label: currency[0], rate: currency[1] };
@@ -256,21 +257,21 @@ function MyWalletContent(props) {
 			});
 		});
 	}
-/*
-	async function getlatestTransactions() {
-		var rpcClient = new RPCClient();
-		Promise.all([
-			rpcClient.listTransactions(),
-			new Promise(resolve => setTimeout(resolve, 500))
-		]).then((response) => {
-			//console.log('fucked up txs: ', response[0]);
-			const order = _.orderBy(response[0], ['timereceived'], ['desc']);
-			setTransactions(order);
-		}, (stderr) => {
-			console.error(stderr);
-		});
-	}
-*/
+	/*
+		async function getlatestTransactions() {
+			var rpcClient = new RPCClient();
+			Promise.all([
+				rpcClient.listTransactions(),
+				new Promise(resolve => setTimeout(resolve, 500))
+			]).then((response) => {
+				//console.log('fucked up txs: ', response[0]);
+				const order = _.orderBy(response[0], ['timereceived'], ['desc']);
+				setTransactions(order);
+			}, (stderr) => {
+				console.error(stderr);
+			});
+		}
+	*/
 	function onChange(e) {
 		setSelectedCurrency(e);
 		store.set("currency", e.value);
