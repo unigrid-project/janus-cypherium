@@ -28,7 +28,8 @@ import notifier from 'node-notifier';
 import _ from 'lodash';
 import Store from "electron-store";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
-import { ipcRenderer, remote } from "electron";
+import { ipcRenderer, remote, clipboard } from "electron";
+import CreateMasternode from "../../common/components/CreateMasternode";
 
 const store = new Store();
 
@@ -39,6 +40,8 @@ function MasternodesContent(props) {
 	const [uniqueTxhashes, setUniqueTxashes] = useState({});
 	const [currentAlias, setCurrentAlias] = useState();
 	const [isEncrypted, setIsEncrypted] = useState(false);
+	const [showCreateMasternode, setShowCreateMasternode] = useState(false);
+
 	useEffect(() => {
 		setIsEncrypted(store.get("encrypted"));
 		var rpcClient = new RPCClient();
@@ -71,10 +74,11 @@ function MasternodesContent(props) {
 				<Button handleClick={() => getMasternodeList()} buttonSize="btn--small">REFRESH</Button >
 				<Button handleClick={() => checkIfEncryptedStart("MISSING", null)} buttonSize="btn--small">START MISSING</Button >
 				<Button handleClick={() => checkIfEncryptedStart("STARTALL", null)} buttonSize="btn--small">START ALL</Button >
-				<Button handleClick={() => debugMasternode()} buttonSize="btn--small">CREATE</Button >
+				<Button handleClick={() => setShowCreateMasternode(true)} buttonSize="btn--small">CREATE</Button >
 			</div>
 			<div className="expanable--collapsed">
-
+				<CreateMasternode isVisible={showCreateMasternode} copyScript={(v) => copyToClipboard(v)}
+					closeMasternodeSetup={() => setShowCreateMasternode(false)} />
 			</div>
 			<div className="cardGridContainer">
 				{renderGrid()}
@@ -95,7 +99,13 @@ function MasternodesContent(props) {
 		} else return null
 	}
 
-	async function debugMasternode(){
+	function copyToClipboard(v) {
+		clipboard.writeText(v, 'clipboard')
+		console.log(clipboard.readText('clipboard'))
+		sendDesktopNotification(`${v} copied to clipboard`);
+	}
+
+	async function debugMasternode() {
 
 		var rpcClient = new RPCClient();
 		const args = ["outputs"];
@@ -103,9 +113,9 @@ function MasternodesContent(props) {
 			rpcClient.masternodeCommand(args),
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
-		
+
 			console.log("masternode outputs: ", response[0]);
-			
+
 		}, (stderr) => {
 			console.error(stderr);
 		});

@@ -1,0 +1,53 @@
+.createMasternodeContainer {
+    border-radius: 5px;
+    border: 1.5px solid var(--border--active);
+    background-color: var(--select--background);
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+    font-family: var(--fontFamily);
+    padding-left: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.createMasternodeContainer svg {
+    transition: transform .2s ease-in-out;
+    cursor: pointer;
+    transform: scale(1.15);
+}
+
+.createMasternodeContainer svg:hover {
+    transform: scale(1.5);
+    color: lawngreen;
+}
+
+.createMasternodeContainer svg:active {
+    transform: scale(0.5);
+    color: #fff;
+}
+
+.masternode--item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.masternode--item>div {
+    padding-right: 10px;
+}
+
+.close-btn {
+    padding-left: 5px;
+    display: flex;
+    padding-right: 20px;
+    align-self: flex-end;
+    max-height: 19px;
+}
+
+.masternode--button--padding{
+    padding: 10px;
+}
