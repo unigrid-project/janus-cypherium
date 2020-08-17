@@ -257,29 +257,11 @@ function MyWalletContent(props) {
 			});
 		});
 	}
-	/*
-		async function getlatestTransactions() {
-			var rpcClient = new RPCClient();
-			Promise.all([
-				rpcClient.listTransactions(),
-				new Promise(resolve => setTimeout(resolve, 500))
-			]).then((response) => {
-				//console.log('fucked up txs: ', response[0]);
-				const order = _.orderBy(response[0], ['timereceived'], ['desc']);
-				setTransactions(order);
-			}, (stderr) => {
-				console.error(stderr);
-			});
-		}
-	*/
+
 	function onChange(e) {
 		setSelectedCurrency(e);
 		store.set("currency", e.value);
 	}
-
-
-
-
 }
 
 export default MyWalletContent;
