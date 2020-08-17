@@ -89,7 +89,7 @@ function TransactionsContent(props) {
 			}
 
 			var rpcClient = new RPCClient();
-			let args = ["*", parseInt(25), parseInt(startNumber)];
+			let args = ["*", parseInt(100), parseInt(startNumber)];
 
 			Promise.all([
 				rpcClient.listTransactions(args),
