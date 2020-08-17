@@ -23,7 +23,7 @@ import { faClipboard, faChevronCircleRight, faChevronCircleDown } from "@fortawe
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Expand from "react-expand-animated";
 import { remote } from "electron";
-import { masternodeSetupScript, masternodeFile } from "../consts";
+import { masternodeSetupScript, masternodeFile, SHITPICKLE } from "../consts";
 import Button from "./Button";
 import RPCClient from "../rpc-client.js";
 
