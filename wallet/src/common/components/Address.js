@@ -25,6 +25,7 @@ import Tooltip from "react-simple-tooltip";
 import { css } from "styled-components";
 import RPCClient from "../../common/rpc-client.js";
 import Expand from "react-expand-animated";
+import { ipcRenderer, remote } from "electron";
 
 function Address({ data, setAccountName, copyAddress }) {
     const [showInput, setShowInput] = useState(false);
@@ -99,7 +100,7 @@ function Address({ data, setAccountName, copyAddress }) {
             setShowInputs(false)
             return;
         }
-
+        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
         var rpcClient = new RPCClient();
         var args = [1, 9999999, [address]];
         Promise.all([
@@ -107,7 +108,11 @@ function Address({ data, setAccountName, copyAddress }) {
         ]).then((response) => {
             setShowInputs(true);
             setAddressInputs(response[0]);
-            console.log("Address unspent: ", response)
+            console.log("Address unspent: ", response);
+            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+        }, (stderr) => {
+            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+            console.error(stderr);
         });
     }
 
@@ -128,7 +133,7 @@ function Address({ data, setAccountName, copyAddress }) {
     }
 
     function singleInput(item, i) {
-        console.log("item ", item);
+        //console.log("item ", item);
         return (
             <div className="address--inputs--container" key={i}>
                 <div >input amount: {item.amount}</div>
