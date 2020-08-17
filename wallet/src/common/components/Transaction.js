@@ -274,7 +274,7 @@ function Transaction({ data, index, style }) {
                 break;
             case "generate":
                 if(data.generatedfrom === "stake"){
-                    return <FontAwesomeIcon size="lg" icon={faCoins} color="lightgoldenrodyellow" />
+                    return <FontAwesomeIcon size="lg" icon={faCoins} color="rgb(255, 151, 14)" />
                 }else if(data.generatedfrom === "masternode reward"){
                     return <FontAwesomeIcon size="lg" icon={faNetworkWired} color="lightgoldenrodyellow" />
                 }   
