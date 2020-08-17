@@ -38,15 +38,12 @@ function Address({ data, setAccountName, copyAddress }) {
 
     return (
         <div>
-
-
             <div className="addressContainer">
                 <div className="chevron address--item">
                     <FontAwesomeIcon size="sm" icon={showInputs ? faChevronCircleDown : faChevronCircleRight} color="white" onClick={() => getAddressUnspent(data[0])} />
                 </div>
                 <div className="address--div address--item" onClick={() => getAddressUnspent(data[0])}>
                     {data[0]}</div>
-
                 <div className="clipboard address--item">
                     <FontAwesomeIcon size="sm" icon={faClipboard} color="white" onClick={() => copyAddress(data[0])} />
                 </div>
