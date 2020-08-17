@@ -216,8 +216,13 @@ function Transaction({ data, index, style }) {
     }
 
     function getCategory(data) {
-        console.log("data: ", data)
-        return data.category;
+        //console.log("data: ", data)
+        if(data.generatedfrom){
+            return data.generatedfrom;
+        }else{
+            return data.category;
+        }
+        
     }
     function setAmountColor() {
         let transType = data.category === "send" ? "send--color" : "receive--color";
@@ -267,11 +272,12 @@ function Transaction({ data, index, style }) {
             case "send":
                 return <FontAwesomeIcon size="lg" icon={faSignOutAlt} color="lightsalmon" />
                 break;
-            case "stake":
-                return <FontAwesomeIcon size="lg" icon={faCoins} color="lightgoldenrodyellow" />
-                break;
-            case "masternode reward":
-                return <FontAwesomeIcon size="lg" icon={faNetworkWired} color="lightgoldenrodyellow" />
+            case "generate":
+                if(data.generatedfrom === "stake"){
+                    return <FontAwesomeIcon size="lg" icon={faCoins} color="lightgoldenrodyellow" />
+                }else if(data.generatedfrom === "masternode reward"){
+                    return <FontAwesomeIcon size="lg" icon={faNetworkWired} color="lightgoldenrodyellow" />
+                }   
                 break;
             default:
                 return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="white" />

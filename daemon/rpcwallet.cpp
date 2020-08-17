@@ -1277,7 +1277,7 @@ void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDe
             ret.push_back(entry);
         }
     }
-
+    
     // Received
     if (listReceived.size() > 0 && wtx.GetDepthInMainChain() >= nMinDepth) {
          //! check for masternode payment
@@ -1315,9 +1315,9 @@ void ListTransactions(const CWalletTx& wtx, const string& strAccount, int nMinDe
                         entry.push_back(Pair("category", "generate"));
                     
                     if (bHasMasternodePayment && masternodeAddress == r.destination)
-                        entry.push_back(Pair("category", "masternode reward"));
+                        entry.push_back(Pair("generatedfrom", "masternode reward"));
                     else
-                        entry.push_back(Pair("category", "stake"));
+                        entry.push_back(Pair("generatedfrom", "stake"));
 
                 } else {
                     entry.push_back(Pair("category", "receive"));
