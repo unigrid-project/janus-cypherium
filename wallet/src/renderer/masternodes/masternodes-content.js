@@ -76,11 +76,11 @@ function MasternodesContent(props) {
 				<Button handleClick={() => checkIfEncryptedStart("STARTALL", null)} buttonSize="btn--small">START ALL</Button >
 				<Button handleClick={() => setShowCreateMasternode(true)} buttonSize="btn--small">CREATE</Button >
 			</div>
-			<div className="expanable--collapsed">
-				<CreateMasternode isVisible={showCreateMasternode} copyScript={(v) => copyToClipboard(v)}
-					closeMasternodeSetup={() => setShowCreateMasternode(false)} />
-			</div>
-			<div className="cardGridContainer">
+
+			<CreateMasternode isVisible={showCreateMasternode} copyScript={(v) => copyToClipboard(v)}
+				closeMasternodeSetup={() => setShowCreateMasternode(false)} />
+
+			<div className="cardGridContainer" key={showCreateMasternode}>
 				{renderGrid()}
 			</div>
 		</Content>
