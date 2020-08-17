@@ -21,7 +21,6 @@
 :root {
     --primary: rgb(0, 22, 63);
     --secondary: rgb(7, 36, 90);
-    ;
     --warning: rgb(197, 113, 4);
     --danger: rgb(219, 47, 47);
     --success: rgb(75, 177, 75);
@@ -38,6 +37,7 @@
     --hover--border: rgb(34, 37, 56);
     --select--background: rgb(0, 0, 0, 0.8);
     --tooltip--background: rgba(15, 15, 15, 0.9);
+    --input--background: #272531;
 }
 
 .fontRegular {

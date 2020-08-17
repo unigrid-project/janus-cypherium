@@ -19,10 +19,12 @@
 import React, { useState } from "react";
 import "./Address.css"
 import EnterField from "./EnterField";
-import { faClipboard } from "@fortawesome/free-solid-svg-icons";
+import { faClipboard, faChevronCircleRight, faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Tooltip from "react-simple-tooltip";
 import { css } from "styled-components";
+import RPCClient from "../../common/rpc-client.js";
+import Expand from "react-expand-animated";
 
 function Address({ data, setAccountName, copyAddress }) {
     const [showInput, setShowInput] = useState(false);
@@ -30,37 +32,50 @@ function Address({ data, setAccountName, copyAddress }) {
     const [accountName] = useState(data[2]);
     const [changeAcountName, setChangeAccountName] = useState("");
     const [resetInput, setResetInput] = useState();
+    const [showInputs, setShowInputs] = useState(false);
+    const [addressInputs, setAddressInputs] = useState([]);
 
     return (
-        <div className="addressContainer">
-            <div className="address--div address--item">
-                {data[0]}</div>
-            <div className="clipboard address--item">
-                <FontAwesomeIcon size="sm" icon={faClipboard} color="white" onClick={() => copyAddress(data[0])} />
-            </div>
-            <div className="amount address--item">
-                <Tooltip
-                    arrow={10}
-                    zIndex={200}
-                    fadeDuration={150}
-                    radius={10}
-                    fontFamily='Roboto'
-                    fontSize='5'
-                    fadeEasing="linear"
-                    background={css`
+        <div>
+
+
+            <div className="addressContainer">
+                <div className="chevron address--item">
+                    <FontAwesomeIcon size="sm" icon={showInputs ? faChevronCircleDown : faChevronCircleRight} color="white" onClick={() => getAddressUnspent(data[0])} />
+                </div>
+                <div className="address--div address--item" onClick={() => getAddressUnspent(data[0])}>
+                    {data[0]}</div>
+
+                <div className="clipboard address--item">
+                    <FontAwesomeIcon size="sm" icon={faClipboard} color="white" onClick={() => copyAddress(data[0])} />
+                </div>
+                <div className="amount address--item">
+                    <Tooltip
+                        arrow={10}
+                        zIndex={200}
+                        fadeDuration={150}
+                        radius={10}
+                        fontFamily='Roboto'
+                        fontSize='5'
+                        fadeEasing="linear"
+                        background={css`
                     var(--success)
                   `}
-                    content={data[1].toFixed(8)}
-                    customCss={css`
+                        content={data[1].toFixed(8)}
+                        customCss={css`
                     white-space: nowrap;
                   `}
-                >
-                    {data[1]}
-                </Tooltip>
+                    >
+                        {data[1]}
+                    </Tooltip>
+                </div>
+                <div className="account address--item">{getAccountField(data[2])}</div>
+
             </div>
-            <div className="account address--item">{getAccountField(data[2])}</div>
+            {renderInputs()}
         </div>
     )
+
     function getAccountField(account) {
         if (!account || account === " ") account = "add name";
 
@@ -79,12 +94,54 @@ function Address({ data, setAccountName, copyAddress }) {
         )
     }
 
+    async function getAddressUnspent(address) {
+        if (showInputs) {
+            setShowInputs(false)
+            return;
+        }
+
+        var rpcClient = new RPCClient();
+        var args = [1, 9999999, [address]];
+        Promise.all([
+            rpcClient.listunspent(args),
+        ]).then((response) => {
+            setShowInputs(true);
+            setAddressInputs(response[0]);
+            console.log("Address unspent: ", response)
+        });
+    }
+
+    function renderInputs() {
+        var minHeight = 0;
+        if (showInputs)
+            minHeight = showInputs.length * 50;
+        return (
+            <Expand open={showInputs}>
+                <div className="address--inputs">
+                    {addressInputs.map((item, i) => {
+                        return singleInput(item, i);
+                    })}
+                </div>
+
+            </Expand >
+        )
+    }
+
+    function singleInput(item, i) {
+        console.log("item ", item);
+        return (
+            <div className="address--inputs--container" key={i}>
+                <div >input amount: {item.amount}</div>
+            </div>
+        )
+    }
+
     function updateAccountName(e) {
         setChangeAccountName(e);
     }
 
     function switchInput() {
-        console.log("switch input: ", address , " ", changeAcountName);
+        console.log("switch input: ", address, " ", changeAcountName);
         let data = [address, changeAcountName];
         if (showInput === true) setAccountName(data);
         setResetInput("");

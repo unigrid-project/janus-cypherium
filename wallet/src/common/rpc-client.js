@@ -109,6 +109,10 @@ export default class RPCClient {
 		return await this.send_command("listtransactions", args);
 	}
 
+	async listunspent(args = []){
+		return await this.send_command("listunspent", args);
+	}
+
 	async walletLock() {
 		return await this.send_command("walletlock");
 	}

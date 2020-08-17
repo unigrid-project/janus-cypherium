@@ -29,23 +29,23 @@
     font-family: var(--fontFamily);
 }
 
-.address--item:nth-child(1) {
+.address--item:nth-child(2) {
     flex: 3 1 200px;
     align-self: auto;
 }
 
-.address--item:nth-child(2) {
+.address--item:nth-child(3) {
     flex: 1 1 20px;
     align-self: center;
 
 }
 
-.address--item:nth-child(3) {
+.address--item:nth-child(4) {
     flex: 2 1 200px;
     align-self: auto;
 }
 
-.address--item:nth-child(4) {
+.address--item:nth-child(5) {
     flex: 3 1 200px;
     align-self: auto;
     text-align: center;
@@ -78,6 +78,9 @@
     padding-left: 10px;
 }
 
+.chevron{
+    max-width: 20px;
+}
 .addressContainer svg {
     transition: transform .2s ease-in-out;
     cursor: pointer;
@@ -97,4 +100,18 @@
 .account:hover {
     transform: scale(1.1);
     cursor: pointer;
+}
+
+.address--inputs--container{
+    align-items: center;
+    padding: 10px;
+    padding-left: 20px;
+    width: 100%;
+    background-color: var(--input--background);
+    border-radius: 10px;
+    border: 1.5px solid var(--border--active);
+}
+
+.address--inputs{
+    padding-left: 30px;
 }
