@@ -27,27 +27,13 @@ import { explorerLink } from "../consts";
 
 library.add(faSignInAlt, faSignOutAlt, faCoins, faClock, faCubes, faNetworkWired);
 
-function Transaction({ data, index, style }) {
+function TransactionLong({ data, index, style }) {
     const [amount] = useState(data.amount);
-    const [numWidth, setNumberWidth] = useState();
-    const [largeTrans, setLargeTrans] = useState(false);
-    useEffect(() => {
-        if (style === "trans--long") {
-            setNumberWidth("long--div");
-            setLargeTrans(true);
-        } else {
-            setNumberWidth("short--div");
-            setLargeTrans(false);
-        }
-        //console.log("transaction style: ", style);
-    }, []);
+    const [numWidth, setNumberWidth] = useState("long--div");
+    const [largeTrans, setLargeTrans] = useState(true);
     return (
         <div className={"transaction--main " + style}>
-            <div className="trans--item">
-                <div className="circle">
-                    {getArrayIndex(index)}
-                </div></div>
-            <div className="trans--item">
+            <div className="trans--item padding--left">
                 <Tooltip
                     zIndex={200}
                     fadeDuration={150}
@@ -216,12 +202,12 @@ function Transaction({ data, index, style }) {
 
     function getCategory(data) {
         //console.log("data: ", data)
-        if(data.generatedfrom){
+        if (data.generatedfrom) {
             return data.generatedfrom;
-        }else{
+        } else {
             return data.category;
         }
-        
+
     }
     function setAmountColor() {
         let transType = data.category === "send" ? "send--color" : "receive--color";
@@ -272,11 +258,11 @@ function Transaction({ data, index, style }) {
                 return <FontAwesomeIcon size="lg" icon={faSignOutAlt} color="lightsalmon" />
                 break;
             case "generate":
-                if(data.generatedfrom === "stake"){
+                if (data.generatedfrom === "stake") {
                     return <FontAwesomeIcon size="lg" icon={faCoins} color="rgb(255, 151, 14)" />
-                }else if(data.generatedfrom === "masternode reward"){
+                } else if (data.generatedfrom === "masternode reward") {
                     return <FontAwesomeIcon size="lg" icon={faNetworkWired} color="lightgoldenrodyellow" />
-                }   
+                }
                 break;
             default:
                 return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="white" />
@@ -284,4 +270,4 @@ function Transaction({ data, index, style }) {
         }
     }
 }
-export default Transaction;
+export default TransactionLong;

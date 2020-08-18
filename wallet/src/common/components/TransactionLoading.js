@@ -1,6 +1,6 @@
 /*
  * This file is part of The UNIGRID Wallet
- * Copyright (C) 2019 The UNIGRID Organization
+ * Copyright (C) 2020 The UNIGRID Organization
  *
  * The UNIGRID Wallet is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,27 +16,24 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-div#transactions.active {
-    overflow-y: hidden;
-    height: 100%;
+import React, { useState, useEffect } from "react";
+import "./Transaction.css";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import WarningMessage from "./WarningMessage";
+
+function TransactionLoading({ style }) {
+
+    return (
+        <div className={"transaction--main--old " + style}>
+            <div className="loading--item">
+                <FontAwesomeIcon size="lg" icon={faClock} color="white" />
+            </div>
+            <div className="loading--item">
+                Loading...
+            </div >
+        </div >
+    )
 }
 
-div#transactions.inactive {
-    overflow-y: hidden;
-    height: 500px;
-}
-
-.transaction--item {
-    padding-bottom: 5px;
-}
-
-.transaction--top--item {
-    padding: 10px 0px 10px 20px;
-}
-.transaction--container{
-    height: 100%;
-}
-
-.transaction--padding{
-    padding-bottom: 5px;
-}
+export default TransactionLoading;

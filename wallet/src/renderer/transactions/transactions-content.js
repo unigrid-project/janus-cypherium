@@ -17,7 +17,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
 import Content from "../content";
 import Button from "../../common/components/Button";
 import RPCClient from "../../common/rpc-client.js";
@@ -26,6 +26,7 @@ import ExportCSV from "../../common/components/ExportCSV";
 import TransactionLoader from "./TransactionLoader";
 import _ from "lodash";
 import { ipcRenderer, remote } from "electron";
+import InfiniteLoadWrapper from "../../common/components/InfiniteLoadWrapper";
 
 function TransactionsContent(props) {
 	const [transactions, setTransactions] = useState({});
@@ -35,8 +36,35 @@ function TransactionsContent(props) {
 	const [doneLoading, setDoneLoading] = useState(false);
 	const [loadingStatus, setLoadingStatus] = useState("idle");
 	const [totalTxCount, setTotalTxCount] = useState();
+	const [txHeight, setTxHeight] = useState(531);
+	const [txWidth, setTxWidth] = useState(610);
 	const [loadMore, setLoadMore] = useState(false);
+	const transactionContainer = useRef(null);
+	const [hasNextPage, setHasNextPage] = useState(true);
+	const [isNextPageLoading, setIsNextPageLoading] = useState(false);
+	const [items, setItems] = useState([]);
+	const window = remote.getCurrentWindow()
+	const loadNextPage = (...args) => {
+		console.log("loadNextPage", ...args);
+		setIsNextPageLoading(true);
+		setTimeout(() => {
+			setHasNextPage(items.length < 10000);
+			setIsNextPageLoading(false);
+			loadTransactionData(true);
+		}, 100);
+	};
+
 	useEffect(() => {
+		window.on('resize', _.debounce(function () {
+			let height = transactionContainer.current.offsetHeight - 50;
+			let width = transactionContainer.current.offsetWidth - 20;
+			console.log("height ", height);
+			console.log("width ", width);
+			setTxHeight(height);
+			setTxWidth(width);
+		}, 100));
+
+
 		loadTransactionData(true);
 	}, []);
 
@@ -47,27 +75,39 @@ function TransactionsContent(props) {
 
 	return (
 		<Content id="transactions" >
-			<div className="transaction--container transaction--top--item" ref={scroll}>
-				<div className="align--row--flexstart">
-					<Button handleClick={() => loadTransactionData(false)} buttonSize="btn--small">
+			<div className="transaction--container transaction--top--item" ref={transactionContainer}>
+				<div className="align--row--flexstart transaction--padding">
+					{/*<Button handleClick={() => loadTransactionData(true)} buttonSize="btn--small">
 						Load Transactions
-					</Button>
+					</Button>*/}
 					<Button handleClick={exportToCSV} buttonSize="btn--small">
 						Export CSV
 					</Button><div></div>
 				</div>
 				<div >
-					<TransactionLoader
-						key={Object.keys(transactions).length}
-						loadMore={loadMore}
-						transactions={transactions}
-						readyForMore={readyForMore}
-						scroll={scroll}
-						doneLoading={doneLoading} />
+					<InfiniteLoadWrapper
+						hasNextPage={hasNextPage}
+						isNextPageLoading={isNextPageLoading}
+						items={items}
+						loadNextPage={loadNextPage}
+						height={txHeight}
+						width={txWidth}
+					/>
 				</div>
 			</div>
 		</Content>
 	);
+
+	/*
+	<TransactionLoader
+							key={Object.keys(transactions).length}
+							loadMore={loadMore}
+							transactions={transactions}
+							readyForMore={readyForMore}
+							scroll={scroll}
+							doneLoading={doneLoading} />
+	*/
+
 	function readyForMore() {
 		console.log("ready for more")
 		setLoadMore(true);
@@ -89,19 +129,21 @@ function TransactionsContent(props) {
 			}
 
 			var rpcClient = new RPCClient();
-			let args = ["*", parseInt(100), parseInt(startNumber)];
+			let args = ["*", parseInt(40), parseInt(startNumber)];
 
 			Promise.all([
-				rpcClient.listTransactions(args),
-				rpcClient.getwalletinfo(),
-				new Promise(resolve => setTimeout(resolve, 500))
+				rpcClient.listTransactions(args)
+				//rpcClient.getwalletinfo(),
+				//new Promise(resolve => setTimeout(resolve, 500))
 			]).then((response) => {
 				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
 				console.log("trans res ", response[0]);
-				setTotalTxCount(response[1].txcount);
-				console.log("total tx count: ", response[1].txcount);
+				//setTotalTxCount(response[1].txcount);
+				//console.log("total tx count: ", response[1].txcount);
 				if (response[0].length === 0) {
 					console.log("DONE LOADING ALL TRANSACTIONS!");
+					setHasNextPage(false);
+					setIsNextPageLoading(false);
 					setDoneLoading(true);
 					setLoadMore(true);
 					return;
@@ -112,11 +154,13 @@ function TransactionsContent(props) {
 				if (count > 1) {
 					const newOrder = transactions.concat(order);
 					setTransactions(newOrder);
+					setItems(newOrder);
 					setLoadMore(false);
 				} else {
 					count = pageCount + 1;
 					setPageCount(count);
 					setTransactions(order);
+					setItems(order);
 					setLoadMore(false);
 				}
 			}, (stderr) => {
@@ -142,10 +186,5 @@ function TransactionsContent(props) {
 			console.error(stderr);
 		});
 	}
-
 }
 export default TransactionsContent;
-
-/*
-
-		*/

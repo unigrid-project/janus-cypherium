@@ -17,44 +17,44 @@
  */
 
 .padding {
-    padding-left: 5px;
+  padding-left: 5px;
 }
 
 .error--text {
-    color: var(--danger);
-    font-family: var(--fontFamily);
-    font-size: 15;
+  color: var(--danger);
+  font-family: var(--fontFamily);
+  font-size: 15;
 }
 
 .error--text-start {
-    opacity: 0;
+  opacity: 0;
 }
 
 .error--text-hidden {
-    color: var(--danger);
-    font-family: var(--fontFamily);
-    font-size: 15;
-    visibility: collapse;
-    opacity: 0;
+  color: var(--danger);
+  font-family: var(--fontFamily);
+  font-size: 15;
+  visibility: collapse;
+  opacity: 0;
 }
 
 .error--text--animation {
-    visibility: visible;
-    color: var(--danger);
-    font-family: var(--fontFamily);
-    font-size: 15;
-    animation: errortextanimation 3s forwards;
-    transition-timing-function: ease-in-out;
+  visibility: visible;
+  color: var(--danger);
+  font-family: var(--fontFamily);
+  font-size: 15;
+  animation: errortextanimation 3s forwards;
+  transition-timing-function: ease-in-out;
 }
 
 @keyframes errortextanimation {
-    0% {
-        opacity: 0;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
