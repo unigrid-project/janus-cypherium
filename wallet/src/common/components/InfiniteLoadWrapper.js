@@ -29,9 +29,8 @@ function InfiniteLoadWrapper({
         if (!isItemLoaded(index)) {
             content = <TransactionLoading style="trans--long" />
         } else {
-            content = <TransactionLong data={items[index]} index={index} style="trans--long" />;
+            content = <TransactionLong data={items[index]} index={index} style={style} />;
         }
-
         return <div style={style}>{content}</div>;
     };
 
@@ -47,6 +46,7 @@ function InfiniteLoadWrapper({
                     itemCount={itemCount}
                     onItemsRendered={onItemsRendered}
                     ref={ref}
+                    overscanCount={30}
                     height={height}
                     width={width}
                     itemSize={40}
