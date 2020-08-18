@@ -31,7 +31,7 @@ export default class AsteroidsController {
 		var window = new BrowserWindow({
 			width: parseInt(electron.screen.getPrimaryDisplay().workAreaSize.height / 1.25),
 			height: electron.screen.getPrimaryDisplay().workAreaSize.height / 2,
-			minWidth: 750,
+			minWidth: 850,
 			minHeight: 550,
 			frame: false,
 			resizable: true,
