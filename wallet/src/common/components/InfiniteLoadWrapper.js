@@ -1,5 +1,5 @@
-import React from "react";
-import { FixedSizeList } from "react-window";
+import React, { useRef, useEffect } from "react";
+import { FixedSizeList as List } from 'react-window';
 import InfiniteLoader from "react-window-infinite-loader";
 import TransactionLoading from "./TransactionLoading";
 import "./InfiniteLoadWrapper.css";
@@ -11,8 +11,11 @@ function InfiniteLoadWrapper({
     items,
     loadNextPage,
     height,
-    width
+    width,
+    scrollTo
 }) {
+
+    const listRef = useRef(null);
     // If there are more items to be loaded then add an extra row to hold a loading indicator.
     const itemCount = hasNextPage ? items.length + 1 : items.length;
 
@@ -33,6 +36,12 @@ function InfiniteLoadWrapper({
         }
         return <div style={style}>{content}</div>;
     };
+    useEffect(() => {
+        if (listRef.current !== null) {
+            listRef.current.scrollToItem(scrollTo);
+        }
+        console.log("should be scrolling to :", scrollTo)
+    }, [scrollTo]);
 
     return (
 
@@ -41,18 +50,18 @@ function InfiniteLoadWrapper({
             itemCount={itemCount}
             loadMoreItems={loadMoreItems}
         >
-            {({ onItemsRendered, ref }) => (
-                <FixedSizeList
+            {({ onItemsRendered }) => (
+                <List
                     itemCount={itemCount}
                     onItemsRendered={onItemsRendered}
-                    ref={ref}
+                    ref={listRef}
                     overscanCount={30}
                     height={height}
                     width={width}
                     itemSize={40}
                 >
                     {Item}
-                </FixedSizeList>
+                </List>
             )}
         </InfiniteLoader>
     )

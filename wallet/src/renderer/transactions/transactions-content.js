@@ -22,6 +22,8 @@ import Content from "../content";
 import Button from "../../common/components/Button";
 import RPCClient from "../../common/rpc-client.js";
 import "./transactions-content.css";
+import { faChevronCircleDown, faChevronCircleUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ExportCSV from "../../common/components/ExportCSV";
 import TransactionLoader from "./TransactionLoader";
 import _ from "lodash";
@@ -43,7 +45,8 @@ function TransactionsContent(props) {
 	const [hasNextPage, setHasNextPage] = useState(true);
 	const [isNextPageLoading, setIsNextPageLoading] = useState(false);
 	const [items, setItems] = useState([]);
-	const window = remote.getCurrentWindow()
+	const window = remote.getCurrentWindow();
+	const [scrollTo, setScrollTo] = useState(0);
 	const loadNextPage = (...args) => {
 		console.log("loadNextPage", ...args);
 		setIsNextPageLoading(true);
@@ -76,24 +79,32 @@ function TransactionsContent(props) {
 	return (
 		<Content id="transactions" >
 			<div className="transaction--container transaction--top--item" ref={transactionContainer}>
-				<div className="align--row--flexstart transaction--padding">
-					{/*<Button handleClick={() => loadTransactionData(true)} buttonSize="btn--small">
-						Load Transactions
-					</Button>*/}
+				<div className="align--row--space-between transaction--padding">
 					<Button handleClick={exportToCSV} buttonSize="btn--small">
 						Export CSV
-					</Button><div></div>
+					</Button>
+					<div className="scroll--nav--buttons align--row--flexstart">
+						<div className="chevron address--item">
+							<FontAwesomeIcon size="sm" icon={faChevronCircleDown}
+								color="white" onClick={() => setScrollTo(items.length)} />
+						</div>
+						<div className="chevron address--item">
+							<FontAwesomeIcon size="sm" icon={faChevronCircleUp}
+								color="white" onClick={() => setScrollTo(0)} />
+						</div>
+					</div>
 				</div>
-				<div >
-					<InfiniteLoadWrapper
-						hasNextPage={hasNextPage}
-						isNextPageLoading={isNextPageLoading}
-						items={items}
-						loadNextPage={loadNextPage}
-						height={txHeight}
-						width={txWidth}
-					/>
-				</div>
+
+				<InfiniteLoadWrapper
+					hasNextPage={hasNextPage}
+					isNextPageLoading={isNextPageLoading}
+					items={items}
+					loadNextPage={loadNextPage}
+					height={txHeight}
+					width={txWidth}
+					scrollTo={scrollTo}
+				/>
+
 			</div>
 		</Content>
 	);

@@ -40,3 +40,8 @@ div#transactions.inactive {
 .transaction--padding{
     padding-bottom: 5px;
 }
+
+.scroll--nav--buttons{
+    align-self: flex-end;
+}
+
