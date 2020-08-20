@@ -1,6 +1,6 @@
 {
   "name": "UNIGRID",
-  "version": "2.1.13",
+  "version": "2.1.14",
   "license": "LGPL-3.0-or-later",
   "author": "The UNIGRID Organization",
   "description": "A decentralized consensus driven sharded internet project.",
@@ -43,6 +43,7 @@
     "react-window-infinite-loader": "^1.0.5",
     "roboto-fontface": "^0.10.0",
     "source-map-support": "^0.5.19",
+    "ssh2": "^0.8.9",
     "styled-components": "^5.1.1",
     "tcp-port-used": "^1.0.1",
     "yarn": "^1.22.4"
