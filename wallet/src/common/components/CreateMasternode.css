@@ -53,7 +53,6 @@
 }
 
 .scroll--box {
-  overflow: scroll;
   width: 550px;
   height: 300px;
   color: green;
@@ -64,6 +63,14 @@
   overflow-y: hidden;
   white-space: pre-wrap;
 }
+
+.debug--info{
+  color: green;
+  background: #000000;
+  border-radius: 10px;
+
+}
+
 .terminal--enterfield {
   overflow-y: hidden;
 }
@@ -93,6 +100,7 @@
 .display--box--container {
   padding: 10px;
   width: 98%;
+  min-height: 210px;
   border-radius: 10px;
   border: 2px transparent solid;
   background-color: var(--container--background);

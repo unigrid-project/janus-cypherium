@@ -29,6 +29,7 @@ import { ipcRenderer, remote } from "electron";
 import WarningMessage from "./WarningMessage";
 import _ from "lodash";
 import { sendDesktopNotification } from "./DesktopNotifications";
+import CheckBox from "./CheckBox";
 
 var fs = require('fs');
 var Client = require('ssh2').Client;
@@ -40,19 +41,25 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
     const [host, setHost] = useState("");
     const [isConnecting, setIsConnecting] = useState(false);
     const [warningMessage, setWarningMessage] = useState("");
-    const [vpsResponse, setVpsResponse] = useState([""]);
+    const [vpsResponse, setVpsResponse] = useState(["..."]);
     const [txidMasternode, setTxidMasternode] = useState("");
     const [connectionReady, setConnectionReady] = useState(false);
     const [masternodeOutput, setMasternodeOutput] = useState("");
     const [terminalKey, setTerminalKey] = useState(1);
     const [showMasternodeOutput, setShowMasternodeOutput] = useState(false);
     const [showManulaSetup, setShowManualSetup] = useState(false);
- 
+    const [debugInfo, setDebugInfo] = useState("");
+    const [autoRestart, setAutoRestart] = useState(true);
+
     useEffect(() => {
         console.log("masternodeOutput ", masternodeOutput);
         if (masternodeOutput !== "")
             addToConfFile(masternodeFile);
     }, [masternodeOutput]);
+    useEffect(() => {
+        console.log("vpsResponse: ", vpsResponse);
+    }, [vpsResponse]);
+
     return (
         <Expand open={isVisible}>
             <div className="createMasternodeContainer">
@@ -96,26 +103,21 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
                     {renderTerminal()}
                     {renderManualSetup()}
                 </div>
-
-                <Expand open={showMasternodeOutput}>
-                    <h2>Copy the below output and paste this into masternode.conf</h2>
-                    <div className="masternode--item">
-                        <div className="clipboard">
-                            <FontAwesomeIcon size="sm" icon={faClipboard} color="white" onClick={() => copyScript(masternodeOutput)} />
-                        </div>
-                        <div className="copy--masternode--output">
-                            {masternodeOutput}</div>
-                    </div>
-                </Expand>
                 <ul>
                     <li>Once the masternode.conf file is updated and saved you must restart the wallet.</li>
                     <li>After you restart, return to this screen and either start the single masternode or if you have more click on START ALL.</li>
                 </ul>
                 <div className="close-btn">
-                    <Button
-                        handleClick={() => closeMasternodeSetup()}
-                        buttonSize="btn--tiny"
-                        buttonStyle="btn--warning--solid">Close</Button>
+                    <div className="align--row--flexstart">
+                        {/*<Button
+                            handleClick={() => cancelConnection()}
+                            buttonSize="btn--tiny"
+                        buttonStyle="btn--danger--solid">cancel</Button>*/}
+                        <Button
+                            handleClick={() => closeMasternodeSetup()}
+                            buttonSize="btn--tiny"
+                            buttonStyle="btn--warning--solid">close</Button>
+                    </div>
                 </div>
             </div>
         </Expand>
@@ -147,12 +149,19 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
             catchConnectionError(err);
             setIsConnecting(false);
             conn.end();
+            conn = null;
+        });
+        conn.on('keyboard-interactive', function (name, instructions, instructionsLang, prompts, finish) {
+            console.log('Connection :: keyboard-interactive', instructions, " prompts:", prompts);
+            //finish(['my_password_on_remote_machine']);
         });
         conn.on('ready', function () {
             console.log('Client :: ready');
             setShowTerminal(false);
+            setIsConnecting(false);
+            setConnectionReady(true);
+            addDataToResponse("Loading...");
             conn.shell(function (err, stream) {
-                setConnectionReady(true);
                 if (err) {
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
                     setWarningMessage("Error connecting to VPS please check credentials.");
@@ -161,19 +170,27 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
                 stream.on('close', function () {
                     console.log('Stream :: close');
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-                    setIsConnecting(false);
+                    //setIsConnecting(false);
                     setConnectionReady(false);
                     conn.end();
                 }).on('data', function (data) {
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-                    setIsConnecting(false);
+                    //setIsConnecting(false);
                     const response = data.toString();
-                    addDataToResponse(response);
+                    if (response !== "") {
+                        addDataToResponse(response);
+                    }
                     if (response.includes("[1;7m")) {
                         //remove substring and display output for user to copy
                         var saveResponse = response;
-                        console.log("MASTERNODE OUTPUT: ", saveResponse.substring(6, (saveResponse.length - 6)));
-                        setMasternodeOutput(saveResponse.substring(6, (saveResponse.length - 5)).replace(/[]/g, ''));
+                        console.log("MASTERNODE OUTPUT: ", saveResponse);
+                        var part = saveResponse.substring(
+                            saveResponse.lastIndexOf(";") + 3,
+                            saveResponse.lastIndexOf("")
+                        );
+                        console.log("part ", part);
+                        setMasternodeOutput(part);
+                        //setMasternodeOutput(saveResponse.substring(6, (saveResponse.length - 5)).replace(/[]/g, ''));
                         setShowMasternodeOutput(true);
                         stream.end();
                         setConnectionReady(false);
@@ -181,16 +198,23 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
                     }
                     //console.log('OUTPUT: ' + data);
                 });
-                stream.end(`${masternodeSetupScript}\n${txidMasternode}\n\n`)
+                stream.end(`${masternodeSetupScript}\n${txidMasternode}\n\n\n\n`)
                 //stream.end('ls -l\nexit\n');
             });
         }).connect({
             host: host,
             port: 22,
             username: user,
-            password: pass
-            //debug: e => console.log(e)
+            password: pass,
+            tryKeyboard: true,
+            readyTimeout: 99999
+            //debug: e => showDebugInfo(e)
         });
+    }
+
+    function showDebugInfo(e) {
+        if (!connectionReady)
+            setDebugInfo(e);
     }
 
     function catchConnectionError(e) {
@@ -201,7 +225,12 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
 
     function addDataToResponse(data) {
         //console.log("data: ", data);
-        setVpsResponse(vpsResponse => [...vpsResponse, data]);
+        let tmpArr = vpsResponse;
+        if (tmpArr.length >= 10) {
+            tmpArr.shift();
+        }
+        tmpArr.push(data);
+        setVpsResponse(tmpArr);
         //setVpsResponse(data);
     }
 
@@ -255,7 +284,14 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
                                 buttonSize="btn--tiny"
                                 buttonStyle="btn--warning--solid">cancel</Button>
                         </div>
-                        {warningMessage !== "" ? renderWarning() : null}
+                        <div className="align--row--flexstart">
+                            <CheckBox key={autoRestart}
+                                selected={autoRestart}
+                                labelTheme="settings--fonts"
+                                label=" Auto restart wallet when completed."
+                                handleCheckBox={(e) => onCheckboxClicked(e.target.checked)} />
+                        </div>
+                        {warningMessage !== "" ? renderWarning() : renderDebug()}
                     </div>
                 </div>
             </Expand>
@@ -282,7 +318,16 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
                     <div className="scroll--box" key={vpsResponse.length}>
                         {renderTerminalOutput()}
                     </div>
+                    <div className="padding">
+                        <div className="align--row--flexend">
+                            <Button
+                                handleClick={() => cancelConnection()}
+                                buttonSize="btn--tiny"
+                                buttonStyle="btn--danger--solid">cancel</Button>
+                        </div>
+                    </div>
                 </div>
+
             </Expand>
         )
     }
@@ -298,16 +343,29 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
             })
         )
     }
-//
+    //
     function closeTerminal() {
         setShowTerminal(false);
         setHost("");
         setUser("");
         setPass("");
-        setVpsResponse([]);
+        setVpsResponse(["..."]);
         setTxidMasternode("");
         setTerminalKey(Math.random());
-        conn = new Client();
+        setIsConnecting(false);
+        conn = null;
+        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+    }
+
+    function cancelConnection() {
+        setShowTerminal(true);
+        setIsConnecting(false);
+        setConnectionReady(false);
+        setMasternodeOutput("");
+        setVpsResponse(["..."]);
+        setShowMasternodeOutput(false);
+        setShowManualSetup(false);
+        conn = null;
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
     }
 
@@ -343,6 +401,21 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
                 startAnimation="error--text-start error--text--animation" />
         )
     }
+
+    function renderDebug() {
+        if (isConnecting) {
+            return (
+                <div className="padding debug--info">{debugInfo}</div>
+            )
+        } else {
+            return (<div><br /><br /></div>)
+        }
+    }
+
+    function onCheckboxClicked(value) {
+        setAutoRestart(value);
+    }
+
     function onAnimationComplete() {
         setWarningMessage("");
     }
@@ -363,7 +436,14 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
                     return;
                 }
                 setMasternodeOutput("");
-                sendDesktopNotification("masternode.conf successfully updated! Please restart your wallet to start this masternode.");
+                
+                if (autoRestart){
+                    sendDesktopNotification("masternode.conf successfully updated! Restarting wallet.");
+                    ipcRenderer.send('wallet-restart');
+                }else{
+                    sendDesktopNotification("masternode.conf successfully updated! Please restart your wallet to start this masternode.");
+                }
+                    
             });
         }, (stderr) => {
             console.error(stderr);

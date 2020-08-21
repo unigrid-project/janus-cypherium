@@ -98,6 +98,14 @@
     flex-direction: row;
 }
 
+.align--row--flexend {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
 .align--row--flexstart>div {
     padding-left: 10px;
 }
@@ -107,4 +115,8 @@
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
+}
+
+.warning--padding {
+    min-height: 30px;
 }

@@ -223,7 +223,7 @@ function MasternodesContent(props) {
 			localNodes.map((key, i) => {
 				if (allNodes[obj].txhash === localNodes[i].txHash
 					&& allNodes[obj].ipaddr == localNodes[i].address) {
-					console.log("pushing: ", allNodes[obj])
+					//console.log("pushing: ", allNodes[obj])
 					filtered.push(allNodes[obj]);
 				}
 			});
@@ -235,10 +235,10 @@ function MasternodesContent(props) {
 		Object.keys(localNodes).map(ln => {
 			//console.log("res ", localNodes[ln])
 			if (!_.find(res, { ipaddr: localNodes[ln].address })) {
-				console.log('did not find ', localNodes[ln].address)
+				//console.log('did not find ', localNodes[ln].address)
 				res.push(localNodes[ln]);
 			} else {
-				console.log("found ip address do nothing ", localNodes[ln].address)
+				//console.log("found ip address do nothing ", localNodes[ln].address)
 			}
 		});
 

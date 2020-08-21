@@ -36,6 +36,6 @@ export const confFile = "unigrid.conf";
 
 export const masternodeFile = "masternode.conf";
 
-export const masternodeSetupScript = `bash -ic "$(wget -4qO- -o- raw.githubusercontent.com/mikeytown2/masternode/master/unigridd.sh)" ; source ~/.bashrc`;
+export const masternodeSetupScript = `bash -ic "$(wget -4qO- -o- raw.githubusercontent.com/unigrid-project/masternode-setup/master/unigridd.sh)" ; source ~/.bashrc`;
 
 
