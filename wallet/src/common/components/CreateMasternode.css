@@ -68,7 +68,7 @@
   color: green;
   background: #000000;
   border-radius: 10px;
-
+  width: 25%;
 }
 
 .terminal--enterfield {
@@ -100,7 +100,7 @@
 .display--box--container {
   padding: 10px;
   width: 98%;
-  min-height: 210px;
+  min-height: 230px;
   border-radius: 10px;
   border: 2px transparent solid;
   background-color: var(--container--background);

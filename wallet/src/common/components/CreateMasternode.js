@@ -41,11 +41,12 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
     const [host, setHost] = useState("");
     const [isConnecting, setIsConnecting] = useState(false);
     const [warningMessage, setWarningMessage] = useState("");
-    const [vpsResponse, setVpsResponse] = useState(["..."]);
+    const [vpsResponse, setVpsResponse] = useState(["Loading..."]);
     const [txidMasternode, setTxidMasternode] = useState("");
     const [connectionReady, setConnectionReady] = useState(false);
     const [masternodeOutput, setMasternodeOutput] = useState("");
     const [terminalKey, setTerminalKey] = useState(1);
+    const [responseKey, setResponseKey] = useState(1);
     const [showMasternodeOutput, setShowMasternodeOutput] = useState(false);
     const [showManulaSetup, setShowManualSetup] = useState(false);
     const [debugInfo, setDebugInfo] = useState("");
@@ -56,9 +57,9 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
         if (masternodeOutput !== "")
             addToConfFile(masternodeFile);
     }, [masternodeOutput]);
-    useEffect(() => {
-        console.log("vpsResponse: ", vpsResponse);
-    }, [vpsResponse]);
+    /*useEffect(() => {
+        //console.log("vpsResponse: ", vpsResponse);
+    }, [vpsResponse]);*/
 
     return (
         <Expand open={isVisible}>
@@ -151,10 +152,6 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
             conn.end();
             conn = null;
         });
-        conn.on('keyboard-interactive', function (name, instructions, instructionsLang, prompts, finish) {
-            console.log('Connection :: keyboard-interactive', instructions, " prompts:", prompts);
-            //finish(['my_password_on_remote_machine']);
-        });
         conn.on('ready', function () {
             console.log('Client :: ready');
             setShowTerminal(false);
@@ -175,20 +172,23 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
                     conn.end();
                 }).on('data', function (data) {
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-                    //setIsConnecting(false);
+                    if(!connectionReady){
+                        // exit out
+                        stream.end();
+                    }
                     const response = data.toString();
-                    if (response !== "") {
+                    if (response !== "" && !response.includes("[A")) {
                         addDataToResponse(response);
                     }
                     if (response.includes("[1;7m")) {
                         //remove substring and display output for user to copy
                         var saveResponse = response;
-                        console.log("MASTERNODE OUTPUT: ", saveResponse);
+                        //console.log("MASTERNODE OUTPUT: ", saveResponse);
                         var part = saveResponse.substring(
                             saveResponse.lastIndexOf(";") + 3,
                             saveResponse.lastIndexOf("")
                         );
-                        console.log("part ", part);
+                        //console.log("part ", part);
                         setMasternodeOutput(part);
                         //setMasternodeOutput(saveResponse.substring(6, (saveResponse.length - 5)).replace(/[]/g, ''));
                         setShowMasternodeOutput(true);
@@ -198,6 +198,7 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
                     }
                     //console.log('OUTPUT: ' + data);
                 });
+                // TODO figure out how to pass in keyboard inputs
                 stream.end(`${masternodeSetupScript}\n${txidMasternode}\n\n\n\n`)
                 //stream.end('ls -l\nexit\n');
             });
@@ -231,6 +232,8 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
         }
         tmpArr.push(data);
         setVpsResponse(tmpArr);
+        //console.log("tmpArr ", tmpArr)
+        setResponseKey(Math.random());
         //setVpsResponse(data);
     }
 
@@ -315,7 +318,7 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
                             HKSgkhmsbcHLSXHPtLXCFcHuxtCCJjhLFM</div>
                     </div>
                     <br />
-                    <div className="scroll--box" key={vpsResponse.length}>
+                    <div className="scroll--box" key={responseKey}>
                         {renderTerminalOutput()}
                     </div>
                     <div className="padding">
@@ -334,9 +337,9 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
 
     function renderTerminalOutput() {
         //render only last items in the array
-        var newArr = _.takeRight(vpsResponse, 10);
+        //var newArr = _.takeRight(vpsResponse, 10);
         return (
-            newArr.map((item, i) => {
+            vpsResponse.map((item, i) => {
                 return (
                     <div key={i}>{item}</div>
                 )
@@ -349,7 +352,7 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
         setHost("");
         setUser("");
         setPass("");
-        setVpsResponse(["..."]);
+        setVpsResponse(["Loading..."]);
         setTxidMasternode("");
         setTerminalKey(Math.random());
         setIsConnecting(false);
@@ -362,7 +365,7 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
         setIsConnecting(false);
         setConnectionReady(false);
         setMasternodeOutput("");
-        setVpsResponse(["..."]);
+        setVpsResponse(["Loading..."]);
         setShowMasternodeOutput(false);
         setShowManualSetup(false);
         conn = null;
@@ -405,7 +408,7 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
     function renderDebug() {
         if (isConnecting) {
             return (
-                <div className="padding debug--info">{debugInfo}</div>
+                <div className="padding debug--info">Connecting...</div>
             )
         } else {
             return (<div><br /><br /></div>)
@@ -436,14 +439,14 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
                     return;
                 }
                 setMasternodeOutput("");
-                
-                if (autoRestart){
+
+                if (autoRestart) {
                     sendDesktopNotification("masternode.conf successfully updated! Restarting wallet.");
                     ipcRenderer.send('wallet-restart');
-                }else{
+                } else {
                     sendDesktopNotification("masternode.conf successfully updated! Please restart your wallet to start this masternode.");
                 }
-                    
+
             });
         }, (stderr) => {
             console.error(stderr);
