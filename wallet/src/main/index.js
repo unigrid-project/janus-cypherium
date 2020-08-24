@@ -210,7 +210,7 @@ autoUpdater.on('update-downloaded', function (info) {
 	log.info("currentVersion ", currentVersion[1]);
 	log.info("newVersion ", newVersion[1]);
 	// testing === for prod <
-	if (currentVersion[1] < newVersion[1]) {
+	if (currentVersion[1] < newVersion[1] || currentVersion[0] < newVersion[0]) {
 		log.info("Your wallet daemon needs updating!");
 		let message = {
 			title: "WARNING!",
