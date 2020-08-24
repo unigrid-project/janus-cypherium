@@ -34,10 +34,8 @@ function TransactionsContent(props) {
 	const [transactions, setTransactions] = useState({});
 	const scroll = useRef(null);
 	const [pageCount, setPageCount] = useState(1);
-	//const [dataLength, setDataLength] = useState(0);
 	const [doneLoading, setDoneLoading] = useState(false);
 	const [loadingStatus, setLoadingStatus] = useState("idle");
-	const [totalTxCount, setTotalTxCount] = useState();
 	const [txHeight, setTxHeight] = useState(531);
 	const [txWidth, setTxWidth] = useState(610);
 	const [loadMore, setLoadMore] = useState(false);
@@ -45,8 +43,12 @@ function TransactionsContent(props) {
 	const [hasNextPage, setHasNextPage] = useState(true);
 	const [isNextPageLoading, setIsNextPageLoading] = useState(false);
 	const [items, setItems] = useState([]);
+	const [itemsKey, setItemsKey] = useState(1);
+	const itemsRef = useRef();
+
 	const window = remote.getCurrentWindow();
 	const [scrollTo, setScrollTo] = useState(0);
+	itemsRef.current = items;
 	const loadNextPage = (...args) => {
 		console.log("loadNextPage", ...args);
 		setIsNextPageLoading(true);
@@ -67,14 +69,19 @@ function TransactionsContent(props) {
 			setTxWidth(width);
 		}, 100));
 
-
-		loadTransactionData(true);
+		ipcRenderer.on("wallet-checked-transactions", (event, message) => {
+			checkForNewTransactions(message);
+		});
 	}, []);
 
 	useEffect(() => {
 		// load more transactions 
-		loadTransactionData(loadMore);
+		if (loadMore === true)
+			loadTransactionData(loadMore);
 	}, [loadMore]);
+	useEffect(() => {
+		console.log("items updated: ", items)
+	}, [items]);
 
 	return (
 		<Content id="transactions" >
@@ -96,6 +103,7 @@ function TransactionsContent(props) {
 				</div>
 
 				<InfiniteLoadWrapper
+					key={itemsKey}
 					hasNextPage={hasNextPage}
 					isNextPageLoading={isNextPageLoading}
 					items={items}
@@ -109,21 +117,6 @@ function TransactionsContent(props) {
 		</Content>
 	);
 
-	/*
-	<TransactionLoader
-							key={Object.keys(transactions).length}
-							loadMore={loadMore}
-							transactions={transactions}
-							readyForMore={readyForMore}
-							scroll={scroll}
-							doneLoading={doneLoading} />
-	*/
-
-	function readyForMore() {
-		console.log("ready for more")
-		setLoadMore(true);
-
-	}
 	async function loadTransactionData(load) {
 		if (load) {
 			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
@@ -131,7 +124,9 @@ function TransactionsContent(props) {
 			//console.log('transactions?')
 
 			var count = 1;
-			var startNumber = Object.keys(transactions).length;
+			console.log('transactions? ', count)
+			//var startNumber = Object.keys(transactions).length;
+			var startNumber = items.length;
 			if (pageCount > 1) {
 				console.log("startNum ", startNumber)
 				count = pageCount + 1;
@@ -149,7 +144,6 @@ function TransactionsContent(props) {
 			]).then((response) => {
 				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
 				console.log("trans res ", response[0]);
-				//setTotalTxCount(response[1].txcount);
 				//console.log("total tx count: ", response[1].txcount);
 				if (response[0].length === 0) {
 					console.log("DONE LOADING ALL TRANSACTIONS!");
@@ -163,15 +157,18 @@ function TransactionsContent(props) {
 				let mergedLength = 0;
 				// if loading new data merge transactions here
 				if (count > 1) {
-					const newOrder = transactions.concat(order);
-					setTransactions(newOrder);
+					//const newOrder = transactions.concat(order);
+					const newOrder = items.concat(order);
+					//setTransactions(newOrder);
 					setItems(newOrder);
+					console.log("newOrder ", newOrder)
 					setLoadMore(false);
 				} else {
 					count = pageCount + 1;
 					setPageCount(count);
-					setTransactions(order);
+					//setTransactions(order);
 					setItems(order);
+					console.log("order ", order)
 					setLoadMore(false);
 				}
 			}, (stderr) => {
@@ -179,7 +176,20 @@ function TransactionsContent(props) {
 				console.error(stderr);
 			});
 		}
+	}
 
+	function checkForNewTransactions(newTransactions) {
+		var shortListTransactions = itemsRef.current;
+		console.log("newTransactions: ", newTransactions);
+		console.log("shortListTransactions: ", shortListTransactions)
+		let result = newTransactions.filter(o1 => !shortListTransactions.some(o2 => o1.blockhash === o2.blockhash));
+		if (result.length > 0) {
+			console.log("results to add: ", result);
+			result.forEach(element => shortListTransactions.unshift(element));
+			console.log("new items added: ", itemsRef.current);
+			setItems(shortListTransactions);
+			setItemsKey(Math.random());
+		}
 	}
 
 	function exportToCSV() {

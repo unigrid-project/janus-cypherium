@@ -243,7 +243,12 @@ function MyWalletContent(props) {
 			setBalance(response[0]);
 			const order = _.orderBy(response[2], ['timereceived'], ['desc']);
 			setTransactions(order);
-			console.log("Transactions: ", order)
+			console.log("Transactions: ", order);
+			// TODO this should be coming from websockets
+			// for now we can pass new incoming transactions in this signal
+			// transactions-content can listen for this
+			// if it finds new transactions add them to the display list on that screen
+			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-checked-transactions", order);
 			coinGecko.getprice("unigrid", response[1]).then((rates) => {
 				var currencies = Object.entries(rates.unigrid).map((currency) => {
 					var v = { value: currency[0], label: currency[0], rate: currency[1] };
