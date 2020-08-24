@@ -202,7 +202,7 @@ function UnlockWallet(props) {
             case "SEND":
             case "STARTALL":
             case "MISSING":
-                sendArgs = [args, 5];
+                sendArgs = [args, 20];
                 break;
             case "STAKE":
                 sendArgs = [args, 0, true];
