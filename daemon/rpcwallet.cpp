@@ -1358,6 +1358,7 @@ void AcentryToJSON(const CAccountingEntry& acentry, const string& strAccount, Un
         entry.push_back(Pair("amount", ValueFromAmount(acentry.nCreditDebit)));
         entry.push_back(Pair("otheraccount", acentry.strOtherAccount));
         entry.push_back(Pair("comment", acentry.strComment));
+
         ret.push_back(entry);
     }
 }
@@ -1443,12 +1444,21 @@ UniValue listtransactions(const UniValue& params, bool fHelp)
     if (nFrom < 0)
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Negative from");
 
-    UniValue ret(UniValue::VARR);
+    if (nCount > (int) pwalletMain->mapWallet.size())
+        nCount = pwalletMain->mapWallet.size();
+    if (nFrom + nCount > (int) pwalletMain->mapWallet.size()) {
+        nFrom = pwalletMain->mapWallet.size() - nCount;
+        nCount = pwalletMain->mapWallet.size() - nFrom;
+    }
 
-    const CWallet::TxItems & txOrdered = pwalletMain->wtxOrdered;
+    UniValue ret(UniValue::VARR);
+    const CWallet::TxItems& txOrdered = pwalletMain->wtxOrdered;
+    auto it = txOrdered.rbegin();
+
+    std::advance(it, nFrom);
 
     // iterate backwards until we have nCount items to return:
-    for (CWallet::TxItems::const_reverse_iterator it = txOrdered.rbegin(); it != txOrdered.rend(); ++it) {
+    for (; it != txOrdered.rend(); ++it) {
         CWalletTx* const pwtx = (*it).second.first;
         if (pwtx != 0)
             ListTransactions(*pwtx, strAccount, 0, true, ret, filter);
@@ -1456,30 +1466,16 @@ UniValue listtransactions(const UniValue& params, bool fHelp)
         if (pacentry != 0)
             AcentryToJSON(*pacentry, strAccount, ret);
 
-        if ((int)ret.size() >= (nCount + nFrom)) break;
+        if ((int) ret.size() >= nCount)
+            break;
     }
-    // ret is newest to oldest
 
-    if (nFrom > (int)ret.size())
-        nFrom = ret.size();
-    if ((nFrom + nCount) > (int)ret.size())
-        nCount = ret.size() - nFrom;
-
-    vector<UniValue> arrTmp = ret.getValues();
-
-    vector<UniValue>::iterator first = arrTmp.begin();
-    std::advance(first, nFrom);
-    vector<UniValue>::iterator last = arrTmp.begin();
-    std::advance(last, nFrom+nCount);
-
-    if (last != arrTmp.end()) arrTmp.erase(last, arrTmp.end());
-    if (first != arrTmp.begin()) arrTmp.erase(arrTmp.begin(), first);
-
-    std::reverse(arrTmp.begin(), arrTmp.end()); // Return oldest to newest
+    vector<UniValue> tmp = ret.getValues();
+    std::reverse(tmp.begin(), tmp.end());
 
     ret.clear();
     ret.setArray();
-    ret.push_backV(arrTmp);
+    ret.push_backV(tmp);
 
     return ret;
 }
