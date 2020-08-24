@@ -43,11 +43,11 @@ function Transaction({ data, index, style }) {
     }, []);
     return (
         <div className={"transaction--main " + style}>
-            <div className="trans--item">
+            <div className="trans--short--item">
                 <div className="circle">
                     {getArrayIndex(index)}
                 </div></div>
-            <div className="trans--item">
+            <div className="trans--short--item">
                 <Tooltip
                     zIndex={200}
                     fadeDuration={150}
@@ -67,7 +67,7 @@ function Transaction({ data, index, style }) {
 
                 </Tooltip>
             </div >
-            <div className="trans--item">
+            <div className="trans--short--item">
                 <Tooltip
 
                     zIndex={200}
@@ -88,7 +88,7 @@ function Transaction({ data, index, style }) {
 
                 </Tooltip>
             </div >
-            <div className="trans--item">
+            <div className="trans--short--item">
                 <Tooltip
 
                     zIndex={200}
@@ -105,7 +105,7 @@ function Transaction({ data, index, style }) {
                 </Tooltip>
 
             </div>
-            <div className="trans--item">
+            <div className="trans--short--item">
                 <Tooltip
 
                     zIndex={200}
@@ -125,7 +125,7 @@ function Transaction({ data, index, style }) {
                     {setAmountColor()}
                 </Tooltip>
             </div>
-            <div className="trans--item">
+            <div className="trans--short--item">
                 <Tooltip
 
                     zIndex={200}
@@ -147,7 +147,7 @@ function Transaction({ data, index, style }) {
                 </Tooltip>
             </div>
             {largeTrans ?
-                <div className="trans--item">
+                <div className="trans--short--item">
                     <Tooltip
 
                         zIndex={200}
