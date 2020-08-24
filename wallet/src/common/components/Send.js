@@ -99,11 +99,9 @@ function Send() {
                 alias: null
             }
             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
-            workCompleted();
         } else {
             console.log("wallets isnt locked")
             checkSendInputs();
-            workCompleted();
         }
 
     }
@@ -126,7 +124,7 @@ function Send() {
                     new Promise(resolve => setTimeout(resolve, 500))
                 ]).then((response) => {
                     console.log('send response: ', response[0]);
-
+                    workCompleted();
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "cancel-send-operation");
                     sendDesktopNotification(`Successfully sent ${amount} UGD to ${address}`);
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
