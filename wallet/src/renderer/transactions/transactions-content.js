@@ -79,9 +79,9 @@ function TransactionsContent(props) {
 		if (loadMore === true)
 			loadTransactionData(loadMore);
 	}, [loadMore]);
-	useEffect(() => {
+	/*useEffect(() => {
 		console.log("items updated: ", items)
-	}, [items]);
+	}, [items]);*/
 
 	return (
 		<Content id="transactions" >
@@ -143,7 +143,7 @@ function TransactionsContent(props) {
 				//new Promise(resolve => setTimeout(resolve, 500))
 			]).then((response) => {
 				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-				console.log("trans res ", response[0]);
+				//console.log("trans res ", response[0]);
 				//console.log("total tx count: ", response[1].txcount);
 				if (response[0].length === 0) {
 					console.log("DONE LOADING ALL TRANSACTIONS!");
@@ -161,14 +161,14 @@ function TransactionsContent(props) {
 					const newOrder = items.concat(order);
 					//setTransactions(newOrder);
 					setItems(newOrder);
-					console.log("newOrder ", newOrder)
+					//console.log("newOrder ", newOrder)
 					setLoadMore(false);
 				} else {
 					count = pageCount + 1;
 					setPageCount(count);
 					//setTransactions(order);
 					setItems(order);
-					console.log("order ", order)
+					//console.log("order ", order)
 					setLoadMore(false);
 				}
 			}, (stderr) => {
@@ -180,13 +180,13 @@ function TransactionsContent(props) {
 
 	function checkForNewTransactions(newTransactions) {
 		var shortListTransactions = itemsRef.current;
-		console.log("newTransactions: ", newTransactions);
-		console.log("shortListTransactions: ", shortListTransactions)
+		//console.log("newTransactions: ", newTransactions);
+		//console.log("shortListTransactions: ", shortListTransactions)
 		let result = newTransactions.filter(o1 => !shortListTransactions.some(o2 => o1.blockhash === o2.blockhash));
 		if (result.length > 0) {
-			console.log("results to add: ", result);
+			//console.log("results to add: ", result);
 			result.forEach(element => shortListTransactions.unshift(element));
-			console.log("new items added: ", itemsRef.current);
+			//console.log("new items added: ", itemsRef.current);
 			setItems(shortListTransactions);
 			setItemsKey(Math.random());
 		}
