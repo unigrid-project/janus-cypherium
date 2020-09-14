@@ -5,3 +5,7 @@ body,
   width: 100%;
   overflow-x: hidden;
 }
+
+.inifinitie--scroller{
+  transform: translate3d(0,0,0);
+}

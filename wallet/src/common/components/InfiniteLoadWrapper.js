@@ -4,6 +4,7 @@ import InfiniteLoader from "react-window-infinite-loader";
 import TransactionLoading from "./TransactionLoading";
 import "./InfiniteLoadWrapper.css";
 import TransactionLong from "./TransactionLong";
+import { SHITPICKLE } from "../consts";
 
 function InfiniteLoadWrapper({
     hasNextPage,
@@ -49,19 +50,24 @@ function InfiniteLoadWrapper({
             isItemLoaded={isItemLoaded}
             itemCount={itemCount}
             loadMoreItems={loadMoreItems}
+
         >
+
             {({ onItemsRendered }) => (
-                <List
-                    itemCount={itemCount}
-                    onItemsRendered={onItemsRendered}
-                    ref={listRef}
-                    overscanCount={30}
-                    height={height}
-                    width={width}
-                    itemSize={40}
-                >
-                    {Item}
-                </List>
+                <div>
+                    <List
+                        itemCount={itemCount}
+                        onItemsRendered={onItemsRendered}
+                        ref={listRef}
+                        overscanCount={30}
+                        height={height}
+                        width={width}
+                        itemSize={40}
+                        className="infinite--scroller"
+                    >
+                        {Item}
+                    </List>
+                </div>
             )}
         </InfiniteLoader>
     )

@@ -32,7 +32,7 @@ function TransactionLong({ data, index, style }) {
     const [numWidth, setNumberWidth] = useState("long--div");
     const [largeTrans, setLargeTrans] = useState(true);
     return (
-        <div className={"transaction--main " + style}>
+        <div className={"transaction--main " + style} key={index}>
             <div className="trans--item padding--left">
                 <Tooltip
                     zIndex={200}
