@@ -39,7 +39,8 @@ export default class MainController {
 			resizable: true,
 			show: false,
 			webPreferences: {
-				nodeIntegration: true
+				nodeIntegration: true,
+				preload: path.join(__dirname, 'sentry.js')
 			}, frame: false // comment this line to get DEV TOOls
 		});
 
@@ -77,7 +78,6 @@ export default class MainController {
 			event.preventDefault();
 			shell.openExternal(url);
 		});
-
 		return window;
 	}
 }

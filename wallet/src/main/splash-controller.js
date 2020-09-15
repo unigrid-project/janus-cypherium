@@ -41,7 +41,8 @@ export default class SplashController {
 
 			webPreferences: {
 				nodeIntegration: true,
-				webSecurity: false
+				webSecurity: false,
+				preload: path.join(__dirname, 'sentry.js')
 			}, frame: false // comment this line to get DEV TOOls
 		});
 
@@ -102,7 +103,7 @@ export default class SplashController {
 		var syncing = false;
 		var startHeight = -1;
 		var localHeight = 0;
-		
+
 		do {
 			await new Promise((resolve, reject) => {
 				if (syncing) {
@@ -145,6 +146,7 @@ export default class SplashController {
 								);
 								break;
 							case "syncing":
+							case "inactive":
 								syncing = true;
 								this.window.webContents.send(
 									"progress", "indeterminate",
@@ -199,7 +201,7 @@ export default class SplashController {
 						Daemon.start(this.window, true).then((response) => {
 							this.handle_synchronization(remoteHeight, rpcClient);
 						});
-					});
+					}).then(() => resolve());
 				} else {
 					resolve();
 				}
