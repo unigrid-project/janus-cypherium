@@ -37,6 +37,7 @@ import "./index.css";
 import ExplorerContent from "./explorer/explorer-content";
 import MasternodesContent from "./masternodes/masternodes-content";
 import Warning from "./warning/warning";
+import TransactionsContentTest from "./transactions/transactions-test-content";
 
 library.add(faRocket);
 
@@ -56,7 +57,8 @@ const routes = {
 			<div id="maincontainer">
 				<MyWalletContent key="mywallet-content" active={true} />
 				<AddressesContent key="addressbook-content" />
-				<TransactionsContent key="transactions-content" />
+				{<TransactionsContent key="transactions-content" />}
+				{/*<TransactionsContentTest key="transactions-test-content" />*/}
 				<MasternodesContent key="masternodes-content" />
 				<ExplorerContent key="explorer-content" />
 				<SettingsContent key="settings-content" />

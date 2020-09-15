@@ -27,6 +27,7 @@ import CLI from "./cli/cli.js";
 import "./navbar.css"
 import BlockInfo from "./blockinfo/blockinfo.js";
 import Masternodes from "./masternodes/masternodes.js";
+import TransactionsTest from "./transactions/transactions-test.js";
 
 export default class NavBar extends React.Component {
 	render() {
@@ -37,6 +38,7 @@ export default class NavBar extends React.Component {
 					<Addresses key="addressbook" />
 					<Masternodes key="masternodes" />
 					<Transactions key="transactions" />
+					{/*<TransactionsTest key="test-transactions" />*/}
 				</ul>
 				<ul className="settings--container" >
 					<Settings key="settings" />

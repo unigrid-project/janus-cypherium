@@ -1,6 +1,7 @@
 /*
  * This file is part of The UNIGRID Wallet
- * Copyright (C) 2019 The UNIGRID Organization
+ * Copyright (C) 2019 The Swipp developers <info@swippcoin.com>
+ * Copyright (C) 2020 The UNIGRID Organization
  *
  * The UNIGRID Wallet is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,35 +17,22 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-div#transactions.active {
-    overflow-y: hidden;
-    height: 100%;
-}
+import React from "react";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
+import NavEntry from "../naventry";
 
-div#transactions.inactive {
-    overflow-y: hidden;
-    height: 500px;
-}
-div#test-transactions{
-    overflow-y: hidden;
-    height: 100%;
-}
-.transaction--item {
-    padding-bottom: 5px;
-}
+library.add(faExchangeAlt);
 
-.transaction--top--item {
-    padding: 10px 0px 10px 20px;
-}
-.transaction--container{
-    height: 100%;
-}
-
-.transaction--padding{
-    padding-bottom: 5px;
-}
-
-.scroll--nav--buttons{
-    align-self: flex-end;
+export default class TransactionsTest extends React.Component {
+	render() {
+		return (
+			<NavEntry>
+				<div className="menu--icon"><FontAwesomeIcon size="sm" icon={faExchangeAlt} /></div>
+				<div className="menu-title">Transaction Test</div>
+			</NavEntry>
+		);
+	}
 }
 
