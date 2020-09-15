@@ -29,6 +29,7 @@ import { Notification } from "electron";
 //import request from 'request';
 import { autoUpdater } from "electron-updater";
 import WarningController from "./warning-controller";
+import * as Sentry from "@sentry/electron";
 
 autoUpdater.autoDownload = true;
 autoUpdater.allowPrerelease = true;
@@ -39,11 +40,17 @@ const log = require('electron-log');
 const deps = packageJSON.dependencies;
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
+Sentry.init({
+	dsn: "https://51f7c29baa594b0a8bfa788113e696ce@o266736.ingest.sentry.io/5427751",
+	release: 'unigrid-electron@' + process.env.npm_package_version,
+});
+
 var mainWindow;
 var warningWindow;
 var isWarningOpen = false;
 var trackRejectUpdates = 0;
 var skipTimesAllocated = 20;
+
 /*
 process.on('uncaughtException', (err) => {
 	console.log("uncaughtException: ", err)
@@ -247,7 +254,7 @@ function dancingPickles() {
 }
 
 function manuallyCheckForUpdates(mainWindow) {
-	window = mainWindow;
+	//window = mainWindow;
 	autoUpdater.checkForUpdates();
 	autoCheckForUpdates;
 }
