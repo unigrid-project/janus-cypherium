@@ -81,6 +81,10 @@ export default class RPCClient {
 		return await this.send_command("getdatadirectory");
 	}
 
+	async getconnectioncount() {
+		return await this.send_command("getconnectioncount");
+	}
+
 	async getinfo() {
 		return await this.send_command("getinfo");
 	}
@@ -109,7 +113,7 @@ export default class RPCClient {
 		return await this.send_command("listtransactions", args);
 	}
 
-	async listunspent(args = []){
+	async listunspent(args = []) {
 		return await this.send_command("listunspent", args);
 	}
 
