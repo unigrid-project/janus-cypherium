@@ -53,7 +53,7 @@ export default class BlockInfo extends React.Component {
 
 		this.getBlockHeight(30000);
 		this.getStakingStatus(45000);
-		//this.updateInfo();
+		this.updateInfo();
 
 	}
 	componentDidMount() {
@@ -256,12 +256,11 @@ export default class BlockInfo extends React.Component {
 				rpcClient.getStatus(),
 				new Promise(resolve => setTimeout(resolve, 500))
 			]).then((response) => {
+				console.log("Get Staking Status");
 				this.setState({
-					
 					unlocked: response[0].walletunlocked,
 					staking: response[0]["staking status"]
 				});
-
 				if (response[0].walletunlocked) {
 					this.setState({
 						walletMessage: "unlocked for ".concat(this.state.unlockedFor)
