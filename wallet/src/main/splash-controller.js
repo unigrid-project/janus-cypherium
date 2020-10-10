@@ -189,7 +189,7 @@ export default class SplashController {
 				new Explorer().getblockcount(),
 				new Promise(resolve => setTimeout(resolve, 1000))
 			]).then((response) => {
-				console.log("sync call response ", response)
+				//console.log("sync call response ", response)
 				var remoteHeight = response[1];
 				/* Should we restart the daemon and download the bootstrap? */
 				if (remoteHeight - response[0]["blocks"] > BOOTSTRAP_DOWNLOAD_THRESHOLD_BLOCKS) {
@@ -223,7 +223,7 @@ export default class SplashController {
 					rpcClient.getinfo(),
 					new Promise(resolve => setTimeout(resolve, 1000))
 				]).then((response) => {
-					console.log("errors message: ", response[0]);
+					//console.log("errors message: ", response[0]);
 					walletStatus = response[0].bootstrapping.walletstatus;
 					this.window.webContents.send(
 						"progress", "indeterminate", "Checking Wallet.dat... ".concat(walletStatus)
