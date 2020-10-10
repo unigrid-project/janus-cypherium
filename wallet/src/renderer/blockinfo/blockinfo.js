@@ -52,7 +52,8 @@ export default class BlockInfo extends React.Component {
 		};
 
 		this.getBlockHeight(30000);
-		this.updateInfo();
+		this.getStakingStatus(45000);
+		//this.updateInfo();
 
 	}
 	componentDidMount() {
@@ -213,21 +214,55 @@ export default class BlockInfo extends React.Component {
 		setInterval(() => {
 			Promise.all([
 				rpcClient.getinfo(),
-				rpcClient.getStatus(),
+				//rpcClient.getStatus(),
 				new Promise(resolve => setTimeout(resolve, 500))
 			]).then((response) => {
 				this.setState({
 					currentBlock: response[0].blocks,
 					connections: response[0].connections,
-					unlocked: response[1].walletunlocked,
-					staking: response[1]["staking status"]
+					//unlocked: response[1].walletunlocked,
+					//staking: response[1]["staking status"]
 				});
 				// this should happen as soon as the daemon is ready
 				// detect encrypted wallet at startup and set the value in store
 				// TODO move to a better location
 				let isEncrypted = (response[0].unlocked_until !== undefined);
 				store.set("encrypted", isEncrypted);
-				if (response[1].walletunlocked) {
+				/*if (response[1].walletunlocked) {
+					this.setState({
+						walletMessage: "unlocked for ".concat(this.state.unlockedFor)
+					});
+				} else {
+					this.setState({
+						walletMessage: "locked"
+					});
+				}*/
+				/*if (response[1]["staking status"]) {
+					this.setState({ stakingMessage: "Staking active" });
+				} else {
+					this.setState({ stakingMessage: "Staking inactive" });
+				}*/
+
+			}, (stderr) => {
+				console.error(stderr);
+			});
+		}, interval);
+	}
+	async getStakingStatus(interval) {
+		var rpcClient = new RPCClient();
+		const { unlocked, staking, connections } = this.state;
+		setInterval(() => {
+			Promise.all([
+				rpcClient.getStatus(),
+				new Promise(resolve => setTimeout(resolve, 500))
+			]).then((response) => {
+				this.setState({
+					
+					unlocked: response[0].walletunlocked,
+					staking: response[0]["staking status"]
+				});
+
+				if (response[0].walletunlocked) {
 					this.setState({
 						walletMessage: "unlocked for ".concat(this.state.unlockedFor)
 					});
@@ -236,7 +271,7 @@ export default class BlockInfo extends React.Component {
 						walletMessage: "locked"
 					});
 				}
-				if (response[1]["staking status"]) {
+				if (response[0]["staking status"]) {
 					this.setState({ stakingMessage: "Staking active" });
 				} else {
 					this.setState({ stakingMessage: "Staking inactive" });
