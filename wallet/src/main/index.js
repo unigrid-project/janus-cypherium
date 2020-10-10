@@ -50,7 +50,7 @@ var warningWindow;
 var isWarningOpen = false;
 var trackRejectUpdates = 0;
 var skipTimesAllocated = 20;
-
+const checkForUpdateTime = 180000;
 /*
 process.on('uncaughtException', (err) => {
 	console.log("uncaughtException: ", err)
@@ -168,7 +168,7 @@ app.on("ready", () => {
 });
 
 autoUpdater.on('checking-for-update', function () {
-	log.info("Checking for a new wallet release.");
+	//log.info("Checking for a new wallet release.");
 	if (testing) {
 		var vCurr = '2.0.14';
 		var nVer = '2.0.15';
@@ -196,7 +196,7 @@ autoUpdater.on('update-available', function (info) {
 });
 
 autoUpdater.on('update-not-available', function (info) {
-	log.info('Update not available.');
+	//log.info('Update not available.');
 });
 
 autoUpdater.on('error', function (err) {
@@ -260,8 +260,8 @@ function manuallyCheckForUpdates(mainWindow) {
 }
 
 const autoCheckForUpdates = setInterval(() => {
-	if (isDevelopment) return;
+	if (isDevelopment || !navigator.onLine) return;
 	autoUpdater.checkForUpdates();
-}, 180000);
+}, checkForUpdateTime);
 
 
