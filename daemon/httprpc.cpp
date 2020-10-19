@@ -94,12 +94,14 @@ static bool HTTPReq_JSONRPC(HTTPRequest* req, const std::string &)
 {
     // JSONRPC handles only POST
     if (req->GetRequestMethod() != HTTPRequest::POST) {
+        LogPrintf("JSONRPC server handles only POST requests");
         req->WriteReply(HTTP_BAD_METHOD, "JSONRPC server handles only POST requests");
         return false;
     }
     // Check authorization
     std::pair<bool, std::string> authHeader = req->GetHeader("authorization");
     if (!authHeader.first) {
+        LogPrintf("JSONRPC !authHeader.first");
         req->WriteReply(HTTP_UNAUTHORIZED);
         return false;
     }
@@ -121,6 +123,7 @@ static bool HTTPReq_JSONRPC(HTTPRequest* req, const std::string &)
         // Parse request
         UniValue valRequest;
         if (!valRequest.read(req->ReadBody()))
+            LogPrintf("JSONRPC Parse error");
             throw JSONRPCError(RPC_PARSE_ERROR, "Parse error");
 
         std::string strReply;
@@ -129,13 +132,16 @@ static bool HTTPReq_JSONRPC(HTTPRequest* req, const std::string &)
             jreq.parse(valRequest);
 
             UniValue result = tableRPC.execute(jreq.strMethod, jreq.params);
-
+            LogPrintf("JSONRPC sending reply");
             // Send reply
             strReply = JSONRPCReply(result, NullUniValue, jreq.id);
 
         // array of requests
-        } else if (valRequest.isArray())
+        } else if (valRequest.isArray()) {
+            LogPrintf("JSONRPC array request");
             strReply = JSONRPCExecBatch(valRequest.get_array());
+        }
+            
         else
             throw JSONRPCError(RPC_PARSE_ERROR, "Top-level object parse error");
 
@@ -143,11 +149,14 @@ static bool HTTPReq_JSONRPC(HTTPRequest* req, const std::string &)
         req->WriteReply(HTTP_OK, strReply);
     } catch (const UniValue& objError) {
         JSONErrorReply(req, objError, jreq.id);
+        LogPrintf("ThreadRPCServer objError reply %s\n", find_value(objError, "message").get_str());
         return false;
     } catch (const std::exception& e) {
+        LogPrintf("ThreadRPCServer error exception reply %s\n",  e.what());
         JSONErrorReply(req, JSONRPCError(RPC_PARSE_ERROR, e.what()), jreq.id);
         return false;
     }
+    LogPrintf("ThreadRPCServer returning true");
     return true;
 }
 
