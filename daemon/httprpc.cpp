@@ -9,13 +9,13 @@
 #include "base58.h"
 #include "chainparams.h"
 #include "httpserver.h"
+#include "random.h"
 #include "rpcprotocol.h"
 #include "rpcserver.h"
-#include "random.h"
 #include "sync.h"
+#include "ui_interface.h"
 #include "util.h"
 #include "utilstrencodings.h"
-#include "ui_interface.h"
 
 #include <boost/algorithm/string.hpp> // boost::trim
 
@@ -25,14 +25,14 @@
 class HTTPRPCTimer : public RPCTimerBase
 {
 public:
-    HTTPRPCTimer(struct event_base* eventBase, boost::function<void(void)>& func, int64_t millis) :
-        ev(eventBase, false, func)
+    HTTPRPCTimer(struct event_base* eventBase, boost::function<void(void)>& func, int64_t millis) : ev(eventBase, false, func)
     {
         struct timeval tv;
-        tv.tv_sec = millis/1000;
-        tv.tv_usec = (millis%1000)*1000;
+        tv.tv_sec = millis / 1000;
+        tv.tv_usec = (millis % 1000) * 1000;
         ev.trigger(&tv);
     }
+
 private:
     HTTPEvent ev;
 };
@@ -51,6 +51,7 @@ public:
     {
         return new HTTPRPCTimer(base, func, millis);
     }
+
 private:
     struct event_base* base;
 };
@@ -90,7 +91,7 @@ static bool RPCAuthorized(const std::string& strAuth)
     return TimingResistantEqual(strUserPass, strRPCUserColonPass);
 }
 
-static bool HTTPReq_JSONRPC(HTTPRequest* req, const std::string &)
+static bool HTTPReq_JSONRPC(HTTPRequest* req, const std::string&)
 {
     // JSONRPC handles only POST
     if (req->GetRequestMethod() != HTTPRequest::POST) {
@@ -122,9 +123,10 @@ static bool HTTPReq_JSONRPC(HTTPRequest* req, const std::string &)
     try {
         // Parse request
         UniValue valRequest;
-        if (!valRequest.read(req->ReadBody()))
+        if (!valRequest.read(req->ReadBody())) {
             LogPrintf("JSONRPC Parse error");
             throw JSONRPCError(RPC_PARSE_ERROR, "Parse error");
+        }
 
         std::string strReply;
         // singleton request
@@ -136,12 +138,12 @@ static bool HTTPReq_JSONRPC(HTTPRequest* req, const std::string &)
             // Send reply
             strReply = JSONRPCReply(result, NullUniValue, jreq.id);
 
-        // array of requests
+            // array of requests
         } else if (valRequest.isArray()) {
             LogPrintf("JSONRPC array request");
             strReply = JSONRPCExecBatch(valRequest.get_array());
         }
-            
+
         else
             throw JSONRPCError(RPC_PARSE_ERROR, "Top-level object parse error");
 
@@ -149,10 +151,10 @@ static bool HTTPReq_JSONRPC(HTTPRequest* req, const std::string &)
         req->WriteReply(HTTP_OK, strReply);
     } catch (const UniValue& objError) {
         JSONErrorReply(req, objError, jreq.id);
-        LogPrintf("ThreadRPCServer objError reply %s\n", find_value(objError, "message").get_str());
+        LogPrintf("ThreadRPCServer objError %s\n", find_value(objError, "message").get_str());
         return false;
     } catch (const std::exception& e) {
-        LogPrintf("ThreadRPCServer error exception reply %s\n",  e.what());
+        LogPrintf("ThreadRPCServer error exception reply %s\n", e.what());
         JSONErrorReply(req, JSONRPCError(RPC_PARSE_ERROR, e.what()), jreq.id);
         return false;
     }
@@ -162,8 +164,7 @@ static bool HTTPReq_JSONRPC(HTTPRequest* req, const std::string &)
 
 static bool InitRPCAuthentication()
 {
-    if (mapArgs["-rpcpassword"] == "")
-    {
+    if (mapArgs["-rpcpassword"] == "") {
         LogPrintf("No rpcpassword set - using random cookie authentication\n");
         if (!GenerateAuthCookie(&strRPCUserColonPass)) {
             uiInterface.ThreadSafeMessageBox(
