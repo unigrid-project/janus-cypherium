@@ -178,6 +178,8 @@ export default class SplashController {
 					});
 				}
 			});
+			console.log("localHeight: " , localHeight);
+			console.log("remoteHeight: " , remoteHeight);
 		} while (startHeight == -1 || remoteHeight > localHeight);
 	}
 
