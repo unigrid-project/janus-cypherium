@@ -23,9 +23,11 @@ import path from "path";
 import Daemon from "../common/daemon";
 import Explorer from "../common/explorer";
 import Version from "../common/version";
+
 const log = require('electron-log');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const BOOTSTRAP_DOWNLOAD_THRESHOLD_BLOCKS = 20000;
+
 export default class SplashController {
 	constructor() {
 		this.window = SplashController.create_window();
@@ -112,6 +114,7 @@ export default class SplashController {
 						new Promise(resolve => setTimeout(resolve, 500))
 					]).then((response) => {
 						localHeight = response[0];
+						log.info("localHeight: ", localHeight);
 						if (startHeight == -1) {
 							startHeight = localHeight;
 						} else if (remoteHeight > startHeight) {
@@ -119,7 +122,12 @@ export default class SplashController {
 								"progress", localHeight / remoteHeight,
 								`Synchronizing block ${localHeight} of ${remoteHeight}...`
 							);
+						} else if (startHeight >= remoteHeight) {
+							log.info("Wallet has fully synced...");
+
+							resolve();
 						}
+
 						resolve();
 					}, (stderr) => {
 						console.error(stderr);
@@ -178,9 +186,11 @@ export default class SplashController {
 					});
 				}
 			});
-			console.log("localHeight: " , localHeight);
-			console.log("remoteHeight: " , remoteHeight);
+			console.log("localHeight: ", localHeight);
+			console.log("remoteHeight: ", remoteHeight);
 		} while (startHeight == -1 || remoteHeight > localHeight);
+
+		console.log("completed synce should move on from here");
 	}
 
 	async synchronize_wallet(rpcClient) {
@@ -201,9 +211,9 @@ export default class SplashController {
 
 					Promise.all([rpcClient.stop(), Daemon.done()]).then((response) => {
 						Daemon.start(this.window, true).then((response) => {
-							this.handle_synchronization(remoteHeight, rpcClient);
+							this.handle_synchronization(remoteHeight, rpcClient).then(() => resolve());
 						});
-					}).then(() => resolve());
+					});
 				} else {
 					resolve();
 				}
