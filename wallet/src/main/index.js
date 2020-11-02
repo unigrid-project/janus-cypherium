@@ -136,6 +136,7 @@ app.on("ready", () => {
 		Daemon.start(splashController.window).then(() => {
 			log.info("daemon start...");
 			var rpcClient = new RPCClient();
+
 			splashController.version_control(rpcClient).then(() => {
 				log.info("version_control");
 				splashController.daemon_loading(rpcClient).then(() => {
@@ -260,7 +261,7 @@ function manuallyCheckForUpdates(mainWindow) {
 }
 
 const autoCheckForUpdates = setInterval(() => {
-	if (isDevelopment || !navigator.onLine) return;
+	if (isDevelopment) return;// || !navigator.onLine // navigator is NOT available in main disabling and should be removed
 	autoUpdater.checkForUpdates();
 }, checkForUpdateTime);
 
