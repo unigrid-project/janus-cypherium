@@ -19,6 +19,7 @@
 
 import { Client } from "node-json-rpc2";
 import { remote } from "electron";
+import { SHITPICKLE } from "./consts";
 
 export default class RPCClient {
 	constructor() {
@@ -29,7 +30,7 @@ export default class RPCClient {
 			user: credentials.user,
 			password: credentials.password,
 			port: rpcPort, /* Should have been initialized by daemon */
-			//method: "POST" //is default
+			//method: "POST" //is 
 		});
 
 		this.send_command = (command, args = []) => {
@@ -46,6 +47,14 @@ export default class RPCClient {
 				});
 			});
 		}
+		/*let origreq = rpcClient.agent.request;
+		rpcClient.agent.request = (options) => {
+			if (origreq != rpcClient.agent.request) {
+				options.headers['Connection'] = 'Close';
+				origreq(options);
+			}
+		};*/
+
 	}
 
 	async raw_command(command, args) {
