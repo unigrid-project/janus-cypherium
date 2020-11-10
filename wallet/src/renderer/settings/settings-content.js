@@ -29,7 +29,7 @@ import "./settings-content.css";
 import RPCClient from "../../common/rpc-client.js";
 import { ipcRenderer, remote } from "electron";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
-import { projectName, SHITPICKLE, confFile, masternodeFile } from "../../common/consts";
+import { projectName, confFile, masternodeFile } from "../../common/consts";
 import HideZeroAddresses from "../../common/components/HideZeroAddresses";
 
 const log = require('electron-log');
@@ -326,7 +326,7 @@ function SettingsContent(props) {
 						rpcClient.getdatadirectory(),
 						new Promise(resolve => setTimeout(resolve, 500))
 					]).then((response) => {
-						console.log("local directory: ", response, " ", SHITPICKLE);
+						console.log("local directory: ", response);
 						sendDesktopNotification("Saved backup of wallet.dat");
 					}, (stderr) => {
 						console.error(stderr);
@@ -382,7 +382,7 @@ function SettingsContent(props) {
 			rpcClient.getdatadirectory(),
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
-			console.log("local directory: ", response[0], " ", SHITPICKLE);
+			console.log("local directory: ", response[0]);
 			let loc = response[0].directory;
 			remote.shell.openPath(loc.concat(open));
 		}, (stderr) => {
@@ -399,7 +399,7 @@ function SettingsContent(props) {
 			rpcClient.autocombinerewards(args),
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
-			console.log("combine rewards: ", response[0], " ", SHITPICKLE);
+			console.log("combine rewards: ", response[0]);
 			sendDesktopNotification("Combine rewards enabled");
 			setOpenCombine(!openCombine);
 		}, (stderr) => {
@@ -421,7 +421,7 @@ function SettingsContent(props) {
 					rpcClient.importwallet(args),
 					new Promise(resolve => setTimeout(resolve, 500))
 				]).then((response) => {
-					console.log("import result: ", response, SHITPICKLE);
+					console.log("import result: ", response);
 					sendDesktopNotification("Successfuly imported private keys");
 					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
 					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");

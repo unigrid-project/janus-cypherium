@@ -4,7 +4,6 @@ import InfiniteLoader from "react-window-infinite-loader";
 import TransactionLoading from "./TransactionLoading";
 import "./InfiniteLoadWrapper.css";
 import TransactionLong from "./TransactionLong";
-import { SHITPICKLE } from "../consts";
 
 function InfiniteLoadWrapper({
     hasNextPage,

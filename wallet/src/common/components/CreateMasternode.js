@@ -22,7 +22,7 @@ import EnterField from "./EnterField";
 import { faClipboard } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Expand from "react-expand-animated";
-import { masternodeSetupScript, masternodeFile, SHITPICKLE } from "../consts";
+import { masternodeSetupScript, masternodeFile } from "../consts";
 import Button from "./Button";
 import RPCClient from "../rpc-client.js";
 import { ipcRenderer, remote } from "electron";
@@ -430,7 +430,7 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
         Promise.all([
             rpcClient.getdatadirectory(),
         ]).then((response) => {
-            console.log("local directory: ", response[0], " ", SHITPICKLE);
+            console.log("local directory: ", response[0]);
             let loc = response[0].directory;
             console.log("adding to conf file: ", masternodeOutput);
             fs.appendFile(loc.concat(open), '\n'.concat(masternodeOutput), (err) => {
@@ -460,7 +460,7 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
             rpcClient.getdatadirectory(),
             new Promise(resolve => setTimeout(resolve, 500))
         ]).then((response) => {
-            console.log("local directory: ", response[0], " ", SHITPICKLE);
+            console.log("local directory: ", response[0]);
             let loc = response[0].directory;
             remote.shell.openPath(loc.concat(open));
         }, (stderr) => {

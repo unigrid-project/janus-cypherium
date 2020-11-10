@@ -30,8 +30,6 @@ export const githubLink = "https://github.com/unigrid-project/UNIGRID";
 
 export const projectName = "UNIGRID";
 
-export const SHITPICKLE = "💩🥒";
-
 export const confFile = "unigrid.conf";
 
 export const masternodeFile = "masternode.conf";

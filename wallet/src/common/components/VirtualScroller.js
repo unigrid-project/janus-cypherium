@@ -17,7 +17,6 @@
  */
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { SHITPICKLE } from "../consts";
 import TransactionLong from "./TransactionLong";
 import "./VirtualScroller.css";
 

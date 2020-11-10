@@ -19,7 +19,6 @@
 
 import { Client } from "node-json-rpc2";
 import { remote } from "electron";
-import { SHITPICKLE } from "./consts";
 
 export default class RPCClient {
 	constructor() {
