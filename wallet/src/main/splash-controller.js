@@ -44,6 +44,7 @@ export default class SplashController {
 			webPreferences: {
 				nodeIntegration: true,
 				webSecurity: false,
+				enableRemoteModule: true,
 				preload: path.join(__dirname, 'sentry.js')
 			}, frame: false // comment this line to get DEV TOOls
 		});

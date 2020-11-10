@@ -40,7 +40,8 @@ export default class MainController {
 			show: false,
 			webPreferences: {
 				nodeIntegration: true,
-				preload: path.join(__dirname, 'sentry.js')
+				preload: path.join(__dirname, 'sentry.js'),
+				enableRemoteModule: true
 			}, frame: false // comment this line to get DEV TOOls
 		});
 
