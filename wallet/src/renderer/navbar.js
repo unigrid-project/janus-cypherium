@@ -28,6 +28,7 @@ import "./navbar.css"
 import BlockInfo from "./blockinfo/blockinfo.js";
 import Masternodes from "./masternodes/masternodes.js";
 import TransactionsTest from "./transactions/transactions-test.js";
+import { isMasternode } from "../common/consts.js";
 
 export default class NavBar extends React.Component {
 	render() {
@@ -36,7 +37,7 @@ export default class NavBar extends React.Component {
 				<ul>
 					<MyWallet key="mywallet" active={true} />
 					<Addresses key="addressbook" />
-					<Masternodes key="masternodes" />
+					{isMasternode === true ? <Masternodes key="masternodes" /> : null}
 					<Transactions key="transactions" />
 					{/*<TransactionsTest key="test-transactions" />*/}
 				</ul>
