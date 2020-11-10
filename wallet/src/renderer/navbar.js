@@ -28,7 +28,7 @@ import "./navbar.css"
 import BlockInfo from "./blockinfo/blockinfo.js";
 import Masternodes from "./masternodes/masternodes.js";
 import TransactionsTest from "./transactions/transactions-test.js";
-import { isMasternode } from "../common/consts.js";
+import { isDaemonLocal, isMasternode } from "../common/consts.js";
 
 export default class NavBar extends React.Component {
 	render() {
@@ -46,7 +46,7 @@ export default class NavBar extends React.Component {
 					<CLI key="cli" />
 				</ul>
 				<ul>
-					<BlockInfo className="blockInfo" />
+					{isDaemonLocal ? <BlockInfo className="blockInfo" /> : null}
 				</ul>
 			</nav>
 		);

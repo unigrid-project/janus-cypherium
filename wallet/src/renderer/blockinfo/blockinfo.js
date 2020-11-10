@@ -80,7 +80,6 @@ export default class BlockInfo extends React.Component {
 
 		return (
 			<div className="container">
-
 				<div style={{ position: "relative" }} >
 					<Tooltip
 						arrow={5}
