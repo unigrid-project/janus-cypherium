@@ -42,7 +42,7 @@ div.nav>nav>ul:first-child {
 
 .settings--container {
 	flex-direction: row;
-	max-height: 75px;
+	max-height: 35px;
 	justify-content: center;
 }
 
@@ -50,9 +50,8 @@ nav>ul {
 	margin: 0;
 	color: var(--white);
 	list-style-type: none;
-	padding-top: 10px;
-	padding-inline-start: 10px;
-	padding-inline-end: 10px;
+	padding-inline-start: 0px;
+	padding-inline-end: 0px;
 	font-size: 12pt;
 	display: flex;
 	flex-grow: 1;

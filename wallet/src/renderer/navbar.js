@@ -42,8 +42,8 @@ export default class NavBar extends React.Component {
 					{/*<TransactionsTest key="test-transactions" />*/}
 				</ul>
 				<ul className="settings--container" >
-					<Settings key="settings" />
-					<CLI key="cli" />
+					<Settings key="settings" className="settings"/>
+					<CLI key="cli" className="console"/>
 				</ul>
 				<ul>
 					{isDaemonLocal ? <BlockInfo className="blockInfo" /> : null}

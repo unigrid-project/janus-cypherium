@@ -20,17 +20,17 @@
 import React from "react";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAddressBook } from "@fortawesome/free-solid-svg-icons";
+import { faAddressBook, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import NavEntry from "../naventry";
 
-library.add(faAddressBook);
+library.add(faAddressBook, faChevronRight);
 
 export default class Addresses extends React.Component {
 	render() {
 		return (
 			<NavEntry>
-				<div className="menu--icon"><FontAwesomeIcon size="sm" icon={faAddressBook} /></div>
 				<div className="menu-title">Addresses</div>
+				<div className="menu--icon"><FontAwesomeIcon size="sm" icon={faChevronRight} /></div>
 			</NavEntry>
 		);
 	}

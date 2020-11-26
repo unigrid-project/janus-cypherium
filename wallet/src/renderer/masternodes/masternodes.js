@@ -20,17 +20,17 @@
 import React from "react";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faNetworkWired } from "@fortawesome/free-solid-svg-icons";
+import { faNetworkWired, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import NavEntry from "../naventry";
 
-library.add(faNetworkWired);
+library.add(faNetworkWired, faChevronRight);
 
 export default class Masternodes extends React.Component {
 	render() {
 		return (
 			<NavEntry>
-				<div className="menu--icon"><FontAwesomeIcon size="sm" icon={faNetworkWired} /></div>
 				<div className="menu-title">Masternodes</div>
+				<div className="menu--icon"><FontAwesomeIcon size="sm" icon={faChevronRight} /></div>
 			</NavEntry>
 		);
 	}
