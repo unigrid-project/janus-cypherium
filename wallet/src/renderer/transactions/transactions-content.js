@@ -36,7 +36,7 @@ function TransactionsContent(props) {
 	const [pageCount, setPageCount] = useState(1);
 	const [doneLoading, setDoneLoading] = useState(false);
 	const [loadingStatus, setLoadingStatus] = useState("idle");
-	const [txHeight, setTxHeight] = useState(531);
+	const [txHeight, setTxHeight] = useState(525);
 	const [txWidth, setTxWidth] = useState(610);
 	const [loadMore, setLoadMore] = useState(false);
 	const transactionContainer = useRef(null);
@@ -61,14 +61,13 @@ function TransactionsContent(props) {
 
 	useEffect(() => {
 		window.on('resize', _.debounce(function () {
-			let height = transactionContainer.current.offsetHeight - 50;
+			let height = transactionContainer.current.offsetHeight - 30;
 			let width = transactionContainer.current.offsetWidth - 20;
 			console.log("height ", height);
 			console.log("width ", width);
 			setTxHeight(height);
 			setTxWidth(width);
-		}, 100));
-
+		}, 0));
 		ipcRenderer.on("wallet-checked-transactions", (event, message) => {
 			checkForNewTransactions(message);
 		});

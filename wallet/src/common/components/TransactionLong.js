@@ -34,124 +34,33 @@ function TransactionLong({ data, index, style }) {
     return (
         <div className={"transaction--main " + style} key={index}>
             <div className="trans--item padding--left">
-                <Tooltip
-                    zIndex={200}
-                    fadeDuration={150}
-                    radius={10}
-                    fontFamily='Roboto'
-                    fontSize='5'
-                    fadeEasing="linear"
-                    background={css`
-                    var(--tooltip--background)
-                  `}
-                    content={calculateDateTimeFromEpoch(data.timereceived)}
-                    customCss={css`
-                    white-space: nowrap;
-                  `}
-                >
-                    {getTimeObject(data.timereceived)}
 
-                </Tooltip>
+                {getTimeObject(data.timereceived)}
+
+
             </div >
             <div className="trans--item">
-                <Tooltip
+                {getCategoryIcon(data)}
 
-                    zIndex={200}
-                    fadeDuration={150}
-                    radius={10}
-                    fontFamily='Roboto'
-                    fontSize='5'
-                    fadeEasing="linear"
-                    background={css`
-                    var(--tooltip--background)
-                  `}
-                    content={getBlockCount(data.confirmations)}
-                    customCss={css`
-                    white-space: nowrap;
-                  `}
-                >
-                    {getBlockObject(data.confirmations)}
-
-                </Tooltip>
-            </div >
-            <div className="trans--item">
-                <Tooltip
-
-                    zIndex={200}
-                    fadeDuration={150}
-                    radius={10}
-                    fontFamily='Roboto'
-                    fontSize='5'
-                    fadeEasing="linear"
-                    background={css`
-                    var(--tooltip--background)
-                  `}
-                    content={getCategory(data)}
-                >{getCategoryIcon(data)}
-                </Tooltip>
 
             </div>
             <div className="trans--item">
-                <Tooltip
 
-                    zIndex={200}
-                    fadeDuration={150}
-                    radius={10}
-                    fontFamily='Roboto'
-                    fontSize='5'
-                    fadeEasing="linear"
-                    background={css`
-                    var(--tooltip--background)
-                  `}
-                    content={data.amount.toFixed(8)}
-                    customCss={css`
-                    white-space: nowrap;
-                  `}
-                >
-                    {setAmountColor()}
-                </Tooltip>
+
+                {setAmountColor()}
+
             </div>
             <div className="trans--item">
-                <Tooltip
 
-                    zIndex={200}
-                    fadeDuration={150}
-                    radius={10}
-                    fontFamily='Roboto'
-                    fontSize='5'
-                    fadeEasing="linear"
-                    background={css`
-                    var(--tooltip--background)
-                  `}
-                    content="Show in explorer"
-                    customCss={css`
-                    white-space: nowrap;
-                  `}
-                >
-                    <a href={explorerLink + "tx/" + data.txid} target="_blank">
-                        <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
-                </Tooltip>
+                <a href={explorerLink + "tx/" + data.txid} target="_blank">
+                    <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
+
             </div>
             {largeTrans ?
                 <div className="trans--item">
-                    <Tooltip
 
-                        zIndex={200}
-                        fadeDuration={150}
-                        radius={10}
-                        fontFamily='Roboto'
-                        fontSize='5'
-                        fadeEasing="linear"
-                        background={css`
-                    var(--tooltip--background)
-                  `}
-                        content={data.address}
-                        customCss={css`
-                    white-space: nowrap;
-                  `}
-                    >
-                        {getAccountName(data.account)}
-                    </Tooltip>
+                    {getAccountName(data.account)}
+
                 </div>
                 : null}
         </div >

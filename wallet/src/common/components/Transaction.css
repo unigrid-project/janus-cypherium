@@ -17,54 +17,56 @@
  */
 
 body {
-  font-family: "Roboto", sans-serif;
-  font-size: 15;
-  font-weight: 500;
-  margin: 0px;
-  padding: 0px;
+    font-family: "Roboto", sans-serif;
+    font-size: 15;
+    font-weight: 500;
+    margin: 0px;
+    padding: 0px;
 }
 
 .unnamed-account {
-  color: grey;
+    color: grey;
 }
 
 .send--color {
-  color: lightsalmon;
+    color: lightsalmon;
 }
 
 .receive--color {
-  color: lightgreen;
+    color: lightgreen;
 }
 
 .transaction--main--old {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-content: stretch;
-  align-items: center;
-  border: 1.5px solid var(--border--active);
-  border-radius: 5px;
-  min-height: 40px;
-  background-color: var(--select--background);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: center;
+    border: 1.5px solid var(--border--active);
+    border-radius: 5px;
+    min-height: 40px;
+    background-color: var(--select--background);
 }
 
 .transaction--main {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-content: stretch;
-  align-items: center;
-  border: 1.5px solid var(--border--active);
-  border-radius: 5px;
-  min-height: 40px;
-  background-color: var(--select--background);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: stretch;
+    align-items: center;
+    border: 1.5px solid var(--border--active);
+    border-radius: 5px;
+    min-height: 40px;
+    background-color: var(--select--background);
 }
 
 .transaction--main:hover {
-  border: 1.5px solid var(--hover--border);
+    border: 1.5px solid var(--hover--border);
 }
+
+
 /*
 .trans--item:nth-child(1) {
     order: 0;
@@ -72,114 +74,115 @@ body {
     align-self: auto;
 }
 */
+
 .trans--item:nth-child(1) {
-  order: 0;
-  flex: 2 1 0px;
-  align-self: auto;
+    order: 0;
+    flex: 2 1 0px;
+    align-self: auto;
 }
 
 .trans--item:nth-child(2) {
-  order: 0;
-  flex: 1 1 0px;
-  align-self: auto;
+    order: 0;
+    flex: 1 1 0px;
+    align-self: auto;
 }
 
 .trans--item:nth-child(3) {
-  order: 0;
-  flex: 1 1 0px;
-  align-self: auto;
+    order: 0;
+    flex: 2 1 0px;
+    align-self: auto;
 }
 
 .trans--item:nth-child(4) {
-  order: 0;
-  flex: 3 1 0px;
-  align-self: auto;
+    order: 0;
+    flex: 3 1 0px;
+    align-self: auto;
 }
 
 .trans--item:nth-child(5) {
-  order: 0;
-  flex: 1 1 0px;
-  align-self: auto;
+    order: 0;
+    flex: 3 1 0px;
+    align-self: auto;
 }
 
 .trans--item:nth-child(6) {
-  order: 0;
-  flex: 3 1 0px;
-  align-self: auto;
+    order: 0;
+    flex: 3 1 0px;
+    align-self: auto;
 }
 
 .trans--short--item:nth-child(1) {
-  order: 0;
-  flex: 1 1 0px;
-  align-self: auto;
+    order: 0;
+    flex: 1 1 0px;
+    align-self: auto;
 }
 
 .trans--short--item:nth-child(2) {
-  order: 0;
-  flex: 1 1 0px;
-  align-self: auto;
+    order: 0;
+    flex: 1 1 0px;
+    align-self: auto;
 }
 
 .trans--short--item:nth-child(3) {
-  order: 0;
-  flex: 1 1 0px;
-  align-self: auto;
+    order: 0;
+    flex: 1 1 0px;
+    align-self: auto;
 }
 
 .trans--short--item:nth-child(4) {
-  order: 0;
-  flex: 1 1 0px;
-  align-self: auto;
+    order: 0;
+    flex: 1 1 0px;
+    align-self: auto;
 }
 
 .trans--short--item:nth-child(5) {
-  order: 0;
-  flex: 3 1 0px;
-  align-self: auto;
+    order: 0;
+    flex: 3 1 0px;
+    align-self: auto;
 }
 
 .trans--short--item:nth-child(6) {
-  order: 0;
-  flex: 1 1 0px;
-  align-self: auto;
+    order: 0;
+    flex: 1 1 0px;
+    align-self: auto;
 }
 
 .trans--long {
-  min-width: 100%;
+    min-width: 100%;
 }
 
 .trans--short {
-  max-width: 100%;
+    max-width: 100%;
 }
 
 .pad--divs {
-  padding: 2px 5px 2px 5px;
+    padding: 2px 5px 2px 5px;
 }
 
 .short--div {
-  max-width: 100px;
-  overflow: hidden;
+    max-width: 100px;
+    overflow: hidden;
 }
 
 .long--div {
-  max-width: 100px;
+    max-width: 100px;
 }
 
 .circle {
-  width: 35px;
-  height: 25px;
-  padding: 5px;
-  border-right: 0.5px solid whitesmoke;
-  color: #fff;
-  text-align: center;
-  font-weight: bold;
-  font: 15px Arial, sans-serif;
+    width: 35px;
+    height: 25px;
+    padding: 5px;
+    border-right: 0.5px solid whitesmoke;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    font: 15px Arial, sans-serif;
 }
 
 .loading--item {
-  padding-left: 15px;
+    padding-left: 15px;
 }
 
 .padding--left {
-  padding-left: 15px;
+    padding-left: 15px;
 }
