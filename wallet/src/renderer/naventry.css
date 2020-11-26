@@ -17,54 +17,56 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-nav>ul>li, nav>ul>div>li {
-	cursor: pointer;
-	padding: 15px 10px 15px 5px;
-	border-bottom: 2px transparent solid;
-	transition: background-color .2s ease-in-out;
-	transition: border-color .2s ease-in-out;
-	pointer-events: auto;
-	display: flex;
-	flex-wrap: nowrap;
-	justify-content: space-between;
-	align-content: stretch;
-	align-items: center;
-	flex-direction: row;
+nav>ul>li,
+nav>ul>div>li {
+    cursor: pointer;
+    padding: 15px 10px 15px 5px;
+    border-bottom: 2px transparent solid;
+    transition: background-color .2s ease-in-out;
+    transition: border-color .2s ease-in-out;
+    pointer-events: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: stretch;
+    align-items: center;
+    flex-direction: row;
+}
+
+nav>ul>li.button {
+    cursor: pointer;
+    padding: 5px 5px 5px 5px;
+    border: 2px transparent solid;
+    border-color: var(--ugd--light--orange);
+    border-radius: 5px;
+    margin: 10px;
 }
 
 .menu--icon {
-	align-self: auto;
+    align-self: auto;
 }
 
 .menu-title {
-	text-align: left;
-	padding-left: 5px;
-	flex: 3 1 0px;
-	align-self: auto;
+    text-align: left;
+    padding-left: 5px;
+    flex: 3 1 0px;
+    align-self: auto;
 }
 
 nav>ul>li:hover {
-	border-color: var(--ugd--light--orange);
-}
-
-nav>ul>li.active settings {
-	padding: 5px 10px 5px 5px;
-}
-
-nav>ul>li.active console {
-	padding: 5px 10px 5px 5px;
+    border-color: var(--ugd--light--orange);
 }
 
 nav>ul>li.active {
-	border-color: var(--ugd--orange);
-	background-color: var(--button--background);
-	pointer-events: none;
+    border-color: var(--ugd--orange);
+    background-color: var(--button--background);
+    pointer-events: none;
 }
 
 nav>ul>div {
-	margin-top: auto;
+    margin-top: auto;
 }
 
 nav>ul:first-child>li>svg {
-	padding-right: 5px;
+    padding-right: 5px;
 }

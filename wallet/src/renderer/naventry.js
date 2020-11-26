@@ -41,7 +41,7 @@ function NavEntry(props) {
 	}
 
 	return (
-		<li onClick={onClick} className={active ? "active " : "inactive " + props.className}>
+		<li onClick={onClick} className={active ? "active " + props.className : "inactive " + props.className}>
 			{props.children}
 		</li>
 	);

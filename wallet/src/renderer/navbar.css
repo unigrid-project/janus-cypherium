@@ -17,64 +17,64 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 nav {
-	min-width: fit-content;
-	background-color: #0a0a0a;
+    min-width: fit-content;
+    background-color: #0a0a0a;
 }
 
 div.nav {
-	display: flex;
-	flex-grow: 1;
+    display: flex;
+    flex-grow: 1;
 }
 
-div.nav>nav, div.nav>nav>ul {
-	display: flex;
+div.nav>nav,
+div.nav>nav>ul {
+    display: flex;
 }
 
 div.nav>nav {
-	flex-direction: column;
+    flex-direction: column;
 }
 
 div.nav>nav>ul:first-child {
-	flex-direction: column;
+    flex-direction: column;
 }
 
 .settings--container {
-	flex-direction: row;
-	max-height: 35px;
-	justify-content: center;
+    flex-direction: row;
+    max-height: 50px;
+    justify-content: center;
 }
 
 nav>ul {
-	margin: 0;
-	color: var(--white);
-	list-style-type: none;
-	padding-inline-start: 0px;
-	padding-inline-end: 0px;
-	font-size: 12pt;
-	display: flex;
-	flex-grow: 1;
+    margin: 0;
+    color: var(--white);
+    list-style-type: none;
+    padding-inline-start: 0px;
+    padding-inline-end: 0px;
+    font-size: 12pt;
+    display: flex;
+    flex-grow: 1;
 }
 
 .settings--normal {
-	padding: 5px;
-	justify-content: space-evenly;
-	flex-grow: 0;
+    padding: 5px;
+    justify-content: space-evenly;
+    flex-grow: 0;
 }
 
 nav>ul:last-child {
-	flex-grow: 0;
+    flex-grow: 0;
 }
 
 nav>ul:last-child>li {
-	width: fit-content;
+    width: fit-content;
 }
 
 nav>ul:last-child {
-	justify-content: space-evenly;
+    justify-content: space-evenly;
 }
 
 .blockInfo {
-	justify-content: flex-end;
+    justify-content: flex-end;
 }
