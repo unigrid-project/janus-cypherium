@@ -243,7 +243,6 @@ function MyWalletContent(props) {
 			setBalance(response[0]);
 			const order = _.orderBy(response[2], ['timereceived'], ['desc']);
 			setTransactions(order);
-			//console.log("Transactions: ", order);
 			// TODO this should be coming from websockets
 			// for now we can pass new incoming transactions in this signal
 			// transactions-content can listen for this

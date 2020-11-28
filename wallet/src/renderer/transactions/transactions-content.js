@@ -145,7 +145,6 @@ function TransactionsContent(props) {
 				//console.log("trans res ", response[0]);
 				//console.log("total tx count: ", response[1].txcount);
 				if (response[0].length === 0) {
-					console.log("DONE LOADING ALL TRANSACTIONS!");
 					setHasNextPage(false);
 					setIsNextPageLoading(false);
 					setDoneLoading(true);
