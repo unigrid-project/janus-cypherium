@@ -50,3 +50,12 @@ div.nav>div {
 div.nav div.content {
 	padding: 25px 40px;
 }
+
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 6px;
+    background-clip: content-box;
+    min-width: 32px;
+    min-height: 32px;
+}
+
