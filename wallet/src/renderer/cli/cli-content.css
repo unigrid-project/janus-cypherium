@@ -21,6 +21,7 @@ div#cli {
 	height: -webkit-fill-available;
 	display: flex;
 	flex-direction: column;
+	user-select: text;
 }
 
 div.nav > div > div > div.terminalContainer {
