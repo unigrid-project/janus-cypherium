@@ -76,7 +76,7 @@ export default class ControlBar extends React.Component {
 							<img src={File.get("logo.png")} className="piclet" />
 						</a>
 					}
-					<div>{this.props.headerText}</div>
+					<div className="fontSmallBold">{this.props.headerText}</div>
 				</div>
 				<div>
 					{this.state.showSpinner == true &&
