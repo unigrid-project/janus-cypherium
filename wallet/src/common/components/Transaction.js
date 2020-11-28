@@ -216,12 +216,12 @@ function Transaction({ data, index, style }) {
 
     function getCategory(data) {
         //console.log("data: ", data)
-        if(data.generatedfrom){
+        if (data.generatedfrom) {
             return data.generatedfrom;
-        }else{
+        } else {
             return data.category;
         }
-        
+
     }
     function setAmountColor() {
         let transType = data.category === "send" ? "send--color" : "receive--color";
@@ -261,9 +261,14 @@ function Transaction({ data, index, style }) {
     }
     function getCategoryIcon(data) {
         switch (data.category) {
+            case "immature":
             case "receive":
                 if (data.generated) {
-                    return <FontAwesomeIcon size="lg" icon={faCoins} color="lightgoldenrodyellow" />
+                    if (data.generatedfrom === "stake") {
+                        return <FontAwesomeIcon size="lg" icon={faCoins} color="lightgoldenrodyellow" />
+                    } else if (data.generatedfrom === "masternode reward") {
+                        return <FontAwesomeIcon size="lg" icon={faNetworkWired} color="lightgoldenrodyellow" />
+                    }
                 } else {
                     return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="lightgreen" />
                 }
@@ -272,11 +277,11 @@ function Transaction({ data, index, style }) {
                 return <FontAwesomeIcon size="lg" icon={faSignOutAlt} color="lightsalmon" />
                 break;
             case "generate":
-                if(data.generatedfrom === "stake"){
+                if (data.generatedfrom === "stake") {
                     return <FontAwesomeIcon size="lg" icon={faCoins} color="rgb(255, 151, 14)" />
-                }else if(data.generatedfrom === "masternode reward"){
+                } else if (data.generatedfrom === "masternode reward") {
                     return <FontAwesomeIcon size="lg" icon={faNetworkWired} color="lightgoldenrodyellow" />
-                }   
+                }
                 break;
             default:
                 return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="white" />

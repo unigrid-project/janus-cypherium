@@ -157,8 +157,13 @@ function TransactionLong({ data, index, style }) {
     function getCategoryIcon(data) {
         switch (data.category) {
             case "receive":
+            case "immature":
                 if (data.generated) {
-                    return <FontAwesomeIcon size="lg" icon={faCoins} color="lightgoldenrodyellow" />
+                    if (data.generatedfrom === "stake") {
+                        return <FontAwesomeIcon size="lg" icon={faCoins} color="rgb(255, 151, 14)" />
+                    } else if (data.generatedfrom === "masternode reward") {
+                        return <FontAwesomeIcon size="lg" icon={faNetworkWired} color="lightgoldenrodyellow" />
+                    }
                 } else {
                     return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="lightgreen" />
                 }
