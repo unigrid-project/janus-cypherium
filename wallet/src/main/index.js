@@ -30,6 +30,7 @@ import { Notification } from "electron";
 import { autoUpdater } from "electron-updater";
 import WarningController from "./warning-controller";
 import * as Sentry from "@sentry/electron";
+import { isDaemonLocal } from "../common/consts";
 
 autoUpdater.autoDownload = true;
 autoUpdater.allowPrerelease = true;
@@ -133,23 +134,27 @@ app.on("ready", () => {
 		log.info("did-finish-load");
 		splashController.window.webContents.send("progress", "indeterminate", "Initializing UNIGRID daemon...");
 		log.info("Initializing UNIGRID daemon...");
-		Daemon.start(splashController.window).then(() => {
-			log.info("daemon start...");
-			var rpcClient = new RPCClient();
+		if (isDaemonLocal) {
+			Daemon.start(splashController.window).then(() => {
+				log.info("daemon start...");
+				var rpcClient = new RPCClient();
 
-			splashController.version_control(rpcClient).then(() => {
-				log.info("version_control");
-				splashController.daemon_loading(rpcClient).then(() => {
-					log.info("daemon_loading");
-					splashController.synchronize_wallet(rpcClient).then(() => {
-						log.info("synchronize_wallet");
-						splashController.check_errors(rpcClient).then(() => {
-							log.info("Load MainController");
-							/* If sync was a success, we close the splash and move on to the main wallet window */
-							var mainController = new MainController();
-							mainWindow = mainController.window;
-							splashController.window.close();
-							manuallyCheckForUpdates(mainWindow);
+				splashController.version_control(rpcClient).then(() => {
+					log.info("version_control");
+					splashController.daemon_loading(rpcClient).then(() => {
+						log.info("daemon_loading");
+						splashController.synchronize_wallet(rpcClient).then(() => {
+							log.info("synchronize_wallet");
+							splashController.check_errors(rpcClient).then(() => {
+								log.info("Load MainController");
+								/* If sync was a success, we close the splash and move on to the main wallet window */
+								var mainController = new MainController();
+								mainWindow = mainController.window;
+								splashController.window.close();
+								manuallyCheckForUpdates(mainWindow);
+							}, (stderr) => {
+								log.warn(stderr);
+							});
 						}, (stderr) => {
 							log.warn(stderr);
 						});
@@ -162,9 +167,8 @@ app.on("ready", () => {
 			}, (stderr) => {
 				log.warn(stderr);
 			});
-		}, (stderr) => {
-			log.warn(stderr);
-		});
+		}
+
 	});
 });
 

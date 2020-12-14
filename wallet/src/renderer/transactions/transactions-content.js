@@ -30,6 +30,7 @@ import _ from "lodash";
 import { ipcRenderer, remote } from "electron";
 import InfiniteLoadWrapper from "../../common/components/InfiniteLoadWrapper";
 
+ 
 function TransactionsContent(props) {
 	const [transactions, setTransactions] = useState({});
 	const scroll = useRef(null);
@@ -45,7 +46,7 @@ function TransactionsContent(props) {
 	const [items, setItems] = useState([]);
 	const [itemsKey, setItemsKey] = useState(1);
 	const itemsRef = useRef();
-
+	const txToLoad = 60;
 	const window = remote.getCurrentWindow();
 	const [scrollTo, setScrollTo] = useState(0);
 	itemsRef.current = items;
@@ -134,7 +135,7 @@ function TransactionsContent(props) {
 			}
 
 			var rpcClient = new RPCClient();
-			let args = ["*", parseInt(40), parseInt(startNumber)];
+			let args = ["*", parseInt(txToLoad), parseInt(startNumber)];
 
 			Promise.all([
 				rpcClient.listTransactions(args)
@@ -142,7 +143,7 @@ function TransactionsContent(props) {
 				//new Promise(resolve => setTimeout(resolve, 500))
 			]).then((response) => {
 				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-				//console.log("trans res ", response[0]);
+				console.log("trans res ", response[0]);
 				//console.log("total tx count: ", response[1].txcount);
 				if (response[0].length === 0) {
 					setHasNextPage(false);
