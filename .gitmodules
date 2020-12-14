@@ -1,3 +1,0 @@
-[submodule "daemon/robin-hood-hashing"]
-	path = daemon/robin-hood-hashing
-	url = https://github.com/martinus/robin-hood-hashing.git

@@ -1,16 +1,10 @@
-*.sublime-project
-*.sublime-workspace
 todo.txt
 reset-files.bash
 
 *.tar.gz
 
 *.exe
-daemon/unigrid
 daemon/unigridd
-daemon/unigrid-cli
-daemon/unigrid-tx
-daemon/test/test_unigrid
 
 # electron
 wallet/node_modules
@@ -18,38 +12,7 @@ wallet/yarn.lock
 wallet/yarn-err0r.log
 wallet/dist
 
-# autoreconf
-Makefile.in
-aclocal.m4
-autom4te.cache/
-**/build-aux/config.guess
-**/build-aux/config.sub
-**/build-aux/depcomp
-**/build-aux/install-sh
-**/build-aux/ltmain.sh
-**/build-aux/m4/libtool.m4
-**/build-aux/m4/lt~obsolete.m4
-**/build-aux/m4/ltoptions.m4
-**/build-aux/m4/ltsugar.m4
-**/build-aux/m4/ltversion.m4
-**/build-aux/missing
-**/build-aux/compile
-**/build-aux/test-driver
-config.log
-config.status
-configure
-confdefs.h
-conftest.cpp
-conftest.err
-libtool
-daemon/config/unigrid-config.h
-daemon/config/unigrid-config.h.in
-**/stamp-h1
-share/setup.nsi
-contrib/devtools/split-debug.sh
-
 .vscode
-.deps
 .dirstamp
 .libs
 .*.swp
@@ -72,59 +35,8 @@ contrib/devtools/split-debug.sh
 *.json.h
 *.raw.h
 
-#libtool object files
-*.lo
-*.la
-
-# Compilation
-*.qm
-Makefile
-
-# Unit-tests
-Makefile.test
-daemon/test/buildenv.py
-
-# Resources cpp
-qrc_*.cpp
-
 # Mac specific
 .DS_Store
-
-
-#lcov
-*.gcno
-/*.info
-test_unigrid.coverage/
-total.coverage/
-coverage_percent.txt
-
-#build tests
-linux-coverage-build
-linux-build
-win32-build
-qa/pull-tester/run-bitcoind-for-test.sh
-qa/pull-tester/tests-config.sh
-qa/pull-tester/cache/*
-qa/pull-tester/test.*/*
-
-daemon/leveldb*/Makefile
-
-.cproject
-.project
-/doc/doxygen/
-/nbproject/
-
-.idea
-CMakeLists.txt
-cmake-build-debug
-
-*.pc
-*config.h*
-
-#db ignore
-db-4.8.30.NC.tar.gz
-db-4.8.30.NC/
-db4/
 
 nohup.out
 keys
