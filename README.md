@@ -1,11 +1,12 @@
 The Janus wallet built by the UNIGRID organization
 ==================================
 <p align="center">
-  <a href="https://www.unigrid.org"><img alt="UNIGRID - Sharded Internet" src="https://www.unigrid.org/assets/img/unigrid14.png" width="500"/></a>
+  <a href="https://www.unigrid.org"><img alt="Janus electron wallet" src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Meyers_b9_s0153_b1.png" width="500"/></a>
 </p>
 
-==================================
-This is an Alpha release at the current stage.
+================================== 
+
+`This is an Alpha release at the current stage.`
 
 In order to publish new builds to github that will work with electron-updater you need to generate a git key.
 
