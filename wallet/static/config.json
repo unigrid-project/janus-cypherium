@@ -1,0 +1,20 @@
+{
+    "janusConfirguration": {
+        "discordLink": "https://discord.gg/CRWZ7V5",
+        "twitterLink": "https://twitter.com/unigrid_org",
+        "telegramLink": "https://t.me/unigrid",
+        "explorerLink": "http://explorer.unigrid.org/",
+        "homePage": "https://unigrid.org",
+        "githubLink": "https://github.com/unigrid-project/UNIGRID",
+        "projectName": "UNIGRID",
+        "confFile": "unigrid.conf",
+        "masternodeFile": "masternode.conf",
+        "isMasternode": true,
+        "hasStaking": true,
+        "isDaemonLocal": true,
+        "userModelId": "unigrid-electron",
+        "splashInfo": {
+            "html": "<h1>Sharded Internet</h1><h2>Copyright © 2018-2020 The UNIGRID Organization</h2><p> This project is using code based on the work of<strong> Satoshi Nakamoto</strong>,<strong> The Bitcoin Developers</strong>,<strong> The DASH Developers</strong>,<strong> The PIVX Developers</strong> and<strong> The Swipp Developers</strong>,based on work between 2009 and 2018.</p>"
+        }
+    }
+}

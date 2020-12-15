@@ -23,6 +23,7 @@ import path from "path";
 import Daemon from "../common/daemon";
 import Explorer from "../common/explorer";
 import Version from "../common/version";
+import { projectName } from "../common/consts";
 
 const log = require('electron-log');
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -260,7 +261,7 @@ export default class SplashController {
 					new Promise(resolve => setTimeout(resolve, 1000))
 				]).then((response) => {
 					this.window.webContents.send(
-						"progress", "indeterminate", "UNIGRID daemon loading... " + rpcCallCount
+						"progress", "indeterminate", `${projectName} daemon loading...`  + rpcCallCount
 					);
 					blockHeight = response[0]["blocks"];
 					rpcCallCount++;

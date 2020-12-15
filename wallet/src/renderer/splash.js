@@ -24,7 +24,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faTimes } from "@fortawesome/free-solid-svg-icons";
 import File from "common/file";
 import "./splash.css"
+import Store from "electron-store";
+import { splashHTML } from "../common/consts";
 
+const store = new Store();
 library.add(faSpinner, faTimes);
 
 export default class Splash extends React.Component {
@@ -46,24 +49,16 @@ export default class Splash extends React.Component {
 			this.setState({ infoMessage: message, errorMessage: null, percentage: percentage });
 		});
 	}
+	getData() {
 
+		return JSON.parse(JSON.stringify(splashHTML.html));
+	}
 	render() {
 		return (
 			<div className="splash">
 				<img className="logo" src={File.get("logo.png")}></img>
 				<div>
-					<h1>Sharded Internet</h1>
-					<h2>Copyright © 2018-2020 The UNIGRID Organization</h2>
-					<p>
-						This project is using code based on the work of
-						<strong> Satoshi Nakamoto</strong>,
-						<strong> The Bitcoin Developers</strong>,
-						<strong> The DASH Developers</strong>,
-						<strong> The PIVX Developers</strong> and
-						<strong> The Swipp Developers</strong>,
-						based on work between 2009 and 2018.
-					</p>
-
+					<div dangerouslySetInnerHTML={{ __html: this.getData() }}></div>
 					<div className="error">{this.state.errorMessage}</div>
 					{this.state.infoMessage != null && this.state.percentage == "indeterminate" &&
 						<progress />
@@ -78,4 +73,3 @@ export default class Splash extends React.Component {
 		);
 	}
 }
-

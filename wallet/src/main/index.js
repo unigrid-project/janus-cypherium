@@ -18,19 +18,16 @@
  */
 
 import { app, ipcMain, remote, powerMonitor } from "electron";
-import * as path from "path";
-import { format as formatUrl } from "url";
 import Daemon from "../common/daemon";
 import RPCClient from "../common/rpc-client.js"
 import AsteroidsController from "./asteroids-controller";
 import MainController from "./main-controller";
 import SplashController from "./splash-controller";
-import { Notification } from "electron";
-//import request from 'request';
 import { autoUpdater } from "electron-updater";
 import WarningController from "./warning-controller";
 import * as Sentry from "@sentry/electron";
-import { isDaemonLocal } from "../common/consts";
+import { projectName, userModelId } from "../common/consts";
+import Config from "../common/config";
 
 autoUpdater.autoDownload = true;
 autoUpdater.allowPrerelease = true;
@@ -38,7 +35,7 @@ let testing = false;
 const { crashReporter } = require('electron');
 const packageJSON = require('../../package.json');
 const log = require('electron-log');
-const deps = packageJSON.dependencies;
+//const deps = packageJSON.dependencies;
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 Sentry.init({
@@ -73,7 +70,8 @@ crashReporter.start({
 	productName: 'UNIGRID Wallet',
 	companyName: 'UNIGRID Organization',
 	submitURL: 'http://crashreports.unigrid.org/POST',
-	uploadToServer: true
+	uploadToServer: true,
+	compress: true
 });
 
 app.whenReady().then(() => {
@@ -125,36 +123,34 @@ ipcMain.on("open-asteroids", () => {
 const defaultRPCPort = 51992;
 
 app.on("ready", () => {
+	Config.loadAppConfig();
 	var splashController = new SplashController();
 	log.info("app ready");
 	// for notifications on windows
-	app.setAppUserModelId("unigrid-electron");
+	app.setAppUserModelId(userModelId);
 
 	splashController.window.webContents.on("did-finish-load", () => {
 		log.info("did-finish-load");
 		splashController.window.webContents.send("progress", "indeterminate", "Initializing UNIGRID daemon...");
-		log.info("Initializing UNIGRID daemon...");
-		if (isDaemonLocal) {
-			Daemon.start(splashController.window).then(() => {
-				log.info("daemon start...");
-				var rpcClient = new RPCClient();
+		log.info(`Initializing ${projectName} daemon...`);
 
-				splashController.version_control(rpcClient).then(() => {
-					log.info("version_control");
-					splashController.daemon_loading(rpcClient).then(() => {
-						log.info("daemon_loading");
-						splashController.synchronize_wallet(rpcClient).then(() => {
-							log.info("synchronize_wallet");
-							splashController.check_errors(rpcClient).then(() => {
-								log.info("Load MainController");
-								/* If sync was a success, we close the splash and move on to the main wallet window */
-								var mainController = new MainController();
-								mainWindow = mainController.window;
-								splashController.window.close();
-								manuallyCheckForUpdates(mainWindow);
-							}, (stderr) => {
-								log.warn(stderr);
-							});
+		Daemon.start(splashController.window).then(() => {
+			log.info("daemon start...");
+			var rpcClient = new RPCClient();
+
+			splashController.version_control(rpcClient).then(() => {
+				log.info("version_control");
+				splashController.daemon_loading(rpcClient).then(() => {
+					log.info("daemon_loading");
+					splashController.synchronize_wallet(rpcClient).then(() => {
+						log.info("synchronize_wallet");
+						splashController.check_errors(rpcClient).then(() => {
+							log.info("Load MainController");
+							/* If sync was a success, we close the splash and move on to the main wallet window */
+							var mainController = new MainController();
+							mainWindow = mainController.window;
+							splashController.window.close();
+							manuallyCheckForUpdates(mainWindow);
 						}, (stderr) => {
 							log.warn(stderr);
 						});
@@ -167,7 +163,11 @@ app.on("ready", () => {
 			}, (stderr) => {
 				log.warn(stderr);
 			});
-		}
+		}, (stderr) => {
+			console.log("error daemon: ", stderr)
+			log.warn(stderr);
+		}).catch((err) => console.log("error daemon: ", err));
+
 
 	});
 });

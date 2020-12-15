@@ -37,7 +37,7 @@ export default class NavBar extends React.Component {
 				<ul>
 					<MyWallet key="mywallet" active={true} />
 					<Addresses key="addressbook" />
-					{isMasternode === true ? <Masternodes key="masternodes" /> : null}
+					{isMasternode ? <Masternodes key="masternodes" /> : null}
 					<Transactions key="transactions" />
 					{/*<TransactionsTest key="test-transactions" />*/}
 				</ul>

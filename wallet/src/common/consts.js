@@ -16,29 +16,38 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export const discordLink = "https://discord.gg/CRWZ7V5";
+import Store from "electron-store";
 
-export const twitterLink = "https://twitter.com/unigrid_org";
+const store = new Store();
+const data = store.get('janusConfirguration');
 
-export const telegramLink = "https://t.me/unigrid";
+export const discordLink = data.discordLink;
 
-export const explorerLink = "http://explorer.unigrid.org/";
+export const twitterLink = data.twitterLink;
 
-export const homePage = "https://unigrid.org";
+export const telegramLink = data.telegramLink;
 
-export const githubLink = "https://github.com/unigrid-project/UNIGRID";
+export const explorerLink = data.explorerLink;
 
-export const projectName = "UNIGRID";
+export const homePage = data.homePage;
 
-export const confFile = "unigrid.conf";
+export const githubLink = data.githubLink;
 
-export const masternodeFile = "masternode.conf";
+export const projectName = data.projectName;
 
-export const isMasternode = true;
+export const confFile = data.confFile;
 
-export const hasStaking = true;
+export const masternodeFile = data.masternodeFile;
 
-export const isDaemonLocal = true;
+export const isMasternode = data.isMasternode;
+
+export const hasStaking = data.hasStaking;
+
+export const isDaemonLocal = data.isDaemonLocal;
+
+export const splashHTML = data.splashInfo;
+
+export const userModelId = data.userModelId;
 
 export const masternodeSetupScript = `bash -ic "$(wget -4qO- -o- raw.githubusercontent.com/unigrid-project/masternode-setup/master/unigridd.sh)" ; source ~/.bashrc`;
 
