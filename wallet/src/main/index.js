@@ -37,6 +37,9 @@ const log = require('electron-log');
 //const deps = packageJSON.dependencies;
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
+/* Initialize consts from config.json */
+Config.init();
+
 Sentry.init({
 	dsn: "https://51f7c29baa594b0a8bfa788113e696ce@o266736.ingest.sentry.io/5427751",
 	release: 'unigrid-electron@' + process.env.npm_package_version,
@@ -48,22 +51,6 @@ var isWarningOpen = false;
 var trackRejectUpdates = 0;
 var skipTimesAllocated = 20;
 const checkForUpdateTime = 180000;
-/*
-process.on('uncaughtException', (err) => {
-	console.log("uncaughtException: ", err)
-	request.post('http://crashreports.unigrid.org/POST', {
-		form: {
-			ver: deps['electron-prebuilt'],
-			platform: process.platform,
-			process_type: remote ? 'renderer' : 'main',
-			version: packageJSON.version,
-			productName: packageJSON.productName,
-			prod: 'Electron',
-			companyName: 'UNIGRID Organization',
-			upload_file_minidump: err.stack,
-		}
-	});
-});*/
 
 crashReporter.start({
 	productName: 'UNIGRID Wallet',
@@ -128,7 +115,7 @@ app.on("ready", () => {
 	app.setAppUserModelId(Config.getUserModelId());
 	splashController.window.webContents.on("did-finish-load", () => {
 		log.info("Splash screen loaded");
-		Config.initConfig(splashController.window).then(() => {
+		Config.checkStore(splashController.window).then(() => {
 			log.info("local store has been loaded");
 			splashController.window.webContents.send("progress", "indeterminate", "Initializing UNIGRID daemon...");
 			log.info(`Initializing ${Config.getProjectName()} daemon...`);
@@ -243,7 +230,6 @@ const openwarningWindow = (data) => {
 		});
 		isWarningOpen = true;
 		warningController.window.on('close', function () { isWarningOpen = false });
-
 	}
 }
 

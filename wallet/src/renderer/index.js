@@ -59,10 +59,11 @@ const routes = {
 				<AddressesContent key="addressbook-content" />
 				{<TransactionsContent key="transactions-content" />}
 				{/*<TransactionsContentTest key="transactions-test-content" />*/}
-				{Config.getIsMasternode() ? <MasternodesContent key="masternodes-content" /> : null}
+				{getShowMasternode()}
 				<ExplorerContent key="explorer-content" />
 				<SettingsContent key="settings-content" />
 				{<CLIContent key="cli-content" />}
+
 			</div>
 		</div>
 	],
@@ -74,6 +75,15 @@ const routes = {
 		<ControlBar key={1} className="nobg" fullControls={false} />, <Warning key={2} />
 	]
 };
+
+function getShowMasternode () {
+	if(Config.getStore) {
+		return Config.getIsMasternode() ? <MasternodesContent key="masternodes-content" /> : null;
+	}else{
+		return null;
+	}
+} 
+
 
 ReactDOM.render(<Router routes={routes} />, document.getElementById("app"));
 

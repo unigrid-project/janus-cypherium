@@ -27,15 +27,9 @@ export default class Config {
     /* which can be accesed from anywhere without another import */
     //static random = "somerandomshit";
 
-    static loadAppConfig(window) {
+    static loadStore(window) {
         return new Promise((resolve, reject) => {
             try {
-                const fs = require('fs');
-                const path = require('path');
-                let config = fs.readFileSync(path.join(__static, '/config.json'));
-                let data = JSON.parse(config);
-                store.set(data);
-
                 if (this.getStore()) {
                     return resolve();
                 } else {
@@ -51,14 +45,27 @@ export default class Config {
         });
     }
 
-    static async initConfig(window) {
+    static init() {
+        const fs = require('fs');
+        const path = require('path');
+        let config = fs.readFileSync(path.join(__static, '/config.json'));
+        let data = JSON.parse(config);
+        store.set(data);
+    }
+
+    static async checkStore(window) {
         var p;
-        p = await Config.loadAppConfig(window);
+        p = await Config.loadStore(window);
         return p;
     }
 
     static getStore() {
-        return store.get("janusConfirguration");
+        let localStore = store.get("janusConfirguration");
+        if (localStore) {
+            return localStore;
+        } else {
+            return null;
+        }
     }
 
     static getDiscordLink() {
