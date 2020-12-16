@@ -23,7 +23,7 @@ import path from "path";
 import Daemon from "../common/daemon";
 import Explorer from "../common/explorer";
 import Version from "../common/version";
-import { projectName } from "../common/consts";
+import Config from "../common/config";
 
 const log = require('electron-log');
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -261,7 +261,7 @@ export default class SplashController {
 					new Promise(resolve => setTimeout(resolve, 1000))
 				]).then((response) => {
 					this.window.webContents.send(
-						"progress", "indeterminate", `${projectName} daemon loading...`  + rpcCallCount
+						"progress", "indeterminate", `${Config.getProjectName()} daemon loading...`  + rpcCallCount
 					);
 					blockHeight = response[0]["blocks"];
 					rpcCallCount++;

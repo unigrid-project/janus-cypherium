@@ -31,14 +31,13 @@ import SettingsContent from "./settings/settings-content.js";
 import CLIContent from "./cli/cli-content.js";
 import Reacteroids from "./asteroids/reacteroids.js";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRocket } from "@fortawesome/free-solid-svg-icons";
 import "./index.css";
 import ExplorerContent from "./explorer/explorer-content";
 import MasternodesContent from "./masternodes/masternodes-content";
 import Warning from "./warning/warning";
-import TransactionsContentTest from "./transactions/transactions-test-content";
-import { isMasternode } from "../common/consts";
+//import TransactionsContentTest from "./transactions/transactions-test-content";
+import Config from "../common/config";
 
 library.add(faRocket);
 
@@ -60,7 +59,7 @@ const routes = {
 				<AddressesContent key="addressbook-content" />
 				{<TransactionsContent key="transactions-content" />}
 				{/*<TransactionsContentTest key="transactions-test-content" />*/}
-				{isMasternode ? <MasternodesContent key="masternodes-content" /> : null}
+				{Config.getIsMasternode() ? <MasternodesContent key="masternodes-content" /> : null}
 				<ExplorerContent key="explorer-content" />
 				<SettingsContent key="settings-content" />
 				{<CLIContent key="cli-content" />}

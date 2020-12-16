@@ -28,15 +28,14 @@ import "./mywallet-content.css";
 import Button from "../../common/components/Button";
 import Transaction from "../../common/components/Transaction";
 import _ from "lodash";
-import path from "path";
-import { discordLink, twitterLink, telegramLink } from "../../common/consts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter, faDiscord, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import Tooltip from "react-simple-tooltip";
 import { css } from "styled-components";
-import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
+//import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import { ipcRenderer, remote } from "electron";
 import Send from "../../common/components/Send";
+import Config from "../../common/config.js";
 
 
 function MyWalletContent(props) {
@@ -153,11 +152,10 @@ function MyWalletContent(props) {
 		console.log("onAnimationStart");
 	}
 	function renderSocial() {
-		//console.log('discord ', discordLink)
 		return (
 			<div className="align--row social--conatiner">
 				<div className="social--padding">
-					<a href={twitterLink} target="_blank">
+					<a href={Config.getTwitterLink()} target="_blank">
 						<Tooltip
 							arrow={10}
 							zIndex={200}
@@ -177,7 +175,7 @@ function MyWalletContent(props) {
 					</a>
 				</div>
 				<div className="social--padding">
-					<a href={discordLink} target="_blank">
+					<a href={Config.getDiscordLink()} target="_blank">
 						<Tooltip
 							arrow={10}
 							zIndex={200}
@@ -197,7 +195,7 @@ function MyWalletContent(props) {
 					</a>
 				</div>
 				<div className="social--padding">
-					<a href={telegramLink} target="_blank">
+					<a href={Config.getTelegramLink()} target="_blank">
 						<Tooltip
 							arrow={10}
 							zIndex={200}

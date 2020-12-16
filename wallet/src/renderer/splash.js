@@ -25,7 +25,7 @@ import { faSpinner, faTimes } from "@fortawesome/free-solid-svg-icons";
 import File from "common/file";
 import "./splash.css"
 import Store from "electron-store";
-import { splashHTML } from "../common/consts";
+import Config from "../common/config";
 
 const store = new Store();
 library.add(faSpinner, faTimes);
@@ -51,7 +51,7 @@ export default class Splash extends React.Component {
 	}
 	getData() {
 
-		return JSON.parse(JSON.stringify(splashHTML.html));
+		return JSON.parse(JSON.stringify(Config.getSplashHTML()));
 	}
 	render() {
 		return (

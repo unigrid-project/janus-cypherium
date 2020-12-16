@@ -18,7 +18,6 @@
  */
 
 import React from "react";
-import { ipcRenderer } from "electron";
 import MyWallet from "./mywallet/mywallet.js";
 import Transactions from "./transactions/transactions.js";
 import Addresses from "./addresses/addresses.js";
@@ -27,8 +26,8 @@ import CLI from "./cli/cli.js";
 import "./navbar.css"
 import BlockInfo from "./blockinfo/blockinfo.js";
 import Masternodes from "./masternodes/masternodes.js";
-import TransactionsTest from "./transactions/transactions-test.js";
-import { isDaemonLocal, isMasternode } from "../common/consts.js";
+//import TransactionsTest from "./transactions/transactions-test.js";
+import Config from "../common/config.js";
 
 export default class NavBar extends React.Component {
 	render() {
@@ -37,7 +36,7 @@ export default class NavBar extends React.Component {
 				<ul>
 					<MyWallet key="mywallet" active={true} />
 					<Addresses key="addressbook" />
-					{isMasternode ? <Masternodes key="masternodes" /> : null}
+					{Config.getIsMasternode() ? <Masternodes key="masternodes" /> : null}
 					<Transactions key="transactions" />
 					{/*<TransactionsTest key="test-transactions" />*/}
 				</ul>
@@ -46,7 +45,7 @@ export default class NavBar extends React.Component {
 					<CLI key="cli" className="button"/>
 				</ul>
 				<ul>
-					{isDaemonLocal ? <BlockInfo className="blockInfo" /> : null}
+					{Config.getIsDaemonLocal() ? <BlockInfo className="blockInfo" /> : null}
 				</ul>
 			</nav>
 		);

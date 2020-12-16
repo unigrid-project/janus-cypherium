@@ -22,7 +22,6 @@ import EnterField from "./EnterField";
 import { faClipboard } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Expand from "react-expand-animated";
-import { masternodeSetupScript, masternodeFile } from "../consts";
 import Button from "./Button";
 import RPCClient from "../rpc-client.js";
 import { ipcRenderer, remote } from "electron";
@@ -30,6 +29,7 @@ import WarningMessage from "./WarningMessage";
 import _ from "lodash";
 import { sendDesktopNotification } from "./DesktopNotifications";
 import CheckBox from "./CheckBox";
+import Config from "../config";
 
 var fs = require('fs');
 var Client = require('ssh2').Client;
@@ -55,7 +55,7 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
     useEffect(() => {
         console.log("masternodeOutput ", masternodeOutput);
         if (masternodeOutput !== "")
-            addToConfFile(masternodeFile);
+            addToConfFile(Config.getMasternodeFile());
     }, [masternodeOutput]);
     /*useEffect(() => {
         //console.log("vpsResponse: ", vpsResponse);
@@ -199,7 +199,7 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
                     //console.log('OUTPUT: ' + data);
                 });
                 // TODO figure out how to pass in keyboard inputs
-                stream.end(`${masternodeSetupScript}\n${txidMasternode}\n\n\n\n`)
+                stream.end(`${Config.getMasternodeSetupScript()}\n${txidMasternode}\n\n\n\n`)
                 //stream.end('ls -l\nexit\n');
             });
         }).connect({
@@ -312,7 +312,7 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
                     <br />
                     <div className="masternode--item">
                         <div className="clipboard">
-                            <FontAwesomeIcon size="sm" icon={faClipboard} color="white" onClick={() => copyScript(masternodeSetupScript)} />
+                            <FontAwesomeIcon size="sm" icon={faClipboard} color="white" onClick={() => copyScript(Config.getMasternodeSetupScript())} />
                         </div>
                         <div onClick={() => copyScript("HKSgkhmsbcHLSXHPtLXCFcHuxtCCJjhLFM")}>
                             HKSgkhmsbcHLSXHPtLXCFcHuxtCCJjhLFM</div>
@@ -379,15 +379,15 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
                     <h3>To manually run setup, copy the below script, login to your VPS, and paste into the terminal.</h3>
                     <div className="masternode--item">
                         <div className="clipboard">
-                            <FontAwesomeIcon size="sm" icon={faClipboard} color="white" onClick={() => copyScript(masternodeSetupScript)} />
+                            <FontAwesomeIcon size="sm" icon={faClipboard} color="white" onClick={() => copyScript(Config.getMasternodeSetupScript())} />
                         </div>
-                        <div onClick={() => copyScript(masternodeSetupScript)}>
+                        <div onClick={() => copyScript(Config.getMasternodeSetupScript())}>
                             Copy script</div>
                     </div>
                     <h4>After completing the above steps open your masternode.conf file and paste in the output from the install script.</h4>
                     <div className="masternode--button--padding">
                         <Button
-                            handleClick={() => openConfFile(masternodeFile)}
+                            handleClick={() => openConfFile(Config.getMasternodeFile())}
                             buttonSize="btn--tiny"
                             buttonStyle="btn--success--solid">masternode.conf</Button>
                     </div>

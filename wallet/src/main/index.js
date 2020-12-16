@@ -26,7 +26,6 @@ import SplashController from "./splash-controller";
 import { autoUpdater } from "electron-updater";
 import WarningController from "./warning-controller";
 import * as Sentry from "@sentry/electron";
-import { projectName, userModelId } from "../common/consts";
 import Config from "../common/config";
 
 autoUpdater.autoDownload = true;
@@ -123,34 +122,35 @@ ipcMain.on("open-asteroids", () => {
 const defaultRPCPort = 51992;
 
 app.on("ready", () => {
-	Config.loadAppConfig();
 	var splashController = new SplashController();
 	log.info("app ready");
 	// for notifications on windows
-	app.setAppUserModelId(userModelId);
-
+	app.setAppUserModelId(Config.getUserModelId());
 	splashController.window.webContents.on("did-finish-load", () => {
-		log.info("did-finish-load");
-		splashController.window.webContents.send("progress", "indeterminate", "Initializing UNIGRID daemon...");
-		log.info(`Initializing ${projectName} daemon...`);
-
-		Daemon.start(splashController.window).then(() => {
-			log.info("daemon start...");
-			var rpcClient = new RPCClient();
-
-			splashController.version_control(rpcClient).then(() => {
-				log.info("version_control");
-				splashController.daemon_loading(rpcClient).then(() => {
-					log.info("daemon_loading");
-					splashController.synchronize_wallet(rpcClient).then(() => {
-						log.info("synchronize_wallet");
-						splashController.check_errors(rpcClient).then(() => {
-							log.info("Load MainController");
-							/* If sync was a success, we close the splash and move on to the main wallet window */
-							var mainController = new MainController();
-							mainWindow = mainController.window;
-							splashController.window.close();
-							manuallyCheckForUpdates(mainWindow);
+		log.info("Splash screen loaded");
+		Config.initConfig(splashController.window).then(() => {
+			log.info("local store has been loaded");
+			splashController.window.webContents.send("progress", "indeterminate", "Initializing UNIGRID daemon...");
+			log.info(`Initializing ${Config.getProjectName()} daemon...`);
+			Daemon.start(splashController.window).then(() => {
+				log.info("daemon start...");
+				var rpcClient = new RPCClient();
+				splashController.version_control(rpcClient).then(() => {
+					log.info("Checking version");
+					splashController.daemon_loading(rpcClient).then(() => {
+						log.info("Loading daemon");
+						splashController.synchronize_wallet(rpcClient).then(() => {
+							log.info("Synchronizing wallet");
+							splashController.check_errors(rpcClient).then(() => {
+								log.info("Load MainController");
+								/* If sync was a success, we close the splash and move on to the main wallet window */
+								var mainController = new MainController();
+								mainWindow = mainController.window;
+								splashController.window.close();
+								manuallyCheckForUpdates(mainWindow);
+							}, (stderr) => {
+								log.warn(stderr);
+							});
 						}, (stderr) => {
 							log.warn(stderr);
 						});
@@ -161,14 +161,13 @@ app.on("ready", () => {
 					log.warn(stderr);
 				});
 			}, (stderr) => {
+				console.log("error daemon: ", stderr)
 				log.warn(stderr);
 			});
 		}, (stderr) => {
-			console.log("error daemon: ", stderr)
+			console.log("error config: ", stderr)
 			log.warn(stderr);
-		}).catch((err) => console.log("error daemon: ", err));
-
-
+		});
 	});
 });
 

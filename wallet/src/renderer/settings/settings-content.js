@@ -29,8 +29,8 @@ import "./settings-content.css";
 import RPCClient from "../../common/rpc-client.js";
 import { ipcRenderer, remote } from "electron";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
-import { projectName, confFile, masternodeFile } from "../../common/consts";
 import HideZeroAddresses from "../../common/components/HideZeroAddresses";
+import Config from "../../common/config";
 
 const log = require('electron-log');
 const packageJSON = require('../../../package.json');
@@ -126,13 +126,13 @@ function SettingsContent(props) {
 				<Button
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
-					handleClick={() => openConfFile(confFile)}
+					handleClick={() => openConfFile(Config.getConfFile())}
 
 				>Open Configuration</Button>
 				<Button
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
-					handleClick={() => openConfFile(masternodeFile)}
+					handleClick={() => openConfFile(Config.getMasternodeFile())}
 				>Open Masternode Configuration</Button>
 			</div>
 		</Content>
@@ -297,11 +297,11 @@ function SettingsContent(props) {
 		let defaultName = "";
 		switch (cmd) {
 			case "DUMP":
-				title = `Dump wallet for ${projectName}`;
+				title = `Dump wallet for ${Config.getProjectName()}`;
 				defaultName = "wallet-dump.txt";
 				break;
 			case "BACKUP":
-				title = `Backup wallet.dat for ${projectName}`;
+				title = `Backup wallet.dat for ${Config.getProjectName()}`;
 				defaultName = "wallet-backup.dat";
 				break;
 			default:

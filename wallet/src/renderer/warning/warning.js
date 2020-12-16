@@ -20,12 +20,11 @@
 import React, { useState, useEffect } from "react";
 import { ipcRenderer, shell } from "electron";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faTimes } from "@fortawesome/free-solid-svg-icons";
 import File from "../../common/file";
 import "./warning.css"
-import { githubLink } from "../../common/consts";
 import Button from '../../common/components/Button';
+import Config from "../../common/config";
 
 const log = require('electron-log');
 
@@ -42,7 +41,7 @@ function Warning() {
 			setVersion(data.version);
 			setMessage(data.message);
 			setTitle(data.title);
-			seetUrlLink(githubLink.concat("/releases/tag/v").concat(data.version));
+			seetUrlLink(Config.getGithubLink().concat("/releases/tag/v").concat(data.version));
 		});
 	}, []);
 

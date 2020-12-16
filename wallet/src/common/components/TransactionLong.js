@@ -20,10 +20,8 @@ import React, { useState, useEffect } from "react";
 import "./Transaction.css";
 import { faSignInAlt, faSignOutAlt, faCoins, faClock, faCompass, faCubes, faNetworkWired } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import Tooltip from "react-simple-tooltip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { css } from "styled-components";
-import { explorerLink } from "../consts";
+import Config from "../config";
 
 library.add(faSignInAlt, faSignOutAlt, faCoins, faClock, faCubes, faNetworkWired);
 
@@ -52,7 +50,7 @@ function TransactionLong({ data, index, style }) {
             </div>
             <div className="trans--item">
 
-                <a href={explorerLink + "tx/" + data.txid} target="_blank">
+                <a href={Config.getExplorerLink() + "tx/" + data.txid} target="_blank">
                     <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
 
             </div>

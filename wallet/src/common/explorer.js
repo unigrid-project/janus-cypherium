@@ -18,13 +18,13 @@
  */
 
 import http from "http";
-import { explorerLink } from "./consts";
+import Config from "./config";
 
 export default class Explorer {
 	constructor() {
 		this.send_command = (command, args = []) => {
 			return new Promise((resolve, reject) => {
-				http.get(explorerLink + "api/" + command, (resp) => {
+				http.get(Config.getExplorerLink() + "api/" + command, (resp) => {
 					let data = "";
 
 					resp.on("data", (chunk) => {
