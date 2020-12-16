@@ -17,7 +17,7 @@
  */
 
 import Store from "electron-store";
-
+const log = require('electron-log');
 const store = new Store();
 
 export default class Config {
@@ -46,11 +46,27 @@ export default class Config {
     }
 
     static init() {
-        const fs = require('fs');
-        const path = require('path');
-        let config = fs.readFileSync(path.join(__static, '/config.json'));
-        let data = JSON.parse(config);
-        store.set(data);
+        return new Promise((resolve, reject) => {
+            try {
+                const fs = require('fs');
+                const path = require('path');
+                let config = fs.readFileSync(path.join(__static, '/config.json'));
+                let data = JSON.parse(config);
+                store.set(data);
+                resolve();
+            } catch {
+                // log error message 
+                log.warn("Error initializing config.json");
+                reject("Error initializing config.json");
+            }
+        });
+
+    }
+
+    static async start() {
+        var p;
+        p = await Config.init();
+        return p;
     }
 
     static async checkStore(window) {

@@ -36,9 +36,13 @@ const packageJSON = require('../../package.json');
 const log = require('electron-log');
 //const deps = packageJSON.dependencies;
 const isDevelopment = process.env.NODE_ENV !== 'production';
-
+var configError;
 /* Initialize consts from config.json */
-Config.init();
+Config.start().then(() => {
+	configError = "";
+}, (stderr) => {
+	configError = stderr;
+});
 
 Sentry.init({
 	dsn: "https://51f7c29baa594b0a8bfa788113e696ce@o266736.ingest.sentry.io/5427751",
@@ -115,26 +119,34 @@ app.on("ready", () => {
 	app.setAppUserModelId(Config.getUserModelId());
 	splashController.window.webContents.on("did-finish-load", () => {
 		log.info("Splash screen loaded");
-		Config.checkStore(splashController.window).then(() => {
-			log.info("local store has been loaded");
-			splashController.window.webContents.send("progress", "indeterminate", "Initializing UNIGRID daemon...");
-			log.info(`Initializing ${Config.getProjectName()} daemon...`);
-			Daemon.start(splashController.window).then(() => {
-				log.info("daemon start...");
-				var rpcClient = new RPCClient();
-				splashController.version_control(rpcClient).then(() => {
-					log.info("Checking version");
-					splashController.daemon_loading(rpcClient).then(() => {
-						log.info("Loading daemon");
-						splashController.synchronize_wallet(rpcClient).then(() => {
-							log.info("Synchronizing wallet");
-							splashController.check_errors(rpcClient).then(() => {
-								log.info("Load MainController");
-								/* If sync was a success, we close the splash and move on to the main wallet window */
-								var mainController = new MainController();
-								mainWindow = mainController.window;
-								splashController.window.close();
-								manuallyCheckForUpdates(mainWindow);
+		console.log("configError ", configError);
+		if (configError != "") {
+			splashController.window.webContents.send("fatal-error", configError);
+			splashController.window.webContents.send("state", "idle");
+		} else {
+			Config.checkStore(splashController.window).then(() => {
+				log.info("local store has been loaded");
+				splashController.window.webContents.send("progress", "indeterminate", "Initializing UNIGRID daemon...");
+				log.info(`Initializing ${Config.getProjectName()} daemon...`);
+				Daemon.start(splashController.window).then(() => {
+					log.info("daemon start...");
+					var rpcClient = new RPCClient();
+					splashController.version_control(rpcClient).then(() => {
+						log.info("Checking version");
+						splashController.daemon_loading(rpcClient).then(() => {
+							log.info("Loading daemon");
+							splashController.synchronize_wallet(rpcClient).then(() => {
+								log.info("Synchronizing wallet");
+								splashController.check_errors(rpcClient).then(() => {
+									log.info("Load MainController");
+									/* If sync was a success, we close the splash and move on to the main wallet window */
+									var mainController = new MainController();
+									mainWindow = mainController.window;
+									splashController.window.close();
+									manuallyCheckForUpdates(mainWindow);
+								}, (stderr) => {
+									log.warn(stderr);
+								});
 							}, (stderr) => {
 								log.warn(stderr);
 							});
@@ -145,16 +157,15 @@ app.on("ready", () => {
 						log.warn(stderr);
 					});
 				}, (stderr) => {
+					console.log("error daemon: ", stderr)
 					log.warn(stderr);
 				});
 			}, (stderr) => {
-				console.log("error daemon: ", stderr)
+				console.log("error config: ", stderr)
 				log.warn(stderr);
 			});
-		}, (stderr) => {
-			console.log("error config: ", stderr)
-			log.warn(stderr);
-		});
+		}
+
 	});
 });
 
