@@ -24,6 +24,7 @@ import { Router } from "common/router";
 import ControlBar from "./controlbar";
 import NavBar from "./navbar";
 import Splash from "./splash";
+import Setup from "./setup";
 import MyWalletContent from "./mywallet/mywallet-content.js";
 import TransactionsContent from "./transactions/transactions-content.js";
 import AddressesContent from "./addresses/addresses-content.js";
@@ -51,18 +52,18 @@ const routes = {
 		<Reacteroids key={2} />
 	],
 	main: [
-		<ControlBar key={1} headerText="UNIGRID" fullControls={true} />,
+		<ControlBar key={1} headerText={Config.getProjectName().toUpperCase()} fullControls={true} />,
 		<div className="nav" key={2}>
 			<NavBar />
 			<div id="maincontainer">
 				<MyWalletContent key="mywallet-content" active={true} />
-				<AddressesContent key="addressbook-content" />
-				{<TransactionsContent key="transactions-content" />}
+				{/*<AddressesContent key="addressbook-content" />*/}
+				{/*<TransactionsContent key="transactions-content" />*/}
 				{/*<TransactionsContentTest key="transactions-test-content" />*/}
-				{getShowMasternode()}
-				<ExplorerContent key="explorer-content" />
-				<SettingsContent key="settings-content" />
-				{<CLIContent key="cli-content" />}
+				{/*getShowMasternode()*/}
+				{/*<ExplorerContent key="explorer-content" />*/}
+				{/*<SettingsContent key="settings-content" />*/}
+				{/*<CLIContent key="cli-content" />*/}
 
 			</div>
 		</div>
@@ -71,18 +72,21 @@ const routes = {
 		<ControlBar key={1} className="nobg" fullControls={false} extraButton="rocket"
 			extraButtonOnClick={onStartGame} />, <Splash key={2} />
 	],
+	setup: [
+		<ControlBar key={1} headerText={Config.getProjectName().toUpperCase()} fullControls={true} />, <Setup key={2} />
+	],
 	warning: [
 		<ControlBar key={1} className="nobg" fullControls={false} />, <Warning key={2} />
 	]
 };
 
-function getShowMasternode () {
-	if(Config.getStore) {
+function getShowMasternode() {
+	if (Config.getStore) {
 		return Config.getIsMasternode() ? <MasternodesContent key="masternodes-content" /> : null;
-	}else{
+	} else {
 		return null;
 	}
-} 
+}
 
 
 ReactDOM.render(<Router routes={routes} />, document.getElementById("app"));
