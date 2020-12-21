@@ -29,8 +29,8 @@ img.logo {
 }
 
 html {
-	background-color: #000421;
-	color: var(--white)
+	background-color:var(--white);
+	color: var(--white);
 }
 
 div#app {
@@ -77,20 +77,6 @@ div.splash > div > div.network {
 	color: rgb(8, 245, 28);
 }
 
-h1 {
-	color: var(--white);
-	font-size: 16pt;
-	margin-block-start: 0;
-	margin-block-end: 0.1em;
-	font-weight: 400;
-}
-
-h2 {
-	font-size: 12pt;
-	color: var(--white);
-	margin-block-start: 0em;
-	font-weight: 400;
-}
 
 div:empty, p:empty {
 	display: none !important;
