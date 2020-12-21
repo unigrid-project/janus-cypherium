@@ -1,20 +1,38 @@
 {
     "janusConfirguration": {
-        "discordLink": "https://discord.gg/CRWZ7V5",
-        "twitterLink": "https://twitter.com/unigrid_org",
-        "telegramLink": "https://t.me/unigrid",
-        "explorerLink": "http://explorer.unigrid.org/",
-        "homePage": "https://unigrid.org",
-        "githubLink": "https://github.com/unigrid-project/UNIGRID",
-        "projectName": "UNIGRID",
-        "confFile": "unigrid.conf",
-        "masternodeFile": "masternode.conf",
-        "isMasternode": true,
-        "hasStaking": true,
-        "isDaemonLocal": true,
-        "userModelId": "unigrid-electron",
+        "discordLink": "",
+        "twitterLink": "https://twitter.com/cypheriumchain",
+        "telegramLink": "https://t.me/cypherium_supergroup",
+        "explorerLink": "https://explorer.cypherium.io/",
+        "homePage": "https://www.cypherium.io/",
+        "githubLink": "https://github.com/cypherium",
+        "projectName": "CYPHERIUM",
+        "projectTicker": "CPH",
+        "confFile": "",
+        "masternodeFile": "",
+        "isMasternode": false,
+        "hasStaking": false,
+        "isDaemonLocal": false,
+        "showWidget": false,
+        "userModelId": "cypherium-electron",
+        "coindGeckoId": "cypherium",
         "splashInfo": {
             "html": "<h1>Sharded Internet</h1><h2>Copyright © 2018-2020 The UNIGRID Organization</h2><p> This project is using code based on the work of<strong> Satoshi Nakamoto</strong>,<strong> The Bitcoin Developers</strong>,<strong> The DASH Developers</strong>,<strong> The PIVX Developers</strong> and<strong> The Swipp Developers</strong>,based on work between 2009 and 2018.</p>"
+        },
+        "nodeInfo": {
+            "url": "wss://mainnet.infura.io/ws/v3/0cf8cfd5283440fda121557679ce85b9",
+            "projectId": "0cf8cfd5283440fda121557679ce85b9"
+        },
+        "environment": {
+            "production": false,
+            "requestTimeout": 30000,
+            "appServerUrl": "https://walletserver.cypherium.io",
+            "cypherium": {
+                "provider": "https://pubnodes.cypherium.io",
+                "pledgeContractAddr": "0x0000000000000000000000000000000000000081",
+                "pledgeContractAbi": null,
+                "privateKey": ""
+            }
         }
     }
 }
