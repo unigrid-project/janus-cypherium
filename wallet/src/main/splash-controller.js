@@ -103,6 +103,20 @@ export default class SplashController {
 		});
 	}
 
+	async check_first_load() {
+		return await new Promise((resolve, reject) => {
+			const account = Config.getAccount();
+			if(account){
+				resolve();
+			}else{
+				var errorMessage = "It appears this is a first time load. Import or create a new wallet";
+				reject(errorMessage);
+			}
+		}, (stderr) => {
+			reject(stderr);
+		});
+	}
+
 	async handle_synchronization(remoteHeight, rpcClient) {
 		var syncing = false;
 		var startHeight = -1;
@@ -261,7 +275,7 @@ export default class SplashController {
 					new Promise(resolve => setTimeout(resolve, 1000))
 				]).then((response) => {
 					this.window.webContents.send(
-						"progress", "indeterminate", `${Config.getProjectName()} daemon loading...`  + rpcCallCount
+						"progress", "indeterminate", `${Config.getProjectName()} daemon loading...` + rpcCallCount
 					);
 					blockHeight = response[0]["blocks"];
 					rpcCallCount++;
