@@ -18,7 +18,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import $ from "jquery";
 import "./transactions-content.css";
-import _ from "lodash";
 import Transaction from "../../common/components/Transaction";
 
 function TransactionLoader({

@@ -27,7 +27,7 @@ import Content from "../content";
 import "./mywallet-content.css";
 import Button from "../../common/components/Button";
 import Transaction from "../../common/components/Transaction";
-import _ from "lodash";
+import lodash from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter, faDiscord, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import Tooltip from "react-simple-tooltip";
@@ -312,7 +312,7 @@ function MyWalletContent(props) {
 			rpcClient.listTransactions(args),
 		]).then((response) => {
 			setBalance(response[0]);
-			const order = _.orderBy(response[2], ['timereceived'], ['desc']);
+			const order = lodash.orderBy(response[2], ['timereceived'], ['desc']);
 			setTransactions(order);
 			// TODO this should be coming from websockets
 			// for now we can pass new incoming transactions in this signal

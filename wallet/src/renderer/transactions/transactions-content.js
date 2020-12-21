@@ -26,7 +26,7 @@ import { faChevronCircleDown, faChevronCircleUp } from "@fortawesome/free-solid-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ExportCSV from "../../common/components/ExportCSV";
 import TransactionLoader from "./TransactionLoader";
-import _ from "lodash";
+import lodash from "lodash";
 import { ipcRenderer, remote } from "electron";
 import InfiniteLoadWrapper from "../../common/components/InfiniteLoadWrapper";
 
@@ -61,7 +61,7 @@ function TransactionsContent(props) {
 	};
 
 	useEffect(() => {
-		window.on('resize', _.debounce(function () {
+		window.on('resize', lodash.debounce(function () {
 			let height = transactionContainer.current.offsetHeight - 30;
 			let width = transactionContainer.current.offsetWidth - 20;
 			console.log("height ", height);
@@ -152,7 +152,7 @@ function TransactionsContent(props) {
 					setLoadMore(true);
 					return;
 				}
-				const order = _.orderBy(response[0], ['timereceived'], ['desc']);
+				const order = lodash.orderBy(response[0], ['timereceived'], ['desc']);
 				let mergedLength = 0;
 				// if loading new data merge transactions here
 				if (count > 1) {

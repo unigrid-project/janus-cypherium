@@ -25,7 +25,7 @@ import './masternodes-content.css';
 import MasternodeCard from "../../common/components/MasternodeCard";
 import path from "path";
 import notifier from 'node-notifier';
-import _ from 'lodash';
+import lodash from 'lodash';
 import Store from "electron-store";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import { ipcRenderer, remote, clipboard } from "electron";
@@ -234,7 +234,7 @@ function MasternodesContent(props) {
 		// add nodes from conf if they are missing or not yet activated
 		Object.keys(localNodes).map(ln => {
 			//console.log("res ", localNodes[ln])
-			if (!_.find(res, { ipaddr: localNodes[ln].address })) {
+			if (!lodash.find(res, { ipaddr: localNodes[ln].address })) {
 				//console.log('did not find ', localNodes[ln].address)
 				res.push(localNodes[ln]);
 			} else {

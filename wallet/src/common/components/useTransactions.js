@@ -18,7 +18,7 @@
 
 import React, { useState, useEffect } from "react";
 import RPCClient from "../rpc-client.js";
-import _ from "lodash";
+import lodash from "lodash";
 import { ipcRenderer, remote } from "electron";
 
 function useTransactions({ load, offset, limit, SETTINGS }) {
@@ -47,7 +47,7 @@ function useTransactions({ load, offset, limit, SETTINGS }) {
                 rpcClient.listTransactions(args)
             ]).then((response) => {
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-                const order = _.orderBy(response[0], ['timereceived'], ['desc']);
+                const order = lodash.orderBy(response[0], ['timereceived'], ['desc']);
                 let mergedLength = 0;
                 setData(order);
             }, (stderr) => {

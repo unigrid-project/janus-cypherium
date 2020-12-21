@@ -26,7 +26,7 @@ import { faClipboard } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { clipboard } from "electron";
-import _ from 'lodash';
+import lodash from 'lodash';
 import Address from "../../common/components/Address";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import "./addresses-content.css"
@@ -153,7 +153,7 @@ function AddressesContent() {
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
 
-			let flat = _.flatten(response[0]);
+			let flat = lodash.flatten(response[0]);
 			let order = []
 			if (showZeroBalanceAddresses) {
 				var filterArr = [];
@@ -162,10 +162,10 @@ function AddressesContent() {
 						filterArr.push(address);
 					}
 				})
-				order = _.orderBy(filterArr, [1], ['desc']);
+				order = lodash.orderBy(filterArr, [1], ['desc']);
 				//console.log("omit 0 ", order);
 			} else {
-				order = _.orderBy(flat, [1], ['desc']);
+				order = lodash.orderBy(flat, [1], ['desc']);
 			}
 
 			setLocaAddresses(order);
