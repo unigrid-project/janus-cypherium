@@ -1,0 +1,192 @@
+/*
+ * This file is part of The UNIGRID Wallet
+ * Copyright (C) 2019 The Swipp developers <info@swippcoin.com>
+ * Copyright (C) 2020 The UNIGRID Organization
+ *
+ * The UNIGRID Wallet is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * The UNIGRID Wallet is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+p {
+	font-size: 9pt;
+	margin-block-end: 0;
+}
+
+img.logo {
+	width: 120px;
+	height: auto;
+	padding-right: 30px;
+}
+
+html {
+	background-color:var(--white);
+	color: var(--white);
+}
+
+div#app {
+	border-radius: 5px;
+}
+
+.setup {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding-top: 30px;
+	padding-left: 50px;
+	padding-right: 50px;
+}
+
+
+div.spacer {
+	width: 1px;
+	height: 30px;
+	margin: 0 auto;
+}
+
+
+div:empty, p:empty {
+	display: none !important;
+}
+
+/* setup container */
+
+.setup--container--start{
+	position: absolute;
+	width: 100%;
+	padding-right: 20px;
+}
+
+.setup--open--animation {
+	animation: openanimation 0.5s forwards;
+	transition-timing-function: ease-out;
+}
+
+@keyframes openanimation {
+	0% {
+		right: 0px;
+		opacity: 1;
+	}
+	100% {
+		right: -800px;
+		opacity: 1;
+	}
+}
+
+.setup--openposition {
+	position: absolute;
+	width: 100%;
+	right: -800px;
+}
+
+.close--animation {
+	animation: closeanimation 0.5s forwards;
+	transition-timing-function: ease-out;
+}
+
+@keyframes closeanimation {
+	0% {
+		right: -800px
+	}
+	100% {
+		right: 0px;
+	}
+}
+
+/* import account container */
+
+.import--container--start {
+	position: absolute;
+	width: 100%;
+	left: -600px;
+}
+
+.import--open--animation {
+	animation: openimportanimation 1s forwards;
+	transition-timing-function: ease-out;
+}
+
+@keyframes openimportanimation {
+	0% {
+		left: -600;
+		opacity: 1;
+	}
+	100% {
+		left: 0px;
+		opacity: 1;
+	}
+}
+
+.import--container--open {
+	position: absolute;
+	width: 100%;
+	left: 0px;
+}
+
+.import--close--animation {
+	animation: closeimportanimation 1s forwards;
+	transition-timing-function: ease-out;
+}
+
+@keyframes closeimportanimation {
+	0% {
+		left: 0px;
+	}
+	100% {
+		left: -600px;
+	}
+}
+
+/* create account container */
+
+.create--container--start {
+	position: absolute;
+	width: 100%;
+	left: -600px;
+}
+
+.create--open--animation {
+	animation: opencreateanimation 1s forwards;
+	transition-timing-function: ease-out;
+}
+
+@keyframes opencreateanimation {
+	0% {
+		left: -600;
+		opacity: 1;
+	}
+	100% {
+		left: 0px;
+		opacity: 1;
+	}
+}
+
+.create--container--open {
+	position: absolute;
+	width: 100%;
+	left: 0px;
+}
+
+.create--close--animation {
+	animation: closecreateanimation 1s forwards;
+	transition-timing-function: ease-out;
+}
+
+@keyframes closecreateanimation {
+	0% {
+		left: 0px;
+	}
+	100% {
+		left: -600px;
+	}
+}
