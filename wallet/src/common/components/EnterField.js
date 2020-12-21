@@ -27,11 +27,13 @@ function EnterField({
   myStyle,
   enterPressed,
   placeHolder,
-  onBlurOut
+  onBlurOut,
+  disabled
 }) {
   const [inputType] = useState(type)
   const [inputValue, setInputValue] = useState(clearField);
   const [style] = useState(myStyle);
+  const [isDisabled] = useState(disabled);
   const [placeValue] = useState(placeHolder);
   function handleChange(event) {
     setInputValue(event.target.value);
@@ -48,6 +50,8 @@ function EnterField({
     <>
       <input
         type={inputType}
+        disabled={isDisabled}
+        autoFocus={false}
         value={inputValue}
         name="input-form"
         onChange={(e) => {
