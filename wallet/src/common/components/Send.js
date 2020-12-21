@@ -22,7 +22,7 @@ import { ipcRenderer, remote } from "electron";
 import RPCClient from "../rpc-client.js";
 import "./Send.css"
 import SendInputs from "./SendInputs";
-import _ from "lodash";
+import lodash from "lodash";
 import Store from "electron-store";
 import { sendDesktopNotification } from "./DesktopNotifications";
 
@@ -188,7 +188,7 @@ function Send() {
     }
     function removeRecipient(e) {
         console.log("remove: ", e);
-        setRecipients(_.omit(recipients, e));
+        setRecipients(lodash.omit(recipients, e));
         setRerender(!rerender);
     }
     function setSendAddress(v, recipientKey) {

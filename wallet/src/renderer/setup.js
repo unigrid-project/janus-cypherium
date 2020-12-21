@@ -26,7 +26,7 @@ import "./setup.css"
 import Store from "electron-store";
 import Config from "../common/config";
 import Button from "../common/components/Button";
-import SetupControls from "../main/setup/SetupControls";
+//import SetupControls from "../main/setup/SetupControls";
 import ImportAccount from "../common/components/ImportAccount";
 import CreateAccount from "../common/components/CreateAccount";
 
@@ -44,7 +44,7 @@ function Setup(props) {
 	const [createState, setCreateState] = useState(false);
 
 
-	const setupControls = new SetupControls();
+	//const setupControls = new SetupControls();
 	useEffect(() => {
 		// init
 		ipcRenderer.on("go-back-setup", (event, message) => {

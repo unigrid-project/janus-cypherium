@@ -26,7 +26,6 @@ import Button from "./Button";
 import RPCClient from "../rpc-client.js";
 import { ipcRenderer, remote } from "electron";
 import WarningMessage from "./WarningMessage";
-import _ from "lodash";
 import { sendDesktopNotification } from "./DesktopNotifications";
 import CheckBox from "./CheckBox";
 import Config from "../config";
@@ -337,7 +336,6 @@ function CreateMasternode({ copyScript, isVisible, closeMasternodeSetup }) {
 
     function renderTerminalOutput() {
         //render only last items in the array
-        //var newArr = _.takeRight(vpsResponse, 10);
         return (
             vpsResponse.map((item, i) => {
                 return (

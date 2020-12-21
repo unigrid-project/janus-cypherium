@@ -26,7 +26,7 @@ import { faChevronCircleDown, faChevronCircleUp } from "@fortawesome/free-solid-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ExportCSV from "../../common/components/ExportCSV";
 import TransactionLoader from "./TransactionLoader";
-import _ from "lodash";
+import lodash from "lodash";
 import { ipcRenderer, remote } from "electron";
 import InfiniteLoadWrapper from "../../common/components/InfiniteLoadWrapper";
 import VirtualScroller from "../../common/components/VirtualScroller";
@@ -72,7 +72,7 @@ function TransactionsContentTest(props) {
 	};
 
 	useEffect(() => {
-		window.on('resize', _.debounce(function () {
+		window.on('resize', lodash.debounce(function () {
 			let height = transactionContainer.current.offsetHeight - 50;
 			let width = transactionContainer.current.offsetWidth - 20;
 			console.log("height ", height);
@@ -154,7 +154,7 @@ function TransactionsContentTest(props) {
 					setLoadMore(true);
 					return;
 				}
-				const order = _.orderBy(response[0], ['timereceived'], ['desc']);
+				const order = lodash.orderBy(response[0], ['timereceived'], ['desc']);
 				let mergedLength = 0;
 				// if loading new data merge transactions here
 				if (count > 1) {
@@ -200,7 +200,7 @@ function TransactionsContentTest(props) {
 				rpcClient.listTransactions(args)
 			]).then((response) => {
 				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-				const order = _.orderBy(response[0], ['timereceived'], ['desc']);
+				const order = lodash.orderBy(response[0], ['timereceived'], ['desc']);
 				let mergedLength = 0;
 				data = order;
 				console.log("data test: ", data)

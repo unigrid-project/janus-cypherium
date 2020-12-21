@@ -18,7 +18,6 @@
 
 import React, { useState, useEffect } from "react";
 import './EnterField.css';
-import { update } from "lodash";
 
 function EnterField({
   updateEntry,
