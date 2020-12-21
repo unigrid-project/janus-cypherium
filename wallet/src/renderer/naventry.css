@@ -37,7 +37,7 @@ nav>ul>li.button {
     cursor: pointer;
     padding: 5px 5px 5px 5px;
     border: 2px transparent solid;
-    border-color: var(--ugd--light--orange);
+    border-color: var(--nav--select--color);
     border-radius: 5px;
     margin: 10px;
 }
@@ -54,11 +54,11 @@ nav>ul>li.button {
 }
 
 nav>ul>li:hover {
-    border-color: var(--ugd--light--orange);
+    border-color: var(--nav--select--color);
 }
 
 nav>ul>li.active {
-    border-color: var(--ugd--orange);
+    border-color: var(--navbar--selected);
     background-color: var(--button--background);
     pointer-events: none;
 }

@@ -61,21 +61,6 @@ div.spacer {
   margin: 0 auto;
 }
 
-h1 {
-  color: var(--white);
-  font-size: 16pt;
-  margin-block-start: 0;
-  margin-block-end: 0.1em;
-  font-weight: 400;
-}
-
-h2 {
-  font-size: 12pt;
-  color: var(--white);
-  margin-block-start: 0em;
-  font-weight: 400;
-}
-
 div:empty,
 p:empty {
   display: none !important;

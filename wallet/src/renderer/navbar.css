@@ -19,7 +19,7 @@
 
 nav {
     min-width: fit-content;
-    background-color: #0a0a0a;
+    background-color: var(--navbar--background);
 }
 
 div.nav {

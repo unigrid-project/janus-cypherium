@@ -24,7 +24,7 @@ div.controlbar {
 	display: flex;
 	align-items: center;
 	padding: 10px 6px 6px 12px;
-	background-color: #171717;
+	background-color: var(--controlbar--background);
 	color: #eee;
 }
 
@@ -66,11 +66,11 @@ div.controlbar svg {
 }
 
 div.controlbar svg.close {
-	color: #d55;
+	color: var(--controlbar--close)
 }
 
 div.controlbar svg.update {
-	color: green;
+	color: var(--controlbar--update);
 }
 
 div.controlbar svg {
