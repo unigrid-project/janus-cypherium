@@ -84,6 +84,22 @@ export default class Config {
         }
     }
 
+    static getAccount() {
+        return store.get('account');
+    }
+
+    static getEnvironment(){
+        return this.getStore().environment;
+    }
+
+    static getNodeInfo() {
+        return this.getStore().nodeInfo;
+    }
+
+    static getCoinGeckoId() {
+        return this.getStore().coindGeckoId;
+    }
+
     static getDiscordLink() {
         return this.getStore().discordLink;
     }
@@ -112,6 +128,10 @@ export default class Config {
         return this.getStore().projectName;
     }
 
+    static getProjectTicker() {
+        return this.getStore().projectTicker;
+    }
+
     static getConfFile() {
         return this.getStore().confFile;
     }
@@ -138,6 +158,10 @@ export default class Config {
 
     static getUserModelId() {
         return this.getStore().userModelId;
+    }
+
+    static getShowWidget(){
+        return this.getStore().showWidget;
     }
 
     static getMasternodeSetupScript() {
