@@ -18,7 +18,6 @@
  */
 
 div#mywallet>div {
-	border-top: 4px solid #0a0a0a;
 	text-align: center;
 	padding-top: 5px !important;
 }
@@ -69,6 +68,9 @@ div#mywallet>div h3 {
 	padding: 0px;
 }
 
+.coin--gecko {
+	background-color: aliceblue;
+}
 .transaction--container--start {
 	position: absolute;
 	width: 100%;

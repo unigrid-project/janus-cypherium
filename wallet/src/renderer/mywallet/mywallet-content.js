@@ -36,10 +36,15 @@ import { css } from "styled-components";
 import { ipcRenderer, remote } from "electron";
 import Send from "../../common/components/Send";
 import Config from "../../common/config.js";
+import NodeClient from '../../common/node-client';
+import { WalletService } from "../../common/walletutils/WalletService.js";
 
-
+const log = require('electron-log');
+const walletService = new WalletService();
 function MyWalletContent(props) {
+	const testETHmnemonic = "enjoy pole often floor fun museum miracle salon ripple pool injury invite";
 	const store = new Store();
+	const nodeClient = new NodeClient(Config.getNodeInfo());
 	const currency = store.get("currency", "usd");
 	const [balance, setBalance] = useState(0);
 	const [currencies, setCurrencies] = useState([]);
@@ -47,19 +52,25 @@ function MyWalletContent(props) {
 	const [transactions, setTransactions] = useState();
 	const [sendKey, setSendKey] = useState();
 	const [sendState, setSendState] = useState(false);
+	const [mnemonic, setMnemonic] = useState("");
+	const [privateKey, setprivateKey] = useState("");
 	const [transactionClasses, setTransactionClasses] = useState("transaction--container--start");
 	const [sendClasses, setSendClasses] = useState("send--container--start");
 	useEffect(() => {
 		// testing mini-breakpad crash reports
 		//process.crash();
-		getData();
+		//nodeClient.subscribeToBlocks();
+		nodeClient.start();
+		if (Config.getIsDaemonLocal())
+			getDataLocal();
 		ipcRenderer.on("cancel-send-operation", (event, message) => {
 			console.log("cencel send ");
 			cancelSendOperation();
 		});
 
 		ipcRenderer.on("trigger-info-update", (event, message) => {
-			getData();
+			if (Config.getIsDaemonLocal())
+				getDataLocal();
 		});
 		// get data every 30 seconds for now
 		// this will be converted to a websocket 
@@ -72,17 +83,11 @@ function MyWalletContent(props) {
 
 	return (
 		<Content id="mywallet" className="allow-scroll" active={props.active}>
-			<Helmet>
-				<script src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js" />
-			</Helmet>
-
-			<coingecko-coin-price-marquee-widget coin-ids="unigrid,swipp,bitcoin,litecoin,dogecoin"
-				currency={selectedCurrency.value}
-				background-color="#000" locale="en" />
+			{renderWidget()}
 			<div>
 				<div>
 					<div className="currency--send">
-						<h1>{balance} UGD</h1>
+						<h1>{balance} {Config.getProjectTicker()}</h1>
 						<div className="btn--send">
 							<Button
 								buttonStyle="btn--secondary--solid"
@@ -97,6 +102,42 @@ function MyWalletContent(props) {
 							value={selectedCurrency} onChange={onChange} />
 					</h2>
 				</div>
+				{
+					<div className="currency--send">
+						<div className="btn--send">
+							<Button
+								buttonStyle="btn--secondary--solid"
+								handleClick={() => testGenerateMnemomic()}
+								buttonSize="btn--small">Test</Button>
+						</div>
+						<div className="btn--send">
+							<Button
+								buttonStyle="btn--secondary--solid"
+								handleClick={() => testFromCPHMnemonic()}
+								buttonSize="btn--small">From mnemonic</Button>
+						</div>
+
+						<div className="btn--send">
+							<Button
+								buttonStyle="btn--secondary--solid"
+								handleClick={() => testFromPrivateKey()}
+								buttonSize="btn--small">Block</Button>
+						</div>
+						<div className="btn--send">
+							<Button
+								buttonStyle="btn--secondary--solid"
+								handleClick={() => clearAccounts()}
+								buttonSize="btn--small">Clear Accounts</Button>
+						</div>
+						<div className="btn--send">
+							<Button
+								buttonStyle="btn--secondary--solid"
+								handleClick={() => showAccounts()}
+								buttonSize="btn--small">Show Accounts</Button>
+						</div>
+					</div>
+				}
+
 				<div className={transactionClasses}
 					onAnimationEnd={onTransactionAnimationEnd}
 					onAnimationStart={onTransactionAnimationStart}>
@@ -113,6 +154,41 @@ function MyWalletContent(props) {
 			</div>
 		</Content>
 	);
+
+	function renderWidget() {
+		if (Config.getShowWidget()) {
+			return (<Helmet>
+				<script src="https://widgets.coingecko.com/coingecko-coin-price-marquee-widget.js" />
+			</Helmet>)
+		}
+		return null;
+	}
+	//testETHmnemonic
+
+	function testGenerateMnemomic() {
+		const createRnd = walletService.createRandom();
+		setMnemonic(createRnd.mnemonic);
+		setprivateKey(createRnd.privateKey);
+		log.info("mnemonic: ", createRnd);
+	}
+
+	function testFromCPHMnemonic() {
+		const fromMnemonic = walletService.fromMnemonic(testETHmnemonic);
+		log.info("address from ETH mnemonic: ", fromMnemonic);
+	}
+
+	function testFromPrivateKey() {
+		const block = nodeClient.checkBlock();
+		log.info("block: ", block);
+	}
+
+	function clearAccounts() {
+		store.delete('account');
+	}
+
+	function showAccounts() {
+		console.log("account: ", store.get('account'));
+	}
 
 	function cancelSendOperation() {
 		setSendState(false);
@@ -154,66 +230,63 @@ function MyWalletContent(props) {
 	function renderSocial() {
 		return (
 			<div className="align--row social--conatiner">
-				<div className="social--padding">
-					<a href={Config.getTwitterLink()} target="_blank">
-						<Tooltip
-							arrow={10}
-							zIndex={200}
-							fadeDuration={150}
-							radius={10}
-							fontFamily='Roboto'
-							fontSize='5'
-							fadeEasing="linear"
+				{Config.getTwitterLink() === "" ? null :
+					<div className="social--padding">
+						<a href={Config.getTwitterLink()} target="_blank">
+							<Tooltip
+								arrow={10}
+								zIndex={200}
+								fadeDuration={150}
+								radius={10}
+								fontFamily='Roboto'
+								fontSize='5'
+								fadeEasing="linear"
+								content="Follow us"
+								customCss={css`white-space: nowrap;`}
+							>
+								<FontAwesomeIcon size="lg" icon={faTwitter} color="#1DA1F3" />
+							</Tooltip>
+						</a>
+					</div>
+				}
+				{Config.getDiscordLink() === "" ? null :
+					<div className="social--padding">
+						<a href={Config.getDiscordLink()} target="_blank">
+							<Tooltip
+								arrow={10}
+								zIndex={200}
+								fadeDuration={150}
+								radius={10}
+								fontFamily='Roboto'
+								fontSize='5'
+								fadeEasing="linear"
 
-							content="Follow us"
-							customCss={css`
-                    white-space: nowrap;
-                  `}
-						>
-							<FontAwesomeIcon size="lg" icon={faTwitter} color="#1DA1F3" />
-						</Tooltip>
-					</a>
-				</div>
-				<div className="social--padding">
-					<a href={Config.getDiscordLink()} target="_blank">
-						<Tooltip
-							arrow={10}
-							zIndex={200}
-							fadeDuration={150}
-							radius={10}
-							fontFamily='Roboto'
-							fontSize='5'
-							fadeEasing="linear"
-
-							content="Join discord"
-							customCss={css`
-                    white-space: nowrap;
-                  `}
-						>
-							<FontAwesomeIcon size="lg" icon={faDiscord} color="#7289DA" />
-						</Tooltip>
-					</a>
-				</div>
-				<div className="social--padding">
-					<a href={Config.getTelegramLink()} target="_blank">
-						<Tooltip
-							arrow={10}
-							zIndex={200}
-							fadeDuration={150}
-							radius={10}
-							fontFamily='Roboto'
-							fontSize='5'
-							fadeEasing="linear"
-
-							content="Join telegram"
-							customCss={css`
-                    white-space: nowrap;
-                  `}
-						>
-							<FontAwesomeIcon size="lg" icon={faTelegram} color="#24A1DE" />
-						</Tooltip>
-					</a>
-				</div>
+								content="Join discord"
+								customCss={css`white-space: nowrap;`}
+							>
+								<FontAwesomeIcon size="lg" icon={faDiscord} color="#7289DA" />
+							</Tooltip>
+						</a>
+					</div>}
+				{Config.getTelegramLink() === "" ? null :
+					<div className="social--padding">
+						<a href={Config.getTelegramLink()} target="_blank">
+							<Tooltip
+								arrow={10}
+								zIndex={200}
+								fadeDuration={150}
+								radius={10}
+								fontFamily='Roboto'
+								fontSize='5'
+								fadeEasing="linear"
+								content="Join telegram"
+								customCss={css`white-space: nowrap;`}
+							>
+								<FontAwesomeIcon size="lg" icon={faTelegram} color="#24A1DE" />
+							</Tooltip>
+						</a>
+					</div>
+				}
 			</div>
 		)
 	}
@@ -229,7 +302,7 @@ function MyWalletContent(props) {
 			})
 		)
 	}
-	async function getData() {
+	async function getDataLocal() {
 		var coinGecko = new CoinGecko();
 		var rpcClient = new RPCClient();
 		var args = ["*", 10, 0, true];
@@ -246,7 +319,7 @@ function MyWalletContent(props) {
 			// transactions-content can listen for this
 			// if it finds new transactions add them to the display list on that screen
 			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-checked-transactions", order);
-			coinGecko.getprice("unigrid", response[1]).then((rates) => {
+			coinGecko.getprice(Config.getCoinGeckoId(), response[1]).then((rates) => {
 				var currencies = Object.entries(rates.unigrid).map((currency) => {
 					var v = { value: currency[0], label: currency[0], rate: currency[1] };
 
