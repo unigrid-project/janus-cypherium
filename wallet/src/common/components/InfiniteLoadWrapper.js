@@ -49,9 +49,7 @@ function InfiniteLoadWrapper({
             isItemLoaded={isItemLoaded}
             itemCount={itemCount}
             loadMoreItems={loadMoreItems}
-
         >
-
             {({ onItemsRendered }) => (
                 <div>
                     <List

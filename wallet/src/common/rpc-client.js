@@ -35,12 +35,9 @@ export default class RPCClient {
 		this.send_command = (command, args = []) => {
 			return new Promise((resolve, reject) => {
 				this.client.call({ method: command, params: args }, (err, response) => {
-
 					if (err) {
-
 						reject(err);
 					} else {
-
 						resolve(response.result);
 					}
 				});
