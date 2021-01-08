@@ -30,12 +30,12 @@ import './SetupStyles.css';
 
 var _ = require('electron').remote.getGlobal('_');
 const log = require('electron-log');
+const walletService = new WalletService();
+const enterWalletName = _("Wallet Name");
+const enterPassword = _("Password");
+const repeatPassword = _("Repeat Password");
 
 const CreateAccount = (props) => {
-    const walletService = new WalletService();
-    const enterWalletName = _("Wallet Name");
-    const enterPassword = _("Password");
-    const repeatPassword = _("Repeat Password");
     const [clearField, setClearField] = useState("");
     const [walletName, setWalletName] = useState("");
     const [passPhrase, setPassphrase] = useState("");
@@ -206,7 +206,7 @@ const CreateAccount = (props) => {
                 return (
                     <div key={i}>
                         {clickable ?
-                            <div>
+                            <div className="padding-ten">
                                 <SelectionButton
                                     canBeDisabled={false}
                                     item={item}
@@ -217,9 +217,11 @@ const CreateAccount = (props) => {
                                 />
                             </div>
                             :
-                            <div
-                                className="mnemonic--white "
-                            >{item}</div>
+                            <div className="padding-ten">
+                                <div
+                                    className="mnemonic--white "
+                                >{item}</div>
+                            </div>
                         }
                     </div>
 
@@ -239,7 +241,7 @@ const CreateAccount = (props) => {
             tmpArr[randomIndex] = temporaryValue;
         }
         //console.log("shuffle: ", tmpArr);
-        //console.log("original: ", mnemonic);
+        console.log("original: ", mnemonic);
         return tmpArr;
     }
 
@@ -316,9 +318,7 @@ const CreateAccount = (props) => {
                 walletService.createNewWallet(obj).then(() => {
                     //console.log("data: ", obj);
                     obj = null;
-                    setWalletName("");
-                    setPassphrase("");
-                    setRepeatPassphrase("");
+                    resetDefaults();
                     setResetKey(Math.random());
                     ipcRenderer.send('open-main-window');
                 }, (stderr) => {

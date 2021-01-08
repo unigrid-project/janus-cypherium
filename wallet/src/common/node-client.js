@@ -30,10 +30,10 @@ export default class NodeClient {
     constructor(nodeInfo) {
         this.nodeInfo = Config.getNodeInfo();
         this.cphNode = Config.getEnvironment();
-        console.log(this.cphNode);
-        this.web3 = new Web3(new Web3.providers.WebsocketProvider(nodeInfo.url));
-        //this.web3c = new Web3c(new Web3c.providers.HttpProvider(this.cphNode.cypherium.provider));
-        this.web3c = new Web3c(new Web3c.providers.HttpProvider(this.cphNode.appServerUrl));
+        console.log("cphNode ", this.cphNode);
+        //this.web3 = new Web3(new Web3.providers.WebsocketProvider(nodeInfo.url));
+        this.web3c = new Web3c(new Web3c.providers.HttpProvider(this.cphNode.cypherium.provider));
+        //this.web3c = new Web3c(new Web3c.providers.HttpProvider(this.cphNode.appServerUrl));
     }
 
     async getCurrentGasPrices() {
@@ -59,10 +59,8 @@ export default class NodeClient {
         console.log("web3: ", this.web3);
         //let block = await this.web3c.cph.block();
         // var walletAmount = await this.web3c.getCphBalance("<address>");
-        //console.log(this.web3c.cph.getBalance("8849BAFD732ED15A75D38BA902CBEB875C503094"))//("CPH8849BAFD732ED15A75D38BA902CBEB875C503094"));
-        /*var walletAmount = this.web3c.cph.getBalance("8849BAFD732ED15A75D38BA902CBEB875C503094")
-            .then(console.log);*/
-            var walletAmount = this.getWalletInfo("8849BAFD732ED15A75D38BA902CBEB875C503094");
+        
+            var walletAmount = this.getWalletInfo("");
 
         return walletAmount;
     }
