@@ -1,7 +1,7 @@
 <!--- Remove this description and sections that do not apply -->
 
-This issue tracker is only for technical issues related to UNIGRID Core.
-General UNIGRID questions and/or support requests and are best directed to the [UNIGRID Discord](https://discord.unigrid.org).
+This issue tracker is only for technical issues related to Janus.
+General Janus questions and/or support requests and are best directed to [Discord](https://discord.gg/CRWZ7V5).
 
 ### Describe the issue
 
@@ -20,7 +20,7 @@ Tell us what happens instead
 ### Screenshots.
 If the issue is related to the GUI, screenshots can be added to this issue via drag & drop.
 
-### What version of UNIGRID Core are you using?
+### What version of Janus are you using?
 List the version number/commit ID, and if it is an official binary, self compiled or a distribution package.
 
 ### Machine specs:
