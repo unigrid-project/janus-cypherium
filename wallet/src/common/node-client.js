@@ -59,17 +59,10 @@ export default class NodeClient {
         console.log("web3: ", this.web3);
         //let block = await this.web3c.cph.block();
         // var walletAmount = await this.web3c.getCphBalance("<address>");
-        /*var walletAmount = this.web3c.getCphBalance("<address>")
+        //console.log(this.web3c.cph.getBalance("8849BAFD732ED15A75D38BA902CBEB875C503094"))//("CPH8849BAFD732ED15A75D38BA902CBEB875C503094"));
+        /*var walletAmount = this.web3c.cph.getBalance("8849BAFD732ED15A75D38BA902CBEB875C503094")
             .then(console.log);*/
-        /*var walletAmount = this.web3c.getCphBalance("<address>", function (error, result) {
-
-            if (error) {
-                console.log(error)
-            }
-            else {
-                console.log(result)
-            }
-        });*/
+            var walletAmount = this.getWalletInfo("8849BAFD732ED15A75D38BA902CBEB875C503094");
 
         return walletAmount;
     }
@@ -99,10 +92,57 @@ export default class NodeClient {
         }
         return p;*/
     }
+
+    async getBlockHeight() {
+        let height = await this.web3c.cph.txBlockNumber;
+        return height;
+    }
+
+    async getKeyBlockHeight() {
+        let height = await this.web3c.cph.keyBlockNumber;
+        return height;
+    }
+
     async subscribeToBlocks() {
-        const subscription = this.web3c.cph.subscribe('newBlockHeaders', (error, blockHeader) => {
+        const subscription = this.web3.eth.subscribe('newBlockHeaders', (error, blockHeader) => {
             if (error) return log.error(error);
             log.info("BlockHeader: ", blockHeader)
         })
+    }
+
+    getWalletInfo(addr) {
+        this.getCphBalance(addr, (v) => {
+            if (this.amount.toString() !== v.toString() && v !== undefined) {
+                this.amount = v;
+                console.log("amount: " , v)
+                //this.global.gWalletList[this.global.currentWalletIndex].amount = this.amount;
+                //this.helper.saveWallet();
+                return v;
+            }
+        });
+    }
+
+    getCphBalance(userAddr, callback, pending = false) {
+        console.log('getCphBalance');
+        this.web3c.cph.getBalance(userAddr, pending ? 'pending' : 'latest', (e, v) => {
+            if (!e) {
+                console.log('!e');
+                console.log("Invoked param:-----------------------------------", userAddr, v);
+                //console.log(`wallet${userAddr}'s balance${v}`);
+                let value = this.web3c.fromWei(v, 'cpher');
+                callback(value);
+            } else {
+
+                console.log('read from local');
+                if (this.global.currentWalletIndex !== undefined) {
+                    callback(this.global.gWalletList[this.global.currentWalletIndex].amount);
+                } else {
+                    callback(0);
+                }
+                // let error = await this.helper.getTranslate('MNEMONIC_WRONG');
+                // this.helper.toast(error);
+
+            }
+        });
     }
 }
