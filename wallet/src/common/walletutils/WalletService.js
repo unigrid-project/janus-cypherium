@@ -59,17 +59,21 @@ export class WalletService {
         });
     }
 
-    fromPrivateKey(privateKey) {
+    async fromPrivateKey(privateKey) {
         let keyPair = this.generateKeyPairFromPrivate(privateKey);
         let address = this.getCPHAddressFromPubKey(keyPair.publicKey);
-
-        return {
-            address: address,
-            // mnemonic: mnemonic,
-            path: "m/44'/60'/0'/0/0",
-            privateKey: keyPair.privateKey,
-            publicKey: keyPair.publicKey
-        };
+        return await new Promise((resolve, reject) => {
+            const account = {
+                address: address,
+                // mnemonic: mnemonic,
+                path: "m/44'/60'/0'/0/0",
+                privateKey: keyPair.privateKey,
+                publicKey: keyPair.publicKey
+            };
+            resolve(account);
+        }, (stderr) => {
+            reject(stderr);
+        });
     }
     /**
      *  Create a new instance of this Wallet connected to provider.
@@ -233,9 +237,13 @@ export class WalletService {
         return aes256.encrypt(data.credentials.password, data.account.privateKey);
     }
 
-    decryptData(password, encrypted) {
+    async decryptData(password, encrypted) {
         // user entered password and encrypted data
-        return aes256.decrypt(password, encrypted);
+        return await new Promise((resolve, reject) => {
+            resolve(aes256.decrypt(password, encrypted));
+        }, (stderr) => {
+            reject(stderr);
+        });
     }
 
     async createNewWallet(data) {

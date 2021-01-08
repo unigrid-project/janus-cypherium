@@ -29,6 +29,12 @@ import { WalletService } from "../walletutils/WalletService";
 
 var _ = require('electron').remote.getGlobal('_');
 const log = require('electron-log');
+const walletService = new WalletService();
+const enterMnemonicCopy = _("Please enter your mnemonics in original order, seperated by spaces.");
+const privateKeyCopy = _("Please enter your private key.");
+const enterWalletName = _("Wallet Name");
+const enterPassword = _("Password");
+const repeatPassword = _("Repeat Password");
 
 const ImportAccount = (props) => {
     const [selections, setSelections] = useState([
@@ -36,23 +42,17 @@ const ImportAccount = (props) => {
         { name: _("private key"), selected: false, key: 1 },
         { name: _("keystore"), selected: false, key: 2 }
     ]);
-    const walletService = new WalletService();
-    const enterMnemonicCopy = _("Please enter your mnemonics in original order, seperated by spaces.");
-    const enterWalletName = _("Wallet Name");
-    const enterPassword = _("Password");
-    const repeatPassword = _("Repeat Password");
     const [warningMessage, setWarningMessage] = useState("");
     const [walletName, setWalletName] = useState("");
     const [mnemonic, setMnemonic] = useState("");
+    const [privateKey, setPrivateKey] = useState("");
     const [resetMnemonic, setResetMnemonic] = useState("");
+    const [resetPrivateKey, setResetPrivateKey] = useState("");
     const [passPhrase, setPassphrase] = useState("");
     const [repeatPassphrase, setRepeatPassphrase] = useState("");
     const [resetKey, setResetKey] = useState(Math.random());
     const [buttonDisabled, setButtonDisabled] = useState(false);
 
-    useEffect(() => {
-
-    }, [])
     useEffect(() => {
         if (warningMessage !== "") {
             setButtonDisabled(true);
@@ -103,9 +103,7 @@ const ImportAccount = (props) => {
                         :
                         null}
                     {selections[1].selected ?
-                        <div className="import--box--style">
-                            private key
-             </div>
+                        renderPrivateKeyContainer()
                         :
                         null}
                     {selections[2].selected ?
@@ -121,16 +119,17 @@ const ImportAccount = (props) => {
     )
 
     function onItemClicked(e) {
-        console.log("item clicked: ", e)
+        //console.log("item clicked: ", e)
         var tmpArray = selections.slice(0);
         tmpArray.map((item, key) => {
-            console.log("items: ", key);
+            //console.log("items: ", key);
             if (item.key === e.key) {
                 item.selected = true;
             } else {
                 item.selected = false;
             }
         })
+        resetDefaults();
         setSelections(tmpArray);
     }
 
@@ -181,7 +180,7 @@ const ImportAccount = (props) => {
                 <div className="padding--top--five align--row--flexend padding--right--twenty ">
                     <Button
                         handleClick={() => {
-                            importWallet();
+                            importWallet("MNEMONIC");
                         }}
                         disabled={buttonDisabled}
                         buttonSize="btn--small"
@@ -192,10 +191,78 @@ const ImportAccount = (props) => {
         )
     }
 
-    function importWallet() {
+    function renderPrivateKeyContainer() {
+        return (
+            <div className="import--box--style">
+                <div className="fontTiny darkCopy padding--top--left">
+                    {privateKeyCopy}
+                </div>
+
+                <EnterField
+                    type="text"
+                    updateEntry={(v) => updateInput(v, "PRIVATEKEY")}
+                    myStyle="mnemonic--import"
+                    clearField={resetPrivateKey}
+                    disabled={false}
+                />
+                <div className="padding--top--five">
+                    <div className="fontTiny darkCopy padding--top--left">{enterWalletName}</div>
+                    <EnterField
+                        type="text"
+                        updateEntry={(v) => updateInput(v, "WALLET")}
+                        myStyle={"small--input margin--left"}
+                        placeHolder={enterWalletName}
+                        clearField={walletName}
+                    />
+                </div>
+                <div className="padding--top--five">
+                    <div className="fontTiny darkCopy padding--top--left">{enterPassword}</div>
+                    <EnterField
+                        type={"password"}
+                        clearField={passPhrase}
+                        updateEntry={(v) => updateInput(v, "PASSPHRASE")}
+                        myStyle={"small--input margin--left"}
+                        placeHolder={enterPassword}
+                    />
+                </div>
+                <div className="padding--top--five">
+                    <div className="fontTiny darkCopy padding--top--left">{repeatPassword}</div>
+                    <EnterField
+                        type={"password"}
+                        clearField={repeatPassphrase}
+                        updateEntry={(v) => updateInput(v, "REPEAT")}
+                        myStyle={"small--input margin--left"}
+                        placeHolder={repeatPassword}
+                    />
+                </div>
+                <div className="padding--top--five align--row--flexend padding--right--twenty ">
+                    <Button
+                        handleClick={() => {
+                            importWallet("PRIVATE_KEY");
+                        }}
+                        disabled={buttonDisabled}
+                        buttonSize="btn--small"
+                        buttonStyle="btn--blue--solid">{_("Import")}</Button>
+                </div>
+                {warningMessage !== "" ? renderWarning() : null}
+            </div>
+        )
+    }
+
+    function importWallet(type) {
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
-        if (checkMnemonic() === true) {
-            console.log("mnemonic is valid")
+        let checkValid = false;
+        switch (type) {
+            case "MNEMONIC":
+                checkValid = checkMnemonic();
+                break;
+            case "PRIVATE_KEY":
+                checkValid = checkPrivateKey();
+                break;
+            case "KEYSTORE":
+                break;
+        }
+        if (checkValid === true) {
             if (walletName === "") {
                 setWarningMessage("Please enter a wallet name");
             }
@@ -210,26 +277,49 @@ const ImportAccount = (props) => {
                     wallet: walletName,
                     password: passPhrase
                 }
-                walletService.fromMnemonic(mnemonic).then((result) => {
-                    let account = result;
-                    let obj = {
-                        account,
-                        credentials
-                    }
-                    walletService.createNewWallet(obj).then(() => {
-                        //console.log("data: ", obj);
-                        obj = null;
-                        setWalletName("");
-                        setPassphrase("");
-                        setRepeatPassphrase("");
-                        setResetKey(Math.random());
-                        ipcRenderer.send('open-main-window');
-                    }, (stderr) => {
-                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-                        log.error(stderr);
-                    });
+                switch (type) {
+                    case "MNEMONIC":
+                        walletService.fromMnemonic(mnemonic).then((result) => {
+                            let account = result;
+                            let obj = {
+                                account,
+                                credentials
+                            }
+                            walletService.createNewWallet(obj).then(() => {
+                                //console.log("data: ", obj);
+                                obj = null;
+                                setResetKey(Math.random());
+                                resetDefaults();
+                                ipcRenderer.send('open-main-window');
+                            }, (stderr) => {
+                                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                                log.error(stderr);
+                            });
 
-                });
+                        });
+                        break;
+                    case "PRIVATE_KEY":
+                        walletService.fromPrivateKey(privateKey).then((result) => {
+                            let account = result;
+                            let obj = {
+                                account,
+                                credentials
+                            }
+                            walletService.createNewWallet(obj).then(() => {
+                                //console.log("data: ", obj);
+                                obj = null;
+                                resetDefaults();
+                                setResetKey(Math.random());
+                                ipcRenderer.send('open-main-window');
+                            }, (stderr) => {
+                                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                                log.error(stderr);
+                            });
+                        });
+                        break;
+                    case "KEYSTORE":
+                        break;
+                }
             }
         }
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
@@ -255,6 +345,8 @@ const ImportAccount = (props) => {
             case "MNEMONIC":
                 setMnemonic(v);
                 break;
+            case "PRIVATEKEY":
+                setPrivateKey(v);
         }
     }
 
@@ -262,8 +354,10 @@ const ImportAccount = (props) => {
         setWalletName("");
         setMnemonic("");
         setPassphrase("");
+        setPrivateKey("");
         setRepeatPassphrase("");
         setResetMnemonic("");
+        setResetPrivateKey("");
         setResetKey(Math.random());
     }
 
@@ -302,6 +396,25 @@ const ImportAccount = (props) => {
             return false;
         }
         return true;
+    }
+
+    function checkPrivateKey() {
+        if (privateKey === "") {
+            //let error = await this.helper.getTranslate('MNEMONIC_EMPTY');
+            //this.mnemonicError = error
+            setWarningMessage("Please enter a private key");
+            return false;
+        }
+        if (privateKey.length !== 128) {
+            setWarningMessage("The length of PrivateKey must be 128");
+            return false;
+        }
+        if (!walletService.validatePrivate(privateKey)) {
+            setWarningMessage(_("Invalid private key"));
+            return false;
+        }
+        return true;
+
     }
 }
 export default ImportAccount;
