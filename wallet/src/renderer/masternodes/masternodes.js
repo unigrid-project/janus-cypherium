@@ -24,12 +24,12 @@ import { faNetworkWired, faChevronRight } from "@fortawesome/free-solid-svg-icon
 import NavEntry from "../naventry";
 
 library.add(faNetworkWired, faChevronRight);
-
+var _ = require('electron').remote.getGlobal('_');
 export default class Masternodes extends React.Component {
 	render() {
 		return (
 			<NavEntry>
-				<div className="menu-title">Masternodes</div>
+				<div className="menu-title">{_("Masternodes")}</div>
 				<div className="menu--icon"><FontAwesomeIcon size="sm" icon={faChevronRight} /></div>
 			</NavEntry>
 		);

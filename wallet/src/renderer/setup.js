@@ -27,12 +27,13 @@ import Store from "electron-store";
 import Config from "../common/config";
 import Button from "../common/components/Button";
 //import SetupControls from "../main/setup/SetupControls";
-import ImportAccount from "../common/components/ImportAccount";
-import CreateAccount from "../common/components/CreateAccount";
+import ImportAccount from "../common/setup/ImportAccount";
+import CreateAccount from "../common/setup/CreateAccount";
 
 const store = new Store();
 library.add(faSpinner, faTimes);
 
+var _ = require('electron').remote.getGlobal('_');
 
 function Setup(props) {
 	const [active, setActive] = useState();
@@ -42,7 +43,7 @@ function Setup(props) {
 	const [createClasses, setCreateClasses] = useState("create--container--start");
 	const [importState, setImportState] = useState(false);
 	const [createState, setCreateState] = useState(false);
-
+	const [renderKey, setRenderKey] = useState(Math.random());
 
 	//const setupControls = new SetupControls();
 	useEffect(() => {
@@ -54,14 +55,14 @@ function Setup(props) {
 	}, []);
 
 	return (
-		<div>
+		<div key={renderKey}>
 			<div className={setupClasses}
 				onAnimationEnd={onSetupAnimationEnd}
 				onAnimationStart={onSetupAnimationStart}>
 				<div className="setup">
 					<div >
 						<div>
-							<div className="fontRegularBold darkCopy">It appears this is the first time you are starting up the wallet. You can either create a new account or import from your keys.</div>
+							<div className="fontRegularBold darkCopy">{_("It appears this is the first time you are starting up the wallet. You can either create a new account or import from your keys.")}</div>
 						</div>
 					</div>
 					<div className="align--row">
@@ -71,7 +72,7 @@ function Setup(props) {
 									importAccount();
 								}}
 								buttonSize="btn--small"
-								buttonStyle="btn--blue--solid">Import</Button>
+								buttonStyle="btn--blue--solid">{_("Import")}</Button>
 						</div>
 						<div className="padding-ten">
 							<Button
@@ -79,8 +80,16 @@ function Setup(props) {
 									createAccount();
 								}}
 								buttonSize="btn--small"
-								buttonStyle="btn--blue--solid">Create</Button>
+								buttonStyle="btn--blue--solid">{_("Create")}</Button>
 						</div>
+						{/*<div className="padding-ten">
+							<Button
+								handleClick={() => {
+									testChangeLocale();
+								}}
+								buttonSize="btn--small"
+								buttonStyle="btn--blue--solid">Change</Button>
+							</div>*/}
 					</div>
 				</div>
 			</div>
@@ -92,6 +101,10 @@ function Setup(props) {
 			</div>
 		</div>
 	);
+
+	function testChangeLocale() {
+		
+	}
 
 	function onSetupAnimationStart() {
 		console.log("onAnimationStart");
@@ -106,7 +119,6 @@ function Setup(props) {
 			setImportState(false);
 		}
 	}
-
 
 	function importAccount() {
 		console.log("handle import");

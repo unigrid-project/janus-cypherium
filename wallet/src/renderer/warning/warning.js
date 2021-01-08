@@ -29,11 +29,13 @@ import Config from "../../common/config";
 const log = require('electron-log');
 
 library.add(faSpinner, faTimes);
+var _ = require('electron').remote.getGlobal('_');
+
 
 function Warning() {
 	const [message, setMessage] = useState();
 	const [version, setVersion] = useState();
-	const [urlLink, seetUrlLink] = useState();
+	const [urlLink, setUrlLink] = useState();
 	const [title, setTitle] = useState();
 	useEffect(() => {
 		ipcRenderer.on("warning-data", (event, data) => {
@@ -41,7 +43,7 @@ function Warning() {
 			setVersion(data.version);
 			setMessage(data.message);
 			setTitle(data.title);
-			seetUrlLink(Config.getGithubLink().concat("/releases/tag/v").concat(data.version));
+			setUrlLink(Config.getGithubLink().concat("/releases/tag/v").concat(data.version));
 		});
 	}, []);
 
@@ -61,15 +63,15 @@ function Warning() {
 					<Button
 						handleClick={() => updateWallet()}
 						buttonSize="btn--tiny"
-						buttonStyle="btn--success--solid">Update</Button>
+						buttonStyle="btn--success--solid">{_("Update")}</Button>
 					<Button
 						handleClick={() => openGitURL(urlLink)}
 						buttonSize="btn--tiny"
-						buttonStyle="btn--secondary--solid">Info</Button>
+						buttonStyle="btn--secondary--solid">{_("Info")}</Button>
 
 					<Button handleClick={() => onCancelPressed()}
 						buttonSize="btn--tiny"
-						buttonStyle="btn--danger--solid">Cancel</Button>
+						buttonStyle="btn--danger--solid">{_("Cancel")}</Button>
 				</div>
 			</div>
 

@@ -56,10 +56,46 @@ Sentry.init({
 
 var mainWindow;
 var warningWindow;
+var setupWindow;
 var isWarningOpen = false;
 var trackRejectUpdates = 0;
 var skipTimesAllocated = 20;
 const checkForUpdateTime = 180000;
+
+
+const fs = require('fs');
+const path = require('path');
+//let enPo = fs.readFileSync(path.join(__static, '/home/evan/work/Janus/wallet/locale/en/messages.po'));
+var gettext = require('electron-gettext');
+var _ = gettext.gettext;
+
+gettext.loadLanguageFile('locale/en/messages.po', 'en', (msg) => {
+	//setLocale()
+});
+gettext.loadLanguageFile('locale/sp/messages.po', 'sp', (msg) => {
+	setLocale()
+});
+const setLocale = () => {
+	if (Config.getLocale()) {
+		console.log(" Config.getLocale() ", Config.getLocale())
+		gettext.setlocale('LC_ALL', Config.getLocale());
+	} else {
+		console.log("en ", Config.getLocale())
+		gettext.setlocale('LC_ALL', 'en');
+	}
+	global._ = _;
+}
+
+ipcMain.on("change-locale", (event, msg) => {
+	console.log("Locale was changed to ", msg)
+	Config.setLocale(msg);
+	if (global.rpcPort != undefined) {
+		new RPCClient().stop();
+	}
+	app.relaunch();
+	app.quit();
+	//gettext.setlocale('LC_ALL', msg);
+});
 
 crashReporter.start({
 	productName: 'UNIGRID Wallet',
@@ -117,6 +153,7 @@ ipcMain.on("open-asteroids", () => {
 
 
 
+
 const defaultRPCPort = 51992;
 
 app.on("ready", () => {
@@ -150,18 +187,17 @@ app.on("ready", () => {
 							var setupController = new SetupController();
 							splashController.window.close();
 							setupController.window.webContents.on("did-finish-load", () => {
-								ipcMain.on("open-main-window", (event, data) => {
-
-									let accArr = [data];
-									store.set('account', accArr);
-
+								ipcMain.on("open-main-window", () => {
+									//let accArr = [data];
+									//store.set('account', accArr);
 									var mainController = new MainController();
 									mainWindow = mainController.window;
 									manuallyCheckForUpdates(mainWindow);
 									setupController.window.close();
 								});
+
 								log.info("Loaded account setup window");
-							});
+							})
 						});
 					}, (stderr) => {
 						splashController.window.webContents.send("fatal-error", stderr.toString());

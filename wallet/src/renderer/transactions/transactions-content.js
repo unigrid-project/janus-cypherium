@@ -30,7 +30,8 @@ import lodash from "lodash";
 import { ipcRenderer, remote } from "electron";
 import InfiniteLoadWrapper from "../../common/components/InfiniteLoadWrapper";
 
- 
+var _ = require('electron').remote.getGlobal('_');
+
 function TransactionsContent(props) {
 	const [transactions, setTransactions] = useState({});
 	const scroll = useRef(null);
@@ -88,7 +89,7 @@ function TransactionsContent(props) {
 			<div className="transaction--container transaction--top--item" ref={transactionContainer}>
 				<div className="align--row--space-between transaction--padding">
 					<Button handleClick={exportToCSV} buttonSize="btn--small">
-						Export CSV
+						{_("Export CSV")}
 					</Button>
 					<div className="scroll--nav--buttons align--row--flexstart">
 						<div className="chevron address--item">

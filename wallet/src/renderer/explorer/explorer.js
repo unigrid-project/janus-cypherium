@@ -24,11 +24,12 @@ import { faCompass } from "@fortawesome/free-solid-svg-icons";
 import NavEntry from "../naventry";
 
 library.add(faCompass);
+var _ = require('electron').remote.getGlobal('_');
 
 export default class Explorer extends React.Component {
 	render() {
 		return(
-			<NavEntry><FontAwesomeIcon size="sm" icon="compass"/>Explorer</NavEntry>
+			<NavEntry><FontAwesomeIcon size="sm" icon="compass"/>{_("Explorer")}</NavEntry>
 		);
 	}
 }

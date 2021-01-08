@@ -25,8 +25,10 @@ import SendInputs from "./SendInputs";
 import lodash from "lodash";
 import Store from "electron-store";
 import { sendDesktopNotification } from "./DesktopNotifications";
+import Config from "../config";
 
 const store = new Store();
+var _ = require('electron').remote.getGlobal('_');
 
 function Send() {
     const [recipients, setRecipients] = useState({ "address1": { "address": "", "amount": "", "isValid": false } });
@@ -35,6 +37,8 @@ function Send() {
     const [disableSendBtn, setDisableSendButton] = useState(true);
     const [sendBtnKey, setSendButtonKey] = useState(1);
 
+    const copy1 = _("Successfully sent");
+    const copy2 = _("to");
     useEffect(() => {
         setSendButtonKey(Math.random());
         console.log("button state changed ", disableSendBtn)
@@ -68,11 +72,11 @@ function Send() {
                     buttonStyle="btn--secondary--solid"
                     buttonSize="btn--small"
                     disabled={disableSendBtn}
-                    handleClick={() => checkForLockedWallet()}>SEND</Button>
+                    handleClick={() => checkForLockedWallet()}>{_("SEND")}</Button>
                 <Button
                     buttonStyle="btn--secondary--solid"
                     buttonSize="btn--small"
-                    handleClick={() => onCancelPressed()}>CANCEL</Button>
+                    handleClick={() => onCancelPressed()}>{_("CANCEL")}</Button>
             </div>
         </div>
     )
@@ -126,7 +130,7 @@ function Send() {
                     console.log('send response: ', response[0]);
                     workCompleted();
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "cancel-send-operation");
-                    sendDesktopNotification(`Successfully sent ${amount} UGD to ${address}`);
+                    sendDesktopNotification(`${copy1} ${amount} ${Config.getProjectTicker} ${copy2} ${address}`);
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
                     setRecipients({ "address1": { "address": "", "amount": "", "isValid": false } });
@@ -154,7 +158,7 @@ function Send() {
 
 
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "cancel-send-operation");
-                sendDesktopNotification(`Successfully sent to many`);
+                sendDesktopNotification(_("Successfully sent to many"));
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
 
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");

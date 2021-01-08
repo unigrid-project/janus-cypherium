@@ -84,11 +84,19 @@ export default class Config {
         }
     }
 
-    static getAccount() {
-        return store.get('account');
+    static setLocale(locale) {
+        store.set('locale', locale);
     }
 
-    static getEnvironment(){
+    static getLocale() {
+        return store.get('locale');
+    }
+
+    static getAccount() {
+        return store.get('walletList');
+    }
+
+    static getEnvironment() {
         return this.getStore().environment;
     }
 
@@ -160,7 +168,7 @@ export default class Config {
         return this.getStore().userModelId;
     }
 
-    static getShowWidget(){
+    static getShowWidget() {
         return this.getStore().showWidget;
     }
 

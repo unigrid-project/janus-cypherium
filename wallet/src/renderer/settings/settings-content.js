@@ -35,8 +35,13 @@ import Config from "../../common/config";
 const log = require('electron-log');
 const packageJSON = require('../../../package.json');
 const store = new Store();
+var _ = require('electron').remote.getGlobal('_');
 
 function SettingsContent(props) {
+	const confirmCpy = _("Confirm");
+	const cancelCpy = _("Cancel");
+	const dumpCpy = _("Dump wallet for");
+	const backupCpy = _("Backup wallet.dat for");
 	const [isEncrypted, setIsEncrypted] = useState(false);
 	const [openEncrypt, setOpenEncrypt] = useState(false);
 	const [openCombine, setOpenCombine] = useState(false);
@@ -79,13 +84,13 @@ function SettingsContent(props) {
 		<Content id="settings">
 			{renderVersionNumber()}
 			<div className="main--settings-container" >
-				<div>Settings</div>
+				<div>{_("Settings")}</div>
 				<Button
 					key={encryptKey}
 					handleClick={() => setOpenEncrypt(!openEncrypt)}
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
-					disabled={isEncrypted}>Encrypt Wallet</Button>
+					disabled={isEncrypted}>{_("Encrypt Wallet")}</Button>
 				<div>
 					{renderEncryptWallet()}
 				</div>
@@ -95,45 +100,37 @@ function SettingsContent(props) {
 				<Button
 					handleClick={() => setOpenCombine(!openCombine)}
 					buttonSize="btn--tiny"
-					buttonStyle="btn--secondary--solid"
-				>Combine Rewards</Button>
+					buttonStyle="btn--secondary--solid">{_("Combine Rewards")}</Button>
 				<div>
 					{renderCombine()}
 				</div>
 				<Button
 					handleClick={() => setOpenStakeSplit(!openStakeSplit)}
 					buttonSize="btn--tiny"
-					buttonStyle="btn--secondary--solid"
-				>Stake Split Threshold</Button>
+					buttonStyle="btn--secondary--solid">{_("Stake Split Threshold")}</Button>
 				<div>
 					{renderStakeSplit()}
 				</div>
 				<Button
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
-					handleClick={() => openSaveDialog("BACKUP")}
-				>Backup Wallet</Button>
+					handleClick={() => openSaveDialog("BACKUP")}>{_("Backup Wallet")}</Button>
 				<Button
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
-					handleClick={() => checkIfEncrypted("unlockfordump")}
-				>Dump Wallet</Button>
+					handleClick={() => checkIfEncrypted("unlockfordump")}>{_("Dump Wallet")}</Button>
 				<Button
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
-					handleClick={() => importKeys()}
-				>Import Wallet</Button>
+					handleClick={() => importKeys()}>{_("Import Wallet")}</Button>
 				<Button
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
-					handleClick={() => openConfFile(Config.getConfFile())}
-
-				>Open Configuration</Button>
+					handleClick={() => openConfFile(Config.getConfFile())}>{_("Open Config")}</Button>
 				<Button
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
-					handleClick={() => openConfFile(Config.getMasternodeFile())}
-				>Open Masternode Configuration</Button>
+					handleClick={() => openConfFile(Config.getMasternodeFile())}>{_("Open Masternode Config")}</Button>
 			</div>
 		</Content>
 	);
@@ -146,7 +143,7 @@ function SettingsContent(props) {
 	}
 	async function submitEncryptWallet() {
 		if (passphrase !== repeatPassphrase) {
-			setWarningMessage("Passphrases do not match!");
+			setWarningMessage(_("Passphrases do not match!"));
 			setRepeatPassphrase("");
 			setPassphrase("");
 			setPassKey(Math.random());
@@ -180,19 +177,19 @@ function SettingsContent(props) {
 		return (
 			<Expand open={openEncrypt}>
 				<div className="input--container" key={passKey}>
-					<div>Enter a passphrase for the wallet.</div>
-					<div>Please use a passphrase of 10 or more random characters or a minimum of 8 random words.</div>
-					<div>After confirming your wallet will be encrypted then auto restarted.</div>
+					<div>{_("Enter a passphrase for the wallet.")}</div>
+					<div>{_("Please use a passphrase of 10 or more random characters or a minimum of 8 random words.")}</div>
+					<div>{_("After confirming your wallet will be encrypted then auto restarted.")}</div>
 					<div className="input--fields">
 						<EnterField
-							placeHolder="Passphrase"
+							placeHolder={_("Passphrase")}
 							type={"password"}
 							clearField={passphrase}
 							myStyle={"medium--input"}
 							updateEntry={(v) => setPassphrase(v)} />
 						<EnterField
 							key={repeatKey}
-							placeHolder="Repeat Passphrase"
+							placeHolder={_("Repeat Passphrase")}
 							type={"password"}
 							clearField={repeatPassphrase}
 							myStyle={"medium--input"}
@@ -203,12 +200,12 @@ function SettingsContent(props) {
 							disabled={encryptingWallet}
 							handleClick={() => submitEncryptWallet()}
 							buttonSize="btn--tiny"
-							buttonStyle="btn--success--solid">Confirm</Button>
+							buttonStyle="btn--success--solid">{confirmCpy}</Button>
 						<Button
 							disabled={encryptingWallet}
 							handleClick={() => setOpenEncrypt(!openEncrypt)}
 							buttonSize="btn--tiny"
-							buttonStyle="btn--warning--solid">Cancel</Button>
+							buttonStyle="btn--warning--solid">{cancelCpy}</Button>
 						{warningMessage !== "" ? renderWarning() : null}
 					</div>
 				</div>
@@ -221,15 +218,14 @@ function SettingsContent(props) {
 		return (
 			<Expand open={openCombine}>
 				<div className="input--container" key={passKey}>
-					<div>Enter a threshold amount.</div>
+					<div>{_("Enter a threshold amount.")}</div>
 					<br />
-					<div>The wallet will automatically monitor for any coins with a value below the threshold amount,
-						and combine them if they reside within the same address.</div>
+					<div>{_("The wallet will automatically monitor for any coins with a value below the threshold amount,	and combine them if they reside within the same address.")}</div>
 					<br />
-					<div>When combine rewards runs it will create a transaction, and therefore will be subject to transaction fees.</div>
+					<div>{_("When combine rewards runs it will create a transaction, and therefore will be subject to transaction fees.")}</div>
 					<div className="input--fields">
 						<EnterField
-							placeHolder="Threshold amount"
+							placeHolder={_("Threshold amount")}
 							type={"number"}
 							clearField={passphrase}
 							myStyle={"smallInput"}
@@ -239,11 +235,11 @@ function SettingsContent(props) {
 						<Button
 							handleClick={() => submitCombineAmount()}
 							buttonSize="btn--tiny"
-							buttonStyle="btn--success--solid">Confirm</Button>
+							buttonStyle="btn--success--solid">{confirmCpy}</Button>
 						<Button
 							handleClick={() => setOpenCombine(!openCombine)}
 							buttonSize="btn--tiny"
-							buttonStyle="btn--warning--solid">Cancel</Button>
+							buttonStyle="btn--warning--solid">{cancelCpy}</Button>
 						{warningMessage !== "" ? renderWarning() : null}
 					</div>
 				</div>
@@ -276,14 +272,14 @@ function SettingsContent(props) {
 						<Button
 							handleClick={() => checkIfEncrypted("unlockforsplit")}
 							buttonSize="btn--tiny"
-							buttonStyle="btn--success--solid">Confirm</Button>
+							buttonStyle="btn--success--solid">{confirmCpy}</Button>
 						<Button
 							handleClick={() => {
 								//setStakeSplitThreshold("");
 								setOpenStakeSplit(!openStakeSplit)
 							}}
 							buttonSize="btn--tiny"
-							buttonStyle="btn--warning--solid">Cancel</Button>
+							buttonStyle="btn--warning--solid">{cancelCpy}</Button>
 						{warningMessage !== "" ? renderWarning() : null}
 					</div>
 				</div>
@@ -297,11 +293,11 @@ function SettingsContent(props) {
 		let defaultName = "";
 		switch (cmd) {
 			case "DUMP":
-				title = `Dump wallet for ${Config.getProjectName()}`;
+				title = `${dumpCpy} ${Config.getProjectName()}`;
 				defaultName = "wallet-dump.txt";
 				break;
 			case "BACKUP":
-				title = `Backup wallet.dat for ${Config.getProjectName()}`;
+				title = `${backupCpy} ${Config.getProjectName()}`;
 				defaultName = "wallet-backup.dat";
 				break;
 			default:
@@ -327,7 +323,7 @@ function SettingsContent(props) {
 						new Promise(resolve => setTimeout(resolve, 500))
 					]).then((response) => {
 						console.log("local directory: ", response);
-						sendDesktopNotification("Saved backup of wallet.dat");
+						sendDesktopNotification(_("Saved backup of wallet.dat"));
 					}, (stderr) => {
 						console.error(stderr);
 					});
@@ -337,7 +333,7 @@ function SettingsContent(props) {
 						new Promise(resolve => setTimeout(resolve, 500))
 					]).then((response) => {
 						console.log("dump wallet ", response)
-						sendDesktopNotification("Successfuly dumped private keys");
+						sendDesktopNotification(_("Successfuly dumped private keys"));
 					}, (stderr) => {
 						console.error(stderr);
 					});
@@ -350,7 +346,7 @@ function SettingsContent(props) {
 	function checkIfEncrypted(check) {
 		//setDisableDumpButton(true);
 		if (check === "unlockforsplit" && !stakeSplitThreshold) {
-			setWarningMessage("Please enter a stake split amount!");
+			setWarningMessage(_("Please enter a stake split amount!"));
 			return;
 		}
 
@@ -400,7 +396,7 @@ function SettingsContent(props) {
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
 			console.log("combine rewards: ", response[0]);
-			sendDesktopNotification("Combine rewards enabled");
+			sendDesktopNotification(_("Combine rewards enabled"));
 			setOpenCombine(!openCombine);
 		}, (stderr) => {
 			console.error(stderr);
@@ -409,7 +405,7 @@ function SettingsContent(props) {
 
 	async function importKeys() {
 		const options = {
-			title: "Import wallet .txt",
+			title: _("Import wallet .txt"),
 		};
 		remote.dialog.showOpenDialog(null, options, {})
 			.then(result => {
@@ -422,7 +418,7 @@ function SettingsContent(props) {
 					new Promise(resolve => setTimeout(resolve, 500))
 				]).then((response) => {
 					console.log("import result: ", response);
-					sendDesktopNotification("Successfuly imported private keys");
+					sendDesktopNotification(_("Successfuly imported private keys"));
 					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
 					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
 				}, (stderr) => {

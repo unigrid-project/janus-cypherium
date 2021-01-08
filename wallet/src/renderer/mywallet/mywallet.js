@@ -24,12 +24,12 @@ import { faWallet, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import NavEntry from "../naventry";
 
 library.add(faWallet, faChevronRight);
-
+var _ = require('electron').remote.getGlobal('_');
 export default class MyWallet extends React.Component {
 	render() {
 		return (
 			<NavEntry>
-				<div className="menu-title">Wallet</div>
+				<div className="menu-title">{_("Wallet")}</div>
 				<div className="menu--icon"><FontAwesomeIcon size="sm" icon={faChevronRight} /></div>
 			</NavEntry >
 		);

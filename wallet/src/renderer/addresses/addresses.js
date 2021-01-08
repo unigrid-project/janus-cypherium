@@ -24,12 +24,13 @@ import { faAddressBook, faChevronRight } from "@fortawesome/free-solid-svg-icons
 import NavEntry from "../naventry";
 
 library.add(faAddressBook, faChevronRight);
+var _ = require('electron').remote.getGlobal('_');
 
 export default class Addresses extends React.Component {
 	render() {
 		return (
 			<NavEntry>
-				<div className="menu-title">Addresses</div>
+				<div className="menu-title">{_("Addresses")}</div>
 				<div className="menu--icon"><FontAwesomeIcon size="sm" icon={faChevronRight} /></div>
 			</NavEntry>
 		);

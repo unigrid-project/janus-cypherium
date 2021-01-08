@@ -39,6 +39,8 @@ import Config from "../../common/config.js";
 import NodeClient from '../../common/node-client';
 import { WalletService } from "../../common/walletutils/WalletService.js";
 
+var _ = require('electron').remote.getGlobal('_');
+
 const log = require('electron-log');
 const walletService = new WalletService();
 function MyWalletContent(props) {
@@ -51,6 +53,7 @@ function MyWalletContent(props) {
 	const [selectedCurrency, setSelectedCurrency] = useState({ value: currency, label: currency, rate: 0 });
 	const [transactions, setTransactions] = useState();
 	const [sendKey, setSendKey] = useState();
+	const [renderKey, setRenderKey] = useState(Math.random());
 	const [sendState, setSendState] = useState(false);
 	const [mnemonic, setMnemonic] = useState("");
 	const [privateKey, setprivateKey] = useState("");
@@ -59,7 +62,7 @@ function MyWalletContent(props) {
 	useEffect(() => {
 		// testing mini-breakpad crash reports
 		//process.crash();
-		//nodeClient.subscribeToBlocks();
+		nodeClient.subscribeToBlocks();
 		nodeClient.start();
 		if (Config.getIsDaemonLocal())
 			getDataLocal();
@@ -82,7 +85,7 @@ function MyWalletContent(props) {
 	}, []);
 
 	return (
-		<Content id="mywallet" className="allow-scroll" active={props.active}>
+		<Content key={renderKey} id="mywallet" className="allow-scroll" active={props.active}>
 			{renderWidget()}
 			<div>
 				<div>
@@ -92,7 +95,7 @@ function MyWalletContent(props) {
 							<Button
 								buttonStyle="btn--secondary--solid"
 								handleClick={() => onSendClicked()}
-								buttonSize="btn--small">Send</Button>
+								buttonSize="btn--small">{_("SEND")}</Button>
 
 						</div>
 					</div>
@@ -179,15 +182,19 @@ function MyWalletContent(props) {
 
 	function testFromPrivateKey() {
 		const block = nodeClient.checkBlock();
+		console.log("block: ", nodeClient.getBlockHeight())
 		log.info("block: ", block);
 	}
 
 	function clearAccounts() {
-		store.delete('account');
+		store.delete('walletList');
 	}
 
 	function showAccounts() {
-		console.log("account: ", store.get('account'));
+
+		//setRenderKey(Math.random());
+		console.log("walletList: ", store.get('walletList'));
+		//ipcRenderer.send("wallet-restart");
 	}
 
 	function cancelSendOperation() {

@@ -32,6 +32,7 @@ import { ipcRenderer, remote, clipboard } from "electron";
 import CreateMasternode from "../../common/components/CreateMasternode";
 
 const store = new Store();
+var _ = require('electron').remote.getGlobal('_');
 
 function MasternodesContent(props) {
 	const [masternodeList, setMasternodeList] = useState({});
@@ -71,10 +72,10 @@ function MasternodesContent(props) {
 	return (
 		<Content id="masternodes">
 			<div className="topButtons">
-				<Button handleClick={() => getMasternodeList()} buttonSize="btn--small">REFRESH</Button >
-				<Button handleClick={() => checkIfEncryptedStart("MISSING", null)} buttonSize="btn--small">START MISSING</Button >
-				<Button handleClick={() => checkIfEncryptedStart("STARTALL", null)} buttonSize="btn--small">START ALL</Button >
-				<Button handleClick={() => setShowCreateMasternode(true)} buttonSize="btn--small">CREATE</Button >
+				<Button handleClick={() => getMasternodeList()} buttonSize="btn--small">{_("REFRESH")}</Button >
+				<Button handleClick={() => checkIfEncryptedStart("MISSING", null)} buttonSize="btn--small">{_("START MISSING")}</Button >
+				<Button handleClick={() => checkIfEncryptedStart("STARTALL", null)} buttonSize="btn--small">{_("START ALL")}</Button >
+				<Button handleClick={() => setShowCreateMasternode(true)} buttonSize="btn--small">{_("CREATE")}</Button >
 			</div>
 
 			<CreateMasternode isVisible={showCreateMasternode} copyScript={(v) => copyToClipboard(v)}
@@ -102,7 +103,7 @@ function MasternodesContent(props) {
 	function copyToClipboard(v) {
 		clipboard.writeText(v, 'clipboard')
 		console.log(clipboard.readText('clipboard'))
-		sendDesktopNotification(`${v} copied to clipboard`);
+		sendDesktopNotification(`${v} ${_("copied to clipboard")}`);
 	}
 
 	async function debugMasternode() {
