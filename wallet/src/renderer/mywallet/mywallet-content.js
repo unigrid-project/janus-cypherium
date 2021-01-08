@@ -38,16 +38,19 @@ import Send from "../../common/components/Send";
 import Config from "../../common/config.js";
 import NodeClient from '../../common/node-client';
 import { WalletService } from "../../common/walletutils/WalletService.js";
+import EnterField from "../../common/components/EnterField.js";
 
 var _ = require('electron').remote.getGlobal('_');
 
 const log = require('electron-log');
 const walletService = new WalletService();
+const nodeClient = new NodeClient(Config.getNodeInfo());
+const store = new Store();
+const testETHmnemonic = "enjoy pole often floor fun museum miracle salon ripple pool injury invite";
+const currency = store.get("currency", "usd");
+
 function MyWalletContent(props) {
-	const testETHmnemonic = "enjoy pole often floor fun museum miracle salon ripple pool injury invite";
-	const store = new Store();
-	const nodeClient = new NodeClient(Config.getNodeInfo());
-	const currency = store.get("currency", "usd");
+
 	const [balance, setBalance] = useState(0);
 	const [currencies, setCurrencies] = useState([]);
 	const [selectedCurrency, setSelectedCurrency] = useState({ value: currency, label: currency, rate: 0 });
@@ -59,6 +62,9 @@ function MyWalletContent(props) {
 	const [privateKey, setprivateKey] = useState("");
 	const [transactionClasses, setTransactionClasses] = useState("transaction--container--start");
 	const [sendClasses, setSendClasses] = useState("send--container--start");
+	const [passwordEntry, setpasswordEntry] = useState("");
+	const [clearPassword, setClearPassword] = useState("");
+	const [renderPWkey, setRenderPWKey] = useState(Math.random());
 	useEffect(() => {
 		// testing mini-breakpad crash reports
 		//process.crash();
@@ -139,8 +145,24 @@ function MyWalletContent(props) {
 								buttonSize="btn--small">Show Accounts</Button>
 						</div>
 					</div>
-				}
 
+				}
+				<div className="currency--send">
+					<div className="btn--send">
+						<EnterField
+							key={renderPWkey}
+							type={"password"}
+							clearField={clearPassword}
+							myStyle={"medium--input"}
+							placeHolder="Enter Password"
+							updateEntry={(v) => setpasswordEntry(v)}
+						/>
+						<Button
+							buttonStyle="btn--secondary--solid"
+							handleClick={() => testDecrypt()}
+							buttonSize="btn--small">Test Decrypt</Button>
+					</div>
+				</div>
 				<div className={transactionClasses}
 					onAnimationEnd={onTransactionAnimationEnd}
 					onAnimationStart={onTransactionAnimationStart}>
@@ -188,10 +210,39 @@ function MyWalletContent(props) {
 
 	function clearAccounts() {
 		store.delete('walletList');
+		ipcRenderer.send('wallet-restart');
+	}
+
+	function testDecrypt() {
+		setClearPassword("");
+		setRenderPWKey(Math.random());
+		// create hash from password
+		const hashedPassword = walletService.createHashFromKey(passwordEntry);
+		// get local store accounts
+		const walletList = store.get("walletList");
+		const storedPassword = walletList[0].password;
+		// checksum on both hashed password and stored hashed pw to see if they match
+		if (walletService.checksum(hashedPassword) === walletService.checksum(storedPassword)) {
+			console.log("Password matches!");
+			walletService.decryptData(passwordEntry, walletList[0].privateKey).then((result) => {
+				console.log("decrypted key: ", result)
+			})
+			setpasswordEntry("");
+		} else {
+			console.log("Password does not match!")
+			setpasswordEntry("");
+		}
+		// if match then decrypt
+		console.log("password", clearPassword);
+	}
+
+	function updatedPassword(v) {
+		console.log("calling node client again")
+		setpasswordEntry(v);
+		//setClearPassword(v);
 	}
 
 	function showAccounts() {
-
 		//setRenderKey(Math.random());
 		console.log("walletList: ", store.get('walletList'));
 		//ipcRenderer.send("wallet-restart");
