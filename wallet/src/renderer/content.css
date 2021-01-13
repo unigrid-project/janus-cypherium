@@ -132,19 +132,3 @@ div.select .select__menu-list>div:hover {
 	background-color: #222;
 	border: 3px solid var(--select--background);
 }
-
-::-webkit-scrollbar {
-	border-radius: 2px;
-	background-color: #171717;
-	width: 6px;
-	height: 6px;
-}
-
-::-webkit-scrollbar-thumb {
-	border-radius: 2px;
-	background-color: var(--scroll--bar);
-}
-
-::-webkit-scrollbar-corner {
-	background-color: #171717;
-}
