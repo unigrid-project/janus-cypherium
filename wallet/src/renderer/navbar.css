@@ -18,7 +18,7 @@
  */
 
 nav {
-    min-width: fit-content;
+    min-width: 135px;
     background-color: var(--navbar--background);
 }
 

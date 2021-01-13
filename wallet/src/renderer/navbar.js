@@ -28,6 +28,8 @@ import BlockInfo from "./blockinfo/blockinfo.js";
 import Masternodes from "./masternodes/masternodes.js";
 //import TransactionsTest from "./transactions/transactions-test.js";
 import Config from "../common/config.js";
+import CreateAccountButton from "../common/components/CreateAccountButton.js";
+import UnlockWallet from "../common/components/UnlockWallet.js";
 
 export default class NavBar extends React.Component {
 	render() {
@@ -41,11 +43,11 @@ export default class NavBar extends React.Component {
 					{/*<TransactionsTest key="test-transactions" />*/}
 				</ul>
 				<ul className="settings--container" >
-					<Settings key="settings" className="button"/>
-					<CLI key="cli" className="button"/>
+					<Settings key="settings" className="button" />
+					{Config.isDaemonBased() ? <CLI key="cli" className="button" /> : null}
 				</ul>
 				<ul>
-					{Config.getIsDaemonLocal() ? <BlockInfo className="blockInfo" /> : null}
+					{Config.isDaemonBased() ? <BlockInfo className="blockInfo" /> : <UnlockWallet isChecked={false} />}
 				</ul>
 			</nav>
 		);
