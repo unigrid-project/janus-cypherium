@@ -59,7 +59,6 @@ const CreateAccount = (props) => {
             setButtonDisabled(false);
         }
         console.log("disabled? ", buttonDisabled);
-
     }, [warningMessage]);
 
     useEffect(() => {
@@ -315,12 +314,12 @@ const CreateAccount = (props) => {
                     account,
                     credentials
                 }
-                walletService.createNewWallet(obj).then(() => {
+                walletService.createNewWallet(obj).then((account) => {
                     //console.log("data: ", obj);
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "handle-wallet-creation", account);
                     obj = null;
                     resetDefaults();
                     setResetKey(Math.random());
-                    ipcRenderer.send('open-main-window');
                 }, (stderr) => {
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
                     log.error(stderr);
