@@ -26,21 +26,25 @@ import EnterField from "../components/EnterField";
 import Button from "../components/Button";
 import WarningMessage from "../components/WarningMessage";
 import { WalletService } from "../walletutils/WalletService";
+import NodeClient from "../node-client";
+import Config from "../config";
 
 var _ = require('electron').remote.getGlobal('_');
 const log = require('electron-log');
 const walletService = new WalletService();
 const enterMnemonicCopy = _("Please enter your mnemonics in original order, seperated by spaces.");
 const privateKeyCopy = _("Please enter your private key.");
+const testingCopy = _("Please enter any address to create a testing account. Preferably use one with many transactions.");
 const enterWalletName = _("Wallet Name");
 const enterPassword = _("Password");
 const repeatPassword = _("Repeat Password");
+const nodeClient = new NodeClient(Config.getNodeInfo());
 
 const ImportAccount = (props) => {
     const [selections, setSelections] = useState([
         { name: _("mnemonic"), selected: true, key: 0 },
         { name: _("private key"), selected: false, key: 1 },
-        { name: _("keystore"), selected: false, key: 2 }
+        { name: _("testing"), selected: false, key: 2 }
     ]);
     const [warningMessage, setWarningMessage] = useState("");
     const [walletName, setWalletName] = useState("");
@@ -52,6 +56,7 @@ const ImportAccount = (props) => {
     const [repeatPassphrase, setRepeatPassphrase] = useState("");
     const [resetKey, setResetKey] = useState(Math.random());
     const [buttonDisabled, setButtonDisabled] = useState(false);
+    const [addressEntered, setAddressEntered] = useState("");
 
     useEffect(() => {
         if (warningMessage !== "") {
@@ -107,9 +112,7 @@ const ImportAccount = (props) => {
                         :
                         null}
                     {selections[2].selected ?
-                        <div className="import--box--style">
-                            keystore
-             </div>
+                        renderTestingConainer()
                         :
                         null}
                 </div>
@@ -249,7 +252,47 @@ const ImportAccount = (props) => {
         )
     }
 
-    function importWallet(type) {
+    function renderTestingConainer() {
+        return (
+            <div className="import--box--style">
+                <div className="fontTiny darkCopy padding--top--left">
+                    {testingCopy}
+                </div>
+
+                <EnterField
+                    type="text"
+                    updateEntry={(v) => updateInput(v, "TESTING")}
+                    myStyle="mnemonic--import"
+                    clearField={resetPrivateKey}
+                    disabled={false}
+                />
+                <div className="padding--top--five">
+                    <div className="fontTiny darkCopy padding--top--left">{enterWalletName}</div>
+                    <EnterField
+                        type="text"
+                        updateEntry={(v) => updateInput(v, "WALLET")}
+                        myStyle={"small--input margin--left"}
+                        placeHolder={enterWalletName}
+                        clearField={walletName}
+                    />
+                </div>
+
+                <div className="padding--top--five align--row--flexend padding--right--twenty ">
+                    <Button
+                        handleClick={() => {
+                            importWallet("TESTING");
+                        }}
+                        disabled={buttonDisabled}
+                        buttonSize="btn--small"
+                        buttonStyle="btn--blue--solid">{_("Import")}</Button>
+                </div>
+                {warningMessage !== "" ? renderWarning() : null}
+            </div>
+        )
+    }
+
+
+    async function importWallet(type) {
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
         let checkValid = false;
         switch (type) {
@@ -259,66 +302,92 @@ const ImportAccount = (props) => {
             case "PRIVATE_KEY":
                 checkValid = checkPrivateKey();
                 break;
-            case "KEYSTORE":
+            case "TESTING":
+                await checkAddress().then((r) => {
+                    checkValid = r;
+                });
                 break;
         }
-        if (checkValid === true) {
-            if (walletName === "") {
-                setWarningMessage("Please enter a wallet name");
-            }
-            else if (passPhrase == "") {
-                setWarningMessage("Please enter a password");
-            }
-            else if (passPhrase !== repeatPassphrase) {
-                setWarningMessage("Passwords do not match");
-            }
-            else {
-                let credentials = {
-                    wallet: walletName,
-                    password: passPhrase
-                }
-                switch (type) {
-                    case "MNEMONIC":
-                        walletService.fromMnemonic(mnemonic).then((result) => {
-                            let account = result;
-                            let obj = {
-                                account,
-                                credentials
-                            }
-                            walletService.createNewWallet(obj).then(() => {
-                                //console.log("data: ", obj);
-                                obj = null;
-                                setResetKey(Math.random());
-                                resetDefaults();
-                                ipcRenderer.send('open-main-window');
-                            }, (stderr) => {
-                                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-                                log.error(stderr);
-                            });
 
-                        });
-                        break;
-                    case "PRIVATE_KEY":
-                        walletService.fromPrivateKey(privateKey).then((result) => {
-                            let account = result;
+        if (checkValid === true) {
+            if (checkWalletName()) {
+                if (passPhrase == "" && type !== 'TESTING') {
+                    setWarningMessage("Please enter a password");
+                }
+                else if (passPhrase !== repeatPassphrase && type !== 'TESTING') {
+                    setWarningMessage("Passwords do not match");
+                }
+                else {
+                    let credentials = {
+                        wallet: walletName,
+                        password: passPhrase
+                    }
+                    switch (type) {
+                        case "MNEMONIC":
+                            walletService.fromMnemonic(mnemonic).then((result) => {
+                                let account = result;
+                                let obj = {
+                                    account,
+                                    credentials
+                                }
+                                walletService.createNewWallet(obj).then((account) => {
+                                    //console.log("data: ", obj);
+                                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "handle-wallet-creation", account);
+                                    obj = null;
+                                    resetDefaults();
+                                    setResetKey(Math.random());
+                                }, (stderr) => {
+                                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                                    log.error(stderr);
+                                });
+
+                            });
+                            break;
+                        case "PRIVATE_KEY":
+                            walletService.fromPrivateKey(privateKey).then((result) => {
+                                let account = result;
+                                let obj = {
+                                    account,
+                                    credentials
+                                }
+                                walletService.createNewWallet(obj).then((account) => {
+                                    //console.log("data: ", obj);
+                                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "handle-wallet-creation", account);
+                                    obj = null;
+                                    resetDefaults();
+                                    setResetKey(Math.random());
+
+                                }, (stderr) => {
+                                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                                    log.error(stderr);
+                                });
+                            });
+                            break;
+                        case "TESTING":
                             let obj = {
-                                account,
-                                credentials
+                                account: {
+                                    privateKey: "CDA6FE7C1CBB7B50BE779A04432B6EBT1F1494D3C8252C4D34164791D3AFF6E72BF2D489606F6805905CBABF3341C3714B1D6DC7AABFA80DA268C3BAC05F88549",
+                                    address: addressEntered,
+                                    publicKey: "BF2D489606F6805905CBABF3341C3514B1D6DC7AABFA80DA368C3B6C05F88549"
+                                },
+                                credentials: {
+                                    password: "1234",
+                                    wallet: walletName
+                                }
                             }
-                            walletService.createNewWallet(obj).then(() => {
-                                //console.log("data: ", obj);
+
+                            walletService.createNewWallet(obj).then((account) => {
+                                console.log("created new wallet: ", obj);
+                                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "handle-wallet-creation", account);
                                 obj = null;
                                 resetDefaults();
                                 setResetKey(Math.random());
-                                ipcRenderer.send('open-main-window');
                             }, (stderr) => {
                                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
                                 log.error(stderr);
                             });
-                        });
-                        break;
-                    case "KEYSTORE":
-                        break;
+                            break;
+                    }
                 }
             }
         }
@@ -347,6 +416,8 @@ const ImportAccount = (props) => {
                 break;
             case "PRIVATEKEY":
                 setPrivateKey(v);
+            case "TESTING":
+                setAddressEntered(v);
         }
     }
 
@@ -378,7 +449,7 @@ const ImportAccount = (props) => {
         if (mnemonic === "") {
             //let error = await this.helper.getTranslate('MNEMONIC_EMPTY');
             //this.mnemonicError = error
-            setWarningMessage("Please enter a mnemonic");
+            setWarningMessage(_("Please enter a mnemonic"));
             return false;
         }
 
@@ -402,11 +473,11 @@ const ImportAccount = (props) => {
         if (privateKey === "") {
             //let error = await this.helper.getTranslate('MNEMONIC_EMPTY');
             //this.mnemonicError = error
-            setWarningMessage("Please enter a private key");
+            setWarningMessage(_("Please enter a private key"));
             return false;
         }
         if (privateKey.length !== 128) {
-            setWarningMessage("The length of PrivateKey must be 128");
+            setWarningMessage(_("The length of PrivateKey must be 128"));
             return false;
         }
         if (!walletService.validatePrivate(privateKey)) {
@@ -415,6 +486,42 @@ const ImportAccount = (props) => {
         }
         return true;
 
+    }
+
+    function checkWalletName() {
+        const accounts = Config.getAccount();
+        if (walletName === "") {
+            setWarningMessage(_("Please enter a wallet name"));
+            return false;
+        }
+        const match = accounts.find(element => element.name === walletName);
+        if (match) {
+            setWarningMessage(_("Please enter a unique wallet name"));
+            return false;
+        }
+        return true;
+
+    }
+
+    async function checkAddress() {
+        console.log("checkAddress ", addressEntered)
+        if (addressEntered === "") {
+            setWarningMessage(_("Please enter an address"));
+            return false;
+        }
+        /*nodeClient.getCphBalance(addressEntered, (v) => {
+            console.log("balance", v)
+        });*/
+
+        await nodeClient.validateAddress(addressEntered, (v) => {
+            if (v === false) {
+                setWarningMessage(_("The address you enetered is not valid. Please enter a valid address."));
+                return false;
+            } else {
+                console.log('valid ', v)
+            }
+        });
+        return true;
     }
 }
 export default ImportAccount;
