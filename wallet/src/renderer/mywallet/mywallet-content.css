@@ -37,9 +37,8 @@ div#mywallet.inactive {
 }
 
 div#mywallet>div h1 {
-	font-size: 28pt;
+	font-size: 22pt;
 	font-weight: 600;
-	padding-bottom: 5px;
 }
 
 div#mywallet>div h2 {
@@ -52,6 +51,7 @@ div#mywallet>div div.select {
 	width: 5em;
 	margin-left: 12px;
 	text-transform: uppercase;
+	max-height: 20px;
 }
 
 div#mywallet>div h3 {

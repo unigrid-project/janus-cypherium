@@ -1,0 +1,15 @@
+.createAccount svg {
+    transition: transform .2s ease-in-out;
+    cursor: pointer;
+    transform: scale(1.15);
+}
+
+.createAccount svg:hover {
+    transform: scale(1.5);
+    color: lawngreen;
+}
+
+.createAccount svg:active {
+    transform: scale(0.5);
+    color: #fff;
+}

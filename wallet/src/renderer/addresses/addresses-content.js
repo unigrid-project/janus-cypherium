@@ -28,11 +28,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { clipboard } from "electron";
 import lodash from 'lodash';
 import Address from "../../common/components/Address";
+import Accounts from "../../common/components/Accounts";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import "./addresses-content.css"
 import { ipcRenderer, remote } from "electron";
 import Store from "electron-store";
 import HideZeroAddresses from "../../common/components/HideZeroAddresses";
+import Config from "../../common/config";
+import WarningMessage from "../../common/components/WarningMessage";
 
 const store = new Store();
 library.add(faClipboard);
@@ -44,7 +47,8 @@ function AddressesContent() {
 	const [localAddresses, setLocaAddresses] = useState();
 	const [renderBool, setRenderBool] = useState(false);
 	const [addressClipboard, setAddressClipboard] = useState("address-clipboard--hidden");
-
+	const [renderKey, setRenderKey] = useState(Math.random());
+	const [warningMessage, setWarningMessage] = useState("");
 	useEffect(() => {
 		listAddressGroupings();
 		ipcRenderer.on('reload-addresses', (event, message) => {
@@ -53,49 +57,91 @@ function AddressesContent() {
 		ipcRenderer.on("trigger-info-update", (event, message) => {
 			listAddressGroupings();
 		});
+		ipcRenderer.on("accounts-updated", (event, message) => {
+			const accounts = Config.getAccount();
+			setLocaAddresses(accounts);
+			setRenderKey(Math.random());
+			if (message === "REMOVED") {
+				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "update-active-account", [accounts[0]]);
+			}
+		});
 	}, []);
 
 	return (
 		<Content id="addressbook">
-			<div>
-				<div className="align--row--flexstart address--top--item">
-					<EnterField
-						key={renderBool}
-						type={"text"}
-						clearField={clearField}
-						myStyle="accountNameInput"
-						placeHolder="Enter Address Name:"
-						updateEntry={onAddressChange} />
-					<Button
-						buttonStyle="btn--secondary--solid"
-						buttonSize="btn--small"
-						handleClick={() => onGenerateNewAddressClicked()}>Generate Address</Button>
-				</div>
-			</div>
-
-			<div>
-				<div className={addressClipboard}>
+			{(Config.isDaemonBased()) ?
+				<div>
 					<div className="align--row--flexstart address--top--item">
-						{responseAddress}
-						<div>
-							<FontAwesomeIcon size="lg" icon={faClipboard} color="white" onClick={copyToClipboardAndHide} />
+						<EnterField
+							key={renderBool}
+							type={"text"}
+							clearField={clearField}
+							myStyle="accountNameInput"
+							placeHolder="Enter Address Name:"
+							updateEntry={onAddressChange} />
+						<Button
+							buttonStyle="btn--secondary--solid"
+							buttonSize="btn--small"
+							handleClick={() => onGenerateNewAddressClicked()}>Generate Address</Button>
+					</div>
+					<div>
+						<div className={addressClipboard}>
+							<div className="align--row--flexstart address--top--item">
+								{responseAddress}
+								<div>
+									<FontAwesomeIcon size="lg" icon={faClipboard} color="white" onClick={copyToClipboardAndHide} />
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div />
+					<div>
+						<div className="content--title">
+							<HideZeroAddresses />
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div />
+				: null}
+
 			<div>
-				<div className="content--title">
-					<HideZeroAddresses />
-				</div>
-			</div>
-			<div>
-				<div className="address--item">{getLocalAddresses()}</div>
+				{warningMessage !== "" ? renderWarning() : <div className="error--text-start padding" >gap</div>}
+				<div className="address--item" key={renderKey}>{getLocalAddresses()}</div>
 			</div>
 
 		</Content>
 	);
+
+	function removeAccount(account) {
+		var accounts = Config.getAccount();
+		if (accounts.length <= 1) {
+			setWarningMessage("You must have at least one account in the wallet.");
+		} else {
+			const updatedArray = accounts.filter(function (obj) {
+				return obj.name !== account.name;
+			});
+
+			store.delete("walletList");
+			store.set("walletList", updatedArray);
+			setLocaAddresses(updatedArray);
+			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "accounts-updated", "REMOVED");
+		}
+
+	}
+
+	function renderWarning() {
+		return (
+			<WarningMessage
+				message={warningMessage}
+				onAnimationComplete={onAnimationComplete}
+				startAnimation="error--text-start error--text--animation" />
+		)
+	}
+
+	function onAnimationComplete() {
+		setWarningMessage("");
+	}
 
 	function onAddressChange(v) {
 		setAddressName(v);
@@ -104,17 +150,33 @@ function AddressesContent() {
 	function getLocalAddresses() {
 		// address, amount, account
 		if (!localAddresses) return null;
-		return (
-			Object.keys(localAddresses).map(key => {
-				return (
-					<Address
-						key={key}
-						data={localAddresses[key]}
-						copyAddress={(v) => copyToClipboard(v)}
-						setAccountName={(e) => updateAccountName(e)} />
-				)
-			})
-		)
+		if (Config.isDaemonBased()) {
+			return (
+				Object.keys(localAddresses).map(key => {
+					return (
+						<Address
+							key={key}
+							data={localAddresses[key]}
+							copyAddress={(v) => copyToClipboard(v)}
+							setAccountName={(e) => updateAccountName(e)} />
+					)
+				})
+			)
+		} else {
+			return (
+				Object.keys(localAddresses).map(key => {
+					return (
+						<Accounts
+							key={key}
+							removeAccount={removeAccount}
+							data={localAddresses[key]}
+							copyAddress={(v) => copyToClipboard(v)}
+							setAccountName={(e) => updateAccountName(e)} />
+					)
+				})
+			)
+		}
+
 	}
 
 	function updateAccountName(data) {
@@ -145,33 +207,40 @@ function AddressesContent() {
 	}
 
 	async function listAddressGroupings() {
-		var rpcClient = new RPCClient();
 
-		let showZeroBalanceAddresses = store.get("showzerobalance");
-		Promise.all([
-			rpcClient.listAddressGroupings(),
-			new Promise(resolve => setTimeout(resolve, 500))
-		]).then((response) => {
+		if (Config.isDaemonBased()) {
+			var rpcClient = new RPCClient();
+			let showZeroBalanceAddresses = store.get("showzerobalance");
+			Promise.all([
+				rpcClient.listAddressGroupings(),
+				new Promise(resolve => setTimeout(resolve, 500))
+			]).then((response) => {
 
-			let flat = lodash.flatten(response[0]);
-			let order = []
-			if (showZeroBalanceAddresses) {
-				var filterArr = [];
-				flat.forEach((address) => {
-					if (address[1] != 0) {
-						filterArr.push(address);
-					}
-				})
-				order = lodash.orderBy(filterArr, [1], ['desc']);
-				//console.log("omit 0 ", order);
-			} else {
-				order = lodash.orderBy(flat, [1], ['desc']);
-			}
+				let flat = lodash.flatten(response[0]);
+				let order = []
+				if (showZeroBalanceAddresses) {
+					var filterArr = [];
+					flat.forEach((address) => {
+						if (address[1] != 0) {
+							filterArr.push(address);
+						}
+					})
+					order = lodash.orderBy(filterArr, [1], ['desc']);
+					//console.log("omit 0 ", order);
+				} else {
+					order = lodash.orderBy(flat, [1], ['desc']);
+				}
 
-			setLocaAddresses(order);
-		}, (stderr) => {
-			console.error(stderr);
-		});
+				setLocaAddresses(order);
+			}, (stderr) => {
+				console.error(stderr);
+			});
+		} else {
+			var accounts = Config.getAccount();
+			console.log("accounts: ", accounts)
+			setLocaAddresses(accounts);
+		}
+
 	}
 	async function onGenerateNewAddressClicked() {
 		var rpcClient = new RPCClient();

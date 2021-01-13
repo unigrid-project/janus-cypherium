@@ -94,7 +94,7 @@ export default class NodeClient {
 
     async checkBlock() {
         //let block = await this.web3c.cph.block();
-        ///var walletAmount = await this.web3c.getCphBalance("8849BAFD732ED15A75D38BA902CBEB875C503094");
+        ///var walletAmount = await this.web3c.getCphBalance("");
         console.log("providers ", this.web3c.providers)
     }
     async start(window, nodeInfo) {

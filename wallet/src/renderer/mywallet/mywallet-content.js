@@ -39,7 +39,10 @@ import Config from "../../common/config.js";
 import NodeClient from '../../common/node-client';
 import { WalletService } from "../../common/walletutils/WalletService.js";
 import EnterField from "../../common/components/EnterField.js";
-
+import AccountSelection from "../../common/accounts/AccountSelection.js";
+import TestCreateImport from '../../common/testing/TestCreateImport';
+import GasSelector from "../../common/components/GasSelector.js";
+import CreateAccountButton from "../../common/components/CreateAccountButton.js";
 var _ = require('electron').remote.getGlobal('_');
 
 const log = require('electron-log');
@@ -49,8 +52,9 @@ const store = new Store();
 const testETHmnemonic = "enjoy pole often floor fun museum miracle salon ripple pool injury invite";
 const currency = store.get("currency", "usd");
 
-function MyWalletContent(props) {
 
+function MyWalletContent(props) {
+	const [currentSelectedAccount, setCurrentSelectedAccount] = useState(Config.getCurrentAccount());
 	const [balance, setBalance] = useState(0);
 	const [currencies, setCurrencies] = useState([]);
 	const [selectedCurrency, setSelectedCurrency] = useState({ value: currency, label: currency, rate: 0 });
@@ -65,72 +69,132 @@ function MyWalletContent(props) {
 	const [passwordEntry, setpasswordEntry] = useState("");
 	const [clearPassword, setClearPassword] = useState("");
 	const [renderPWkey, setRenderPWKey] = useState(Math.random());
+	const [currentAddress, setCurrentAddress] = useState('');
+	const [walletList, setWalletList] = useState(Config.getAccount());
+	const [renderListKey, setRenderListKey] = useState(Math.random());
+	//const [renderKey, setRenderKey] = useState(Math.random());
+	const tester = new TestCreateImport();
 	useEffect(() => {
-		// testing mini-breakpad crash reports
-		//process.crash();
 		nodeClient.subscribeToBlocks();
 		nodeClient.start();
-		if (Config.getIsDaemonLocal())
+		if (Config.isDaemonBased()) {
 			getDataLocal();
+		} else {
+			getNodeData();
+		}
 		ipcRenderer.on("cancel-send-operation", (event, message) => {
 			console.log("cencel send ");
 			cancelSendOperation();
 		});
-
+		ipcRenderer.on("update-active-account", (event, account) => {
+			setCurrentSelectedAccount(account);
+			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
+		});
 		ipcRenderer.on("trigger-info-update", (event, message) => {
-			if (Config.getIsDaemonLocal())
+			if (Config.isDaemonBased()) {
 				getDataLocal();
+			} else {
+				getNodeData();
+			}
+		});
+		ipcRenderer.on("new-transactions-loaded", (event, transactions) => {
+			let newArr;
+			if (transactions) newArr = transactions.slice(0, 10);
+			setTransactions(newArr);
+		});
+
+		ipcRenderer.on("accounts-updated", (event, message) => {
+			const accounts = Config.getAccount();
+			setWalletList(accounts);
+
+			//setCurrentSelectedAccount(accounts[0]);
 		});
 		// get data every 30 seconds for now
 		// this will be converted to a websocket 
 		// in the future
 		const interval = setInterval(() => {
 			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
-		}, 30000);
+		}, 10000);
 		return () => clearInterval(interval);
 	}, []);
 
+	useEffect(() => {
+		setRenderListKey(Math.random());
+	}, [walletList]);
 	return (
-		<Content key={renderKey} id="mywallet" className="allow-scroll" active={props.active}>
+		<Content id="mywallet" className="allow-scroll" active={props.active} >
 			{renderWidget()}
 			<div>
 				<div>
-					<div className="currency--send">
+					<div className="fontSmallBold darkCopy dropdown--selection padding-ten align--row--stretch ">
+						<div className="width--ninty" key={renderListKey}>
+							<AccountSelection
+								key={currentSelectedAccount}
+								current={currentSelectedAccount}
+								list={walletList}
+							/>
+						</div>
+						<CreateAccountButton key="create" className="button" />
+					</div>
+					<div className="currency--send padding-ten">
 						<h1>{balance} {Config.getProjectTicker()}</h1>
 						<div className="btn--send">
 							<Button
 								buttonStyle="btn--secondary--solid"
 								handleClick={() => onSendClicked()}
 								buttonSize="btn--small">{_("SEND")}</Button>
-
 						</div>
+
 					</div>
-					<h2>
+
+					{/*	<h2>
 						<span>Valued at {balance * selectedCurrency.rate}</span>
 						<Select className="select" classNamePrefix="select" options={currencies}
 							value={selectedCurrency} onChange={onChange} />
-					</h2>
+				</h2>*/}
 				</div>
-				{
+				{/*
+				<div className="currency--send">
+					<div className="btn--send">
+						<Button
+							buttonStyle="btn--secondary--solid"
+							handleClick={() => tester.start()}
+							buttonSize="btn--small">Test</Button>
+					</div>
+					<div className="btn--send">
+						<Button
+							buttonStyle="btn--secondary--solid"
+							handleClick={() => tester.stop()}
+							buttonSize="btn--small">Stop</Button>
+					</div>
+					<div className="btn--send">
+						<Button
+							buttonStyle="btn--secondary--solid"
+							handleClick={() => createFakeAccounts()}
+							buttonSize="btn--small">Test Transactions</Button>
+					</div>
+				</div>
+				*/}
+				{/*
 					<div className="currency--send">
 						<div className="btn--send">
 							<Button
 								buttonStyle="btn--secondary--solid"
 								handleClick={() => testGenerateMnemomic()}
-								buttonSize="btn--small">Test</Button>
+								buttonSize="btn--small">Create</Button>
 						</div>
 						<div className="btn--send">
 							<Button
 								buttonStyle="btn--secondary--solid"
 								handleClick={() => testFromCPHMnemonic()}
-								buttonSize="btn--small">From mnemonic</Button>
+								buttonSize="btn--small"> mnemonic</Button>
 						</div>
 
 						<div className="btn--send">
 							<Button
 								buttonStyle="btn--secondary--solid"
-								handleClick={() => testFromPrivateKey()}
-								buttonSize="btn--small">Block</Button>
+								handleClick={() => createFakeAccounts()}
+								buttonSize="btn--small">Fake</Button>
 						</div>
 						<div className="btn--send">
 							<Button
@@ -146,8 +210,8 @@ function MyWalletContent(props) {
 						</div>
 					</div>
 
-				}
-				<div className="currency--send">
+				*/}
+				{/*<div className="currency--send">
 					<div className="btn--send">
 						<EnterField
 							key={renderPWkey}
@@ -162,11 +226,11 @@ function MyWalletContent(props) {
 							handleClick={() => testDecrypt()}
 							buttonSize="btn--small">Test Decrypt</Button>
 					</div>
-				</div>
+			</div>*/}
 				<div className={transactionClasses}
 					onAnimationEnd={onTransactionAnimationEnd}
 					onAnimationStart={onTransactionAnimationStart}>
-					<div className="cardGridContainer">
+					<div className="cardGridContainer" key={renderKey}>
 						{renderTransactions()}
 					</div>
 				</div>
@@ -191,10 +255,11 @@ function MyWalletContent(props) {
 	//testETHmnemonic
 
 	function testGenerateMnemomic() {
-		const createRnd = walletService.createRandom();
-		setMnemonic(createRnd.mnemonic);
-		setprivateKey(createRnd.privateKey);
-		log.info("mnemonic: ", createRnd);
+		//const createRnd = walletService.createRandom();
+		//setMnemonic(createRnd.mnemonic);
+		//setprivateKey(createRnd.privateKey);
+		//log.info("mnemonic: ", createRnd);
+		ipcRenderer.send("import-new-wallet");
 	}
 
 	function testFromCPHMnemonic() {
@@ -202,10 +267,24 @@ function MyWalletContent(props) {
 		log.info("address from ETH mnemonic: ", fromMnemonic);
 	}
 
-	function testFromPrivateKey() {
-		const block = nodeClient.checkBlock();
-		console.log("block: ", nodeClient.getBlockHeight())
-		log.info("block: ", block);
+	async function createFakeAccounts() {
+		// 0xcdd16747e54be3e2b98ec4e8623f7438f1c435ce
+		const txList = await nodeClient.getTransactionList(1, 3300, "cdd16747e54be3e2b98ec4e8623f7438f1c435ce");
+		console.log("all transactions: ", txList)
+
+		let sum = 0;
+		let value;
+		for (let key in txList) {
+			nodeClient.getTxValue(txList[key].value).then((r) => {
+				//value = r.toNumber();
+
+				sum += parseInt(r);
+				console.log("sum:", sum)
+				//console.log("r: ", r)
+			})
+
+		}
+		console.log("total coins distributed: ", sum);
 	}
 
 	function clearAccounts() {
@@ -299,10 +378,10 @@ function MyWalletContent(props) {
 								fontFamily='Roboto'
 								fontSize='5'
 								fadeEasing="linear"
-								content="Follow us"
+								content={_("Follow us")}
 								customCss={css`white-space: nowrap;`}
 							>
-								<FontAwesomeIcon size="lg" icon={faTwitter} color="#1DA1F3" />
+								<FontAwesomeIcon size="lg" icon={faTwitter} color="var(--social-icons)" />
 							</Tooltip>
 						</a>
 					</div>
@@ -318,11 +397,10 @@ function MyWalletContent(props) {
 								fontFamily='Roboto'
 								fontSize='5'
 								fadeEasing="linear"
-
-								content="Join discord"
+								content={_("Join discord")}
 								customCss={css`white-space: nowrap;`}
 							>
-								<FontAwesomeIcon size="lg" icon={faDiscord} color="#7289DA" />
+								<FontAwesomeIcon size="lg" icon={faDiscord} color="var(--social-icons)" />
 							</Tooltip>
 						</a>
 					</div>}
@@ -337,10 +415,10 @@ function MyWalletContent(props) {
 								fontFamily='Roboto'
 								fontSize='5'
 								fadeEasing="linear"
-								content="Join telegram"
+								content={_("Join telegram")}
 								customCss={css`white-space: nowrap;`}
 							>
-								<FontAwesomeIcon size="lg" icon={faTelegram} color="#24A1DE" />
+								<FontAwesomeIcon size="lg" icon={faTelegram} color="var(--social-icons)" />
 							</Tooltip>
 						</a>
 					</div>
@@ -349,6 +427,7 @@ function MyWalletContent(props) {
 		)
 	}
 	function renderTransactions() {
+		console.log("new transactions to render:", transactions)
 		if (!transactions) return null
 		return (
 			Object.keys(transactions).map(key => {
@@ -388,6 +467,13 @@ function MyWalletContent(props) {
 				});
 				setCurrencies(currencies);
 			});
+		});
+	}
+
+	async function getNodeData() {
+		console.log("account to load balance: ", Config.getCurrentAccount())
+		nodeClient.getCphBalance(Config.getCurrentAccount()[0].address, (v) => {
+			setBalance(v.toString());
 		});
 	}
 

@@ -48,6 +48,7 @@
     --controlbar--update: green;
     --cph--blue: #007aff;
     --import--container: #c7ebfa;
+    --social-icons: rgb(27, 27, 27);
 }
 /* UGD settings
 --app--background--image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #151529), color-stop(1, #030724)); 
@@ -57,11 +58,28 @@
 --button--background: #000;
 */
 
+/* setting to default looks better for now
+::-webkit-scrollbar {
+	border-radius: 2px;
+	background-color: #171717;
+	width: 6px;
+	height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 2px;
+	background-color: var(--scroll--bar);
+}
+
+::-webkit-scrollbar-corner {
+	background-color: #171717;
+}
+*/
 h1 {
 	color: var(--main--font-color);
 	font-size: 16pt;
 	margin-block-start: 0;
-	margin-block-end: 0.1em;
+	margin-block-end: 0;
 	font-weight: 400;
 }
 
@@ -161,6 +179,13 @@ h2 {
     flex-direction: row;
 }
 
+.align--row--stretch {
+    display: flex;
+    align-items: center;
+    justify-content: stretch;
+    flex-direction: row;
+}
+
 .align--column--space-between {
     display: flex;
     align-items: center;
@@ -224,6 +249,14 @@ h2 {
     width: 80%;
 }
 
+.width--ninty {
+    width: 95%;
+}
+
 .margin--left {
     margin-left: 5px;
+}
+
+.margin-fifteen {
+    margin: 15px;
 }

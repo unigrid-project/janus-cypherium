@@ -1,0 +1,131 @@
+/*
+ * This file is part of The UNIGRID Wallet
+ * Copyright (C) 2020 The UNIGRID Organization
+ *
+ * The UNIGRID Wallet is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * The UNIGRID Wallet is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+ .accountContainer {
+    border-radius: 5px;
+    border: 1.5px solid var(--border--active);
+    background-color: var(--navbar--background);
+    height: 38px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    font-family: var(--fontFamily);
+}
+
+.account--item:nth-child(1) {
+    width: 5%;
+    align-self: auto;
+}
+
+.account--item:nth-child(2) {
+    width: 50%;
+    align-self: auto;
+}
+
+.account--item:nth-child(3) {
+    width: 5%;
+    align-self: center;
+
+}
+
+.account--item:nth-child(4) {
+    width: 15%;
+    align-self: auto;
+}
+
+.account--item:nth-child(5) {
+    width: 20%;
+    align-self: auto;
+    text-align: center;
+    overflow: hidden;
+}
+
+.noaccountname {
+    color: grey;
+}
+
+.accountname {
+    color: whitesmoke;
+}
+
+.accountContainer>div {
+    margin: 5px;
+}
+
+.account--div {
+    min-width: 275px;
+}
+
+.amount {
+    min-width: 100px;
+    border-left: 1px solid white;
+    padding-left: 10px;
+}
+
+.account {
+    padding-left: 10px;
+}
+
+.chevron{
+    max-width: 20px;
+}
+.accountContainer svg {
+    transition: transform .2s ease-in-out;
+    cursor: pointer;
+    transform: scale(1.15);
+}
+
+.delete--icon {
+    max-width: 20px;
+}
+
+.accountContainer svg:hover {
+    transform: scale(1.5);
+    color: lawngreen;
+}
+
+.delete--icon svg:hover {
+    transform: scale(1.5);
+    color: red;
+}
+
+.accountContainer svg:active {
+    transform: scale(0.5);
+    color: #fff;
+}
+
+.account:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.address--inputs--container{
+    align-items: center;
+    padding: 10px;
+    padding-left: 20px;
+    width: 100%;
+    background-color: var(--input--background);
+    border-radius: 10px;
+    border: 1.5px solid var(--border--active);
+}
+
+.address--inputs{
+    padding-left: 30px;
+}
