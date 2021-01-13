@@ -30,10 +30,10 @@ export default class NodeClient {
     constructor(nodeInfo) {
         this.nodeInfo = Config.getNodeInfo();
         this.cphNode = Config.getEnvironment();
+        this.amount = "";
         console.log("cphNode ", this.cphNode);
-        //this.web3 = new Web3(new Web3.providers.WebsocketProvider(nodeInfo.url));
+        this.web3 = new Web3(new Web3.providers.WebsocketProvider(nodeInfo.url));
         this.web3c = new Web3c(new Web3c.providers.HttpProvider(this.cphNode.cypherium.provider));
-        //this.web3c = new Web3c(new Web3c.providers.HttpProvider(this.cphNode.appServerUrl));
     }
 
     async getCurrentGasPrices() {
@@ -53,16 +53,49 @@ export default class NodeClient {
         console.log("\r\n");
         return prices;
     }
+    async getTransactionList(page, pageSize, account) {
+        const options = {
+            headers: { 'Content-Type': 'application/json; charset=UTF-8' }
+        };
+        let data;
+        console.log("loading address: ", account)
+        try {
+            await axios({
+                method: 'post',
+                url: this.cphNode.appServerUrl + this.cphNode.getTransList,
+                data: {
+                    addr: "0x" + account,
+                    txType: 0,
+                    pageIndex: page,
+                    pageSize: pageSize
+                }
+            }, options).then((response) => {
+                data = response.data.transactions;
+
+            });
+            return data;
+        } catch (err) {
+            console.log(err.message);
+        }
+        /*await axios({
+            method: 'post',
+            url: this.cphNode.appServerUrl + this.cphNode.getTransList,
+            data: {
+                addr: "",
+                txType: 0,
+                pageIndex: 1,
+                pageSize: 20
+            }
+        }, options).then((response) => {
+            console.log("transactions: ", response.data.transactions)
+            return response.data.transactions;
+        });*/
+    }
 
     async checkBlock() {
-        console.log("web3c: ", this.web3c);
-        console.log("web3: ", this.web3);
         //let block = await this.web3c.cph.block();
-        // var walletAmount = await this.web3c.getCphBalance("<address>");
-        
-            var walletAmount = this.getWalletInfo("");
-
-        return walletAmount;
+        ///var walletAmount = await this.web3c.getCphBalance("8849BAFD732ED15A75D38BA902CBEB875C503094");
+        console.log("providers ", this.web3c.providers)
     }
     async start(window, nodeInfo) {
         console.log(nodeInfo)
@@ -101,42 +134,62 @@ export default class NodeClient {
         return height;
     }
 
+    async getTxValue(value) {
+        let result = await this.web3c.fromWei(value, 'cpher');
+        //console.log("value: ", result);
+        return result;
+    }
+
     async subscribeToBlocks() {
         const subscription = this.web3.eth.subscribe('newBlockHeaders', (error, blockHeader) => {
             if (error) return log.error(error);
-            log.info("BlockHeader: ", blockHeader)
+            //log.info("BlockHeader: ", blockHeader)
         })
     }
 
-    getWalletInfo(addr) {
+    async getGasPrice() {
+        let gasPrice = await this.web3c.cph.getGasPrice();
+        console.log("gasPrice: ", gasPrice)
+        return gasPrice;
+    }
+
+    async getWalletInfo(addr) {
         this.getCphBalance(addr, (v) => {
-            if (this.amount.toString() !== v.toString() && v !== undefined) {
+            if (v !== undefined) {
                 this.amount = v;
-                console.log("amount: " , v)
+                console.log("balance: ", v.toString())
                 //this.global.gWalletList[this.global.currentWalletIndex].amount = this.amount;
                 //this.helper.saveWallet();
-                return v;
+                return v.toNumber();
             }
         });
     }
 
-    getCphBalance(userAddr, callback, pending = false) {
+    async validateAddress(addr, callback) {
+        let result = await this.web3c.isAddress(addr);
+        callback(result);
+    }
+
+    async getCphBalance(userAddr, callback, pending = false) {
         console.log('getCphBalance');
         this.web3c.cph.getBalance(userAddr, pending ? 'pending' : 'latest', (e, v) => {
+            console.log("e: ", e)
             if (!e) {
-                console.log('!e');
-                console.log("Invoked param:-----------------------------------", userAddr, v);
-                //console.log(`wallet${userAddr}'s balance${v}`);
+                // console.log('!e');
+                // console.log("Invoked param:-----------------------------------", userAddr, v);
+                // console.log(`wallet${userAddr}'s balance${v}`);
                 let value = this.web3c.fromWei(v, 'cpher');
+                //console.log("fromWei: ", value)
                 callback(value);
             } else {
-
                 console.log('read from local');
-                if (this.global.currentWalletIndex !== undefined) {
-                    callback(this.global.gWalletList[this.global.currentWalletIndex].amount);
-                } else {
-                    callback(0);
-                }
+                /*
+                                console.log('read from local');
+                                if (this.global.currentWalletIndex !== undefined) {
+                                    callback(this.global.gWalletList[this.global.currentWalletIndex].amount);
+                                } else {
+                                    callback(0);
+                                }*/
                 // let error = await this.helper.getTranslate('MNEMONIC_WRONG');
                 // this.helper.toast(error);
 
