@@ -57,8 +57,8 @@ const routes = {
 			<NavBar />
 			<div id="maincontainer">
 				<MyWalletContent key="mywallet-content" active={true} />
-				{/*<AddressesContent key="addressbook-content" />*/}
-				{/*<TransactionsContent key="transactions-content" />*/}
+				{<AddressesContent key="addressbook-content" />}
+				{<TransactionsContent key="transactions-content" />}
 				{/*<TransactionsContentTest key="transactions-test-content" />*/}
 				{/*getShowMasternode()*/}
 				{/*<ExplorerContent key="explorer-content" />*/}
