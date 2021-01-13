@@ -38,10 +38,7 @@ import Send from "../../common/components/Send";
 import Config from "../../common/config.js";
 import NodeClient from '../../common/node-client';
 import { WalletService } from "../../common/walletutils/WalletService.js";
-import EnterField from "../../common/components/EnterField.js";
 import AccountSelection from "../../common/accounts/AccountSelection.js";
-import TestCreateImport from '../../common/testing/TestCreateImport';
-import GasSelector from "../../common/components/GasSelector.js";
 import CreateAccountButton from "../../common/components/CreateAccountButton.js";
 var _ = require('electron').remote.getGlobal('_');
 
@@ -49,7 +46,6 @@ const log = require('electron-log');
 const walletService = new WalletService();
 const nodeClient = new NodeClient(Config.getNodeInfo());
 const store = new Store();
-const testETHmnemonic = "enjoy pole often floor fun museum miracle salon ripple pool injury invite";
 const currency = store.get("currency", "usd");
 
 
@@ -73,7 +69,6 @@ function MyWalletContent(props) {
 	const [walletList, setWalletList] = useState(Config.getAccount());
 	const [renderListKey, setRenderListKey] = useState(Math.random());
 	//const [renderKey, setRenderKey] = useState(Math.random());
-	const tester = new TestCreateImport();
 	useEffect(() => {
 		nodeClient.subscribeToBlocks();
 		nodeClient.start();
@@ -146,87 +141,8 @@ function MyWalletContent(props) {
 						</div>
 
 					</div>
-
-					{/*	<h2>
-						<span>Valued at {balance * selectedCurrency.rate}</span>
-						<Select className="select" classNamePrefix="select" options={currencies}
-							value={selectedCurrency} onChange={onChange} />
-				</h2>*/}
 				</div>
-				{/*
-				<div className="currency--send">
-					<div className="btn--send">
-						<Button
-							buttonStyle="btn--secondary--solid"
-							handleClick={() => tester.start()}
-							buttonSize="btn--small">Test</Button>
-					</div>
-					<div className="btn--send">
-						<Button
-							buttonStyle="btn--secondary--solid"
-							handleClick={() => tester.stop()}
-							buttonSize="btn--small">Stop</Button>
-					</div>
-					<div className="btn--send">
-						<Button
-							buttonStyle="btn--secondary--solid"
-							handleClick={() => createFakeAccounts()}
-							buttonSize="btn--small">Test Transactions</Button>
-					</div>
-				</div>
-				*/}
-				{/*
-					<div className="currency--send">
-						<div className="btn--send">
-							<Button
-								buttonStyle="btn--secondary--solid"
-								handleClick={() => testGenerateMnemomic()}
-								buttonSize="btn--small">Create</Button>
-						</div>
-						<div className="btn--send">
-							<Button
-								buttonStyle="btn--secondary--solid"
-								handleClick={() => testFromCPHMnemonic()}
-								buttonSize="btn--small"> mnemonic</Button>
-						</div>
-
-						<div className="btn--send">
-							<Button
-								buttonStyle="btn--secondary--solid"
-								handleClick={() => createFakeAccounts()}
-								buttonSize="btn--small">Fake</Button>
-						</div>
-						<div className="btn--send">
-							<Button
-								buttonStyle="btn--secondary--solid"
-								handleClick={() => clearAccounts()}
-								buttonSize="btn--small">Clear Accounts</Button>
-						</div>
-						<div className="btn--send">
-							<Button
-								buttonStyle="btn--secondary--solid"
-								handleClick={() => showAccounts()}
-								buttonSize="btn--small">Show Accounts</Button>
-						</div>
-					</div>
-
-				*/}
-				{/*<div className="currency--send">
-					<div className="btn--send">
-						<EnterField
-							key={renderPWkey}
-							type={"password"}
-							clearField={clearPassword}
-							myStyle={"medium--input"}
-							placeHolder="Enter Password"
-							updateEntry={(v) => setpasswordEntry(v)}
-						/>
-						<Button
-							buttonStyle="btn--secondary--solid"
-							handleClick={() => testDecrypt()}
-							buttonSize="btn--small">Test Decrypt</Button>
-					</div>
-			</div>*/}
+				
 				<div className={transactionClasses}
 					onAnimationEnd={onTransactionAnimationEnd}
 					onAnimationStart={onTransactionAnimationStart}>
@@ -252,45 +168,6 @@ function MyWalletContent(props) {
 		}
 		return null;
 	}
-	//testETHmnemonic
-
-	function testGenerateMnemomic() {
-		//const createRnd = walletService.createRandom();
-		//setMnemonic(createRnd.mnemonic);
-		//setprivateKey(createRnd.privateKey);
-		//log.info("mnemonic: ", createRnd);
-		ipcRenderer.send("import-new-wallet");
-	}
-
-	function testFromCPHMnemonic() {
-		const fromMnemonic = walletService.fromMnemonic(testETHmnemonic);
-		log.info("address from ETH mnemonic: ", fromMnemonic);
-	}
-
-	async function createFakeAccounts() {
-		// 0xcdd16747e54be3e2b98ec4e8623f7438f1c435ce
-		const txList = await nodeClient.getTransactionList(1, 3300, "cdd16747e54be3e2b98ec4e8623f7438f1c435ce");
-		console.log("all transactions: ", txList)
-
-		let sum = 0;
-		let value;
-		for (let key in txList) {
-			nodeClient.getTxValue(txList[key].value).then((r) => {
-				//value = r.toNumber();
-
-				sum += parseInt(r);
-				console.log("sum:", sum)
-				//console.log("r: ", r)
-			})
-
-		}
-		console.log("total coins distributed: ", sum);
-	}
-
-	function clearAccounts() {
-		store.delete('walletList');
-		ipcRenderer.send('wallet-restart');
-	}
 
 	function testDecrypt() {
 		setClearPassword("");
@@ -313,18 +190,6 @@ function MyWalletContent(props) {
 		}
 		// if match then decrypt
 		console.log("password", clearPassword);
-	}
-
-	function updatedPassword(v) {
-		console.log("calling node client again")
-		setpasswordEntry(v);
-		//setClearPassword(v);
-	}
-
-	function showAccounts() {
-		//setRenderKey(Math.random());
-		console.log("walletList: ", store.get('walletList'));
-		//ipcRenderer.send("wallet-restart");
 	}
 
 	function cancelSendOperation() {
