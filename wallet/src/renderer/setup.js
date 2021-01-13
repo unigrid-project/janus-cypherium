@@ -35,6 +35,8 @@ library.add(faSpinner, faTimes);
 
 var _ = require('electron').remote.getGlobal('_');
 
+const firstRunCopy = _("It appears this is the first time you are starting up the wallet. You can either create a new account or import from your keys.");
+const createWalletCopy = _("Please select an option below to either import or create another wallet. This will not replace your current wallet.");
 function Setup(props) {
 	const [active, setActive] = useState();
 	//const container = useRef(props.children);
@@ -44,7 +46,8 @@ function Setup(props) {
 	const [importState, setImportState] = useState(false);
 	const [createState, setCreateState] = useState(false);
 	const [renderKey, setRenderKey] = useState(Math.random());
-
+	const [firstRun, setFirstRun] = useState();
+	const [handleClose, sethandleClose] = useState("");
 	//const setupControls = new SetupControls();
 	useEffect(() => {
 		// init
@@ -52,7 +55,31 @@ function Setup(props) {
 			console.log("go back setup ", message);
 			onGoBack(message);
 		});
+		ipcRenderer.on("setup-controller-type", (event, message) => {
+			console.log("message ", message);
+			sethandleClose(message)
+			switch (message) {
+				case "FIRST_RUN":
+					setFirstRun(true);
+				case "NEW_WALLET":
+					setFirstRun(false);
+			}
+		});
+
 	}, []);
+
+	useEffect(() => {
+		ipcRenderer.on("handle-wallet-creation", (event, account) => {
+			switch (handleClose) {
+				case "FIRST_RUN":
+					// set default account in store
+					store.set("currentSelectedAccount", [account]);
+					ipcRenderer.send('open-main-window');
+				case "NEW_WALLET":
+					ipcRenderer.send('close-setup-window');
+			}
+		});
+	}, [handleClose])
 
 	return (
 		<div key={renderKey}>
@@ -62,7 +89,7 @@ function Setup(props) {
 				<div className="setup">
 					<div >
 						<div>
-							<div className="fontRegularBold darkCopy">{_("It appears this is the first time you are starting up the wallet. You can either create a new account or import from your keys.")}</div>
+							<div className="fontRegularBold darkCopy">{firstRun ? firstRunCopy : createWalletCopy}</div>
 						</div>
 					</div>
 					<div className="align--row">
@@ -103,7 +130,7 @@ function Setup(props) {
 	);
 
 	function testChangeLocale() {
-		
+
 	}
 
 	function onSetupAnimationStart() {
