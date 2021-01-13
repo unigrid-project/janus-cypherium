@@ -31,7 +31,7 @@ import Config from "../common/config";
 import NodeClient from "../common/node-client";
 import Store from "electron-store";
 
-const { crashReporter } = require('electron');
+import { crashReporter } from 'electron';
 const packageJSON = require('../../package.json');
 const log = require('electron-log');
 const store = new Store();
@@ -151,8 +151,17 @@ ipcMain.on("open-asteroids", () => {
 	var asteroidsController = new AsteroidsController();
 });
 
-
-
+ipcMain.on("import-new-wallet", () => {
+	var setupController = new SetupController();
+	setupController.window.webContents.on("did-finish-load", () => {
+		setupController.window.webContents.send('setup-controller-type', "NEW_WALLET");
+		ipcMain.on("close-setup-window", () => {
+			mainWindow.webContents.send("accounts-updated", "ADDED");
+			console.log('close-setup-window RECEVIED')
+			setupController.window.close();
+		})
+	});
+})
 
 const defaultRPCPort = 51992;
 
@@ -170,9 +179,8 @@ app.on("ready", () => {
 		} else {
 			Config.checkStore(splashController.window).then(() => {
 				log.info("local store has been loaded");
-
 				log.info(`Initializing ${Config.getProjectName()} daemon...`);
-				if (!Config.getIsDaemonLocal()) {
+				if (!Config.isDaemonBased()) {
 					log.info("Node is server based, skip trying to load a local daemon");
 					var nodeClient = new NodeClient(Config.getNodeInfo());
 					nodeClient.start(splashController.window, Config.getNodeInfo()).then(() => {
@@ -187,6 +195,7 @@ app.on("ready", () => {
 							var setupController = new SetupController();
 							splashController.window.close();
 							setupController.window.webContents.on("did-finish-load", () => {
+								setupController.window.webContents.send('setup-controller-type', "FIRST_RUN");
 								ipcMain.on("open-main-window", () => {
 									//let accArr = [data];
 									//store.set('account', accArr);
