@@ -271,9 +271,9 @@ export class WalletService {
             } else {
                 store.set("walletList", [walletData])
             }
-            data = null;
             //console.log("walletList: ", store.get("walletList"));
-            resolve();
+            data = null;
+            resolve(walletData);
         }, (stderr) => {
             reject(stderr);
         });
