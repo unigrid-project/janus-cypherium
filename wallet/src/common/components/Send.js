@@ -26,6 +26,7 @@ import lodash from "lodash";
 import Store from "electron-store";
 import { sendDesktopNotification } from "./DesktopNotifications";
 import Config from "../config";
+import GasSelector from "./GasSelector";
 
 const store = new Store();
 var _ = require('electron').remote.getGlobal('_');
@@ -36,7 +37,7 @@ function Send() {
     const [recipientCounter, setRecipientCounter] = useState(2);
     const [disableSendBtn, setDisableSendButton] = useState(true);
     const [sendBtnKey, setSendButtonKey] = useState(1);
-
+    const [hasGas] = useState(Config.getHasGas());
     const copy1 = _("Successfully sent");
     const copy2 = _("to");
     useEffect(() => {
@@ -48,6 +49,7 @@ function Send() {
 
     }, [recipients]);
     useEffect(() => {
+        console.log("hasGas ", hasGas)
         ipcRenderer.on('send-coins', (event, message) => {
             // send back from UnlockWallet
             console.log("try and send coins ");
@@ -78,6 +80,7 @@ function Send() {
                     buttonSize="btn--small"
                     handleClick={() => onCancelPressed()}>{_("CANCEL")}</Button>
             </div>
+            {hasGas ? <GasSelector /> : null}
         </div>
     )
     /* <Button
