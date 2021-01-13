@@ -22,47 +22,77 @@ import { faSignInAlt, faSignOutAlt, faCoins, faClock, faCompass, faCubes, faNetw
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Config from "../config";
+import NodeClient from "../../common/node-client";
+import TransactionLoading from "./TransactionLoading";
 
 library.add(faSignInAlt, faSignOutAlt, faCoins, faClock, faCubes, faNetworkWired);
+const nodeClient = new NodeClient(Config.getNodeInfo());
 
 function TransactionLong({ data, index, style }) {
-    const [amount] = useState(data.amount);
+    const [amount, setAmount] = useState(nodeClient.getTxValue(data.value));
     const [numWidth, setNumberWidth] = useState("long--div");
     const [largeTrans, setLargeTrans] = useState(true);
-    return (
-        <div className={"transaction--main " + style} key={index}>
-            <div className="trans--item padding--left">
-
-                {getTimeObject(data.timereceived)}
-
-
-            </div >
-            <div className="trans--item">
-                {getCategoryIcon(data)}
-
-
-            </div>
-            <div className="trans--item">
-
-
-                {setAmountColor()}
-
-            </div>
-            <div className="trans--item">
-
-                <a href={Config.getExplorerLink() + "tx/" + data.txid} target="_blank">
-                    <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
-
-            </div>
-            {largeTrans ?
+    const [promiseComplete, setPromiseComplete] = useState(false);
+    const [themeStyle, setThemeStyle] = useState(Config.isDaemonBased() ? "transaction--main" : "transaction--secondary");
+    useEffect(() => {
+        //console.log("amount: ", amount)
+        nodeClient.getTxValue(data.value).then((r) => {
+            setAmount(r);
+            setPromiseComplete(true);
+        })
+    }, [])
+    if (Config.isDaemonBased()) {
+        return (
+            <div className={themeStyle} key={index}>
+                <div className="trans--item padding--left">
+                    {getTimeObject(data.timereceived)}
+                </div >
+                <div className="trans--item">
+                    {getCategoryIcon(data)}
+                </div>
+                <div className="trans--item">
+                    {setAmountColor()}
+                </div>
                 <div className="trans--item">
 
-                    {getAccountName(data.account)}
-
+                    <a href={Config.getExplorerLink() + "tx/" + data.txid} target="_blank">
+                        <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
                 </div>
-                : null}
-        </div >
-    )
+                {largeTrans ?
+                    <div className="trans--item">
+                        {getAccountName(data.account)}
+                    </div>
+                    : null}
+            </div >
+        )
+    } else {
+        return (
+            <div>
+                {promiseComplete ?
+                    <div className={themeStyle} key={index}>
+                        <div className="trans--item padding--left">
+                            {getTimeObject(parseInt(data.timestamp / 1000000))}
+                            {/*data.timestamp */}
+                        </div >
+                        <div className="trans--item">
+                            {getCategoryIcon(data)}
+                        </div>
+                        <div className="trans--item">
+                            {setAmountColor()}
+                        </div>
+                        <div className="trans--item">
+                            <a href={Config.getExplorerLink() + "tx/" + data.tx_hash} target="_blank">
+                                <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
+                        </div>
+                        <div className="trans--item">
+                            {getToFromAddress(data)}
+                        </div>
+                    </div > : <TransactionLoading />}
+            </div>
+
+        )
+    }
+
 
     function getTimeObject(epoch) {
         if (largeTrans === true) {
@@ -117,8 +147,18 @@ function TransactionLong({ data, index, style }) {
 
     }
     function setAmountColor() {
-        let transType = data.category === "send" ? "send--color" : "receive--color";
-        return <div className={numWidth + " " + transType}>{data.amount}</div>
+        let transType;
+        var totalAmount;
+        if (Config.isDaemonBased()) {
+            transType = data.category === "send" ? "send--color" : "receive--color";
+            totalAmount = data.amount;
+        } else {
+            transType = "receive--color";
+            //totalAmount = nodeClient.getTxValue(data.value);
+            //console.log(await nodeClient.getTxValue(data.value))
+            totalAmount = amount;
+        }
+        return <div className={numWidth + " " + transType}>{totalAmount}</div>
     }
     function getArrayIndex(num) {
         let newNum = parseInt(num);
@@ -132,53 +172,94 @@ function TransactionLong({ data, index, style }) {
         }
     }
     function calculateDateFromEpoch(epoch) {
-        var recDate = new Date(epoch * 1000);
-        const date = recDate.toISOString().split('T')[0];
+        var recDate = new Date(epoch);
 
+        let time = new Date(epoch);
+        let year = time.getFullYear();
+        let date = ('00' + time.getDate()).slice(-2);
+        let month = ('00' + (time.getMonth() + 1)).slice(-2);
+        let hour = ('00' + time.getHours()).slice(-2);
+        let minute = ('00' + time.getMinutes()).slice(-2);
+        let second = ('00' + time.getSeconds()).slice(-2);
+        //return [year, month, date].join('.') + ' ' + [hour, minute, second].join(':');
+        //console.log("time: ", recDate.toISOString())
+        //const date = recDate.toISOString().split('T')[0];
         return (
             <div>
-                <div>{date}</div>
+                <div>{[year, month, date].join('.') + ' ' + [hour, minute, second].join(':')}</div>
             </div>
         )
     }
     function calculateDateTimeFromEpoch(epoch) {
         var recDate = new Date(epoch * 1000);
+        var day = recDate.getDate();
+        var month = recDate.getMonth();
+        var year = recDate.getFullYear();
+        var recDate = day + "-" + (month + 1) + "-" + year;
         const date = recDate.toISOString().split('T')[0];
         const time = recDate.toTimeString().split(" ")[0];
         return (
             <div>
-                <div>{date}</div>
+                <div>{recDate}</div>
                 <div>{time}</div>
             </div>
         )
     }
     function getCategoryIcon(data) {
-        switch (data.category) {
-            case "receive":
-            case "immature":
-                if (data.generated) {
+        if (Config.isDaemonBased()) {
+            switch (data.category) {
+                case "receive":
+                case "immature":
+                    if (data.generated) {
+                        if (data.generatedfrom === "stake") {
+                            return <FontAwesomeIcon size="lg" icon={faCoins} color="rgb(255, 151, 14)" />
+                        } else if (data.generatedfrom === "masternode reward") {
+                            return <FontAwesomeIcon size="lg" icon={faNetworkWired} color="lightgoldenrodyellow" />
+                        }
+                    } else {
+                        return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="lightgreen" />
+                    }
+                case "send":
+                    return <FontAwesomeIcon size="lg" icon={faSignOutAlt} color="lightsalmon" />
+                case "generate":
                     if (data.generatedfrom === "stake") {
                         return <FontAwesomeIcon size="lg" icon={faCoins} color="rgb(255, 151, 14)" />
                     } else if (data.generatedfrom === "masternode reward") {
                         return <FontAwesomeIcon size="lg" icon={faNetworkWired} color="lightgoldenrodyellow" />
                     }
-                } else {
-                    return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="lightgreen" />
-                }
-                break;
-            case "send":
-                return <FontAwesomeIcon size="lg" icon={faSignOutAlt} color="lightsalmon" />
-                break;
-            case "generate":
-                if (data.generatedfrom === "stake") {
-                    return <FontAwesomeIcon size="lg" icon={faCoins} color="rgb(255, 151, 14)" />
-                } else if (data.generatedfrom === "masternode reward") {
-                    return <FontAwesomeIcon size="lg" icon={faNetworkWired} color="lightgoldenrodyellow" />
-                }
-                break;
-            default:
-                return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="white" />
-                break;
+
+                default:
+                    return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="white" />
+
+            }
+        } else {
+            // cph type 1 = send, type 2 = receive
+            switch (data.tx_type) {
+                case 1:
+                    return <FontAwesomeIcon size="lg" icon={faSignOutAlt} color="lightsalmon" />
+                    break;
+                case 2:
+                    return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="white" />
+                    break;
+            }
+        }
+
+    }
+
+    function getToFromAddress(data) {
+        switch (data.tx_type) {
+            case 1:
+                return (
+                    <div>
+                        <div>{"to: " + data.to}</div>
+                    </div>
+                )
+            case 2:
+                return (
+                    <div>
+                        <div>{"from: " + data.from}</div>
+                    </div>
+                )
         }
     }
 }

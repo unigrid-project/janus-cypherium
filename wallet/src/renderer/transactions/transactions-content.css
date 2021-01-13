@@ -48,3 +48,7 @@ div#test-transactions{
     align-self: flex-end;
 }
 
+.dropdown--selection{
+    min-width: 150px;
+}
+

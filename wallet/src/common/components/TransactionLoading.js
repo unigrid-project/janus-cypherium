@@ -21,13 +21,21 @@ import "./Transaction.css";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import WarningMessage from "./WarningMessage";
+import Config from "../config";
 
 function TransactionLoading({ style }) {
-
+    const [themeStyle, setThemeStyle] = useState(Config.isDaemonBased() ? "loading--main" : "loading--secondary");
+    useEffect(() => {
+        /*if (Config.isDaemonBased() === true) {
+            setThemeStyle("loading--main");
+        } else {
+            setThemeStyle("loading--secondary");
+        }*/
+    }, [])
     return (
-        <div className={"transaction--main--old " + style}>
+        <div className={themeStyle}>
             <div className="loading--item">
-                <FontAwesomeIcon size="lg" icon={faClock} color="white" />
+                <FontAwesomeIcon className="spinner" icon="spinner" spin />
             </div>
             <div className="loading--item">
                 Loading...

@@ -24,13 +24,17 @@ import Tooltip from "react-simple-tooltip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { css } from "styled-components";
 import Config from "../config";
+import NodeClient from "../../common/node-client";
 
 library.add(faSignInAlt, faSignOutAlt, faCoins, faClock, faCubes, faNetworkWired);
+const nodeClient = new NodeClient(Config.getNodeInfo());
+var _ = require('electron').remote.getGlobal('_');
 
 function Transaction({ data, index, style }) {
-    const [amount] = useState(data.amount);
+    const [amount, setAmount] = useState(0);
     const [numWidth, setNumberWidth] = useState();
     const [largeTrans, setLargeTrans] = useState(false);
+    const [promiseComplete, setPromiseComplete] = useState(false);
     useEffect(() => {
         if (style === "trans--long") {
             setNumberWidth("long--div");
@@ -39,114 +43,41 @@ function Transaction({ data, index, style }) {
             setNumberWidth("short--div");
             setLargeTrans(false);
         }
+        Config.isDaemonBased() ? setAmount(data.amount) : nodeClient.getTxValue(data.value).then((r) => {
+            setAmount(r);
+            setPromiseComplete(true);
+        })
+
         //console.log("transaction style: ", style);
     }, []);
-    return (
-        <div className={"transaction--main " + style}>
-            <div className="trans--short--item">
-                <div className="circle">
-                    {getArrayIndex(index)}
-                </div></div>
-            <div className="trans--short--item">
-                <Tooltip
-                    zIndex={200}
-                    fadeDuration={150}
-                    radius={10}
-                    fontFamily='Roboto'
-                    fontSize='5'
-                    fadeEasing="linear"
-                    background={css`
+
+    if (Config.isDaemonBased()) {
+        return (
+            <div className={"transaction--main " + style}>
+                <div className="trans--short--item">
+                    <div className="circle">
+                        {getArrayIndex(index)}
+                    </div></div>
+                <div className="trans--short--item">
+                    <Tooltip
+                        zIndex={200}
+                        fadeDuration={150}
+                        radius={10}
+                        fontFamily='Roboto'
+                        fontSize='5'
+                        fadeEasing="linear"
+                        background={css`
                     var(--tooltip--background)
                   `}
-                    content={calculateDateTimeFromEpoch(data.timereceived)}
-                    customCss={css`
+                        content={calculateDateTimeFromEpoch(data.timereceived)}
+                        customCss={css`
                     white-space: nowrap;
                   `}
-                >
-                    {getTimeObject(data.timereceived)}
+                    >
+                        {getTimeObject(data.timereceived)}
 
-                </Tooltip>
-            </div >
-            <div className="trans--short--item">
-                <Tooltip
-
-                    zIndex={200}
-                    fadeDuration={150}
-                    radius={10}
-                    fontFamily='Roboto'
-                    fontSize='5'
-                    fadeEasing="linear"
-                    background={css`
-                    var(--tooltip--background)
-                  `}
-                    content={getBlockCount(data.confirmations)}
-                    customCss={css`
-                    white-space: nowrap;
-                  `}
-                >
-                    {getBlockObject(data.confirmations)}
-
-                </Tooltip>
-            </div >
-            <div className="trans--short--item">
-                <Tooltip
-
-                    zIndex={200}
-                    fadeDuration={150}
-                    radius={10}
-                    fontFamily='Roboto'
-                    fontSize='5'
-                    fadeEasing="linear"
-                    background={css`
-                    var(--tooltip--background)
-                  `}
-                    content={getCategory(data)}
-                >{getCategoryIcon(data)}
-                </Tooltip>
-
-            </div>
-            <div className="trans--short--item">
-                <Tooltip
-
-                    zIndex={200}
-                    fadeDuration={150}
-                    radius={10}
-                    fontFamily='Roboto'
-                    fontSize='5'
-                    fadeEasing="linear"
-                    background={css`
-                    var(--tooltip--background)
-                  `}
-                    content={data.amount.toFixed(8)}
-                    customCss={css`
-                    white-space: nowrap;
-                  `}
-                >
-                    {setAmountColor()}
-                </Tooltip>
-            </div>
-            <div className="trans--short--item">
-                <Tooltip
-
-                    zIndex={200}
-                    fadeDuration={150}
-                    radius={10}
-                    fontFamily='Roboto'
-                    fontSize='5'
-                    fadeEasing="linear"
-                    background={css`
-                    var(--tooltip--background)
-                  `}
-                    content="Show in explorer"
-                    customCss={css`
-                    white-space: nowrap;
-                  `}
-                >
-                    <a href={Config.getExplorerLink() + "tx/" + data.txid} target="_blank">
-                        <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
-                </Tooltip>
-            </div>
-            {largeTrans ?
+                    </Tooltip>
+                </div >
                 <div className="trans--short--item">
                     <Tooltip
 
@@ -159,17 +90,210 @@ function Transaction({ data, index, style }) {
                         background={css`
                     var(--tooltip--background)
                   `}
-                        content={data.address}
+                        content={getBlockCount(data.confirmations)}
                         customCss={css`
                     white-space: nowrap;
                   `}
                     >
-                        {getAccountName(data.account)}
+                        {getBlockObject(data.confirmations)}
+
+                    </Tooltip>
+                </div >
+                <div className="trans--short--item">
+                    <Tooltip
+
+                        zIndex={200}
+                        fadeDuration={150}
+                        radius={10}
+                        fontFamily='Roboto'
+                        fontSize='5'
+                        fadeEasing="linear"
+                        background={css`
+                    var(--tooltip--background)
+                  `}
+                        content={getCategory(data)}
+                    >{getCategoryIcon(data)}
+                    </Tooltip>
+
+                </div>
+                <div className="trans--short--item">
+                    <Tooltip
+
+                        zIndex={200}
+                        fadeDuration={150}
+                        radius={10}
+                        fontFamily='Roboto'
+                        fontSize='5'
+                        fadeEasing="linear"
+                        background={css`
+                    var(--tooltip--background)
+                  `}
+                        content={data.amount.toFixed(8)}
+                        customCss={css`
+                    white-space: nowrap;
+                  `}
+                    >
+                        {setAmountColor()}
                     </Tooltip>
                 </div>
-                : null}
-        </div >
-    )
+                <div className="trans--short--item">
+                    <Tooltip
+
+                        zIndex={200}
+                        fadeDuration={150}
+                        radius={10}
+                        fontFamily='Roboto'
+                        fontSize='5'
+                        fadeEasing="linear"
+                        background={css`
+                    var(--tooltip--background)
+                  `}
+                        content="Show in explorer"
+                        customCss={css`
+                    white-space: nowrap;
+                  `}
+                    >
+                        <a href={Config.getExplorerLink() + "tx/" + data.txid} target="_blank">
+                            <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
+                    </Tooltip>
+                </div>
+                {largeTrans ?
+                    <div className="trans--short--item">
+                        <Tooltip
+
+                            zIndex={200}
+                            fadeDuration={150}
+                            radius={10}
+                            fontFamily='Roboto'
+                            fontSize='5'
+                            fadeEasing="linear"
+                            background={css`
+                    var(--tooltip--background)
+                  `}
+                            content={data.address}
+                            customCss={css`
+                    white-space: nowrap;
+                  `}
+                        >
+                            {getAccountName(data.account)}
+                        </Tooltip>
+                    </div>
+                    : null}
+            </div >
+        )
+    } else {
+        if (promiseComplete) {
+            return (
+                <div className={"transaction--secondary " + style}>
+                    <div className="trans--short--item">
+                        <div className="circle">
+                            {getArrayIndex(index)}
+                        </div></div>
+                    <div className="trans--short--item">
+                        <Tooltip
+                            zIndex={200}
+                            fadeDuration={150}
+                            radius={10}
+                            fontFamily='Roboto'
+                            fontSize='5'
+                            fadeEasing="linear"
+                            background={css`
+                    var(--tooltip--background)
+                  `}
+                            content={calculateDateTimeFromEpoch(parseInt(data.timestamp / 1000000))}
+                            customCss={css`
+                    white-space: nowrap;
+                  `}
+                        >
+                            {getTimeObject(parseInt(data.timestamp / 1000000))}
+
+                        </Tooltip>
+                    </div >
+                    <div className="trans--short--item">
+                        <Tooltip
+
+                            zIndex={200}
+                            fadeDuration={150}
+                            radius={10}
+                            fontFamily='Roboto'
+                            fontSize='5'
+                            fadeEasing="linear"
+                            background={css`
+                    var(--tooltip--background)
+                  `}
+                            content={getBlockCount(data.block_number)}
+                            customCss={css`
+                    white-space: nowrap;
+                  `}
+                        >
+                            {getBlockObject(data.block_number)}
+
+                        </Tooltip>
+                    </div >
+                    <div className="trans--short--item">
+                        <Tooltip
+
+                            zIndex={200}
+                            fadeDuration={150}
+                            radius={10}
+                            fontFamily='Roboto'
+                            fontSize='5'
+                            fadeEasing="linear"
+                            background={css`
+                    var(--tooltip--background)
+                  `}
+                            content={getCategory(data)}
+                        >{getCategoryIcon(data)}
+                        </Tooltip>
+
+                    </div>
+                    <div className="trans--short--item">
+                        <Tooltip
+
+                            zIndex={200}
+                            fadeDuration={150}
+                            radius={10}
+                            fontFamily='Roboto'
+                            fontSize='5'
+                            fadeEasing="linear"
+                            background={css`
+                    var(--tooltip--background)
+                  `}
+                            content={amount}
+                            customCss={css`
+                    white-space: nowrap;
+                  `}
+                        >
+                            {setAmountColor()}
+                        </Tooltip>
+                    </div>
+                    <div className="trans--short--item">
+                        <Tooltip
+
+                            zIndex={200}
+                            fadeDuration={150}
+                            radius={10}
+                            fontFamily='Roboto'
+                            fontSize='5'
+                            fadeEasing="linear"
+                            background={css`
+                    var(--tooltip--background)
+                  `}
+                            content="Show in explorer"
+                            customCss={css`
+                    white-space: nowrap;
+                  `}
+                        >
+                            <a href={Config.getExplorerLink() + "tx/" + data.tx_hash} target="_blank">
+                                <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
+                        </Tooltip>
+                    </div>
+                </div >
+            )
+        }
+        else return null
+
+    }
 
     function getTimeObject(epoch) {
         if (largeTrans === true) {
@@ -179,14 +303,20 @@ function Transaction({ data, index, style }) {
         }
     }
     function getBlockCount(conf) {
-        return (
-            <div>
-                <div>{conf}</div>
-                <div>confirmations</div>
-            </div>
-        )
-
+        if (Config.isDaemonBased()) {
+            return (
+                <div>
+                    <div>{conf}</div>
+                    <div>confirmations</div>
+                </div>
+            )
+        } else {
+            return (
+                <div>Block: {conf}</div>
+            )
+        }
     }
+
     function getBlockObject(conf) {
         let color = "";
         switch (conf) {
@@ -216,17 +346,40 @@ function Transaction({ data, index, style }) {
 
     function getCategory(data) {
         //console.log("data: ", data)
-        if (data.generatedfrom) {
-            return data.generatedfrom;
+        if (Config.isDaemonBased()) {
+            if (data.generatedfrom) {
+                return data.generatedfrom;
+            } else {
+                return data.category;
+            }
         } else {
-            return data.category;
+            switch (data.tx_type) {
+                case 1:
+                    return _("Send");
+                case 2:
+                    return _("Receive");
+            }
+
         }
 
+
     }
+
     function setAmountColor() {
-        let transType = data.category === "send" ? "send--color" : "receive--color";
-        return <div className={numWidth + " " + transType}>{data.amount}</div>
+        let transType;
+        var totalAmount;
+        if (Config.isDaemonBased()) {
+            transType = data.category === "send" ? "send--color" : "receive--color";
+            totalAmount = data.amount;
+        } else {
+            transType = "receive--color";
+            //totalAmount = nodeClient.getTxValue(data.value);
+            //console.log(await nodeClient.getTxValue(data.value))
+            totalAmount = amount;
+        }
+        return <div className={numWidth + " " + transType}>{totalAmount}</div>
     }
+
     function getArrayIndex(num) {
         let newNum = parseInt(num);
         return newNum + 1;
@@ -239,54 +392,80 @@ function Transaction({ data, index, style }) {
         }
     }
     function calculateDateFromEpoch(epoch) {
-        var recDate = new Date(epoch * 1000);
-        const date = recDate.toISOString().split('T')[0];
-
+        //var recDate = new Date(epoch * 1000);
+        //const date = recDate.toISOString().split('T')[0];
+        let time = new Date(epoch);
+        let year = time.getFullYear();
+        let date = ('00' + time.getDate()).slice(-2);
+        let month = ('00' + (time.getMonth() + 1)).slice(-2);
+        let hour = ('00' + time.getHours()).slice(-2);
+        let minute = ('00' + time.getMinutes()).slice(-2);
+        let second = ('00' + time.getSeconds()).slice(-2);
+        //return [year, month, date].join('.') + ' ' + [hour, minute, second].join(':');
+        //console.log("time: ", recDate.toISOString())
+        //const date = recDate.toISOString().split('T')[0];
         return (
             <div>
-                <div>{date}</div>
+                <div>{[year, month, date].join('.') + ' ' + [hour, minute, second].join(':')}</div>
             </div>
         )
     }
     function calculateDateTimeFromEpoch(epoch) {
-        var recDate = new Date(epoch * 1000);
-        const date = recDate.toISOString().split('T')[0];
-        const time = recDate.toTimeString().split(" ")[0];
+        let time = new Date(epoch);
+        let year = time.getFullYear();
+        let date = ('00' + time.getDate()).slice(-2);
+        let month = ('00' + (time.getMonth() + 1)).slice(-2);
+        let hour = ('00' + time.getHours()).slice(-2);
+        let minute = ('00' + time.getMinutes()).slice(-2);
+        let second = ('00' + time.getSeconds()).slice(-2);
+        //return [year, month, date].join('.') + ' ' + [hour, minute, second].join(':');
+        //console.log("time: ", recDate.toISOString())
+        //const date = recDate.toISOString().split('T')[0];
         return (
             <div>
-                <div>{date}</div>
-                <div>{time}</div>
+                <div>{[year, month, date].join('.') + ' ' + [hour, minute, second].join(':')}</div>
             </div>
         )
     }
     function getCategoryIcon(data) {
-        switch (data.category) {
-            case "immature":
-            case "receive":
-                if (data.generated) {
+        if (Config.isDaemonBased()) {
+            switch (data.category) {
+                case "receive":
+                case "immature":
+                    if (data.generated) {
+                        if (data.generatedfrom === "stake") {
+                            return <FontAwesomeIcon size="lg" icon={faCoins} color="rgb(255, 151, 14)" />
+                        } else if (data.generatedfrom === "masternode reward") {
+                            return <FontAwesomeIcon size="lg" icon={faNetworkWired} color="lightgoldenrodyellow" />
+                        }
+                    } else {
+                        return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="lightgreen" />
+                    }
+                case "send":
+                    return <FontAwesomeIcon size="lg" icon={faSignOutAlt} color="lightsalmon" />
+                case "generate":
                     if (data.generatedfrom === "stake") {
-                        return <FontAwesomeIcon size="lg" icon={faCoins} color="lightgoldenrodyellow" />
+                        return <FontAwesomeIcon size="lg" icon={faCoins} color="rgb(255, 151, 14)" />
                     } else if (data.generatedfrom === "masternode reward") {
                         return <FontAwesomeIcon size="lg" icon={faNetworkWired} color="lightgoldenrodyellow" />
                     }
-                } else {
-                    return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="lightgreen" />
-                }
-                break;
-            case "send":
-                return <FontAwesomeIcon size="lg" icon={faSignOutAlt} color="lightsalmon" />
-                break;
-            case "generate":
-                if (data.generatedfrom === "stake") {
-                    return <FontAwesomeIcon size="lg" icon={faCoins} color="rgb(255, 151, 14)" />
-                } else if (data.generatedfrom === "masternode reward") {
-                    return <FontAwesomeIcon size="lg" icon={faNetworkWired} color="lightgoldenrodyellow" />
-                }
-                break;
-            default:
-                return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="white" />
-                break;
+
+                default:
+                    return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="white" />
+
+            }
+        } else {
+            // cph type 1 = send, type 2 = receive
+            switch (data.tx_type) {
+                case 1:
+                    return <FontAwesomeIcon size="lg" icon={faSignOutAlt} color="lightsalmon" />
+                    break;
+                case 2:
+                    return <FontAwesomeIcon size="lg" icon={faSignInAlt} color="white" />
+                    break;
+            }
         }
+
     }
 }
 export default Transaction;

@@ -19,18 +19,22 @@
 
 import React, { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
 import Content from "../content";
-import Button from "../../common/components/Button";
 import RPCClient from "../../common/rpc-client.js";
 import "./transactions-content.css";
-import { faChevronCircleDown, faChevronCircleUp } from "@fortawesome/free-solid-svg-icons";
+import { faChevronCircleDown, faChevronCircleUp, faSyncAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ExportCSV from "../../common/components/ExportCSV";
-import TransactionLoader from "./TransactionLoader";
 import lodash from "lodash";
 import { ipcRenderer, remote } from "electron";
 import InfiniteLoadWrapper from "../../common/components/InfiniteLoadWrapper";
+import Config from "../../common/config";
+import NodeClient from "../../common/node-client";
+import Store from "electron-store";
+import AccountSelection from "../../common/accounts/AccountSelection";
 
 var _ = require('electron').remote.getGlobal('_');
+const nodeClient = new NodeClient(Config.getNodeInfo());
+const store = new Store();
 
 function TransactionsContent(props) {
 	const [transactions, setTransactions] = useState({});
@@ -38,9 +42,9 @@ function TransactionsContent(props) {
 	const [pageCount, setPageCount] = useState(1);
 	const [doneLoading, setDoneLoading] = useState(false);
 	const [loadingStatus, setLoadingStatus] = useState("idle");
-	const [txHeight, setTxHeight] = useState(525);
-	const [txWidth, setTxWidth] = useState(610);
-	const [loadMore, setLoadMore] = useState(false);
+	const [txHeight, setTxHeight] = useState(455);
+	const [txWidth, setTxWidth] = useState(695);
+	const [loadMore, setLoadMore] = useState(true);
 	const transactionContainer = useRef(null);
 	const [hasNextPage, setHasNextPage] = useState(true);
 	const [isNextPageLoading, setIsNextPageLoading] = useState(false);
@@ -50,6 +54,10 @@ function TransactionsContent(props) {
 	const txToLoad = 60;
 	const window = remote.getCurrentWindow();
 	const [scrollTo, setScrollTo] = useState(0);
+	const [chevronColor, setChevronColor] = useState("white");
+	const [walletList, setWalletList] = useState(Config.getAccount());
+	const [currentSelectedAccount, setCurrentSelectedAccount] = useState(Config.getCurrentAccount());
+	const [renderListKey, setRenderListKey] = useState(Math.random());
 	itemsRef.current = items;
 	const loadNextPage = (...args) => {
 		console.log("loadNextPage", ...args);
@@ -60,121 +68,186 @@ function TransactionsContent(props) {
 			loadTransactionData(true);
 		}, 100);
 	};
-
 	useEffect(() => {
+		//store.set("currentSelectedAccount", {});
+		console.log("default account: ", store.get("currentSelectedAccount"))
+		ipcRenderer.on("update-active-account", (event, account) => {
+			console.log('resetting page count ', account)
+			setItems([]);
+			setPageCount(1);
+			setCurrentSelectedAccount(account);
+		});
+		if (Config.isDaemonBased()) {
+			setChevronColor("white");
+		} else {
+			setChevronColor("grey");
+		}
 		window.on('resize', lodash.debounce(function () {
-			let height = transactionContainer.current.offsetHeight - 30;
+			let height = transactionContainer.current.offsetHeight - 50;
 			let width = transactionContainer.current.offsetWidth - 20;
-			console.log("height ", height);
-			console.log("width ", width);
+			//console.log("height ", height);
+			//console.log("width ", width);
 			setTxHeight(height);
 			setTxWidth(width);
 		}, 0));
 		ipcRenderer.on("wallet-checked-transactions", (event, message) => {
 			checkForNewTransactions(message);
 		});
+		ipcRenderer.on("accounts-updated", (event, message) => {			
+			setWalletList(Config.getAccount());
+			refreshTransactions();
+		});
 	}, []);
+	useEffect(() => {
+		setRenderListKey(Math.random());
+	}, [walletList]);
+	useEffect(() => {
+
+		refreshTransactions();
+		console.log("reload transactions");
+	}, [currentSelectedAccount])
 
 	useEffect(() => {
 		// load more transactions 
 		if (loadMore === true)
 			loadTransactionData(loadMore);
 	}, [loadMore]);
-	/*useEffect(() => {
-		console.log("items updated: ", items)
-	}, [items]);*/
+
+
 
 	return (
 		<Content id="transactions" >
 			<div className="transaction--container transaction--top--item" ref={transactionContainer}>
 				<div className="align--row--space-between transaction--padding">
-					<Button handleClick={exportToCSV} buttonSize="btn--small">
+					{/*<Button handleClick={exportToCSV} buttonSize="btn--small">
 						{_("Export CSV")}
-					</Button>
+					</Button>*/}
+					<div className="scroll--nav--buttons align--row--flexstart">
+						<div className="chevron address--item">
+							<FontAwesomeIcon size="sm" icon={faSyncAlt}
+								color={chevronColor} onClick={() => refreshTransactions()} />
+						</div>
+						{walletList.length > 1 ?
+							<div className="fontSmallBold darkCopy dropdown--selection" key={renderListKey}>
+								<AccountSelection
+									key={currentSelectedAccount}
+									current={currentSelectedAccount}
+									list={walletList}
+								/>
+							</div>
+							: null}
+					</div>
 					<div className="scroll--nav--buttons align--row--flexstart">
 						<div className="chevron address--item">
 							<FontAwesomeIcon size="sm" icon={faChevronCircleDown}
-								color="white" onClick={() => setScrollTo(items.length)} />
+								color={chevronColor} onClick={() => setScrollTo(items.length)} />
 						</div>
 						<div className="chevron address--item">
 							<FontAwesomeIcon size="sm" icon={faChevronCircleUp}
-								color="white" onClick={() => setScrollTo(0)} />
+								color={chevronColor} onClick={() => setScrollTo(0)} />
 						</div>
 					</div>
 				</div>
+				<div className="transaction--item">
+					<InfiniteLoadWrapper
+						key={itemsKey}
+						hasNextPage={hasNextPage}
+						isNextPageLoading={isNextPageLoading}
+						items={items}
+						loadNextPage={loadNextPage}
+						height={txHeight}
+						width={txWidth}
+						scrollTo={scrollTo}
+					/>
+				</div>
 
-				<InfiniteLoadWrapper
-					key={itemsKey}
-					hasNextPage={hasNextPage}
-					isNextPageLoading={isNextPageLoading}
-					items={items}
-					loadNextPage={loadNextPage}
-					height={txHeight}
-					width={txWidth}
-					scrollTo={scrollTo}
-				/>
 
 			</div>
 		</Content>
 	);
 
+	function refreshTransactions() {
+		loadTransactionData(true);
+	}
 	async function loadTransactionData(load) {
 		if (load) {
 			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
 			setLoadingStatus("loading");
-			//console.log('transactions?')
-
 			var count = 1;
-			console.log('transactions? ', count)
 			//var startNumber = Object.keys(transactions).length;
 			var startNumber = items.length;
-			if (pageCount > 1) {
-				console.log("startNum ", startNumber)
-				count = pageCount + 1;
-				setPageCount(count);
-				//setLoadCount(startNumber);
-			}
+			if (Config.isDaemonBased === true) {
+				var rpcClient = new RPCClient();
+				let args = ["*", parseInt(txToLoad), parseInt(startNumber)];
+				Promise.all([
+					rpcClient.listTransactions(args)
+					//rpcClient.getwalletinfo(),
+					//new Promise(resolve => setTimeout(resolve, 500))
+				]).then((response) => {
+					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+					console.log("trans res ", response[0]);
+					//console.log("total tx count: ", response[1].txcount);
+					if (response[0].length === 0) {
+						setHasNextPage(false);
+						setIsNextPageLoading(false);
+						setDoneLoading(true);
+						setLoadMore(true);
+						return;
+					}
+					const order = lodash.orderBy(response[0], ['timereceived'], ['desc']);
+					let mergedLength = 0;
+					// if loading new data merge transactions here
+					if (pageCount > 1) {
+						//const newOrder = transactions.concat(order);
+						const newOrder = items.concat(order);
+						//setTransactions(newOrder);
+						setItems(newOrder);
+						//console.log("newOrder ", newOrder)
+						setLoadMore(false);
+					} else {
 
-			var rpcClient = new RPCClient();
-			let args = ["*", parseInt(txToLoad), parseInt(startNumber)];
-
-			Promise.all([
-				rpcClient.listTransactions(args)
-				//rpcClient.getwalletinfo(),
-				//new Promise(resolve => setTimeout(resolve, 500))
-			]).then((response) => {
+						//setTransactions(order);
+						setItems(order);
+						//console.log("order ", order)
+						setLoadMore(false);
+					}
+					count = pageCount + 1;
+					setPageCount(count);
+				}, (stderr) => {
+					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+					console.error(stderr);
+				});
+			} else {
+				console.log("page count: ", pageCount);
+				console.log("selected account to load: ", currentSelectedAccount)
+				const txList = await nodeClient.getTransactionList(pageCount, txToLoad, currentSelectedAccount[0].address);
 				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-				console.log("trans res ", response[0]);
-				//console.log("total tx count: ", response[1].txcount);
-				if (response[0].length === 0) {
+				if (txList === null) {
 					setHasNextPage(false);
 					setIsNextPageLoading(false);
 					setDoneLoading(true);
 					setLoadMore(true);
+					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "new-transactions-loaded", items);
 					return;
 				}
-				const order = lodash.orderBy(response[0], ['timereceived'], ['desc']);
-				let mergedLength = 0;
-				// if loading new data merge transactions here
-				if (count > 1) {
-					//const newOrder = transactions.concat(order);
+				const order = txList;
+				if (order.length < txToLoad)
+					setHasNextPage(false);
+				if (pageCount > 1) {
+					console.log("pageCount: ", pageCount);
 					const newOrder = items.concat(order);
-					//setTransactions(newOrder);
+					console.log("transactions: ", newOrder)
 					setItems(newOrder);
-					//console.log("newOrder ", newOrder)
 					setLoadMore(false);
 				} else {
-					count = pageCount + 1;
-					setPageCount(count);
-					//setTransactions(order);
 					setItems(order);
-					//console.log("order ", order)
 					setLoadMore(false);
+					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "new-transactions-loaded", order);
 				}
-			}, (stderr) => {
-				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-				console.error(stderr);
-			});
+				count = pageCount + 1;
+				setPageCount(count);
+			}
+
 		}
 	}
 
