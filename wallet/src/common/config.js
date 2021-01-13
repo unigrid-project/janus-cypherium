@@ -96,6 +96,10 @@ export default class Config {
         return store.get('walletList');
     }
 
+    static getCurrentAccount() {
+        return store.get("currentSelectedAccount")
+    }
+
     static getEnvironment() {
         return this.getStore().environment;
     }
@@ -156,8 +160,12 @@ export default class Config {
         return this.getStore().hasStaking;
     }
 
-    static getIsDaemonLocal() {
+    static isDaemonBased() {
         return this.getStore().isDaemonLocal;
+    }
+
+    static getHasGas() {
+        return this.getStore().hasGas;
     }
 
     static getSplashHTML() {
