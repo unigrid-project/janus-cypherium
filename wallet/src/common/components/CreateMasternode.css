@@ -102,7 +102,6 @@
   width: 98%;
   min-height: 230px;
   border-radius: 10px;
-  border: 2px transparent solid;
   background-color: var(--container--background);
   border: 1.5px solid #4e4e4e;
 }
