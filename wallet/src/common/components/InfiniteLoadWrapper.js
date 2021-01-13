@@ -51,12 +51,12 @@ function InfiniteLoadWrapper({
             loadMoreItems={loadMoreItems}
         >
             {({ onItemsRendered }) => (
-                <div>
+                <div className="infinite-loader">
                     <List
                         itemCount={itemCount}
                         onItemsRendered={onItemsRendered}
                         ref={listRef}
-                        overscanCount={30}
+                        overscanCount={60}
                         height={height}
                         width={width}
                         itemSize={40}

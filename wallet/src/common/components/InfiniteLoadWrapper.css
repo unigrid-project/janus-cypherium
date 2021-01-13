@@ -9,3 +9,7 @@ body,
 .inifinitie--scroller{
   transform: translate3d(0,0,0);
 }
+
+.infinite-loader{
+  min-width: 695px;
+}
