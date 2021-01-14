@@ -18,26 +18,21 @@
  */
 
 import React from "react";
-import { Helmet } from "react-helmet";
-import Content from "../content";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExchangeAlt, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import NavEntry from "../naventry";
 
-export default class ExplorerContent extends React.Component {
+library.add(faExchangeAlt, faChevronRight);
+var _ = require('electron').remote.getGlobal('_');
+export default class Explorer extends React.Component {
 	render() {
 		return (
-			<Content id="explorer">
-				<div>{this.renderWidget()}</div>
-			</Content>
+			<NavEntry>
+				<div className="menu-title">{_("Explorer")}</div>
+				<div className="menu--icon"><FontAwesomeIcon size="sm" icon={faChevronRight} /></div>
+			</NavEntry>
 		);
-	}
-
-	renderWidget() {
-		return (
-			<Helmet>
-				<div>
-					widget
-				</div>
-			</Helmet>
-		)
 	}
 }
 
