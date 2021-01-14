@@ -35,7 +35,6 @@ function TransactionLong({ data, index, style }) {
     const [promiseComplete, setPromiseComplete] = useState(false);
     const [themeStyle, setThemeStyle] = useState(Config.isDaemonBased() ? "transaction--main" : "transaction--secondary");
     useEffect(() => {
-        //console.log("amount: ", amount)
         nodeClient.getTxValue(data.value).then((r) => {
             setAmount(r);
             setPromiseComplete(true);
@@ -92,7 +91,6 @@ function TransactionLong({ data, index, style }) {
 
         )
     }
-
 
     function getTimeObject(epoch) {
         if (largeTrans === true) {

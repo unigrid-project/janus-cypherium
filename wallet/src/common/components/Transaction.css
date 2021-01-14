@@ -75,7 +75,6 @@ body {
     background-color: var(--navbar--background);
 }
 
-
 .loading--main {
     display: flex;
     flex-direction: row;

@@ -29,7 +29,6 @@ function AccountSelection({ current, list }) {
     const [renderKey, setRenderKey] = useState(Math.random());
     useEffect(() => {
         ipcRenderer.on("update-active-account", (event, account) => {
-            console.log('updating active account', account)
             store.set("currentSelectedAccount", account);
             setCurrentActive(account);
             setRenderKey(Math.random());
@@ -50,7 +49,6 @@ function AccountSelection({ current, list }) {
         />
     )
     function changedAccountSelection(v) {
-        console.log("account selection ", v)
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "update-active-account", v);
     }
 }
