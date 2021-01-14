@@ -20,7 +20,7 @@ import Config from "./config";
 const Web3c = require('@cypherium/web3c');
 
 
-const Web3 = require("web3");
+//const Web3 = require("web3");
 const log = require('electron-log');
 const axios = require('axios');
 
@@ -32,7 +32,7 @@ export default class NodeClient {
         this.cphNode = Config.getEnvironment();
         this.amount = "";
         console.log("cphNode ", this.cphNode);
-        this.web3 = new Web3(new Web3.providers.WebsocketProvider(nodeInfo.url));
+        //this.web3 = new Web3(new Web3.providers.WebsocketProvider(nodeInfo.url));
         this.web3c = new Web3c(new Web3c.providers.HttpProvider(this.cphNode.cypherium.provider));
     }
 
@@ -141,10 +141,10 @@ export default class NodeClient {
     }
 
     async subscribeToBlocks() {
-        const subscription = this.web3.eth.subscribe('newBlockHeaders', (error, blockHeader) => {
+       /* const subscription = this.web3.eth.subscribe('newBlockHeaders', (error, blockHeader) => {
             if (error) return log.error(error);
             //log.info("BlockHeader: ", blockHeader)
-        })
+        })*/
     }
 
     async getGasPrice() {
@@ -171,7 +171,7 @@ export default class NodeClient {
     }
 
     async getCphBalance(userAddr, callback, pending = false) {
-        console.log('getCphBalance');
+        console.log('getCphBalance ', userAddr);
         this.web3c.cph.getBalance(userAddr, pending ? 'pending' : 'latest', (e, v) => {
             console.log("e: ", e)
             if (!e) {
@@ -182,7 +182,7 @@ export default class NodeClient {
                 //console.log("fromWei: ", value)
                 callback(value);
             } else {
-                console.log('read from local');
+                console.log('read from local ', v);
                 /*
                                 console.log('read from local');
                                 if (this.global.currentWalletIndex !== undefined) {
