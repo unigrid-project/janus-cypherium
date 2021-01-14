@@ -495,11 +495,15 @@ const ImportAccount = (props) => {
             setWarningMessage(_("Please enter a wallet name"));
             return false;
         }
-        const match = accounts.find(element => element.name === walletName);
-        if (match) {
-            setWarningMessage(_("Please enter a unique wallet name"));
-            return false;
+        let match;
+        if(accounts){
+            match = accounts.find(element => element.name === walletName);
+            if (match) {
+                setWarningMessage(_("Please enter a unique wallet name"));
+                return false;
+            }
         }
+        
         return true;
 
     }
