@@ -157,8 +157,8 @@ ipcMain.on("import-new-wallet", () => {
 		setupController.window.webContents.send('setup-controller-type', "NEW_WALLET");
 		ipcMain.on("close-setup-window", () => {
 			mainWindow.webContents.send("accounts-updated", "ADDED");
-			console.log('close-setup-window RECEVIED')
-			setupController.window.close();
+			//console.log('close-setup-window setupController ', setupController)
+			//setupController.window.close();
 		})
 	});
 })

@@ -18,7 +18,7 @@
  */
 
 import React, { useState, useEffect, useRef } from "react";
-import { ipcRenderer } from "electron";
+import { ipcRenderer, remote } from "electron";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSpinner, faTimes } from "@fortawesome/free-solid-svg-icons";
 import File from "common/file";
@@ -77,6 +77,7 @@ function Setup(props) {
 					ipcRenderer.send('open-main-window');
 				case "NEW_WALLET":
 					ipcRenderer.send('close-setup-window');
+					remote.getCurrentWindow().close();
 			}
 		});
 	}, [handleClose])
