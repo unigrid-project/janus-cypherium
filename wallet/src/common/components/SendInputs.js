@@ -27,6 +27,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RPCClient from "common/rpc-client.js";
 import WarningMessage from "./WarningMessage";
 import { ipcRenderer, remote } from "electron";
+import Config from "../config";
 
 library.add(faTimesCircle);
 
@@ -110,21 +111,26 @@ function SendInputs({
     }
     async function onBlurOutAddress(e) {
         console.log(e.target.value);
-        var rpcClient = new RPCClient();
-        const address = e.target.value;
-        Promise.all([
-            rpcClient.validateAddress([address]),
-            new Promise(resolve => setTimeout(resolve, 500))
-        ]).then((response) => {
-            setIsValid(response[0].isvalid, recipientKey);
-            if (!response[0].isvalid) {
-                setWarningMessage("Address is not valid!");
-                // make sure send button is disabled until 
-                // it's valid
-            }
-        }, (stderr) => {
-            console.error(stderr);
-        });
+        if (Config.isDaemonBased) {
+            var rpcClient = new RPCClient();
+            const address = e.target.value;
+            Promise.all([
+                rpcClient.validateAddress([address]),
+                new Promise(resolve => setTimeout(resolve, 500))
+            ]).then((response) => {
+                setIsValid(response[0].isvalid, recipientKey);
+                if (!response[0].isvalid) {
+                    setWarningMessage("Address is not valid!");
+                    // make sure send button is disabled until 
+                    // it's valid
+                }
+            }, (stderr) => {
+                console.error(stderr);
+            });
+        } else {
+            // handle checking address with cph/eth
+        }
+
     }
 
 }
