@@ -364,10 +364,11 @@ const ImportAccount = (props) => {
                             });
                             break;
                         case "TESTING":
+                            let addressConverted = walletService.convertAddr(addressEntered);
                             let obj = {
                                 account: {
                                     privateKey: "CDA6FE7C1CBB7B50BE779A04432B6EBT1F1494D3C8252C4D34164791D3AFF6E72BF2D489606F6805905CBABF3341C3714B1D6DC7AABFA80DA268C3BAC05F88549",
-                                    address: addressEntered,
+                                    address: addressConverted,
                                     publicKey: "BF2D489606F6805905CBABF3341C3514B1D6DC7AABFA80DA368C3B6C05F88549"
                                 },
                                 credentials: {
@@ -378,10 +379,10 @@ const ImportAccount = (props) => {
 
                             walletService.createNewWallet(obj).then((account) => {
                                 console.log("created new wallet: ", obj);
-                                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "handle-wallet-creation", account);
                                 obj = null;
                                 resetDefaults();
                                 setResetKey(Math.random());
+                                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "handle-wallet-creation", account);
                             }, (stderr) => {
                                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
                                 log.error(stderr);
@@ -504,8 +505,10 @@ const ImportAccount = (props) => {
     }
 
     async function checkAddress() {
-        console.log("checkAddress ", addressEntered)
-        if (addressEntered === "") {
+        let addressConverted = walletService.convertAddr(addressEntered);
+        console.log("checkAddress ", addressConverted)
+
+        if (addressConverted === "") {
             setWarningMessage(_("Please enter an address"));
             return false;
         }
@@ -513,7 +516,7 @@ const ImportAccount = (props) => {
             console.log("balance", v)
         });*/
 
-        await nodeClient.validateAddress(addressEntered, (v) => {
+        await nodeClient.validateAddress(addressConverted, (v) => {
             if (v === false) {
                 setWarningMessage(_("The address you enetered is not valid. Please enter a valid address."));
                 return false;

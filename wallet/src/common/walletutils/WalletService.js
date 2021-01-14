@@ -246,6 +246,17 @@ export class WalletService {
         });
     }
 
+    convertAddr(addr) {
+        if (addr.substring(0, 3) === "CPH") {
+            return addr.replace('CPH', '');
+        } else if (addr.substring(0, 3) === "0x") {
+            return addr.replace('0x', '');
+        } else if (addr.substring(0, 3) === "cph") {
+            return addr.replace('cph', '');
+        }
+        return addr;
+    }
+
     async createNewWallet(data) {
         return await new Promise((resolve, reject) => {
             const hash = this.createHashFromKey(data.credentials.password);
