@@ -37,7 +37,7 @@ const nodeClient = new NodeClient(Config.getNodeInfo());
 const store = new Store();
 
 function TransactionsContent(props) {
-	const [transactions, setTransactions] = useState({});
+	//const [transactions, setTransactions] = useState({});
 	const scroll = useRef(null);
 	const [pageCount, setPageCount] = useState(1);
 	const [doneLoading, setDoneLoading] = useState(false);
@@ -66,16 +66,13 @@ function TransactionsContent(props) {
 			setHasNextPage(items.length < 10000);
 			setIsNextPageLoading(false);
 			loadTransactionData(true);
-		}, 100);
+		}, 50);
 	};
 	useEffect(() => {
-		//store.set("currentSelectedAccount", {});
-		console.log("default account: ", store.get("currentSelectedAccount"))
 		ipcRenderer.on("update-active-account", (event, account) => {
-			console.log('resetting page count ', account)
-			setItems([]);
 			setPageCount(1);
 			setCurrentSelectedAccount(account);
+			setItems([]);
 		});
 		if (Config.isDaemonBased()) {
 			setChevronColor("white");
@@ -93,27 +90,25 @@ function TransactionsContent(props) {
 		ipcRenderer.on("wallet-checked-transactions", (event, message) => {
 			checkForNewTransactions(message);
 		});
-		ipcRenderer.on("accounts-updated", (event, message) => {			
+		ipcRenderer.on("accounts-updated", (event, message) => {
 			setWalletList(Config.getAccount());
-			refreshTransactions();
+			//refreshTransactions();
 		});
+		ipcRenderer.on("new-transactions-loaded", (event, obj) => {
+			if (obj.count !== 0)
+				setPageCount(obj.count);
+
+		})
 	}, []);
 	useEffect(() => {
 		setRenderListKey(Math.random());
 	}, [walletList]);
-	useEffect(() => {
-
-		refreshTransactions();
-		console.log("reload transactions");
-	}, [currentSelectedAccount])
 
 	useEffect(() => {
 		// load more transactions 
 		if (loadMore === true)
 			loadTransactionData(loadMore);
 	}, [loadMore]);
-
-
 
 	return (
 		<Content id="transactions" >
@@ -127,15 +122,13 @@ function TransactionsContent(props) {
 							<FontAwesomeIcon size="sm" icon={faSyncAlt}
 								color={chevronColor} onClick={() => refreshTransactions()} />
 						</div>
-						{walletList.length > 1 ?
-							<div className="fontSmallBold darkCopy dropdown--selection" key={renderListKey}>
-								<AccountSelection
-									key={currentSelectedAccount}
-									current={currentSelectedAccount}
-									list={walletList}
-								/>
-							</div>
-							: null}
+						<div className="fontSmallBold darkCopy dropdown--selection" key={renderListKey}>
+							<AccountSelection
+								key={currentSelectedAccount}
+								current={currentSelectedAccount}
+								list={walletList}
+							/>
+						</div>
 					</div>
 					<div className="scroll--nav--buttons align--row--flexstart">
 						<div className="chevron address--item">
@@ -167,7 +160,8 @@ function TransactionsContent(props) {
 	);
 
 	function refreshTransactions() {
-		loadTransactionData(true);
+		//loadTransactionData(true);
+		ipcRenderer.sendTo(remote.getCurrentWebContents().id, "update-active-account", currentSelectedAccount);
 	}
 	async function loadTransactionData(load) {
 		if (load) {
@@ -218,34 +212,42 @@ function TransactionsContent(props) {
 					console.error(stderr);
 				});
 			} else {
-				console.log("page count: ", pageCount);
-				console.log("selected account to load: ", currentSelectedAccount)
-				const txList = await nodeClient.getTransactionList(pageCount, txToLoad, currentSelectedAccount[0].address);
+				//const address = store.get("currentSelectedAccount")[0].address;
+				// state is not updated before this call so the above gets exact selection
+				const address = currentSelectedAccount[0].address;
+				const txList = await nodeClient.getTransactionList(pageCount, txToLoad, address);
 				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+				let obj = {}
 				if (txList === null) {
 					setHasNextPage(false);
 					setIsNextPageLoading(false);
 					setDoneLoading(true);
 					setLoadMore(true);
-					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "new-transactions-loaded", items);
+					obj.count = 0;
+					obj.transactions = items;
+					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "new-transactions-loaded", obj);
+					//setItemsKey(Math.random());
 					return;
 				}
 				const order = txList;
+
+				//count = pageCount + 1;
 				if (order.length < txToLoad)
 					setHasNextPage(false);
 				if (pageCount > 1) {
-					console.log("pageCount: ", pageCount);
 					const newOrder = items.concat(order);
-					console.log("transactions: ", newOrder)
 					setItems(newOrder);
 					setLoadMore(false);
+					obj.count = pageCount + 1;
+					obj.transactions = newOrder;
+					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "new-transactions-loaded", obj);
 				} else {
 					setItems(order);
 					setLoadMore(false);
-					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "new-transactions-loaded", order);
+					obj.count = pageCount + 1;
+					obj.transactions = order;
+					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "new-transactions-loaded", obj);
 				}
-				count = pageCount + 1;
-				setPageCount(count);
 			}
 
 		}
@@ -261,7 +263,7 @@ function TransactionsContent(props) {
 			result.forEach(element => shortListTransactions.unshift(element));
 			//console.log("new items added: ", itemsRef.current);
 			setItems(shortListTransactions);
-			setItemsKey(Math.random());
+			//setItemsKey(Math.random());
 		}
 	}
 
