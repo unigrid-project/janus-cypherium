@@ -66,8 +66,8 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-between;
-    align-content: stretch;
+   
+    
     align-items: center;
     border: 1.5px solid var(--border--active);
     border-radius: 5px;
@@ -134,14 +134,14 @@ body {
 
 .trans--item:nth-child(4) {
     order: 0;
-    width: 10;
+    width: 20;
     align-self: auto;
 }
 
 .trans--item:nth-child(5) {
     order: 0;
-    width: 45%;
-    align-self: auto;
+    width: 60%;
+    margin-left: 20px;
 }
 
 .trans--item:nth-child(6) {

@@ -36,7 +36,7 @@ function TransactionLong({ data, index, style }) {
     const [themeStyle, setThemeStyle] = useState(Config.isDaemonBased() ? "transaction--main" : "transaction--secondary");
     useEffect(() => {
         nodeClient.getTxValue(data.value).then((r) => {
-            setAmount(r);
+            setAmount(parseInt(r).toFixed(10));
             setPromiseComplete(true);
         })
     }, [])
