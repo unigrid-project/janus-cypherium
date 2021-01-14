@@ -58,17 +58,13 @@ function MyWalletContent(props) {
 	const [sendKey, setSendKey] = useState();
 	const [renderKey, setRenderKey] = useState(Math.random());
 	const [sendState, setSendState] = useState(false);
-	const [mnemonic, setMnemonic] = useState("");
-	const [privateKey, setprivateKey] = useState("");
 	const [transactionClasses, setTransactionClasses] = useState("transaction--container--start");
 	const [sendClasses, setSendClasses] = useState("send--container--start");
 	const [passwordEntry, setpasswordEntry] = useState("");
 	const [clearPassword, setClearPassword] = useState("");
 	const [renderPWkey, setRenderPWKey] = useState(Math.random());
-	const [currentAddress, setCurrentAddress] = useState('');
 	const [walletList, setWalletList] = useState(Config.getAccount());
 	const [renderListKey, setRenderListKey] = useState(Math.random());
-	//const [renderKey, setRenderKey] = useState(Math.random());
 	useEffect(() => {
 		nodeClient.subscribeToBlocks();
 		nodeClient.start();
@@ -92,21 +88,16 @@ function MyWalletContent(props) {
 				getNodeData();
 			}
 		});
-		ipcRenderer.on("new-transactions-loaded", (event, transactions) => {
-			let newArr;
-			if (transactions) newArr = transactions.slice(0, 10);
-			setTransactions(newArr);
+		ipcRenderer.on("new-transactions-loaded", (event, obj) => {
+			setTransactions(obj.transactions);
+			setRenderKey(Math.random());
 		});
 
 		ipcRenderer.on("accounts-updated", (event, message) => {
 			const accounts = Config.getAccount();
 			setWalletList(accounts);
-
-			//setCurrentSelectedAccount(accounts[0]);
 		});
-		// get data every 30 seconds for now
-		// this will be converted to a websocket 
-		// in the future
+
 		const interval = setInterval(() => {
 			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
 		}, 10000);
@@ -292,18 +283,21 @@ function MyWalletContent(props) {
 		)
 	}
 	function renderTransactions() {
-		console.log("new transactions to render:", transactions)
+		//console.log("new transactions to render:", transactions)
 		if (!transactions) return null
+		// maybe change this size on window resizes
+		let newArr = transactions.slice(0, 10);
 		return (
-			Object.keys(transactions).map(key => {
+			Object.keys(newArr).map(key => {
 				return (
 					<div key={key} className="cellPadding">
-						<Transaction data={transactions[key]} index={key} style="trans--short" />
+						<Transaction data={newArr[key]} index={key} style="trans--short" />
 					</div>
 				)
 			})
 		)
 	}
+
 	async function getDataLocal() {
 		var coinGecko = new CoinGecko();
 		var rpcClient = new RPCClient();
