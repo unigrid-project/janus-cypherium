@@ -62,7 +62,7 @@ function Send() {
             setSendAddress(message.address, message.key);
         });
     }, []);
-
+/*checkForLockedWallet()}>{_("SEND")}</Button>*/
     return (
         <div
             key={Object.keys(recipients).length}
@@ -74,7 +74,7 @@ function Send() {
                     buttonStyle="btn--secondary--solid"
                     buttonSize="btn--small"
                     disabled={disableSendBtn}
-                    handleClick={() => checkForLockedWallet()}>{_("SEND")}</Button>
+                    handleClick={() => null}>{_("SEND")}</Button>
                 <Button
                     buttonStyle="btn--secondary--solid"
                     buttonSize="btn--small"
