@@ -18,7 +18,7 @@
         "userModelId": "cypherium-electron",
         "coindGeckoId": "cypherium",
         "splashInfo": {
-            "html": "<h1>Sharded Internet</h1><h2>Copyright © 2018-2020 The UNIGRID Organization</h2><p> This project is using code based on the work of<strong> Satoshi Nakamoto</strong>,<strong> The Bitcoin Developers</strong>,<strong> The DASH Developers</strong>,<strong> The PIVX Developers</strong> and<strong> The Swipp Developers</strong>,based on work between 2009 and 2018.</p>"
+            "html": "<h1>Janus Cypherium</h1><h2>Copyright © 2018-2021 The UNIGRID Organization</h2>"
         },
         "nodeInfo": {
             "url": "wss://mainnet.infura.io/ws/v3/0cf8cfd5283440fda121557679ce85b9",
