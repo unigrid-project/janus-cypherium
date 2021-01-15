@@ -17,7 +17,8 @@
  */
 
 import Config from "./config";
-const Web3c = require('@cypherium/web3c');
+import Web3c from '@cypherium/web3c';
+//const Web3c = require('@cypherium/web3c');
 
 
 //const Web3 = require("web3");
@@ -141,10 +142,10 @@ export default class NodeClient {
     }
 
     async subscribeToBlocks() {
-       /* const subscription = this.web3.eth.subscribe('newBlockHeaders', (error, blockHeader) => {
-            if (error) return log.error(error);
-            //log.info("BlockHeader: ", blockHeader)
-        })*/
+        /* const subscription = this.web3.eth.subscribe('newBlockHeaders', (error, blockHeader) => {
+             if (error) return log.error(error);
+             //log.info("BlockHeader: ", blockHeader)
+         })*/
     }
 
     async getGasPrice() {

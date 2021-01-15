@@ -68,6 +68,13 @@ function MyWalletContent(props) {
 	useEffect(() => {
 		nodeClient.subscribeToBlocks();
 		nodeClient.start();
+		nodeClient.getKeyBlockHeight().then((r) => {
+			console.log("getKeyBlockHeight: ", r);
+		})
+		nodeClient.getBlockHeight().then((r) => {
+			console.log("getBlockHeight: ", r);
+		})
+
 		if (Config.isDaemonBased()) {
 			getDataLocal();
 		} else {
@@ -133,7 +140,7 @@ function MyWalletContent(props) {
 
 					</div>
 				</div>
-				
+
 				<div className={transactionClasses}
 					onAnimationEnd={onTransactionAnimationEnd}
 					onAnimationStart={onTransactionAnimationStart}>
