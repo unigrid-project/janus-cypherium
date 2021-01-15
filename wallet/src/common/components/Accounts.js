@@ -30,7 +30,7 @@ import NodeClient from '../../common/node-client';
 import Config from "../config";
 
 const log = require('electron-log');
-const nodeClient = new NodeClient(Config.getNodeInfo());
+const nodeClient = new NodeClient();
 
 function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
     const [showInput, setShowInput] = useState(false);

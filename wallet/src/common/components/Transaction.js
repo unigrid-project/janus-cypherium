@@ -27,7 +27,7 @@ import Config from "../config";
 import NodeClient from "../../common/node-client";
 
 library.add(faSignInAlt, faSignOutAlt, faCoins, faClock, faCubes, faNetworkWired);
-const nodeClient = new NodeClient(Config.getNodeInfo());
+const nodeClient = new NodeClient();
 var _ = require('electron').remote.getGlobal('_');
 
 function Transaction({ data, index, style }) {

@@ -38,7 +38,7 @@ const testingCopy = _("Please enter any address to create a testing account. Pre
 const enterWalletName = _("Wallet Name");
 const enterPassword = _("Password");
 const repeatPassword = _("Repeat Password");
-const nodeClient = new NodeClient(Config.getNodeInfo());
+const nodeClient = new NodeClient();
 
 const ImportAccount = (props) => {
     const [selections, setSelections] = useState([

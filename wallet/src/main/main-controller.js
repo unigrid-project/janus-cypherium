@@ -36,7 +36,7 @@ export default class MainController {
 			minWidth: 850,
 			maxHeight: 550,
 			frame: false,
-			resizable: true,
+			resizable: false,
 			show: false,
 			webPreferences: {
 				nodeIntegration: true,

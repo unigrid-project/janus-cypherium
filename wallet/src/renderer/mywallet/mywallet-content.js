@@ -44,7 +44,7 @@ var _ = require('electron').remote.getGlobal('_');
 
 const log = require('electron-log');
 const walletService = new WalletService();
-const nodeClient = new NodeClient(Config.getNodeInfo());
+const nodeClient = new NodeClient();
 const store = new Store();
 const currency = store.get("currency", "usd");
 
@@ -66,7 +66,6 @@ function MyWalletContent(props) {
 	const [walletList, setWalletList] = useState(Config.getAccount());
 	const [renderListKey, setRenderListKey] = useState(Math.random());
 	useEffect(() => {
-		nodeClient.start();
 		nodeClient.getKeyBlockHeight().then((r) => {
 			console.log("getKeyBlockHeight: ", r);
 		})

@@ -21,7 +21,7 @@ import React, { useState, useEffect } from "react";
 import NodeClient from '../../common/node-client';
 import Config from "../config";
 
-const nodeClient = new NodeClient(Config.getNodeInfo());
+const nodeClient = new NodeClient();
 
 function GasSelector() {
     const [gas, setGas] = useState((18 * 21000 / 1000000000))

@@ -26,7 +26,7 @@ import NodeClient from "../../common/node-client";
 import TransactionLoading from "./TransactionLoading";
 
 library.add(faSignInAlt, faSignOutAlt, faCoins, faClock, faCubes, faNetworkWired);
-const nodeClient = new NodeClient(Config.getNodeInfo());
+const nodeClient = new NodeClient();
 
 function TransactionLong({ data, index, style }) {
     const [amount, setAmount] = useState(nodeClient.getTxValue(data.value));

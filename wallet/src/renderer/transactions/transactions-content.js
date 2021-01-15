@@ -33,7 +33,7 @@ import Store from "electron-store";
 import AccountSelection from "../../common/accounts/AccountSelection";
 
 var _ = require('electron').remote.getGlobal('_');
-const nodeClient = new NodeClient(Config.getNodeInfo());
+const nodeClient = new NodeClient();
 const store = new Store();
 
 function TransactionsContent(props) {

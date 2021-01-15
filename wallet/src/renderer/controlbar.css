@@ -54,7 +54,7 @@ div.controlbar>div>div {
 
 div.controlbar.nobg {
 	-webkit-app-region: drag;
-	background-color: #171717;
+	background-color: var(--controlbar--background);
 }
 
 div.controlbar>div:first-child {
