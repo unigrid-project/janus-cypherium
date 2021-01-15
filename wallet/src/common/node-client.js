@@ -18,22 +18,16 @@
 
 import Config from "./config";
 import Web3c from '@cypherium/web3c';
-//const Web3c = require('@cypherium/web3c');
 
-
-//const Web3 = require("web3");
 const log = require('electron-log');
 const axios = require('axios');
 
-
 export default class NodeClient {
 
-    constructor(nodeInfo) {
-        this.nodeInfo = Config.getNodeInfo();
+    constructor() {
         this.cphNode = Config.getEnvironment();
         this.amount = "";
-        console.log("cphNode ", this.cphNode);
-        //this.web3 = new Web3(new Web3.providers.WebsocketProvider(nodeInfo.url));
+        //console.log("cphNode ", this.cphNode);
         this.web3c = new Web3c(new Web3c.providers.HttpProvider(this.cphNode.cypherium.provider));
     }
 
@@ -78,19 +72,6 @@ export default class NodeClient {
         } catch (err) {
             console.log(err.message);
         }
-        /*await axios({
-            method: 'post',
-            url: this.cphNode.appServerUrl + this.cphNode.getTransList,
-            data: {
-                addr: "",
-                txType: 0,
-                pageIndex: 1,
-                pageSize: 20
-            }
-        }, options).then((response) => {
-            console.log("transactions: ", response.data.transactions)
-            return response.data.transactions;
-        });*/
     }
 
     async checkBlock() {
@@ -98,31 +79,19 @@ export default class NodeClient {
         ///var walletAmount = await this.web3c.getCphBalance("");
         console.log("providers ", this.web3c.providers)
     }
-    async start(window, nodeInfo) {
-        console.log(nodeInfo)
-        //this.web3 = new Web3(new Web3.providers.WebsocketProvider(nodeInfo.url));
-        //let block = await this.web3.eth.getBlock('latest');
-        //log.info("Eth Block: ", block);
-        /*let latestBlock = await this.web3.eth.getBlockNumber().then((result) => {
-            log.info("Latest Ethereum Block is: ", result);
-        });*/
-        //console.log("CPH Node: ", this.web3c);
-        /*this.web3c.cph.getBalance("<address>").then((result) => {
-            var balance = result;
-            //balance = this.web3c.toDecimal(balance);
-            console.log("balance: ", balance);
-        }); //Will give value in.
-*/
-        this.getCurrentGasPrices();
-        return this.web3c;
-        //return latestBlock;
-        /*var p;
-        if (isDevelopment) {
-            p = await node.execute(window, nodeInfo);
-        } else {
-            p = await node.execute(window, nodeInfo);
-        }
-        return p;*/
+
+    async start() {
+        return await new Promise((resolve, reject) => {
+            try {
+                if (this.web3c.coinbase !== null) {
+                    resolve(this.web3c.coinbase);
+                } else {
+                    reject("Unable to connect to Cypherium network. Please check your firewall and internet connections.");
+                }
+            } catch {
+                reject("Unable to connect to Cypherium network. Please check your firewall and internet connections.");
+            }
+        });
     }
 
     async getBlockHeight() {
@@ -167,17 +136,17 @@ export default class NodeClient {
     async getCphBalance(userAddr, pending = false) {
         //console.log('getCphBalance ', userAddr);
         return await new Promise((resolve, reject) => {
-            try{
+            try {
                 let balance = this.web3c.cph.getBalance(userAddr).toNumber();
                 if (balance !== undefined) {
                     let value = this.web3c.fromWei(balance);
                     resolve(value);
-                }else{
+                } else {
                     reject(userAddr);
                 }
-            }catch{
+            } catch {
                 reject(userAddr);
             }
-		});
+        });
     }
 }

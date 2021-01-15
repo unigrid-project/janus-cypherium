@@ -172,7 +172,6 @@ app.on("ready", () => {
 	app.setAppUserModelId(Config.getUserModelId());
 	splashController.window.webContents.on("did-finish-load", () => {
 		log.info("Splash screen loaded");
-		console.log("configError ", configError);
 		if (configError != "") {
 			splashController.window.webContents.send("fatal-error", configError);
 			splashController.window.webContents.send("state", "idle");
@@ -182,9 +181,9 @@ app.on("ready", () => {
 				log.info(`Initializing ${Config.getProjectName()} daemon...`);
 				if (!Config.isDaemonBased()) {
 					log.info("Node is server based, skip trying to load a local daemon");
-					var nodeClient = new NodeClient(Config.getNodeInfo());
-					nodeClient.start(splashController.window, Config.getNodeInfo()).then(() => {
-						log.info("successfuly connected to the eth network");
+					var nodeClient = new NodeClient();
+					nodeClient.start().then((r) => {
+						log.info("successfuly connected to the cph network");
 						splashController.window.webContents.send("progress", "indeterminate", `successfuly connected to the eth network`);
 						splashController.check_first_load().then(() => {
 							var mainController = new MainController();
