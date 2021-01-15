@@ -66,7 +66,6 @@ function MyWalletContent(props) {
 	const [walletList, setWalletList] = useState(Config.getAccount());
 	const [renderListKey, setRenderListKey] = useState(Math.random());
 	useEffect(() => {
-		nodeClient.subscribeToBlocks();
 		nodeClient.start();
 		nodeClient.getKeyBlockHeight().then((r) => {
 			console.log("getKeyBlockHeight: ", r);
@@ -337,9 +336,11 @@ function MyWalletContent(props) {
 	}
 
 	async function getNodeData() {
-		console.log("account to load balance: ", Config.getCurrentAccount())
-		nodeClient.getCphBalance(Config.getCurrentAccount()[0].address, (v) => {
+		//console.log("account to load balance: ", Config.getCurrentAccount())
+		nodeClient.getCphBalance(Config.getCurrentAccount()[0].address).then( (v) => {
 			setBalance(v.toString());
+		}, (stderr) => {
+			log.warn("Error loading balance for address: ", "CPH" + stderr);
 		});
 	}
 

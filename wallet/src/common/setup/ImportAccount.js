@@ -516,9 +516,6 @@ const ImportAccount = (props) => {
             setWarningMessage(_("Please enter an address"));
             return false;
         }
-        /*nodeClient.getCphBalance(addressEntered, (v) => {
-            console.log("balance", v)
-        });*/
 
         await nodeClient.validateAddress(addressConverted, (v) => {
             if (v === false) {

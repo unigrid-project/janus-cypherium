@@ -29,6 +29,7 @@ import { ipcRenderer, remote } from "electron";
 import NodeClient from '../../common/node-client';
 import Config from "../config";
 
+const log = require('electron-log');
 const nodeClient = new NodeClient(Config.getNodeInfo());
 
 function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
@@ -41,9 +42,11 @@ function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
     const [addressInputs, setAddressInputs] = useState([]);
     const [balance, setbalance] = useState(0);
     useEffect(() => {
-        nodeClient.getCphBalance(data.address, (v) => {
+        nodeClient.getCphBalance(data.address).then((v) => {
             setbalance(parseInt(v));
-        });
+		}, (stderr) => {
+			log.warn("Error loading balance for address: ", "CPH" + stderr);
+		});
     }, [])
     return (
         <div>

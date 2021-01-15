@@ -141,13 +141,6 @@ export default class NodeClient {
         return result;
     }
 
-    async subscribeToBlocks() {
-        /* const subscription = this.web3.eth.subscribe('newBlockHeaders', (error, blockHeader) => {
-             if (error) return log.error(error);
-             //log.info("BlockHeader: ", blockHeader)
-         })*/
-    }
-
     async getGasPrice() {
         let gasPrice = await this.web3c.cph.getGasPrice();
         console.log("gasPrice: ", gasPrice)
@@ -171,30 +164,20 @@ export default class NodeClient {
         callback(result);
     }
 
-    async getCphBalance(userAddr, callback, pending = false) {
-        console.log('getCphBalance ', userAddr);
-        this.web3c.cph.getBalance(userAddr, pending ? 'pending' : 'latest', (e, v) => {
-            console.log("e: ", e)
-            if (!e) {
-                // console.log('!e');
-                // console.log("Invoked param:-----------------------------------", userAddr, v);
-                // console.log(`wallet${userAddr}'s balance${v}`);
-                let value = this.web3c.fromWei(v, 'cpher');
-                //console.log("fromWei: ", value)
-                callback(value);
-            } else {
-                console.log('read from local ', v);
-                /*
-                                console.log('read from local');
-                                if (this.global.currentWalletIndex !== undefined) {
-                                    callback(this.global.gWalletList[this.global.currentWalletIndex].amount);
-                                } else {
-                                    callback(0);
-                                }*/
-                // let error = await this.helper.getTranslate('MNEMONIC_WRONG');
-                // this.helper.toast(error);
-
+    async getCphBalance(userAddr, pending = false) {
+        //console.log('getCphBalance ', userAddr);
+        return await new Promise((resolve, reject) => {
+            try{
+                let balance = this.web3c.cph.getBalance(userAddr).toNumber();
+                if (balance !== undefined) {
+                    let value = this.web3c.fromWei(balance);
+                    resolve(value);
+                }else{
+                    reject(userAddr);
+                }
+            }catch{
+                reject(userAddr);
             }
-        });
+		});
     }
 }

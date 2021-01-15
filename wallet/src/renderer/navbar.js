@@ -30,7 +30,6 @@ import Masternodes from "./masternodes/masternodes.js";
 import Config from "../common/config.js";
 import CreateAccountButton from "../common/components/CreateAccountButton.js";
 import UnlockWallet from "../common/components/UnlockWallet.js";
-import Explorer from "./explorer/Explorer.js";
 
 export default class NavBar extends React.Component {
 	render() {
@@ -41,7 +40,6 @@ export default class NavBar extends React.Component {
 					<Addresses key="addressbook" />
 					{Config.getIsMasternode() ? <Masternodes key="masternodes" /> : null}
 					<Transactions key="transactions" />
-					{/*<Explorer key="explorer" />*/}
 					{/*<TransactionsTest key="test-transactions" />*/}
 				</ul>
 				<ul className="settings--container" >
