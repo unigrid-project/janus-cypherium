@@ -61,17 +61,8 @@ export default class ControlBar extends React.Component {
 			if (w.isMaximized()) {
 				w.unmaximize();
 			} else {
-				if (os.platform() === 'windows') {
-					w.thickFrame(true);
-					w.setResizable(true);
-					w.maximize();
-					w.setResizable(false);
-				} else {
-					w.maximize();
-				}
-
+				w.maximize();
 			}
-
 		}
 
 		var onClose = () => {
