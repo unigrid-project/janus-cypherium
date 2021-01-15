@@ -122,3 +122,10 @@ div.controlbar>div>svg:last-child {
 	font-size: 8pt;
 	font-family: var(--fontFamily);
 }
+
+.version--number--alt{
+	color: lightgray;
+	padding-right: 15px;
+	font-size: 8pt;
+	font-family: var(--fontFamily);
+}

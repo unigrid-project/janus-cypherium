@@ -85,8 +85,8 @@ export default class ControlBar extends React.Component {
 					{this.state.isUpdateAvailable == true &&
 						<FontAwesomeIcon onClick={() => this.updateWallet()} className="update" icon={faArrowCircleDown} />
 					}
-					{this.state.isUpdateAvailable == true &&
-						<div className="version--number">{this.state.version}</div>
+					{this.state.isUpdateAvailable != true &&
+						<div className={Config.isDaemonBased ? "version--number" : "version--number--alt"}>{this.state.version}</div>
 					}
 					{this.props.fullControls == true &&
 						<div>
