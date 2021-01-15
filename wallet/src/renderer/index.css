@@ -45,6 +45,7 @@ body {
 div.nav>div {
 	width: -webkit-fill-available;
 	overflow-x: hidden;
+	overflow-y: hidden;
 }
 
 div.nav div.content {

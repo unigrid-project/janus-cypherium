@@ -18,15 +18,18 @@
 
 div#transactions.active {
     overflow-y: hidden;
+    overflow-x: hidden;
     height: 100%;
 }
 
 div#transactions.inactive {
     overflow-y: hidden;
+    overflow-x: hidden;
     height: 500px;
 }
 div#test-transactions{
     overflow-y: hidden;
+    overflow-x: hidden;
     height: 100%;
 }
 .transaction--item {
