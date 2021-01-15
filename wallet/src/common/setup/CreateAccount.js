@@ -53,6 +53,7 @@ const CreateAccount = (props) => {
     const [mnemonicDisplay, setMnemonicDisplay] = useState("");
     const [originalMnemonic, setOriginalMnemonic] = useState("");
     const [passwordShown, setPasswordShown] = useState(false);
+    const [repeatShown, setRepeatShown] = useState(false);
     useEffect(() => {
         if (warningMessage !== "") {
             setButtonDisabled(true);
@@ -107,19 +108,18 @@ const CreateAccount = (props) => {
                                 />
                                 <div className="padding--left--five showpass">
                                     <FontAwesomeIcon size="lg"
-                                        onClick={() => onShowPasswordClicked()}
+                                        onClick={() => onShowPasswordClicked("PASSPHRASE")}
                                         className="showpass"
                                         icon={faEye} />
                                 </div>
-
                             </div>
                         </div>
                         <div className="padding--top--five">
                             <div className="fontTiny darkCopy padding--top--left">{repeatPassword}</div>
-                            <div className="align--row--normal" key={passwordShown}>
+                            <div className="align--row--normal">
                                 <EnterField
-                                    key={passwordShown}
-                                    type={passwordShown ? "text" : "password"}
+                                    key={repeatShown}
+                                    type={repeatShown ? "text" : "password"}
                                     clearField={repeatPassphrase}
                                     updateEntry={(v) => updateInput(v, "REPEAT")}
                                     myStyle={"small--input margin--left"}
@@ -127,7 +127,7 @@ const CreateAccount = (props) => {
                                 />
                                 <div className="padding--left--five showpass">
                                     <FontAwesomeIcon size="lg"
-                                        onClick={() => onShowPasswordClicked()}
+                                        onClick={() => onShowPasswordClicked("REPEAT")}
                                         className="showpass"
                                         icon={faEye} />
                                 </div>
@@ -176,9 +176,15 @@ const CreateAccount = (props) => {
         )
     }
 
-    function onShowPasswordClicked() {
-        setPasswordShown(passwordShown ? false : true);
-        console.log("password: ", passwordShown)
+    function onShowPasswordClicked(which) {
+        switch (which) {
+            case "PASSPHRASE":
+                setPasswordShown(passwordShown ? false : true);
+                break;
+            case "REPEAT":
+                setRepeatShown(repeatShown ? false : true);
+                break;
+        }
     }
 
     function renderConfirmMnemonic() {
@@ -286,6 +292,8 @@ const CreateAccount = (props) => {
         setMnemonicDisplay([]);
         setMnemonicChallenge([]);
         setOriginalMnemonic("");
+        setPasswordShown(false);
+        setRepeatShown(false);
         setResetKey(Math.random());
     }
 

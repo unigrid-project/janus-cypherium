@@ -58,6 +58,7 @@ const ImportAccount = (props) => {
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [addressEntered, setAddressEntered] = useState("");
     const [passwordShown, setPasswordShown] = useState(false);
+    const [repeatShown, setRepeatShown] = useState(false);
     useEffect(() => {
         if (warningMessage !== "") {
             setButtonDisabled(true);
@@ -67,6 +68,13 @@ const ImportAccount = (props) => {
         console.log("disabled? ", buttonDisabled);
 
     }, [warningMessage]);
+
+    useEffect(() => {
+        console.log("passwordShown ", passwordShown)
+    }, [passwordShown])
+    useEffect(() => {
+        console.log("repeatShown ", repeatShown)
+    }, [repeatShown])
 
     return (
         <div key={resetKey}>
@@ -173,19 +181,18 @@ const ImportAccount = (props) => {
                         />
                         <div className="padding--left--five showpass">
                             <FontAwesomeIcon size="lg"
-                                onClick={() => onShowPasswordClicked()}
+                                onClick={() => onShowPasswordClicked("PASSPHRASE")}
                                 className="showpass"
                                 icon={faEye} />
                         </div>
-
                     </div>
                 </div>
                 <div className="padding--top--five">
                     <div className="fontTiny darkCopy padding--top--left">{repeatPassword}</div>
-                    <div className="align--row--normal" key={passwordShown}>
+                    <div className="align--row--normal">
                         <EnterField
-                            key={passwordShown}
-                            type={passwordShown ? "text" : "password"}
+                            key={repeatShown}
+                            type={repeatShown ? "text" : "password"}
                             clearField={repeatPassphrase}
                             updateEntry={(v) => updateInput(v, "REPEAT")}
                             myStyle={"small--input margin--left"}
@@ -193,7 +200,7 @@ const ImportAccount = (props) => {
                         />
                         <div className="padding--left--five showpass">
                             <FontAwesomeIcon size="lg"
-                                onClick={() => onShowPasswordClicked()}
+                                onClick={() => onShowPasswordClicked("REPEAT")}
                                 className="showpass"
                                 icon={faEye} />
                         </div>
@@ -250,19 +257,18 @@ const ImportAccount = (props) => {
                         />
                         <div className="padding--left--five showpass">
                             <FontAwesomeIcon size="lg"
-                                onClick={() => onShowPasswordClicked()}
+                                onClick={() => onShowPasswordClicked("PASSPHRASE")}
                                 className="showpass"
                                 icon={faEye} />
                         </div>
-
                     </div>
                 </div>
                 <div className="padding--top--five">
                     <div className="fontTiny darkCopy padding--top--left">{repeatPassword}</div>
-                    <div className="align--row--normal" key={passwordShown}>
+                    <div className="align--row--normal">
                         <EnterField
-                            key={passwordShown}
-                            type={passwordShown ? "text" : "password"}
+                            key={repeatShown}
+                            type={repeatShown ? "text" : "password"}
                             clearField={repeatPassphrase}
                             updateEntry={(v) => updateInput(v, "REPEAT")}
                             myStyle={"small--input margin--left"}
@@ -270,7 +276,7 @@ const ImportAccount = (props) => {
                         />
                         <div className="padding--left--five showpass">
                             <FontAwesomeIcon size="lg"
-                                onClick={() => onShowPasswordClicked()}
+                                onClick={() => onShowPasswordClicked("REPEAT")}
                                 className="showpass"
                                 icon={faEye} />
                         </div>
@@ -442,9 +448,15 @@ const ImportAccount = (props) => {
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "go-back-setup", "IMPORT");
     }
 
-    function onShowPasswordClicked() {
-        setPasswordShown(passwordShown ? false : true);
-        console.log("password: ", passwordShown)
+    function onShowPasswordClicked(which) {
+        switch (which) {
+            case "PASSPHRASE":
+                setPasswordShown(passwordShown ? false : true);
+                break;
+            case "REPEAT":
+                setRepeatShown(repeatShown ? false : true);
+                break;
+        }setRepeatShown
     }
 
     function updateInput(v, from) {
@@ -476,6 +488,8 @@ const ImportAccount = (props) => {
         setRepeatPassphrase("");
         setResetMnemonic("");
         setResetPrivateKey("");
+        setPasswordShown(false);
+        setRepeatShown(false);
         setResetKey(Math.random());
     }
 
