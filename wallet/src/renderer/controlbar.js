@@ -25,6 +25,7 @@ import { faSpinner, faWindowMinimize, faWindowMaximize, faWindowClose, faArrowDo
 import File from "common/file";
 import "./controlbar.css"
 import Config from "../common/config";
+import os from 'os';
 
 library.add(faSpinner, faWindowMinimize, faWindowMaximize, faWindowClose, faArrowDown, faArrowCircleDown);
 
@@ -42,7 +43,7 @@ export default class ControlBar extends React.Component {
 		})
 		ipcRenderer.on("state", (event, message) => {
 			this.setState({ showSpinner: (message == "working" ? true : false) });
-		});		
+		});
 	}
 
 	updateWallet() {
@@ -56,15 +57,21 @@ export default class ControlBar extends React.Component {
 
 		var onMaximize = () => {
 			var w = remote.getCurrentWindow();
-			
+
 			if (w.isMaximized()) {
 				w.unmaximize();
 			} else {
-				w.setResizable(true);
-				w.maximize();
-				w.setResizable(false);
+				if (os.platform() === 'windows') {
+					w.thickFrame(true);
+					w.setResizable(true);
+					w.maximize();
+					w.setResizable(false);
+				} else {
+					w.maximize();
+				}
+
 			}
-			
+
 		}
 
 		var onClose = () => {
