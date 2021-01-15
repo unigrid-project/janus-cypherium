@@ -50,8 +50,8 @@ Config.start().then(() => {
 });
 
 Sentry.init({
-	dsn: "https://51f7c29baa594b0a8bfa788113e696ce@o266736.ingest.sentry.io/5427751",
-	release: 'unigrid-electron@' + process.env.npm_package_version,
+	dsn: "https://63a0ca962c17402dbe42a4b68251eb7d@o266736.ingest.sentry.io/5594296",
+	release: 'janus-cypherium@' + process.env.npm_package_version,
 });
 
 var mainWindow;
