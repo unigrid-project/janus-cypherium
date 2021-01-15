@@ -62,7 +62,7 @@ const routes = {
 				{/*<TransactionsContentTest key="transactions-test-content" />*/}
 				{/*getShowMasternode()*/}
 				{/*<ExplorerContent key="explorer-content" />*/}
-				{/*<SettingsContent key="settings-content" />*/}
+				{<SettingsContent key="settings-content" />}
 				{/*<CLIContent key="cli-content" />*/}
 
 			</div>

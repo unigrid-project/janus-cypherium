@@ -136,6 +136,10 @@ export default class Config {
         return this.getStore().githubLink;
     }
 
+    static getGithubUrl () {
+        return this.getStore().githubUrl;
+    }
+
     static getProjectName() {
         return this.getStore().projectName;
     }

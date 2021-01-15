@@ -21,8 +21,18 @@
 }
 
 div#settings.active {
-    overflow-y: scroll;
+    overflow-y: hidden;
+    overflow-x: hidden;
     height: 100%;
+}
+
+img.piclet {
+	width: 35px;
+	height: auto;
+	padding-right: 5px;
+	vertical-align: middle;
+	-webkit-app-region: no-drag;
+	border: none;
 }
 
 div#settings.inactive {
@@ -85,3 +95,12 @@ div#settings.inactive {
     top: 0px;
     right: 0px;
 }
+
+a:link {
+    color: var(--ugd--orange);
+  }
+
+a:hover {
+    color: red;
+  }
+  

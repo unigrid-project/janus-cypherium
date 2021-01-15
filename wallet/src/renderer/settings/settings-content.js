@@ -31,6 +31,7 @@ import { ipcRenderer, remote } from "electron";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import HideZeroAddresses from "../../common/components/HideZeroAddresses";
 import Config from "../../common/config";
+import File from "../../common/file";
 
 const log = require('electron-log');
 const packageJSON = require('../../../package.json');
@@ -61,7 +62,8 @@ function SettingsContent(props) {
 	const [stakeSplitKey, setStakeSplitKey] = useState(Math.random());
 
 	useEffect(() => {
-		getStakeSplitThreshold();
+		if (Config.isDaemonBased())
+			getStakeSplitThreshold();
 		setIsEncrypted(store.get("encrypted"));
 		ipcRenderer.on('trigger-unlock-wallet', (event, message) => {
 			// sent back from UnlockWallet
@@ -84,6 +86,33 @@ function SettingsContent(props) {
 		<Content id="settings">
 			{renderVersionNumber()}
 			<div className="main--settings-container" >
+				{Config.isDaemonBased === true ? renderDaemonBased() : renderDefaultInfo()}
+			</div>
+		</Content>
+	);
+
+	function renderDefaultInfo() {
+		return (
+			<div className="darkCopy fontSmallBold">
+				<p>{_("This wallet is developed and maintained by a third party ")} <a href="https://www.unigrid.org" target="_blank"><img src={File.get("ugd_logo.png")} className="piclet" />The UNIGRID Organization</a></p>
+				<p>{_("We are in no way affiliated with the Cypherium team or organization. ")}
+					{_("For support please visit the")} <a href="https://discord.gg/CRWZ7V5" target="_blank"> discord </a> {_("server ")}
+					{_("and report any issues you may find to ")} <a href={getIssueUrl()} target="_blank">GitHub</a></p>
+			</div>
+		)
+	}
+
+	function getIssueUrl() {
+		var owner = packageJSON.build.publish[0].owner;
+		var repo = packageJSON.build.publish[0].repo;
+		var gitLink = Config.getGithubUrl();
+		var link = gitLink.concat(owner).concat("/").concat(repo).concat("/issues");
+
+		return link;
+	}
+	function renderDaemonBased() {
+		return (
+			<div>
 				<div>{_("Settings")}</div>
 				<Button
 					key={encryptKey}
@@ -132,9 +161,8 @@ function SettingsContent(props) {
 					buttonStyle="btn--secondary--solid"
 					handleClick={() => openConfFile(Config.getMasternodeFile())}>{_("Open Masternode Config")}</Button>
 			</div>
-		</Content>
-	);
-
+		)
+	}
 	function resetPassphraseContainer() {
 		setRepeatPassphrase("");
 		setPassphrase("");
@@ -478,7 +506,7 @@ function SettingsContent(props) {
 		var coinVersion = packageJSON.version;
 
 		return (
-			<div className="version--release">
+			<div className="version--release darkCopy">
 				{coinName.concat("-").concat(coinVersion)}
 			</div>
 		)
