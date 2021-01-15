@@ -42,7 +42,7 @@ export default class ControlBar extends React.Component {
 		})
 		ipcRenderer.on("state", (event, message) => {
 			this.setState({ showSpinner: (message == "working" ? true : false) });
-		});
+		});		
 	}
 
 	updateWallet() {
@@ -56,12 +56,15 @@ export default class ControlBar extends React.Component {
 
 		var onMaximize = () => {
 			var w = remote.getCurrentWindow();
-
+			
 			if (w.isMaximized()) {
 				w.unmaximize();
 			} else {
+				w.setResizable(true);
 				w.maximize();
+				w.setResizable(false);
 			}
+			
 		}
 
 		var onClose = () => {
