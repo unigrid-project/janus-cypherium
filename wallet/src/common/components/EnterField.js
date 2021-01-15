@@ -46,7 +46,7 @@ function EnterField({
   }
 
   return (
-    <>
+    <div className="">
       <input
         type={inputType}
         disabled={isDisabled}
@@ -63,8 +63,8 @@ function EnterField({
         placeholder={placeValue}
         precision={8}
         className={style} />
-    </>
+    </div>
   );
-  
+
 }
 export default EnterField;

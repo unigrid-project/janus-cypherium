@@ -16,7 +16,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ipcRenderer, remote } from "electron";
 import React, { useState, useEffect } from "react";
@@ -57,7 +57,7 @@ const ImportAccount = (props) => {
     const [resetKey, setResetKey] = useState(Math.random());
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [addressEntered, setAddressEntered] = useState("");
-
+    const [passwordShown, setPasswordShown] = useState(false);
     useEffect(() => {
         if (warningMessage !== "") {
             setButtonDisabled(true);
@@ -162,23 +162,42 @@ const ImportAccount = (props) => {
                 </div>
                 <div className="padding--top--five">
                     <div className="fontTiny darkCopy padding--top--left">{enterPassword}</div>
-                    <EnterField
-                        type={"password"}
-                        clearField={passPhrase}
-                        updateEntry={(v) => updateInput(v, "PASSPHRASE")}
-                        myStyle={"small--input margin--left"}
-                        placeHolder={enterPassword}
-                    />
+                    <div className="align--row--normal">
+                        <EnterField
+                            key={passwordShown}
+                            type={passwordShown ? "text" : "password"}
+                            clearField={passPhrase}
+                            updateEntry={(v) => updateInput(v, "PASSPHRASE")}
+                            myStyle={"small--input margin--left"}
+                            placeHolder={enterPassword}
+                        />
+                        <div className="padding--left--five showpass">
+                            <FontAwesomeIcon size="lg"
+                                onClick={() => onShowPasswordClicked()}
+                                className="showpass"
+                                icon={faEye} />
+                        </div>
+
+                    </div>
                 </div>
                 <div className="padding--top--five">
                     <div className="fontTiny darkCopy padding--top--left">{repeatPassword}</div>
-                    <EnterField
-                        type={"password"}
-                        clearField={repeatPassphrase}
-                        updateEntry={(v) => updateInput(v, "REPEAT")}
-                        myStyle={"small--input margin--left"}
-                        placeHolder={repeatPassword}
-                    />
+                    <div className="align--row--normal" key={passwordShown}>
+                        <EnterField
+                            key={passwordShown}
+                            type={passwordShown ? "text" : "password"}
+                            clearField={repeatPassphrase}
+                            updateEntry={(v) => updateInput(v, "REPEAT")}
+                            myStyle={"small--input margin--left"}
+                            placeHolder={repeatPassword}
+                        />
+                        <div className="padding--left--five showpass">
+                            <FontAwesomeIcon size="lg"
+                                onClick={() => onShowPasswordClicked()}
+                                className="showpass"
+                                icon={faEye} />
+                        </div>
+                    </div>
                 </div>
                 <div className="padding--top--five align--row--flexend padding--right--twenty ">
                     <Button
@@ -220,23 +239,42 @@ const ImportAccount = (props) => {
                 </div>
                 <div className="padding--top--five">
                     <div className="fontTiny darkCopy padding--top--left">{enterPassword}</div>
-                    <EnterField
-                        type={"password"}
-                        clearField={passPhrase}
-                        updateEntry={(v) => updateInput(v, "PASSPHRASE")}
-                        myStyle={"small--input margin--left"}
-                        placeHolder={enterPassword}
-                    />
+                    <div className="align--row--normal">
+                        <EnterField
+                            key={passwordShown}
+                            type={passwordShown ? "text" : "password"}
+                            clearField={passPhrase}
+                            updateEntry={(v) => updateInput(v, "PASSPHRASE")}
+                            myStyle={"small--input margin--left"}
+                            placeHolder={enterPassword}
+                        />
+                        <div className="padding--left--five showpass">
+                            <FontAwesomeIcon size="lg"
+                                onClick={() => onShowPasswordClicked()}
+                                className="showpass"
+                                icon={faEye} />
+                        </div>
+
+                    </div>
                 </div>
                 <div className="padding--top--five">
                     <div className="fontTiny darkCopy padding--top--left">{repeatPassword}</div>
-                    <EnterField
-                        type={"password"}
-                        clearField={repeatPassphrase}
-                        updateEntry={(v) => updateInput(v, "REPEAT")}
-                        myStyle={"small--input margin--left"}
-                        placeHolder={repeatPassword}
-                    />
+                    <div className="align--row--normal" key={passwordShown}>
+                        <EnterField
+                            key={passwordShown}
+                            type={passwordShown ? "text" : "password"}
+                            clearField={repeatPassphrase}
+                            updateEntry={(v) => updateInput(v, "REPEAT")}
+                            myStyle={"small--input margin--left"}
+                            placeHolder={repeatPassword}
+                        />
+                        <div className="padding--left--five showpass">
+                            <FontAwesomeIcon size="lg"
+                                onClick={() => onShowPasswordClicked()}
+                                className="showpass"
+                                icon={faEye} />
+                        </div>
+                    </div>
                 </div>
                 <div className="padding--top--five align--row--flexend padding--right--twenty ">
                     <Button
@@ -312,10 +350,13 @@ const ImportAccount = (props) => {
         if (checkValid === true) {
             if (checkWalletName()) {
                 if (passPhrase == "" && type !== 'TESTING') {
-                    setWarningMessage("Please enter a password");
+                    setWarningMessage(_("Please enter a password"));
+                }
+                else if (passPhrase.length < 8) {
+                    setWarningMessage(_("Password is too short enter a minimum of 8 characters."));
                 }
                 else if (passPhrase !== repeatPassphrase && type !== 'TESTING') {
-                    setWarningMessage("Passwords do not match");
+                    setWarningMessage(_("Passwords do not match"));
                 }
                 else {
                     let credentials = {
@@ -399,6 +440,11 @@ const ImportAccount = (props) => {
     function onBackPressed() {
         resetDefaults();
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "go-back-setup", "IMPORT");
+    }
+
+    function onShowPasswordClicked() {
+        setPasswordShown(passwordShown ? false : true);
+        console.log("password: ", passwordShown)
     }
 
     function updateInput(v, from) {
@@ -496,14 +542,14 @@ const ImportAccount = (props) => {
             return false;
         }
         let match;
-        if(accounts){
+        if (accounts) {
             match = accounts.find(element => element.name === walletName);
             if (match) {
                 setWarningMessage(_("Please enter a unique wallet name"));
                 return false;
             }
         }
-        
+
         return true;
 
     }

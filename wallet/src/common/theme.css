@@ -154,6 +154,13 @@ h2 {
     flex-direction: row;
 }
 
+.align--row--normal {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
 .align--row--flexstart {
     display: flex;
     align-items: center;

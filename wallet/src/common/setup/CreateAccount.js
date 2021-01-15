@@ -16,7 +16,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ipcRenderer, remote } from "electron";
 import React, { useState, useEffect } from "react";
@@ -52,6 +52,7 @@ const CreateAccount = (props) => {
     const [showConfirmButton, setShowConfirmButton] = useState(false);
     const [mnemonicDisplay, setMnemonicDisplay] = useState("");
     const [originalMnemonic, setOriginalMnemonic] = useState("");
+    const [passwordShown, setPasswordShown] = useState(false);
     useEffect(() => {
         if (warningMessage !== "") {
             setButtonDisabled(true);
@@ -94,24 +95,43 @@ const CreateAccount = (props) => {
                             />
                         </div>
                         <div className="padding--top--five">
-                            <div className="fontSmall darkCopy padding--left--five">{enterPassword}</div>
-                            <EnterField
-                                type={"password"}
-                                clearField={passPhrase}
-                                updateEntry={(v) => updateInput(v, "PASSPHRASE")}
-                                myStyle={"medium--input--no--padding"}
-                                placeHolder={enterPassword}
-                            />
+                            <div className="fontTiny darkCopy padding--top--left">{enterPassword}</div>
+                            <div className="align--row--normal">
+                                <EnterField
+                                    key={passwordShown}
+                                    type={passwordShown ? "text" : "password"}
+                                    clearField={passPhrase}
+                                    updateEntry={(v) => updateInput(v, "PASSPHRASE")}
+                                    myStyle={"small--input margin--left"}
+                                    placeHolder={enterPassword}
+                                />
+                                <div className="padding--left--five showpass">
+                                    <FontAwesomeIcon size="lg"
+                                        onClick={() => onShowPasswordClicked()}
+                                        className="showpass"
+                                        icon={faEye} />
+                                </div>
+
+                            </div>
                         </div>
                         <div className="padding--top--five">
-                            <div className="fontSmall darkCopy padding--left--five">{repeatPassword}</div>
-                            <EnterField
-                                type={"password"}
-                                clearField={repeatPassphrase}
-                                updateEntry={(v) => updateInput(v, "REPEAT")}
-                                myStyle={"medium--input--no--padding"}
-                                placeHolder={repeatPassword}
-                            />
+                            <div className="fontTiny darkCopy padding--top--left">{repeatPassword}</div>
+                            <div className="align--row--normal" key={passwordShown}>
+                                <EnterField
+                                    key={passwordShown}
+                                    type={passwordShown ? "text" : "password"}
+                                    clearField={repeatPassphrase}
+                                    updateEntry={(v) => updateInput(v, "REPEAT")}
+                                    myStyle={"small--input margin--left"}
+                                    placeHolder={repeatPassword}
+                                />
+                                <div className="padding--left--five showpass">
+                                    <FontAwesomeIcon size="lg"
+                                        onClick={() => onShowPasswordClicked()}
+                                        className="showpass"
+                                        icon={faEye} />
+                                </div>
+                            </div>
                         </div>
                         <div className="padding--top--five align--row--flexend">
                             <Button
@@ -154,6 +174,11 @@ const CreateAccount = (props) => {
             </Expand>
 
         )
+    }
+
+    function onShowPasswordClicked() {
+        setPasswordShown(passwordShown ? false : true);
+        console.log("password: ", passwordShown)
     }
 
     function renderConfirmMnemonic() {
@@ -285,6 +310,9 @@ const CreateAccount = (props) => {
         }
         else if (passPhrase == "") {
             setWarningMessage(_("Please enter a password"));
+        }
+        else if (passPhrase.length < 8) {
+            setWarningMessage(_("Password is too short enter a minimum of 8 characters."));
         }
         else if (passPhrase !== repeatPassphrase) {
             setWarningMessage(_("Passwords do not match"));
