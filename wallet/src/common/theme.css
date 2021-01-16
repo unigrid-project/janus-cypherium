@@ -50,6 +50,10 @@
     --import--container: #c7ebfa;
     --social-icons: rgb(27, 27, 27);
     --ugd--orange: #fd7303;
+    --dark--red: rgba(94, 1, 1, 1);
+    --dark--green: rgba(0, 63, 0, 1);
+    --dark--teal: rgba(0, 58, 82, 0.8);
+
 }
 /* UGD settings
 --app--background--image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #151529), color-stop(1, #030724)); 
@@ -92,10 +96,19 @@ h2 {
 }
 
 
-.darkCopy{
+.darkCopy {
     color: var(--dark);
 }
 
+.lightCopy { 
+    color: white;
+}
+
+.currencyCopy {
+    color: var(--success);
+    font-weight: 300;
+    font-weight: bold;
+}
 .fontRegular {
     font-family: var(--fontFamily);
     font-size: 14pt;

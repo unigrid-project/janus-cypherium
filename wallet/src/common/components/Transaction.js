@@ -25,10 +25,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { css } from "styled-components";
 import Config from "../config";
 import NodeClient from "../../common/node-client";
+import CustomTooltip from "./CustomToolTip";
 
 library.add(faSignInAlt, faSignOutAlt, faCoins, faClock, faCubes, faNetworkWired);
 const nodeClient = new NodeClient();
 var _ = require('electron').remote.getGlobal('_');
+const showInExplorer = _("view in explorer");
 
 function Transaction({ data, index, style }) {
     const [amount, setAmount] = useState(0);
@@ -60,7 +62,7 @@ function Transaction({ data, index, style }) {
                     </div></div>
                 <div className="trans--short--item">
                     <Tooltip
-                        zIndex={200}
+                        placement="right"
                         fadeDuration={150}
                         radius={10}
                         fontFamily='Roboto'
@@ -70,18 +72,17 @@ function Transaction({ data, index, style }) {
                     var(--tooltip--background)
                   `}
                         content={calculateDateTimeFromEpoch(data.timereceived)}
-                        customCss={css`
-                    white-space: nowrap;
-                  `}
-                    >
+                    ></Tooltip>
+                    <div data-tooltip={calculateDateTimeFromEpoch(data.timereceived)} >
                         {getTimeObject(data.timereceived)}
+                    </div>
+                    {getTimeObject(data.timereceived)}
 
-                    </Tooltip>
                 </div >
                 <div className="trans--short--item">
                     <Tooltip
 
-                        zIndex={200}
+
                         fadeDuration={150}
                         radius={10}
                         fontFamily='Roboto'
@@ -190,103 +191,46 @@ function Transaction({ data, index, style }) {
                             {getArrayIndex(index)}
                         </div></div>
                     <div className="trans--short--item">
-                        <Tooltip
-                            zIndex={200}
-                            fadeDuration={150}
-                            radius={10}
-                            fontFamily='Roboto'
-                            fontSize='5'
-                            fadeEasing="linear"
-                            background={css`
-                    var(--tooltip--background)
-                  `}
-                            content={calculateDateTimeFromEpoch(parseInt(data.timestamp / 1000000))}
-                            customCss={css`
-                    white-space: nowrap;
-                  `}
-                        >
-                            {getTimeObject(parseInt(data.timestamp / 1000000))}
-
-                        </Tooltip>
+                        <CustomTooltip
+                            placement="right"
+                            item={getTimeObject(parseInt(data.timestamp / 1000000))}
+                            color="var(--dark--green)"
+                            content={<div className="fontSmallBold">{calculateDateTimeFromEpoch(parseInt(data.timestamp / 1000000))}</div>}
+                        />
                     </div >
                     <div className="trans--short--item">
-                        <Tooltip
-
-                            zIndex={200}
-                            fadeDuration={150}
-                            radius={10}
-                            fontFamily='Roboto'
-                            fontSize='5'
-                            fadeEasing="linear"
-                            background={css`
-                    var(--tooltip--background)
-                  `}
-                            content={getBlockCount(data.block_number)}
-                            customCss={css`
-                    white-space: nowrap;
-                  `}
-                        >
-                            {getBlockObject(data.block_number)}
-
-                        </Tooltip>
+                        <CustomTooltip
+                            placement="top"
+                            item={getBlockObject(data.block_number)}
+                            color="var(--dark--green)"
+                            content={<div className="fontSmallBold">{getBlockCount(data.block_number)}</div>}
+                        />
                     </div >
                     <div className="trans--short--item">
-                        <Tooltip
-
-                            zIndex={200}
-                            fadeDuration={150}
-                            radius={10}
-                            fontFamily='Roboto'
-                            fontSize='5'
-                            fadeEasing="linear"
-                            background={css`
-                    var(--tooltip--background)
-                  `}
-                            content={getCategory(data)}
-                        >{getCategoryIcon(data)}
-                        </Tooltip>
-
+                        <CustomTooltip
+                            placement="top"
+                            item={getCategoryIcon(data)}
+                            color={getCategoryColor(data)}
+                            content={<div className="fontSmallBold">{getCategory(data)}</div>}
+                        />
                     </div>
                     <div className="trans--short--item">
-                        <Tooltip
-
-                            zIndex={200}
-                            fadeDuration={150}
-                            radius={10}
-                            fontFamily='Roboto'
-                            fontSize='5'
-                            fadeEasing="linear"
-                            background={css`
-                    var(--tooltip--background)
-                  `}
-                            content={amount}
-                            customCss={css`
-                    white-space: nowrap;
-                  `}
-                        >
-                            {setAmountColor()}
-                        </Tooltip>
+                        <CustomTooltip
+                            placement="top"
+                            item={<div className="fontSmallBold lightCopy">{amount}</div>}
+                            color={getCategoryColor(data)}
+                            content={<div className="fontSmallBold">{amount}</div>}
+                        />
                     </div>
                     <div className="trans--short--item">
-                        <Tooltip
+                        <CustomTooltip
+                            placement="left"
+                            item={<a href={Config.getExplorerLink() + "tx/" + data.tx_hash} target="_blank">
+                                <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>}
+                            color="var(--dark--green)"
+                            content={<div className="fontSmallBold">{showInExplorer}</div>}
+                        />
 
-                            zIndex={200}
-                            fadeDuration={150}
-                            radius={10}
-                            fontFamily='Roboto'
-                            fontSize='5'
-                            fadeEasing="linear"
-                            background={css`
-                    var(--tooltip--background)
-                  `}
-                            content="Show in explorer"
-                            customCss={css`
-                    white-space: nowrap;
-                  `}
-                        >
-                            <a href={Config.getExplorerLink() + "tx/" + data.tx_hash} target="_blank">
-                                <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
-                        </Tooltip>
                     </div>
                 </div >
             )
@@ -365,6 +309,18 @@ function Transaction({ data, index, style }) {
 
     }
 
+    function getCategoryColor(data) {
+        switch (data.tx_type) {
+            case 1:
+                return "var(--dark--red)";
+                break;
+            case 2:
+                return "var(--dark--green)";
+                break;
+
+        }
+    }
+
     function setAmountColor() {
         let transType;
         var totalAmount;
@@ -372,7 +328,7 @@ function Transaction({ data, index, style }) {
             transType = data.category === "send" ? "send--color" : "receive--color";
             totalAmount = data.amount;
         } else {
-            transType = "receive--color";
+            transType = data.tx_type === 1 ? "send--color" : "receive--color";
             //totalAmount = nodeClient.getTxValue(data.value);
             //console.log(await nodeClient.getTxValue(data.value))
             totalAmount = amount;

@@ -49,6 +49,7 @@ function Address({ data, setAccountName, copyAddress }) {
                 </div>
                 <div className="amount address--item">
                     <Tooltip
+                        placement="left"
                         arrow={10}
                         zIndex={200}
                         fadeDuration={150}

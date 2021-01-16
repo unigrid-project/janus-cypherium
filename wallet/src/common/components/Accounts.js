@@ -28,9 +28,15 @@ import Expand from "react-expand-animated";
 import { ipcRenderer, remote } from "electron";
 import NodeClient from '../../common/node-client';
 import Config from "../config";
+import CustomTooltip from "./CustomToolTip";
 
 const log = require('electron-log');
 const nodeClient = new NodeClient();
+var _ = require('electron').remote.getGlobal('_');
+
+const removeFromWallet = _("remove account from wallet");
+const showInExplorer = _("view in explorer");
+const copyToClipboard = _("copy to clipboard");
 
 function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
     const [showInput, setShowInput] = useState(false);
@@ -44,46 +50,49 @@ function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
     useEffect(() => {
         nodeClient.getCphBalance(data.address).then((v) => {
             setbalance(parseInt(v));
-		}, (stderr) => {
-			log.warn("Error loading balance for address: ", "CPH" + stderr);
-		});
+        }, (stderr) => {
+            log.warn("Error loading balance for address: ", "CPH" + stderr);
+        });
     }, [])
     return (
         <div>
             <div className="accountContainer">
                 <div className="chevron account--item">
                     <a href={Config.getExplorerLink() + "search/CPH" + data.address} target="_blank">
-                        <FontAwesomeIcon size="sm" icon={faCompass} color="white" onClick={() => openExplorer(data.address)} />
+                        <CustomTooltip
+                            placement="right"
+                            item={<FontAwesomeIcon size="sm" icon={faCompass} color="white" onClick={() => openExplorer(data.address)} />}
+                            color="var(--dark--green)"
+                            content={<div className="fontSmallBold">{showInExplorer}</div>}
+                        />
                     </a>
                 </div>
                 <div className="account--div account--item">
                     {data.address}</div>
                 <div className="clipboard account--item">
-                    <FontAwesomeIcon size="sm" icon={faClipboard} color="white" onClick={() => copyAddress("CPH"+data.address)} />
+                    <CustomTooltip
+                        placement="left"
+                        item={<FontAwesomeIcon size="sm" icon={faClipboard} color="white" onClick={() => copyAddress("CPH" + data.address)} />}
+                        color="var(--dark--green)"
+                        content={<div className="fontSmallBold">{copyToClipboard}</div>}
+                    />
                 </div>
                 <div className="amount account--item">
-                    <Tooltip
-                        arrow={10}
-                        zIndex={200}
-                        fadeDuration={150}
-                        radius={10}
-                        fontFamily='Roboto'
-                        fontSize='5'
-                        fadeEasing="linear"
-                        background={css`
-                    var(--success)
-                  `}
-                        content={balance.toFixed(8)}
-                        customCss={css`
-                    white-space: nowrap;
-                  `}
-                    >
-                        {balance}
-                    </Tooltip>
+                    <CustomTooltip
+                        placement="left"
+                        item={<div className="currencyCopy">{balance}</div>}
+                        color="var(--dark--green)"
+                        content={<div className="fontSmallBold">{balance.toFixed(8)}</div>}
+                    />
                 </div>
                 <div className="account account--item">{data.name}</div>
                 <div className="delete--icon account--item">
-                    <FontAwesomeIcon size="sm" icon={faTrashAlt} color="white" onClick={() => removeAccount(data)} />
+                    <CustomTooltip
+                        placement="left"
+                        item={<FontAwesomeIcon size="sm" icon={faTrashAlt} color="white" onClick={() => removeAccount(data)} />}
+                        color="var(--dark--red)"
+                        content={<div className="fontSmallBold">{removeFromWallet}</div>}
+                    />
                 </div>
             </div>
             {renderInputs()}
@@ -149,6 +158,24 @@ function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
         setResetInput("");
         setChangeAccountName("");
         setShowInput(!showInput);
+    }
+
+    function renderToolTip(placement, item, content) {
+        return (
+            <Tooltip
+                placement={placement}
+                fadeDuration={150}
+                radius={10}
+                fontFamily='Roboto'
+                fontSize='5'
+                fadeEasing="linear"
+                background={css`var(--success)`}
+                content={content}
+                customCss={css`white-space: nowrap;`}
+            >
+                {item}
+            </Tooltip>
+        )
     }
 }
 

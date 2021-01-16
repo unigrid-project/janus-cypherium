@@ -23,12 +23,20 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import './CreateAccountButton.css';
+import CustomTooltip from "./CustomToolTip";
 
+var _ = require('electron').remote.getGlobal('_');
+const createImport = _("Create/Import");
 export default class CreateAccountButton extends React.Component {
     render() {
         return (
             <div className="createAccount padding--left" onClick={() => ipcRenderer.send("import-new-wallet")}>
-                <FontAwesomeIcon size="sm" icon={faPlus} />
+                <CustomTooltip
+                    placement="left"
+                    item={<FontAwesomeIcon size="sm" icon={faPlus} />}
+                    color="var(--dark--teal)"
+                    content={<div className="fontSmallBold">{createImport}</div>}
+                />
             </div>
         );
     }
