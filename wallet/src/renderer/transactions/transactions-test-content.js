@@ -32,6 +32,7 @@ import InfiniteLoadWrapper from "../../common/components/InfiniteLoadWrapper";
 import VirtualScroller from "../../common/components/VirtualScroller";
 import TransactionLong from "../../common/components/TransactionLong";
 import useTransactions from "../../common/components/useTransactions";
+import Config from "../../common/config";
 
 function TransactionsContentTest(props) {
 	const [transactions, setTransactions] = useState({});
@@ -126,56 +127,60 @@ function TransactionsContentTest(props) {
 
 			var count = 1;
 			console.log('transactions? ', count)
-			//var startNumber = Object.keys(transactions).length;
-			var startNumber = items.length;
-			if (pageCount > 1) {
-				console.log("startNum ", startNumber)
-				count = pageCount + 1;
-				setPageCount(count);
-				//setLoadCount(startNumber);
-			}
-
-			var rpcClient = new RPCClient();
-			let args = ["*", parseInt(40), parseInt(startNumber)];
-
-			Promise.all([
-				rpcClient.listTransactions(args)
-				//rpcClient.getwalletinfo(),
-				//new Promise(resolve => setTimeout(resolve, 500))
-			]).then((response) => {
-				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-				//console.log("trans res ", response[0]);
-				//console.log("total tx count: ", response[1].txcount);
-				if (response[0].length === 0) {
-					console.log("DONE LOADING ALL TRANSACTIONS!");
-					setHasNextPage(false);
-					setIsNextPageLoading(false);
-					setDoneLoading(true);
-					setLoadMore(true);
-					return;
-				}
-				const order = lodash.orderBy(response[0], ['timereceived'], ['desc']);
-				let mergedLength = 0;
-				// if loading new data merge transactions here
-				if (count > 1) {
-					//const newOrder = transactions.concat(order);
-					const newOrder = items.concat(order);
-					//setTransactions(newOrder);
-					setItems(newOrder);
-					//console.log("newOrder ", newOrder)
-					setLoadMore(false);
-				} else {
+			if(Config.isDaemonBased()){
+				var startNumber = items.length;
+				if (pageCount > 1) {
+					console.log("startNum ", startNumber)
 					count = pageCount + 1;
 					setPageCount(count);
-					//setTransactions(order);
-					setItems(order);
-					//console.log("order ", order)
-					setLoadMore(false);
+					//setLoadCount(startNumber);
 				}
-			}, (stderr) => {
-				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-				console.error(stderr);
-			});
+	
+				var rpcClient = new RPCClient();
+				let args = ["*", parseInt(40), parseInt(startNumber)];
+	
+				Promise.all([
+					rpcClient.listTransactions(args)
+					//rpcClient.getwalletinfo(),
+					//new Promise(resolve => setTimeout(resolve, 500))
+				]).then((response) => {
+					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+					//console.log("trans res ", response[0]);
+					//console.log("total tx count: ", response[1].txcount);
+					if (response[0].length === 0) {
+						console.log("DONE LOADING ALL TRANSACTIONS!");
+						setHasNextPage(false);
+						setIsNextPageLoading(false);
+						setDoneLoading(true);
+						setLoadMore(true);
+						return;
+					}
+					const order = lodash.orderBy(response[0], ['timereceived'], ['desc']);
+					let mergedLength = 0;
+					// if loading new data merge transactions here
+					if (count > 1) {
+						//const newOrder = transactions.concat(order);
+						const newOrder = items.concat(order);
+						//setTransactions(newOrder);
+						setItems(newOrder);
+						//console.log("newOrder ", newOrder)
+						setLoadMore(false);
+					} else {
+						count = pageCount + 1;
+						setPageCount(count);
+						//setTransactions(order);
+						setItems(order);
+						//console.log("order ", order)
+						setLoadMore(false);
+					}
+				}, (stderr) => {
+					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+					console.error(stderr);
+				});
+			}else{
+				
+			}
+			
 		}
 	}
 

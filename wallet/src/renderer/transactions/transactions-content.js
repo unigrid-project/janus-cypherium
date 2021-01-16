@@ -17,7 +17,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Content from "../content";
 import RPCClient from "../../common/rpc-client.js";
 import "./transactions-content.css";
@@ -26,47 +26,42 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ExportCSV from "../../common/components/ExportCSV";
 import lodash from "lodash";
 import { ipcRenderer, remote } from "electron";
-import InfiniteLoadWrapper from "../../common/components/InfiniteLoadWrapper";
 import Config from "../../common/config";
 import NodeClient from "../../common/node-client";
 import Store from "electron-store";
 import AccountSelection from "../../common/accounts/AccountSelection";
+import InfiniteLoading from "react-simple-infinite-loading";
+import TransactionLong from "../../common/components/TransactionLong";
+import TransactionLoading from "../../common/components/TransactionLoading";
 
 var _ = require('electron').remote.getGlobal('_');
 const nodeClient = new NodeClient();
 const store = new Store();
 
 function TransactionsContent(props) {
-	//const [transactions, setTransactions] = useState({});
-	const scroll = useRef(null);
 	const [pageCount, setPageCount] = useState(1);
-	const [doneLoading, setDoneLoading] = useState(false);
-	const [loadingStatus, setLoadingStatus] = useState("idle");
-	const [txHeight, setTxHeight] = useState(455);
-	const [txWidth, setTxWidth] = useState(695);
+	const [txHeight, setTxHeight] = useState(506);
 	const [loadMore, setLoadMore] = useState(true);
 	const transactionContainer = useRef(null);
-	const [hasNextPage, setHasNextPage] = useState(true);
-	const [isNextPageLoading, setIsNextPageLoading] = useState(false);
 	const [items, setItems] = useState([]);
-	const [itemsKey, setItemsKey] = useState(1);
 	const itemsRef = useRef();
+	const ref = useRef();
 	const txToLoad = 60;
 	const window = remote.getCurrentWindow();
-	const [scrollTo, setScrollTo] = useState(0);
 	const [chevronColor, setChevronColor] = useState("white");
 	const [walletList, setWalletList] = useState(Config.getAccount());
 	const [currentSelectedAccount, setCurrentSelectedAccount] = useState(Config.getCurrentAccount());
 	const [renderListKey, setRenderListKey] = useState(Math.random());
+	const [renderItemsKey, setRenderItemsKey] = useState(Math.random());
 	itemsRef.current = items;
-	const loadNextPage = (...args) => {
-		console.log("loadNextPage", ...args);
-		setIsNextPageLoading(true);
-		setTimeout(() => {
-			setHasNextPage(items.length < 10000);
-			setIsNextPageLoading(false);
-			loadTransactionData(true);
-		}, 50);
+
+	const loadMoreItems = () => {
+		return new Promise(resolve => {
+			setTimeout(() => {
+				loadTransactionData(true);
+				resolve();
+			}, 300);
+		});
 	};
 	useEffect(() => {
 		ipcRenderer.on("update-active-account", (event, account) => {
@@ -80,13 +75,14 @@ function TransactionsContent(props) {
 			setChevronColor("grey");
 		}
 		window.on('resize', lodash.debounce(function () {
-			let height = transactionContainer.current.offsetHeight - 50;
-			let width = transactionContainer.current.offsetWidth - 20;
-			//console.log("height ", height);
-			//console.log("width ", width);
-			setTxHeight(height);
-			setTxWidth(width);
-		}, 0));
+			if(transactionContainer){
+				let height = transactionContainer.current.offsetHeight - 50;
+				//let width = transactionContainer.current.offsetWidth - 20;
+				setTxHeight(height);
+				//setTxWidth(width);
+				setRenderItemsKey(Math.random());
+			}
+		}, 50));
 		ipcRenderer.on("wallet-checked-transactions", (event, message) => {
 			checkForNewTransactions(message);
 		});
@@ -110,6 +106,16 @@ function TransactionsContent(props) {
 			loadTransactionData(loadMore);
 	}, [loadMore]);
 
+	const scrollToTop = () => {
+		if (ref.current) {
+			ref.current.scrollTo(0)
+		}
+	}
+	const scrollToItem = (item) => {
+		if (ref.current) {
+			ref.current.scrollToItem(item)
+		}
+	}
 	return (
 		<Content id="transactions" >
 			<div className="transaction--container transaction--top--item" ref={transactionContainer}>
@@ -133,28 +139,30 @@ function TransactionsContent(props) {
 					<div className="scroll--nav--buttons align--row--flexstart">
 						<div className="chevron address--item">
 							<FontAwesomeIcon size="sm" icon={faChevronCircleDown}
-								color={chevronColor} onClick={() => setScrollTo(items.length)} />
+								color={chevronColor} onClick={() => scrollToItem(items.length)} />
 						</div>
 						<div className="chevron address--item">
 							<FontAwesomeIcon size="sm" icon={faChevronCircleUp}
-								color={chevronColor} onClick={() => setScrollTo(0)} />
+								color={chevronColor} onClick={() => scrollToTop()} />
 						</div>
 					</div>
 				</div>
-				<div className="transaction--item">
-					<InfiniteLoadWrapper
-						key={itemsKey}
-						hasNextPage={hasNextPage}
-						isNextPageLoading={isNextPageLoading}
-						items={items}
-						loadNextPage={loadNextPage}
-						height={txHeight}
-						width={txWidth}
-						scrollTo={scrollTo}
-					/>
+				<div style={{ width: '100%', height: txHeight , minHeight: 506}}>
+					<InfiniteLoading
+						key={renderItemsKey}
+						hasMoreItems
+						itemHeight={40}
+						loadMoreItems={loadMoreItems}
+						ref={ref}
+						placeholder={<TransactionLoading style="trans--long" />}
+					>
+						{items.map((item, index) => (
+							<div key={item}>
+								<TransactionLong data={items[index]} index={index} style="trans--long" />
+							</div>
+						))}
+					</InfiniteLoading>
 				</div>
-
-
 			</div>
 		</Content>
 	);
@@ -166,7 +174,6 @@ function TransactionsContent(props) {
 	async function loadTransactionData(load) {
 		if (load) {
 			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
-			setLoadingStatus("loading");
 			var count = 1;
 			//var startNumber = Object.keys(transactions).length;
 			var startNumber = items.length;

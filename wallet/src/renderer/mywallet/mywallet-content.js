@@ -292,6 +292,7 @@ function MyWalletContent(props) {
 		if (!transactions) return null
 		// maybe change this size on window resizes
 		let newArr = transactions.slice(0, 10);
+		console.log('newArr ', newArr)
 		return (
 			Object.keys(newArr).map(key => {
 				return (

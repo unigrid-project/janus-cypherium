@@ -20,17 +20,15 @@
 import React from "react";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import NavEntry from "../naventry";
-
-library.add(faExchangeAlt);
 
 export default class TransactionsTest extends React.Component {
 	render() {
 		return (
 			<NavEntry>
-				<div className="menu--icon"><FontAwesomeIcon size="sm" icon={faExchangeAlt} /></div>
 				<div className="menu-title">Transaction Test</div>
+				<div className="menu--icon"><FontAwesomeIcon size="sm" icon={faChevronRight} /></div>
 			</NavEntry>
 		);
 	}
