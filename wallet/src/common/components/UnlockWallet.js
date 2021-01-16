@@ -19,11 +19,20 @@
 import React, { useState, useEffect } from "react";
 import CheckBox from "./CheckBox";
 import EnterField from "./EnterField";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../theme.css";
 import "./UnlockWallet.css";
 import Button from "./Button";
 import RPCClient from "../rpc-client.js";
 import { ipcRenderer, remote } from "electron";
+import Config from "../config";
+import { WalletService } from "../walletutils/WalletService";
+
+var _ = require('electron').remote.getGlobal('_');
+const walletService = new WalletService();
+const removeMsgOne = _("Unlock wallet to remove ");
+const removeMdgTwo = _(" from stored keys");
 
 function UnlockWallet(props) {
     const [isStaking, setIsStaking] = useState(props.isChecked);
@@ -36,38 +45,46 @@ function UnlockWallet(props) {
     const [classNames, setClassNames] = useState("unlock--container--start");
     const [unlockFor, setUnlockFor] = useState("");
     const [masternodeAlias, setMasternodeAlias] = useState();
+    const [account, setAccount] = useState();
+    const [passwordShown, setPasswordShown] = useState(false);
     useEffect(() => {
         ipcRenderer.on('wallet-lock-trigger', (event, message) => {
             //console.log("wallet-lock-trigger: " + message)
             switch (message.command) {
                 case "unlockfortime":
-                    setInfoCopy("Unlock wallet for transactions");
+                    setInfoCopy(_("Unlock wallet for transactions"));
                     setUnlockFor("SEND");
                     break;
                 case "unlockfordump":
-                    setInfoCopy("Unlock wallet for maintenance");
+                    setInfoCopy(_("Unlock wallet for maintenance"));
                     setUnlockFor("DUMP");
                     break;
                 case "unlockforsplit":
-                    setInfoCopy("Unlock wallet for maintenance");
+                    setInfoCopy(_("Unlock wallet for maintenance"));
                     setUnlockFor("SPLIT");
                     break;
                 case "STARTALL":
-                    setInfoCopy("Unlock wallet for masternodes");
+                    setInfoCopy(_("Unlock wallet for masternodes"));
                     setUnlockFor("STARTALL");
                     break;
                 case "MISSING":
-                    setInfoCopy("Unlock wallet for masternodes");
+                    setInfoCopy(_("Unlock wallet for masternodes"));
                     setUnlockFor("MISSING");
                     break;
                 case "ALIAS":
                     console.log("alias passed into unlock: ", message.alias)
-                    setInfoCopy("Unlock wallet for masternodes");
+                    setInfoCopy(_("Unlock wallet for masternodes"));
                     setUnlockFor("ALIAS");
                     setMasternodeAlias(message.alias);
                     break;
+                case "REMOVE_ACCOUNT":
+                    console.log("alias passed into unlock: ", message.alias)
+                    setInfoCopy(removeMsgOne + message.alias.name + removeMdgTwo);
+                    setUnlockFor("REMOVE_ACCOUNT");
+                    setAccount(message.alias);
+                    break;
                 default:
-                    setInfoCopy("Unlock wallet for staking");
+                    setInfoCopy(_("Unlock wallet for staking"));
                     setUnlockFor("STAKE");
                     break;
             }
@@ -155,17 +172,27 @@ function UnlockWallet(props) {
             onAnimationEnd={onAnimationEnd}
             onAnimationStart={onAnimationStart}
         >
-            <div className="copy--align">
+            <div className="copy--align ">
                 <div className="fontRegularBold padding">{infoCopy}</div>
                 <div className={errorClasses} onAnimationEnd={onErrorEnd}> <div className="error--text padding">Passphrase Error!</div></div>
             </div>
 
-            <EnterField
-                type={"password"}
-                clearField={passPhrase}
-                updateEntry={textInputChange}
-                myStyle={"unlockInput"}
-            />
+            <div className="align--row--normal">
+                <EnterField
+                    key={passwordShown}
+                    type={passwordShown ? "text" : "password"}
+                    clearField={passPhrase}
+                    updateEntry={textInputChange}
+                    myStyle={"unlockInput"}
+                />
+                <div className="padding--left--five showpass">
+                    <FontAwesomeIcon size="sm"
+                        color="white"
+                        onClick={() => onShowPasswordClicked("PASSPHRASE")}
+                        className="showpass--unlock"
+                        icon={faEye} />
+                </div>
+            </div>
             <div className="buttonContainer">
                 <div className="padding">
                     <Button
@@ -194,8 +221,16 @@ function UnlockWallet(props) {
         </div>
     );
 
+    function onShowPasswordClicked(which) {
+        switch (which) {
+            case "PASSPHRASE":
+                setPasswordShown(passwordShown ? false : true);
+                break;
+        }
+    }
+
     async function sendPassphrase(args) {
-        var rpcClient = new RPCClient();
+
         let sendArgs = [];
         console.log("send? ", unlockFor)
         switch (unlockFor) {
@@ -211,64 +246,80 @@ function UnlockWallet(props) {
             case "SPLIT":
                 sendArgs = [args, 30];
                 break;
+            case "REMOVE_ACCOUNT":
+                sendArgs = args;
             default:
                 sendArgs = [args, 30];
                 break;
         }
-
-        Promise.all([
-            rpcClient.unlockWallet(sendArgs),
-            //rpcClient.raw_command("walletpassphrase", args),
-            new Promise(resolve => setTimeout(resolve, 500))
-        ]).then((response) => {
-            let message = {
-                command: "",
-                alias: null
+        if (!Config.isDaemonBased()) {
+            console.log(walletService.checkPasswordHash(args, account.password));
+            const isValidPassword = walletService.checkPasswordHash(args, account.password);
+            if (isValidPassword) {
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-delete-account", account);
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                closeWindow();
+            } else {
+                errorPassphrase();
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
             }
-            switch (unlockFor) {
-                case "SEND":
-                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "send-coins");
-                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "sending");
-                    break;
-                case "DUMP":
-                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "dump");
-                    break;
-                case "SPLIT":
-                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "split");
-                    break;
-                case "STAKE":
-                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "staking");
-                    break;
-                case "STARTALL":
-                    message.command = unlockFor;
-                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-start-masternode", message);
-                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "masternode");
-                    break;
-                case "MISSING":
-                    message.command = unlockFor;
-                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-start-masternode", message);
-                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "masternode");
-                    break;
-                case "ALIAS":
-                    message.command = unlockFor;
-                    message.alias = masternodeAlias;
-                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-start-masternode", message);
-                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "masternode");
-                    break;
-                default:
-                    break;
-            }
+        } else {
+            var rpcClient = new RPCClient();
+            Promise.all([
+                rpcClient.unlockWallet(sendArgs),
+                //rpcClient.raw_command("walletpassphrase", args),
+                new Promise(resolve => setTimeout(resolve, 500))
+            ]).then((response) => {
+                let message = {
+                    command: "",
+                    alias: null
+                }
+                switch (unlockFor) {
+                    case "SEND":
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "send-coins");
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "sending");
+                        break;
+                    case "DUMP":
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "dump");
+                        break;
+                    case "SPLIT":
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "split");
+                        break;
+                    case "STAKE":
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "staking");
+                        break;
+                    case "STARTALL":
+                        message.command = unlockFor;
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-start-masternode", message);
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "masternode");
+                        break;
+                    case "MISSING":
+                        message.command = unlockFor;
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-start-masternode", message);
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "masternode");
+                        break;
+                    case "ALIAS":
+                        message.command = unlockFor;
+                        message.alias = masternodeAlias;
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-start-masternode", message);
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-unlock-wallet", "masternode");
+                        break;
+                    default:
+                        break;
+                }
 
-            console.log("should update info");
-            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
-            closeWindow();
-        }).catch((error) => {
-            errorPassphrase();
-            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-            console.log("wallet unlock error");
-            console.error(error.message);
-        });
+                console.log("should update info");
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
+                closeWindow();
+            }).catch((error) => {
+                errorPassphrase();
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                console.log("wallet unlock error");
+                console.error(error.message);
+            });
+        }
+
     }
 }
 

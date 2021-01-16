@@ -16,129 +16,150 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
+.unlock--conatiner-maincolor {
+}
+
 .unlock--container--start {
-    position: absolute;
-    bottom: 30px;
-    left: -500px;
-    opacity: 0;
-    background-color: rgb(53, 51, 51);
-    border-radius: 10px;
-    max-height: 200px;
-    width: 500px;
-    z-index: 100;
+  position: absolute;
+  bottom: 30px;
+  left: -500px;
+  opacity: 0;
+  background-color: var(--unclock--container);
+  border-radius: 10px;
+  max-height: 200px;
+  width: 500px;
+  z-index: 100;
 }
 
 .unlock--container--openposition {
-    position: absolute;
-    bottom: 30px;
-    left: 150px;
-    opacity: 1;
-    background-color: rgb(53, 51, 51);
-    border-radius: 10px;
-    max-height: 200px;
-    width: 500px;
-    z-index: 100;
+  position: absolute;
+  bottom: 30px;
+  left: 150px;
+  opacity: 1;
+  background-color: var(--unclock--container);
+  border-radius: 10px;
+  max-height: 200px;
+  width: 500px;
+  z-index: 100;
 }
 
 .copy--align {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .padding {
-    padding: 10px;
+  padding: 10px;
 }
 
 .buttonContainer {
-    display: flex;
-    flex-direction: 'row';
-    align-items: center;
+  display: flex;
+  flex-direction: "row";
+  align-items: center;
+}
+
+.showpass--unlock {
+  color: white;
+}
+
+.showpass--unlock svg {
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+  transform: scale(1.15);
+}
+
+.showpass--unlock svg:hover {
+  transform: scale(1.35);
 }
 
 .open--animation {
-    animation: slideinanimation 0.5s forwards;
-    transition-timing-function: ease-out;
+  animation: slideinanimation 0.5s forwards;
+  transition-timing-function: ease-out;
 }
 
 @keyframes slideinanimation {
-    0% {
-        left: 0px;
-        bottom: 30px;
-        opacity: 0;
-    }
-    100% {
-        left: 150px;
-        bottom: 30px;
-        opacity: 1;
-    }
+  0% {
+    left: 0px;
+    bottom: 30px;
+    opacity: 0;
+  }
+  100% {
+    left: 150px;
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 .close--unlock--animation {
-    animation: closelockanimation 1s forwards;
-    transition-timing-function: ease-out;
+  animation: closelockanimation 1s forwards;
+  transition-timing-function: ease-out;
 }
 
 @keyframes closelockanimation {
-    0% {
-        left: 150px;
-        bottom: 30px;
-        opacity: 1;
-    }
-    100% {
-        left: -500px;
-        bottom: 30px;
-        opacity: 0;
-    }
+  0% {
+    left: 150px;
+    bottom: 30px;
+    opacity: 1;
+  }
+  100% {
+    left: -500px;
+    bottom: 30px;
+    opacity: 0;
+  }
 }
 
 .error-animation {
-    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
-    transform: translate3d(0, 0, 0);
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
 }
 
 @keyframes shake {
-    10%, 90% {
-        transform: translate3d(-1px, 0, 0);
-    }
-    20%, 80% {
-        transform: translate3d(2px, 0, 0);
-    }
-    30%, 50%, 70% {
-        transform: translate3d(-4px, 0, 0);
-    }
-    40%, 60% {
-        transform: translate3d(4px, 0, 0);
-    }
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
 }
 
 .error--text {
-    color: var(--danger);
-    font-family: var(--fontFamily);
-    font-size: 15;
+  color: var(--danger);
+  font-family: var(--fontFamily);
+  font-size: 15;
 }
 
 .error--text-start {
-    opacity: 0;
+  opacity: 0;
 }
 
 .error--text--animation {
-    color: var(--danger);
-    font-family: var(--fontFamily);
-    font-size: 15;
-    animation: errortextanimation 5s forwards;
-    transition-timing-function: ease-in-out;
+  color: var(--danger);
+  font-family: var(--fontFamily);
+  font-size: 15;
+  animation: errortextanimation 5s forwards;
+  transition-timing-function: ease-in-out;
 }
 
 @keyframes errortextanimation {
-    0% {
-        opacity: 0;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }

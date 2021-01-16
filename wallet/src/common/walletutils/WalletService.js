@@ -75,6 +75,19 @@ export class WalletService {
             reject(stderr);
         });
     }
+
+    checkPasswordHash(enteredPass, storedPass){
+		const hashedPassword = this.createHashFromKey(enteredPass);
+		// checksum on both hashed password and stored hashed pw to see if they match
+		if (this.checksum(hashedPassword) === this.checksum(storedPass)) {
+			console.log("Password matches!");
+			return true;		
+		} else {
+            console.log("Password does not match!")
+            return false;
+			
+		}
+	}
     /**
      *  Create a new instance of this Wallet connected to provider.
      */

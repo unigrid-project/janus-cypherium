@@ -49,6 +49,7 @@ function AddressesContent() {
 	const [addressClipboard, setAddressClipboard] = useState("address-clipboard--hidden");
 	const [renderKey, setRenderKey] = useState(Math.random());
 	const [warningMessage, setWarningMessage] = useState("");
+	const [selectedAccount, setSelectedAccount] = useState();
 	useEffect(() => {
 		listAddressGroupings();
 		ipcRenderer.on('reload-addresses', (event, message) => {
@@ -64,6 +65,12 @@ function AddressesContent() {
 			if (message === "REMOVED") {
 				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "update-active-account", [accounts[0]]);
 			}
+		});
+		ipcRenderer.on('trigger-delete-account', (event, account) => {
+			// sent back from UnlockWallet
+			console.log("delete: ", account);
+			removeAccount(account);
+
 		});
 	}, []);
 
@@ -113,21 +120,32 @@ function AddressesContent() {
 		</Content>
 	);
 
-	function removeAccount(account) {
+	function unlockToRemove(account) {
 		var accounts = Config.getAccount();
 		if (accounts.length <= 1) {
 			setWarningMessage("You must have at least one account in the wallet.");
 		} else {
-			const updatedArray = accounts.filter(function (obj) {
-				return obj.name !== account.name;
-			});
+			setSelectedAccount(account);
+			let message = {
+				command: "REMOVE_ACCOUNT",
+				alias: account
+			}
+			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
 
-			store.delete("walletList");
-			store.set("walletList", updatedArray);
-			setLocaAddresses(updatedArray);
-			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "accounts-updated", "REMOVED");
 		}
 
+	}
+
+	function removeAccount(account) {
+		var accounts = Config.getAccount();
+		const updatedArray = accounts.filter(function (obj) {
+			return obj.name !== account.name;
+		});
+
+		store.delete("walletList");
+		store.set("walletList", updatedArray);
+		setLocaAddresses(updatedArray);
+		ipcRenderer.sendTo(remote.getCurrentWebContents().id, "accounts-updated", "REMOVED");
 	}
 
 	function renderWarning() {
@@ -168,7 +186,7 @@ function AddressesContent() {
 					return (
 						<Accounts
 							key={key}
-							removeAccount={removeAccount}
+							removeAccount={unlockToRemove}
 							data={localAddresses[key]}
 							copyAddress={(v) => copyToClipboard(v)}
 							setAccountName={(e) => updateAccountName(e)} />
