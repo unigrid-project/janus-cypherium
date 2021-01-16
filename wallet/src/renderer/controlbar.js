@@ -101,7 +101,7 @@ export default class ControlBar extends React.Component {
 						<FontAwesomeIcon className="extra" onClick={this.props.extraButtonOnClick}
 							icon={this.props.extraButton} />
 					}
-					<FontAwesomeIcon onClick={onClose} className="close" icon="window-close" />
+					<FontAwesomeIcon onClick={onClose} className="close" icon={faWindowClose} />
 				</div>
 			</div>
 		);
