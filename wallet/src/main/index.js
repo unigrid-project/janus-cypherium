@@ -58,6 +58,7 @@ var mainWindow;
 var warningWindow;
 var setupWindow;
 var isWarningOpen = false;
+var isSetupOpen = false;
 var trackRejectUpdates = 0;
 var skipTimesAllocated = 20;
 const checkForUpdateTime = 180000;
@@ -152,15 +153,19 @@ ipcMain.on("open-asteroids", () => {
 });
 
 ipcMain.on("import-new-wallet", () => {
-	var setupController = new SetupController();
-	setupController.window.webContents.on("did-finish-load", () => {
-		setupController.window.webContents.send('setup-controller-type', "NEW_WALLET");
-		ipcMain.on("close-setup-window", () => {
-			mainWindow.webContents.send("accounts-updated", "ADDED");
-			//console.log('close-setup-window setupController ', setupController)
-			//setupController.window.close();
-		})
-	});
+	if (!isSetupOpen) {
+		isSetupOpen = true;
+		const setupController = new SetupController();
+		setupController.window.on('close', () => {
+			isSetupOpen = false;
+		});
+		setupController.window.webContents.on("did-finish-load", () => {
+			setupController.window.webContents.send('setup-controller-type', "NEW_WALLET");
+			ipcMain.on("close-setup-window", () => {
+				mainWindow.webContents.send("accounts-updated", "ADDED");
+			})
+		});
+	}
 })
 
 const defaultRPCPort = 51992;

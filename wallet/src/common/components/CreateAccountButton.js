@@ -17,7 +17,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { ipcRenderer } from "electron";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,17 +27,16 @@ import CustomTooltip from "./CustomToolTip";
 
 var _ = require('electron').remote.getGlobal('_');
 const createImport = _("Create/Import");
-export default class CreateAccountButton extends React.Component {
-    render() {
-        return (
-            <div className="createAccount padding--left" onClick={() => ipcRenderer.send("import-new-wallet")}>
-                <CustomTooltip
-                    placement="left"
-                    item={<FontAwesomeIcon size="sm" icon={faPlus} />}
-                    color="var(--dark--teal)"
-                    content={<div className="fontSmallBold">{createImport}</div>}
-                />
-            </div>
-        );
-    }
+export default function CreateAccountButton() {
+    return (
+        <div className="createAccount padding--left" onClick={() => ipcRenderer.send("import-new-wallet")}>
+            <CustomTooltip
+                placement="left"
+                item={<FontAwesomeIcon size="sm" icon={faPlus} />}
+                color="var(--dark--teal)"
+                content={<div className="fontSmallBold">{createImport}</div>}
+            />
+        </div>
+    );
+
 }
