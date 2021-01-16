@@ -132,7 +132,7 @@ function MyWalletContent(props) {
 						<div className="btn--send">
 							<Button
 								buttonStyle="btn--secondary--solid"
-								handleClick={() => onSendClicked()}
+								handleClick={() => null}
 								buttonSize="btn--small">{_("SEND")}</Button>
 						</div>
 
