@@ -358,7 +358,7 @@ const ImportAccount = (props) => {
                 if (passPhrase == "" && type !== 'TESTING') {
                     setWarningMessage(_("Please enter a password"));
                 }
-                else if (passPhrase.length < 8) {
+                else if (passPhrase.length < 8 && type !== 'TESTING') {
                     setWarningMessage(_("Password is too short enter a minimum of 8 characters."));
                 }
                 else if (passPhrase !== repeatPassphrase && type !== 'TESTING') {
