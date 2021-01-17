@@ -17,21 +17,31 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React, {  useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { ipcRenderer, remote } from "electron";
 import "./naventry.css"
 
 function NavEntry(props) {
 	var element = props.children[0] == undefined ? props.children : props.children[0];
 	const [active, setActive] = useState();
+	const [type, setType] = useState();
+	const [name, setName] = useState();
 
 	useEffect(() => {
+
+		setType(element._owner.pendingProps.type)
+		setActive(element._owner.pendingProps.active);
+		setName(element._owner.pendingProps.name);
 		ipcRenderer.on("navigate", (event, source) => {
 			if (source != element._owner.key) {
 				setActive(false);
+			}else if(source === element._owner.key && source === element._owner.pendingProps.name){
+				// this allows for non navbar buttons to activate a navbar section
+				// just add a name to the element that matches the key
+				setActive(true);
 			}
+			
 		});
-		//console.log("props.children ", props.children)
 		setActive(element._owner.pendingProps.active);
 	}, []);
 
@@ -40,11 +50,21 @@ function NavEntry(props) {
 		setActive(true);
 	}
 
-	return (
-		<li onClick={onClick} className={active ? "active " + props.className : "inactive " + props.className}>
-			{props.children}
-		</li>
-	);
+	if (type === "button") {
+		return (
+			<div onClick={onClick} className={active ? "active " + props.className : "inactive " + props.className}>
+				{props.children}
+			</div>
+		)
+
+	} else {
+		return (
+			<li onClick={onClick} className={active ? "active " + props.className : "inactive " + props.className}>
+				{props.children}
+			</li>
+		)
+	}
+
 
 }
 
