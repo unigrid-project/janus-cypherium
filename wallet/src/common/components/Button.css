@@ -149,6 +149,14 @@
     color: var(--white)
 }
 
+.btn--long {
+    padding: 10px 20px;
+    font-size: 18px;
+    color: var(--white);
+    min-width: 230px;
+    max-width: 230px;
+}
+
 .btn--large {
     padding: 15px 30px;
     font-size: 20px;
