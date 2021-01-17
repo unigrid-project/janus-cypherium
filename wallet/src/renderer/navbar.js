@@ -30,17 +30,18 @@ import Masternodes from "./masternodes/masternodes.js";
 import Config from "../common/config.js";
 import CreateAccountButton from "../common/components/CreateAccountButton.js";
 import UnlockWallet from "../common/components/UnlockWallet.js";
+import ReceiveNavBar from "./receive/receive-navbar.js";
 
 export default class NavBar extends React.Component {
 	render() {
 		return (
 			<nav>
 				<ul>
-					<MyWallet key="mywallet" active={true} />
+					<MyWallet key="mywallet" active={true}/>
 					<Addresses key="addressbook" />
 					{Config.getIsMasternode() ? <Masternodes key="masternodes" /> : null}
 					<Transactions key="transactions" />
-					{/*<TransactionsTest key="test-transactions" />*/}
+					<ReceiveNavBar key="receive" name="receive"/>
 				</ul>
 				<ul className="settings--container" >
 					<Settings key="settings" className="button" />

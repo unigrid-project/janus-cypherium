@@ -40,6 +40,7 @@ import NodeClient from '../../common/node-client';
 import { WalletService } from "../../common/walletutils/WalletService.js";
 import AccountSelection from "../../common/accounts/AccountSelection.js";
 import CreateAccountButton from "../../common/components/CreateAccountButton.js";
+import Receive from "../receive/receive.js";
 var _ = require('electron').remote.getGlobal('_');
 
 const log = require('electron-log');
@@ -135,7 +136,9 @@ function MyWalletContent(props) {
 								handleClick={() => null}
 								buttonSize="btn--small">{_("SEND")}</Button>
 						</div>
-
+						<div className="btn--send">
+							<Receive key="receive" type="button" name="receive" />
+						</div>
 					</div>
 				</div>
 
@@ -337,7 +340,7 @@ function MyWalletContent(props) {
 
 	async function getNodeData() {
 		//console.log("account to load balance: ", Config.getCurrentAccount())
-		nodeClient.getCphBalance(Config.getCurrentAccount()[0].address).then( (v) => {
+		nodeClient.getCphBalance(Config.getCurrentAccount()[0].address).then((v) => {
 			setBalance(v.toString());
 		}, (stderr) => {
 			log.warn("Error loading balance for address: ", "CPH" + stderr);

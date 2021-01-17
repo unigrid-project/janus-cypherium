@@ -34,10 +34,9 @@ import Reacteroids from "./asteroids/reacteroids.js";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faRocket } from "@fortawesome/free-solid-svg-icons";
 import "./index.css";
-import ExplorerContent from "./explorer/explorer-content";
+import ReceiveContent from "./receive/receive-content";
 import MasternodesContent from "./masternodes/masternodes-content";
 import Warning from "./warning/warning";
-//import TransactionsContentTest from "./transactions/transactions-test-content";
 import Config from "../common/config";
 
 library.add(faRocket);
@@ -48,7 +47,7 @@ let onStartGame = () => {
 
 const routes = {
 	asteroids: [
-		<ControlBar key={1} headerText="UNIGRID Asteroids" fullControls={true} />,
+		<ControlBar key={1} headerText="Janus Asteroids" fullControls={true} />,
 		<Reacteroids key={2} />
 	],
 	main: [
@@ -61,7 +60,7 @@ const routes = {
 				{<TransactionsContent key="transactions-content" />}
 				{/*<TransactionsContentTest key="transactions-test-content" />*/}
 				{/*getShowMasternode()*/}
-				{/*<ExplorerContent key="explorer-content" />*/}
+				{<ReceiveContent key="receive-content" />}
 				{<SettingsContent key="settings-content" />}
 				{/*<CLIContent key="cli-content" />*/}
 

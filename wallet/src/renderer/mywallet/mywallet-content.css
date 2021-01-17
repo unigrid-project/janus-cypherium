@@ -171,13 +171,3 @@ div#mywallet>div h3 {
 	flex-direction: row;
 	justify-content: center;
 }
-
-.btn--send {
-	display: flex;
-	align-items: center;
-	padding-left: 20px;
-}
-
-.btn--send>* {
-	padding-right: 10px;
-}
