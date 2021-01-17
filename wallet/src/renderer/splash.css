@@ -98,7 +98,7 @@ progress[value]::-webkit-progress-bar {
 }
 
 progress::-webkit-progress-value {
-	background-image: -webkit-linear-gradient(left, #f97104, white);
+	background-image: -webkit-linear-gradient(left, #005374, white);
 	border-radius: 2px;
 }
 
