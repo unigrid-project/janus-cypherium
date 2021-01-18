@@ -68,6 +68,7 @@ function TransactionsContent(props) {
 			setPageCount(1);
 			setCurrentSelectedAccount(account);
 			setItems([]);
+			loadTransactionData(true);
 		});
 		if (Config.isDaemonBased()) {
 			setChevronColor("white");
@@ -189,7 +190,7 @@ function TransactionsContent(props) {
 					console.log("trans res ", response[0]);
 					//console.log("total tx count: ", response[1].txcount);
 					if (response[0].length === 0) {
-						setHasNextPage(false);
+						//setHasNextPage(false);
 						setIsNextPageLoading(false);
 						setDoneLoading(true);
 						setLoadMore(true);
@@ -226,9 +227,9 @@ function TransactionsContent(props) {
 				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
 				let obj = {}
 				if (txList === null) {
-					setHasNextPage(false);
-					setIsNextPageLoading(false);
-					setDoneLoading(true);
+					//setHasNextPage(false);
+					//setIsNextPageLoading(false);
+					//setDoneLoading(true);
 					setLoadMore(true);
 					obj.count = 0;
 					obj.transactions = items;
@@ -239,8 +240,8 @@ function TransactionsContent(props) {
 				const order = txList;
 
 				//count = pageCount + 1;
-				if (order.length < txToLoad)
-					setHasNextPage(false);
+				//if (order.length < txToLoad)
+					//setHasNextPage(false);
 				if (pageCount > 1) {
 					const newOrder = items.concat(order);
 					setItems(newOrder);
