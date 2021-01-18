@@ -44,6 +44,11 @@ export default function ReceiveScreen() {
 			setCurrentSelectedAccount(account);
 			setRenderKeyQr(Math.random());
 		});
+		ipcRenderer.on("accounts-updated", (event, message) => {
+			const accounts = Config.getAccount();
+			setWalletList(accounts);
+			setRenderListKey(Math.random());
+		});
 	}, [])
 	return (
 		<Content id="receive">
