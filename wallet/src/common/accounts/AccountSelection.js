@@ -32,7 +32,8 @@ function AccountSelection({ current, list }) {
             store.set("currentSelectedAccount", account);
             setCurrentActive(account);
             setRenderKey(Math.random());
-		});
+        });
+        console.log("walletList: ", walletList);
     }, [])
 
     return (

@@ -36,7 +36,7 @@ import Store from "electron-store";
 import HideZeroAddresses from "../../common/components/HideZeroAddresses";
 import Config from "../../common/config";
 import WarningMessage from "../../common/components/WarningMessage";
-
+import {COPIED} from '../../common/getTextConsts';
 const store = new Store();
 library.add(faClipboard);
 
@@ -214,14 +214,14 @@ function AddressesContent() {
 	function copyToClipboardAndHide() {
 		clipboard.writeText(responseAddress, 'clipboard');
 		console.log(clipboard.readText('clipboard'));
-		sendDesktopNotification(`${responseAddress} copied to clipboard`);
+		sendDesktopNotification(`${responseAddress} ${COPIED}`);
 		setAddressClipboard("address-clipboard--hidden");
 	}
 	function copyToClipboard(v) {
 		//responseAddress
 		clipboard.writeText(v, 'clipboard')
 		console.log(clipboard.readText('clipboard'))
-		sendDesktopNotification(`${v} copied to clipboard`);
+		sendDesktopNotification(`${v} ${COPIED}`);
 	}
 
 	async function listAddressGroupings() {

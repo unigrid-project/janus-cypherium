@@ -28,6 +28,7 @@ import RPCClient from "../rpc-client.js";
 import { ipcRenderer, remote } from "electron";
 import Config from "../config";
 import { WalletService } from "../walletutils/WalletService";
+import { CANCEL, PASSPHRASE_ERROR, UNLOCK } from "../getTextConsts";
 
 var _ = require('electron').remote.getGlobal('_');
 const walletService = new WalletService();
@@ -174,7 +175,7 @@ function UnlockWallet(props) {
         >
             <div className="copy--align ">
                 <div className="fontRegularBold padding">{infoCopy}</div>
-                <div className={errorClasses} onAnimationEnd={onErrorEnd}> <div className="error--text padding">Passphrase Error!</div></div>
+                <div className={errorClasses} onAnimationEnd={onErrorEnd}> <div className="error--text padding">{PASSPHRASE_ERROR}</div></div>
             </div>
 
             <div className="align--row--normal">
@@ -202,7 +203,7 @@ function UnlockWallet(props) {
                         buttonStyle="btn--dark--solid"
                         buttonSize="btn--medium"
                     >
-                        Unlock
+                        {UNLOCK}
             </Button>
                 </div>
                 <div className="padding">
@@ -213,7 +214,7 @@ function UnlockWallet(props) {
                         buttonStyle="btn--warning--solid"
                         buttonSize="btn--medium"
                     >
-                        Cancel
+                        {CANCEL}
             </Button>
                 </div>
 
@@ -253,8 +254,15 @@ function UnlockWallet(props) {
                 break;
         }
         if (!Config.isDaemonBased()) {
-            console.log(walletService.checkPasswordHash(args, account.password));
+            console.log("args ", args)
+            if(args === "" || args === undefined){
+                errorPassphrase();
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                return;
+            }
             const isValidPassword = walletService.checkPasswordHash(args, account.password);
+            
+           
             if (isValidPassword) {
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-delete-account", account);
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
@@ -262,6 +270,7 @@ function UnlockWallet(props) {
             } else {
                 errorPassphrase();
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                return;
             }
         } else {
             var rpcClient = new RPCClient();

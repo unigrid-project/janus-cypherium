@@ -29,10 +29,12 @@ import './receive-content.css';
 import CustomTooltip from "../../common/components/CustomToolTip";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import Button from "../../common/components/Button";
+import { COPIED, EXPORT_KEYS } from "../../common/getTextConsts";
 
 var _ = require('electron').remote.getGlobal('_');
 const copyToClipboard = _("copy to clipboard");
 const viewOnExplorer = _("View On Explorer");
+
 export default function ReceiveScreen() {
 
 	const [currentSelectedAccount, setCurrentSelectedAccount] = useState(Config.getCurrentAccount());
@@ -92,7 +94,7 @@ export default function ReceiveScreen() {
 					<div className="padding-ten">
 						<Button
 							handleClick={() => null}
-							buttonSize="btn--long">Export Private Keys</Button>
+							buttonSize="btn--long">{EXPORT_KEYS}</Button>
 					</div>
 				</div>
 
@@ -128,7 +130,7 @@ export default function ReceiveScreen() {
 		//responseAddress
 		clipboard.writeText(v, 'clipboard')
 		console.log(clipboard.readText('clipboard'))
-		sendDesktopNotification(`${v} copied to clipboard`);
+		sendDesktopNotification(`${v} ${COPIED}`);
 	}
 
 

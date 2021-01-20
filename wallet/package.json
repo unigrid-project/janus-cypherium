@@ -1,6 +1,6 @@
 {
   "name": "Janus-Cypherium",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "license": "LGPL-3.0-or-later",
   "author": "The UNIGRID Organization",
   "description": "A modern cryptocurrency wallet based on the JavaScript Electron UI toolkit. Janus open source wallet can be used for multiple different types of blockchains.",
@@ -28,6 +28,7 @@
     "electron-log": "^4.2.2",
     "electron-store": "^6.0.1",
     "electron-updater": "^4.3.5",
+    "emoji-flags": "^1.3.0",
     "empty-promise": "^1.2.0",
     "javascript-terminal": "^1.1.0",
     "jquery": "^3.5.1",
@@ -74,17 +75,35 @@
   "build": {
     "appId": "org.unigrid.wallet",
     "mac": {
-      "category": "org.unigrid.wallet"
+      "category": "org.unigrid.wallet",
+      "extraFiles": [
+        {
+          "from": "locale",
+          "to": "resources/locale",
+          "filter": [
+            "**/*"
+          ]
+        }
+      ]
     },
     "linux": {
       "asar": "true",
       "target": [
         "AppImage"
       ],
-      "extraFiles": {
-        "from": "../daemon/unigridd",
-        "to": "unigridd"
-      },
+      "extraFiles": [
+        {
+          "from": "../daemon/unigridd",
+          "to": "unigridd"
+        },
+        {
+          "from": "locale",
+          "to": "resources/locale",
+          "filter": [
+            "**/*"
+          ]
+        }
+      ],
       "category": "science"
     },
     "win": {
@@ -92,10 +111,19 @@
         "nsis"
       ],
       "icon": "./build/icon.ico",
-      "extraFiles": {
-        "from": "../daemon/unigridd.exe",
-        "to": "unigridd.exe"
-      }
+      "extraFiles": [
+        {
+          "from": "../daemon/unigridd.exe",
+          "to": "unigridd.exe"
+        },
+        {
+          "from": "locale",
+          "to": "resources/locale",
+          "filter": [
+            "**/*"
+          ]
+        }
+      ]
     },
     "nsis": {
       "oneClick": true,

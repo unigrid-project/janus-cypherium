@@ -96,6 +96,10 @@ export default class Config {
         return store.get('walletList');
     }
 
+    static getLanguages() {
+        return store.get('languages');
+    }
+
     static getCurrentAccount() {
         return store.get("currentSelectedAccount")
     }

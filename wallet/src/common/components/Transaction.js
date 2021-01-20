@@ -26,6 +26,7 @@ import { css } from "styled-components";
 import Config from "../config";
 import NodeClient from "../../common/node-client";
 import CustomTooltip from "./CustomToolTip";
+import { BLOCK } from "../getTextConsts";
 
 library.add(faSignInAlt, faSignOutAlt, faCoins, faClock, faCubes, faNetworkWired);
 const nodeClient = new NodeClient();
@@ -256,7 +257,7 @@ function Transaction({ data, index, style }) {
             )
         } else {
             return (
-                <div>Block: {conf}</div>
+                <div>{BLOCK}: {conf}</div>
             )
         }
     }

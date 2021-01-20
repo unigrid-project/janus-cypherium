@@ -30,14 +30,18 @@ import * as Sentry from "@sentry/electron";
 import Config from "../common/config";
 import NodeClient from "../common/node-client";
 import Store from "electron-store";
-
+import emojiFlags from 'emoji-flags';
 import { crashReporter } from 'electron';
+import File from "../common/file";
+import LocalePath from "../common/loaclePath";
+import LoadLanguageFiles from "../common/languages/LoadLanguageFiles";
+
 const packageJSON = require('../../package.json');
 const log = require('electron-log');
 const store = new Store();
 //const deps = packageJSON.dependencies;
 const isDevelopment = process.env.NODE_ENV !== 'production';
-
+const loadLanguageFiles = new LoadLanguageFiles();
 autoUpdater.autoDownload = true;
 autoUpdater.allowPrerelease = true;
 let testing = false;
@@ -66,36 +70,99 @@ const checkForUpdateTime = 180000;
 
 const fs = require('fs');
 const path = require('path');
-//let enPo = fs.readFileSync(path.join(__static, '/home/evan/work/Janus/wallet/locale/en/messages.po'));
 var gettext = require('electron-gettext');
 var _ = gettext.gettext;
 
-gettext.loadLanguageFile('locale/en/messages.po', 'en', (msg) => {
-	//setLocale()
+
+/*
+fs.readFile(LocalePath.get('./locale/ru/messages.po'), 'utf8', function(err, data){ 
+	  
+	// Display the file content 
+	log.warn("russky: ", data);
 });
-gettext.loadLanguageFile('locale/sp/messages.po', 'sp', (msg) => {
-	setLocale()
+*/
+gettext.loadLanguageFile(LocalePath.get('./locale/ru/messages.po'), 'ru',(msg) => {
+	log.info("loaded ru");
 });
-const setLocale = () => {
-	if (Config.getLocale()) {
-		console.log(" Config.getLocale() ", Config.getLocale())
-		gettext.setlocale('LC_ALL', Config.getLocale());
-	} else {
-		console.log("en ", Config.getLocale())
-		gettext.setlocale('LC_ALL', 'en');
-	}
-	global._ = _;
+gettext.loadLanguageFile(LocalePath.get('./locale/en/messages.po'), 'en',(msg) => {
+	log.info("loaded en");
+});
+gettext.loadLanguageFile(LocalePath.get('./locale/se/messages.po'), 'sv',(msg) => {
+	log.info("loaded sv");
+});
+gettext.loadLanguageFile(LocalePath.get('./locale/zh/messages.po'), 'zh',(msg) => {
+	log.info("loaded zh");
+});
+gettext.loadLanguageFile(LocalePath.get('./locale/hi/messages.po'), 'hi',(msg) => {
+	log.info("loaded hi");
+});
+gettext.loadLanguageFile(LocalePath.get('./locale/es/messages.po'), 'es',(msg) => {
+	log.info("loaded es");
+});
+gettext.loadLanguageFile(LocalePath.get('./locale/fa/messages.po'), 'fa',(msg) => {
+	log.info("loaded fa");
+});
+gettext.loadLanguageFile(LocalePath.get('./locale/ja/messages.po'), 'ja',(msg) => {
+	log.info("loaded ja");
+});
+gettext.loadLanguageFile(LocalePath.get('./locale/ko/messages.po'), 'ko',(msg) => {
+	log.info("loaded ko");
+});
+gettext.loadLanguageFile(LocalePath.get('./locale/de/messages.po'), 'de',(msg) => {
+	log.info("loaded de");
+});
+gettext.loadLanguageFile(LocalePath.get('./locale/nl/messages.po'), 'nl',(msg) => {
+	log.info("loaded nl");
+});
+gettext.loadLanguageFile(LocalePath.get('./locale/it/messages.po'), 'it',(msg) => {
+	log.info("loaded it");
+});
+gettext.loadLanguageFile(LocalePath.get('./locale/el/messages.po'), 'el', (msg) => {
+	log.info("loaded el");
+	setLocale();
+});
+
+const languages = LoadLanguageFiles.getLanguages();
+
+const checkMatch = (item) => {
+	const found = languages.find(element => element.language === item);
+	return found;
 }
 
+//store.delete('locale');
+//store.delete("languages");
+
+const setLocale = () => {
+	const osLanguage = app.getLocale().substring(0, 2);
+	//log.info("osLanguage: ", osLanguage);
+	//log.info("language match: ", checkMatch(osLanguage));
+	if (Config.getLocale()) {
+		// use local selection
+		gettext.setlocale('LC_ALL', Config.getLocale());
+	} else if (checkMatch(osLanguage)) {
+		// find local language and if its translated
+		gettext.setlocale('LC_ALL', osLanguage);
+		Config.setLocale(osLanguage);
+	} else {
+		// default to english if no matches or not set
+		gettext.setlocale('LC_ALL', 'en');
+		Config.setLocale('en');
+	}
+	global._ = _;
+	//console.log("languages: ", languages)
+	store.set("languages", languages);
+}
+
+//Config.setLocale('cn');
+//store.delete('locale');
 ipcMain.on("change-locale", (event, msg) => {
-	console.log("Locale was changed to ", msg)
+	console.log("switch language ", msg)
 	Config.setLocale(msg);
 	if (global.rpcPort != undefined) {
 		new RPCClient().stop();
 	}
 	app.relaunch();
 	app.quit();
-	//gettext.setlocale('LC_ALL', msg);
 });
 
 crashReporter.start({
@@ -172,6 +239,7 @@ const defaultRPCPort = 51992;
 
 app.on("ready", () => {
 	var splashController = new SplashController();
+
 	log.info("app ready");
 	// for notifications on windows
 	app.setAppUserModelId(Config.getUserModelId());

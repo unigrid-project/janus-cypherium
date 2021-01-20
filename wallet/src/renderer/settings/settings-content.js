@@ -32,11 +32,14 @@ import { sendDesktopNotification } from "../../common/components/DesktopNotifica
 import HideZeroAddresses from "../../common/components/HideZeroAddresses";
 import Config from "../../common/config";
 import File from "../../common/file";
+import LanguageSelect from "../../common/languages/LanguageSelect";
+import { CHANGE_DEFAULT } from "../../common/getTextConsts";
 
 const log = require('electron-log');
 const packageJSON = require('../../../package.json');
 const store = new Store();
-var _ = require('electron').remote.getGlobal('_');
+var _ = remote.getGlobal('_');
+var translations = remote.getGlobal('translations');
 
 function SettingsContent(props) {
 	const confirmCpy = _("Confirm");
@@ -60,8 +63,10 @@ function SettingsContent(props) {
 	const [defaultStakeSplitThreshold, setDefaultStakeSplitThreshold] = useState();
 	const [encryptingWallet, setEncryptingWallet] = useState(false);
 	const [stakeSplitKey, setStakeSplitKey] = useState(Math.random());
+	const [renderListKey, setRenderListKey] = useState(Math.random());
 
 	useEffect(() => {
+		console.log("languages: ", store.get("languages"));
 		if (Config.isDaemonBased())
 			getStakeSplitThreshold();
 		setIsEncrypted(store.get("encrypted"));
@@ -87,6 +92,13 @@ function SettingsContent(props) {
 			{renderVersionNumber()}
 			<div className="main--settings-container" >
 				{Config.isDaemonBased === true ? renderDaemonBased() : renderDefaultInfo()}
+
+				<div className="fontSmallBold darkCopy language--selection" key={renderListKey}>
+					<div className="padding--bottom--five padding--top--five ">
+						{CHANGE_DEFAULT}
+					</div>
+					<LanguageSelect />
+				</div>
 			</div>
 		</Content>
 	);

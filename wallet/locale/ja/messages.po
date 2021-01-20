@@ -2,113 +2,126 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2021-01-19 18:41+0200\n"
-"PO-Revision-Date: 2021-01-20 10:28+0200\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2021-01-19 19:53+0200\n"
 "Language-Team: \n"
-"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.4.2\n"
 "X-Poedit-Basepath: ../src\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Last-Translator: \n"
+"Language: ja\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: common/components/Accounts.js:37
+#, fuzzy
 msgid "remove account from wallet"
-msgstr ""
+msgstr "財布からアカウントを削除する"
 
 #: common/components/Accounts.js:38 common/components/Transaction.js:34
+#, fuzzy
 msgid "view in explorer"
-msgstr ""
+msgstr "エクスプローラで見る"
 
 #: common/components/Accounts.js:39 renderer/receive/receive-content.js:35
 msgid "copy to clipboard"
-msgstr ""
+msgstr "クリップボードにコピー"
 
 #: common/components/CreateAccountButton.js:29
+#, fuzzy
 msgid "Create/Import"
-msgstr ""
+msgstr "作成/インポート"
 
 #: common/components/Send.js:41
+#, fuzzy
 msgid "Successfully sent"
-msgstr ""
+msgstr "正常に送信されました。"
 
 #: common/components/Send.js:42
 msgid "to"
-msgstr ""
+msgstr "から"
 
 #: common/components/Send.js:77 renderer/mywallet/mywallet-content.js:137
 msgid "SEND"
-msgstr ""
+msgstr "送信"
 
 #: common/components/Send.js:81
 msgid "CANCEL"
-msgstr ""
+msgstr "キャンセル"
 
 #: common/components/Send.js:164
+#, fuzzy
 msgid "Successfully sent to many"
-msgstr ""
+msgstr "多くの方への送信に成功"
 
 #: common/components/Transaction.js:303
 msgid "Send"
-msgstr ""
+msgstr "送信"
 
 #: common/components/Transaction.js:305 renderer/receive/receive-navbar.js:33
 msgid "Receive"
-msgstr ""
+msgstr "受信"
 
 #: common/components/UnlockWallet.js:35
 msgid "Unlock wallet to remove "
-msgstr ""
+msgstr "財布のロックを解除して削除する "
 
 #: common/components/UnlockWallet.js:36
 msgid " from stored keys"
-msgstr ""
+msgstr " 保存されたキーから"
 
 #: common/components/UnlockWallet.js:56
+#, fuzzy
 msgid "Unlock wallet for transactions"
-msgstr ""
+msgstr "取引のためのウォレットのロックを解除"
 
 #: common/components/UnlockWallet.js:60 common/components/UnlockWallet.js:64
+#, fuzzy
 msgid "Unlock wallet for maintenance"
-msgstr ""
+msgstr "メンテナンスのために財布のロックを解除"
 
 #: common/components/UnlockWallet.js:68 common/components/UnlockWallet.js:72
 #: common/components/UnlockWallet.js:77
+#, fuzzy
 msgid "Unlock wallet for masternodes"
-msgstr ""
+msgstr "マスターノードの財布のロックを解除"
 
 #: common/components/UnlockWallet.js:88
+#, fuzzy
 msgid "Unlock wallet for staking"
-msgstr ""
+msgstr "杭を打つためのウォレットのロックを解除"
 
 #: common/getTextConsts.js:3
+#, fuzzy
 msgid "copied to clipboard"
-msgstr ""
+msgstr "クリップボードにコピー"
 
 #: common/getTextConsts.js:4
+#, fuzzy
 msgid "Export Private Keys"
-msgstr ""
+msgstr "プライベートキーのエクスポート"
 
 #: common/getTextConsts.js:5
+#, fuzzy
 msgid "Change Default Language"
-msgstr ""
+msgstr "デフォルト言語の変更"
 
 #: common/getTextConsts.js:6
 msgid "Unlock"
-msgstr ""
+msgstr "ロック解除"
 
 #: common/getTextConsts.js:7 renderer/settings/settings-content.js:46
 #: renderer/warning/warning.js:74
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: common/getTextConsts.js:8
 msgid "Block"
-msgstr ""
+msgstr "ブロック"
 
 #: common/getTextConsts.js:9
+#, fuzzy
 msgid ""
 "This mnemonic phrase is uniquely generated, and grants you access to your "
 "wallet. Do NOT screenshot this page. Carefully write down your mnemonic "
@@ -116,336 +129,416 @@ msgid ""
 "Don’t share your unique phrase with ANYONE. CAUTION: The Janus Team can NOT "
 "recover your funds if you lose your mnemonic phrase."
 msgstr ""
+"このニーモニックフレーズは一意に生成され、あなたの財布へのアクセスを許可しま"
+"す。このページをスクリーンショットしないでください。あなたのニーモニック フ"
+"レーズを左から右に慎重に紙に書き留め、オフラインでコピーを保存してください。"
+"あなたのユニークなフレーズを誰とも共有しないでください。注意: Janusチームは"
+"あなたのニーモニックフレーズを紛失した場合、資金を回収することはできません。"
 
 #: common/getTextConsts.js:10
+#, fuzzy
 msgid "Passphrase Error!"
-msgstr ""
+msgstr "パスフレーズエラー!"
 
 #: common/setup/CreateAccount.js:35 common/setup/ImportAccount.js:38
+#, fuzzy
 msgid "Wallet Name"
-msgstr ""
+msgstr "財布の名前"
 
 #: common/setup/CreateAccount.js:36 common/setup/ImportAccount.js:39
 msgid "Password"
-msgstr ""
+msgstr "パスワード"
 
 #: common/setup/CreateAccount.js:37 common/setup/ImportAccount.js:40
 msgid "Repeat Password"
-msgstr ""
+msgstr "新しいパスワード（確認）"
 
 #: common/setup/CreateAccount.js:87
+#, fuzzy
 msgid "Create a new CPH wallet"
-msgstr ""
+msgstr "新しいCPHウォレットを作成する"
 
 #: common/setup/CreateAccount.js:144 common/setup/CreateAccount.js:172
 msgid "Continue"
-msgstr ""
+msgstr "続ける"
 
 #: common/setup/CreateAccount.js:195
+#, fuzzy
 msgid "Please click the mnemonics by original order"
-msgstr ""
+msgstr "ニーモニックをクリックしてください。"
 
 #: common/setup/CreateAccount.js:216
 msgid "Reset"
-msgstr ""
+msgstr "リセット"
 
 #: common/setup/CreateAccount.js:225 renderer/settings/settings-content.js:45
 msgid "Confirm"
-msgstr ""
+msgstr "確認する"
 
 #: common/setup/CreateAccount.js:318 common/setup/ImportAccount.js:555
+#, fuzzy
 msgid "Please enter a wallet name"
-msgstr ""
+msgstr "ウォレット名を入力してください"
 
 #: common/setup/CreateAccount.js:321 common/setup/ImportAccount.js:359
 msgid "Please enter a password"
-msgstr ""
+msgstr "パスワードを入力してください"
 
 #: common/setup/CreateAccount.js:324 common/setup/ImportAccount.js:362
+#, fuzzy
 msgid "Password is too short enter a minimum of 8 characters."
-msgstr ""
+msgstr "パスワードが短すぎます。"
 
 #: common/setup/CreateAccount.js:327 common/setup/ImportAccount.js:365
 msgid "Passwords do not match"
-msgstr ""
+msgstr "パスワードが一致しません"
 
 #: common/setup/CreateAccount.js:366
+#, fuzzy
 msgid "mnemonic does not match please try again"
-msgstr ""
+msgstr "ニーモニックが一致しません。"
 
 #: common/setup/ImportAccount.js:35
+#, fuzzy
 msgid "Please enter your mnemonics in original order, seperated by spaces."
 msgstr ""
+"あなたのニーモニックをスペースで区切って、元の順序で入力してください。"
 
 #: common/setup/ImportAccount.js:36
 msgid "Please enter your private key."
-msgstr ""
+msgstr "あなたのプライベート API キーを入力してください。"
 
 #: common/setup/ImportAccount.js:37
+#, fuzzy
 msgid ""
 "Please enter any address to create a testing account. Preferably use one "
 "with many transactions."
 msgstr ""
+"テスト用のアカウントを作成するために任意のアドレスを入力してください。好まし"
+"くは取引の多いものを使用してください。"
 
 #: common/setup/ImportAccount.js:45
+#, fuzzy
 msgid "mnemonic"
-msgstr ""
+msgstr "ニーモニック"
 
 #: common/setup/ImportAccount.js:46
+#, fuzzy
 msgid "private key"
-msgstr ""
+msgstr "秘密鍵"
 
 #: common/setup/ImportAccount.js:47
+#, fuzzy
 msgid "testing"
-msgstr ""
+msgstr "しけん"
 
 #: common/setup/ImportAccount.js:216 common/setup/ImportAccount.js:292
 #: common/setup/ImportAccount.js:331 renderer/setup.js:103
 msgid "Import"
-msgstr ""
+msgstr "インポート"
 
 #: common/setup/ImportAccount.js:513
+#, fuzzy
 msgid "Please enter a mnemonic"
-msgstr ""
+msgstr "ニーモニックを入力してください"
 
 #: common/setup/ImportAccount.js:520
+#, fuzzy
 msgid "Mnemonic length is too short"
-msgstr ""
+msgstr "マンネリの長さが短すぎる"
 
 #: common/setup/ImportAccount.js:527
+#, fuzzy
 msgid "Invalid mnemonic"
-msgstr ""
+msgstr "無効なニーモニック"
 
 #: common/setup/ImportAccount.js:537
+#, fuzzy
 msgid "Please enter a private key"
-msgstr ""
+msgstr "秘密鍵を入力してください"
 
 #: common/setup/ImportAccount.js:541
+#, fuzzy
 msgid "The length of PrivateKey must be 128"
-msgstr ""
+msgstr "PrivateKey の長さは 128 である必要があります。"
 
 #: common/setup/ImportAccount.js:545
+#, fuzzy
 msgid "Invalid private key"
-msgstr ""
+msgstr "無効な秘密鍵"
 
 #: common/setup/ImportAccount.js:562
+#, fuzzy
 msgid "Please enter a unique wallet name"
-msgstr ""
+msgstr "固有のウォレット名を入力してください"
 
 #: common/setup/ImportAccount.js:576
+#, fuzzy
 msgid "Please enter an address"
-msgstr ""
+msgstr "住所を入力してください"
 
 #: common/setup/ImportAccount.js:582
+#, fuzzy
 msgid "The address you enetered is not valid. Please enter a valid address."
 msgstr ""
+"あなたがエネターしたアドレスは有効ではありません。有効なアドレスを入力してく"
+"ださい。"
 
 #: renderer/addresses/addresses.js:33
 msgid "Addresses"
-msgstr ""
+msgstr "マイアカウント"
 
 #: renderer/masternodes/masternodes-content.js:76
+#, fuzzy
 msgid "REFRESH"
-msgstr ""
+msgstr "リフレッシュ"
 
 #: renderer/masternodes/masternodes-content.js:77
+#, fuzzy
 msgid "START MISSING"
-msgstr ""
+msgstr "スタートミッシング"
 
 #: renderer/masternodes/masternodes-content.js:78
+#, fuzzy
 msgid "START ALL"
-msgstr ""
+msgstr "スタートオール"
 
 #: renderer/masternodes/masternodes-content.js:79
 msgid "CREATE"
-msgstr ""
+msgstr "作成"
 
 #: renderer/masternodes/masternodes.js:32
+#, fuzzy
 msgid "Masternodes"
-msgstr ""
+msgstr "マスターノード"
 
 #: renderer/mywallet/mywallet-content.js:249
 msgid "Follow us"
-msgstr ""
+msgstr "フォローする"
 
 #: renderer/mywallet/mywallet-content.js:268
+#, fuzzy
 msgid "Join discord"
-msgstr ""
+msgstr "ディコードに参加する"
 
 #: renderer/mywallet/mywallet-content.js:286
+#, fuzzy
 msgid "Join telegram"
-msgstr ""
+msgstr "電報に参加する"
 
 #: renderer/mywallet/mywallet.js:32
 msgid "Wallet"
-msgstr ""
+msgstr "財布"
 
 #: renderer/receive/receive-content.js:36
+#, fuzzy
 msgid "View On Explorer"
-msgstr ""
+msgstr "エクスプローラーで見る"
 
 #: renderer/receive/receive.js:36
+#, fuzzy
 msgid "RECEIVE"
-msgstr ""
+msgstr "受信"
 
 #: renderer/settings/settings-content.js:47
+#, fuzzy
 msgid "Dump wallet for"
-msgstr ""
+msgstr "ダンプ財布"
 
 #: renderer/settings/settings-content.js:48
+#, fuzzy
 msgid "Backup wallet.dat for"
-msgstr ""
+msgstr "wallet.datをバックアップする"
 
 #: renderer/settings/settings-content.js:109
+#, fuzzy
 msgid "This wallet is developed and maintained by a third party "
-msgstr ""
+msgstr "このウォレットは、第三者によって開発され、維持されています。"
 
 #: renderer/settings/settings-content.js:110
+#, fuzzy
 msgid "We are in no way affiliated with the Cypherium team or organization. "
-msgstr ""
+msgstr "サイフェリウムのチームや団体とは一切関係ありません。"
 
 #: renderer/settings/settings-content.js:111
+#, fuzzy
 msgid "For support please visit the"
-msgstr ""
+msgstr "サポートにつきましては"
 
 #: renderer/settings/settings-content.js:111
 msgid "server "
-msgstr ""
+msgstr "サーバー "
 
 #: renderer/settings/settings-content.js:112
+#, fuzzy
 msgid "and report any issues you may find to "
-msgstr ""
+msgstr "に問題があれば報告してください。"
 
 #: renderer/settings/settings-content.js:128
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
 #: renderer/settings/settings-content.js:134
+#, fuzzy
 msgid "Encrypt Wallet"
-msgstr ""
+msgstr "ウォレットの暗号化"
 
 #: renderer/settings/settings-content.js:144
+#, fuzzy
 msgid "Combine Rewards"
-msgstr ""
+msgstr "報酬を組み合わせる"
 
 #: renderer/settings/settings-content.js:151
+#, fuzzy
 msgid "Stake Split Threshold"
-msgstr ""
+msgstr "杭分割しきい値"
 
 #: renderer/settings/settings-content.js:158
+#, fuzzy
 msgid "Backup Wallet"
-msgstr ""
+msgstr "バックアップウォレット"
 
 #: renderer/settings/settings-content.js:162
+#, fuzzy
 msgid "Dump Wallet"
-msgstr ""
+msgstr "財布を捨てる"
 
 #: renderer/settings/settings-content.js:166
+#, fuzzy
 msgid "Import Wallet"
-msgstr ""
+msgstr "インポートウォレット"
 
 #: renderer/settings/settings-content.js:170
+#, fuzzy
 msgid "Open Config"
-msgstr ""
+msgstr "オープンコンフィグ"
 
 #: renderer/settings/settings-content.js:174
+#, fuzzy
 msgid "Open Masternode Config"
-msgstr ""
+msgstr "マスターノード設定を開く"
 
 #: renderer/settings/settings-content.js:186
+#, fuzzy
 msgid "Passphrases do not match!"
-msgstr ""
+msgstr "パスフレーズが一致しない!"
 
 #: renderer/settings/settings-content.js:220
+#, fuzzy
 msgid "Enter a passphrase for the wallet."
-msgstr ""
+msgstr "お財布のパスフレーズを入力してください。"
 
 #: renderer/settings/settings-content.js:221
+#, fuzzy
 msgid ""
 "Please use a passphrase of 10 or more random characters or a minimum of 8 "
 "random words."
 msgstr ""
+"パスフレーズは10文字以上のランダム文字、または8文字以上のランダムワードを使"
+"用してください。"
 
 #: renderer/settings/settings-content.js:222
+#, fuzzy
 msgid "After confirming your wallet will be encrypted then auto restarted."
-msgstr ""
+msgstr "お財布を確認した後、暗号化され、自動再起動されます。"
 
 #: renderer/settings/settings-content.js:225
+#, fuzzy
 msgid "Passphrase"
-msgstr ""
+msgstr "パスフレーズ"
 
 #: renderer/settings/settings-content.js:232
+#, fuzzy
 msgid "Repeat Passphrase"
-msgstr ""
+msgstr "パスフレーズを繰り返す"
 
 #: renderer/settings/settings-content.js:261
+#, fuzzy
 msgid "Enter a threshold amount."
-msgstr ""
+msgstr "しきい値を入力します。"
 
 #: renderer/settings/settings-content.js:263
+#, fuzzy
 msgid ""
 "The wallet will automatically monitor for any coins with a value below the "
 "threshold amount,\tand combine them if they reside within the same address."
 msgstr ""
+"ウォレットは、閾値以下の価値を持つコインを自動的に監視し、同じアドレス内に存"
+"在する場合はコインを結合します。"
 
 #: renderer/settings/settings-content.js:265
+#, fuzzy
 msgid ""
 "When combine rewards runs it will create a transaction, and therefore will "
 "be subject to transaction fees."
 msgstr ""
+"コンバインリワードが実行されると、取引が作成されるため、取引手数料がかかりま"
+"す。"
 
 #: renderer/settings/settings-content.js:268
+#, fuzzy
 msgid "Threshold amount"
-msgstr ""
+msgstr "しきい値量"
 
 #: renderer/settings/settings-content.js:366
+#, fuzzy
 msgid "Saved backup of wallet.dat"
-msgstr ""
+msgstr "wallet.datのバックアップを保存"
 
 #: renderer/settings/settings-content.js:376
+#, fuzzy
 msgid "Successfuly dumped private keys"
-msgstr ""
+msgstr "秘密鍵のダンプに成功"
 
 #: renderer/settings/settings-content.js:389
 msgid "Please enter a stake split amount!"
-msgstr ""
+msgstr "杭割り金額を入力してください"
 
 #: renderer/settings/settings-content.js:439
+#, fuzzy
 msgid "Combine rewards enabled"
-msgstr ""
+msgstr "報酬を組み合わせて有効にする"
 
 #: renderer/settings/settings-content.js:448
+#, fuzzy
 msgid "Import wallet .txt"
-msgstr ""
+msgstr "ウォレット.txtをインポート"
 
 #: renderer/settings/settings-content.js:461
+#, fuzzy
 msgid "Successfuly imported private keys"
-msgstr ""
+msgstr "秘密鍵のインポートに成功"
 
 #: renderer/setup.js:38
+#, fuzzy
 msgid ""
 "It appears this is the first time you are starting up the wallet. You can "
 "either create a new account or import from your keys."
 msgstr ""
+"ウォレットを起動するのは初めてのようです。新しいアカウントを作成するか、鍵か"
+"らインポートするかのどちらかです。"
 
 #: renderer/setup.js:39
+#, fuzzy
 msgid ""
 "Please select an option below to either import or create another wallet. "
 "This will not replace your current wallet."
 msgstr ""
+"以下のオプションを選択して、別のウォレットをインポートまたは作成してくださ"
+"い。これは現在のウォレットを置き換えるものではありません。"
 
 #: renderer/setup.js:111
 msgid "Create"
-msgstr ""
+msgstr "作成"
 
 #: renderer/transactions/transactions.js:32
 msgid "Transactions"
-msgstr ""
+msgstr "トランザクション"
 
 #: renderer/warning/warning.js:66
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 #: renderer/warning/warning.js:70
 msgid "Info"
-msgstr ""
+msgstr "情報"

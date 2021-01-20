@@ -133,7 +133,7 @@ function MyWalletContent(props) {
 						<div className="btn--send">
 							<Button
 								buttonStyle="btn--secondary--solid"
-								handleClick={() => null}
+								handleClick={() => testChangeLocale()}
 								buttonSize="btn--small">{_("SEND")}</Button>
 						</div>
 						<div className="btn--send">
@@ -159,6 +159,10 @@ function MyWalletContent(props) {
 		</Content>
 	);
 
+	function testChangeLocale(){
+		//
+		ipcRenderer.send("change-locale", "cn");
+	}
 	function renderWidget() {
 		if (Config.getShowWidget()) {
 			return (<Helmet>

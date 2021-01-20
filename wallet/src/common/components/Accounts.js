@@ -85,7 +85,7 @@ function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
                         content={<div className="fontSmallBold">{balance.toFixed(8)}</div>}
                     />
                 </div>
-                <div className="account account--item">{data.name}</div>
+                <div className="account account--item account--name">{data.name}</div>
                 <div className="delete--icon account--item">
                     <CustomTooltip
                         placement="left"

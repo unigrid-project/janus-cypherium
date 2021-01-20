@@ -27,6 +27,7 @@ import Expand from "react-expand-animated";
 import { WalletService } from "../walletutils/WalletService";
 import SelectionButton from "./SelectionButton";
 import './SetupStyles.css';
+import { CAUTION } from "../getTextConsts";
 
 var _ = require('electron').remote.getGlobal('_');
 const log = require('electron-log');
@@ -156,7 +157,7 @@ const CreateAccount = (props) => {
         return (
             <Expand open={showCreate}>
                 <div className="create--copy">
-                    <div className="darkCopy">{_("This mnemonic phrase is uniquely generated, and grants you access to your wallet. Do NOT screenshot this page. Carefully write down your mnemonic phrase from left to right on a piece of paper, and save a copy offline. Don’t share your unique phrase with ANYONE. CAUTION: The Cypherium Team can NOT recover your funds if you lose your mnemonic phrase.")}</div>
+                    <div className="darkCopy">{CAUTION}</div>
                 </div>
                 <div className="align--center">
                     <div className="mnemonicContainer">{renderMnemonic(mnemonic)}</div>

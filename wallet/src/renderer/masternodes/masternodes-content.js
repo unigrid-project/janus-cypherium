@@ -30,6 +30,7 @@ import Store from "electron-store";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import { ipcRenderer, remote, clipboard } from "electron";
 import CreateMasternode from "../../common/components/CreateMasternode";
+import { COPIED } from "../../common/getTextConsts";
 
 const store = new Store();
 var _ = require('electron').remote.getGlobal('_');
@@ -103,7 +104,7 @@ function MasternodesContent(props) {
 	function copyToClipboard(v) {
 		clipboard.writeText(v, 'clipboard')
 		console.log(clipboard.readText('clipboard'))
-		sendDesktopNotification(`${v} ${_("copied to clipboard")}`);
+		sendDesktopNotification(`${v} ${COPIED}`);
 	}
 
 	async function debugMasternode() {
