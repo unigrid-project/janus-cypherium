@@ -310,7 +310,7 @@ msgstr "Этот кошелек разработан и обслуживаетс
 
 #: renderer/settings/settings-content.js:110
 msgid "We are in no way affiliated with the Cypherium team or organization. "
-msgstr "Мы никоим образом не связаны с кипрской командой или организацией "
+msgstr "Мы никоим образом не связаны с Cypherium командой или организацией "
 
 #: renderer/settings/settings-content.js:111
 msgid "For support please visit the"
