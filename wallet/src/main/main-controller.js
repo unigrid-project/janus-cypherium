@@ -21,6 +21,7 @@ import { BrowserWindow, globalShortcut, shell } from "electron";
 import { format as formatUrl } from "url";
 import * as path from "path";
 import electron from "electron";
+import os from 'os';
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -35,6 +36,7 @@ export default class MainController {
 			height: electron.screen.getPrimaryDisplay().workAreaSize.height / 2,
 			minWidth: 850,
 			minHeight: 600,
+			icon: os.type() === "Linux" ? path.join(__static, '/Icon-512x512.png') : null,
 			frame: false,
 			resizable: true,
 			show: false,
