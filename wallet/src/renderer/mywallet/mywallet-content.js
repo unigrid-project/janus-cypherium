@@ -41,8 +41,8 @@ import { WalletService } from "../../common/walletutils/WalletService.js";
 import AccountSelection from "../../common/accounts/AccountSelection.js";
 import CreateAccountButton from "../../common/components/CreateAccountButton.js";
 import Receive from "../receive/receive.js";
-var _ = require('electron').remote.getGlobal('_');
 
+var gt = require('electron').remote.getGlobal('gt');
 const log = require('electron-log');
 const walletService = new WalletService();
 const nodeClient = new NodeClient();
@@ -67,6 +67,11 @@ function MyWalletContent(props) {
 	const [walletList, setWalletList] = useState(Config.getAccount());
 	const [renderListKey, setRenderListKey] = useState(Math.random());
 	useEffect(() => {
+		
+		
+		
+		console.log("from main: " , gt.gettext("view in explorer"))
+
 		nodeClient.getKeyBlockHeight().then((r) => {
 			console.log("getKeyBlockHeight: ", r);
 		})
@@ -134,7 +139,7 @@ function MyWalletContent(props) {
 							<Button
 								buttonStyle="btn--secondary--solid"
 								handleClick={() => testChangeLocale()}
-								buttonSize="btn--small">{_("SEND")}</Button>
+								buttonSize="btn--small">{gt.gettext("SEND")}</Button>
 						</div>
 						<div className="btn--send">
 							<Receive key="receive" type="button" name="receive" />
@@ -246,7 +251,7 @@ function MyWalletContent(props) {
 								fontFamily='Roboto'
 								fontSize='5'
 								fadeEasing="linear"
-								content={_("Follow us")}
+								content={gt.gettext("Follow us")}
 								customCss={css`white-space: nowrap;`}
 							>
 								<FontAwesomeIcon size="lg" icon={faTwitter} color="var(--social-icons)" />
@@ -265,7 +270,7 @@ function MyWalletContent(props) {
 								fontFamily='Roboto'
 								fontSize='5'
 								fadeEasing="linear"
-								content={_("Join discord")}
+								content={gt.gettext("Join discord")}
 								customCss={css`white-space: nowrap;`}
 							>
 								<FontAwesomeIcon size="lg" icon={faDiscord} color="var(--social-icons)" />
@@ -283,7 +288,7 @@ function MyWalletContent(props) {
 								fontFamily='Roboto'
 								fontSize='5'
 								fadeEasing="linear"
-								content={_("Join telegram")}
+								content={gt.gettext("Join telegram")}
 								customCss={css`white-space: nowrap;`}
 							>
 								<FontAwesomeIcon size="lg" icon={faTelegram} color="var(--social-icons)" />

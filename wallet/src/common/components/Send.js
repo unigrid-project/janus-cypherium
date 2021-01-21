@@ -27,9 +27,10 @@ import Store from "electron-store";
 import { sendDesktopNotification } from "./DesktopNotifications";
 import Config from "../config";
 import GasSelector from "./GasSelector";
-
+import Gettext from 'node-gettext';
+var gt = require('electron').remote.getGlobal('gt');
 const store = new Store();
-var _ = require('electron').remote.getGlobal('_');
+
 
 function Send() {
     const [recipients, setRecipients] = useState({ "address1": { "address": "", "amount": "", "isValid": false } });
@@ -38,8 +39,8 @@ function Send() {
     const [disableSendBtn, setDisableSendButton] = useState(true);
     const [sendBtnKey, setSendButtonKey] = useState(1);
     const [hasGas] = useState(Config.getHasGas());
-    const copy1 = _("Successfully sent");
-    const copy2 = _("to");
+    const copy1 = gt.gettext("Successfully sent");
+    const copy2 = gt.gettext("to");
     useEffect(() => {
         setSendButtonKey(Math.random());
         console.log("button state changed ", disableSendBtn)
@@ -74,11 +75,11 @@ function Send() {
                     buttonStyle="btn--secondary--solid"
                     buttonSize="btn--small"
                     disabled={disableSendBtn}
-                    handleClick={() => checkForLockedWallet()}>{_("SEND")}</Button>
+                    handleClick={() => checkForLockedWallet()}>{gt.gettext("SEND")}</Button>
                 <Button
                     buttonStyle="btn--secondary--solid"
                     buttonSize="btn--small"
-                    handleClick={() => onCancelPressed()}>{_("CANCEL")}</Button>
+                    handleClick={() => onCancelPressed()}>{gt.gettext("CANCEL")}</Button>
             </div>
             {hasGas ? <GasSelector /> : null}
         </div>
@@ -161,7 +162,7 @@ function Send() {
 
 
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "cancel-send-operation");
-                sendDesktopNotification(_("Successfully sent to many"));
+                sendDesktopNotification(gt.gettext("Successfully sent to many"));
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
 
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");

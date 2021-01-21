@@ -29,11 +29,12 @@ import { ipcRenderer, remote } from "electron";
 import Config from "../config";
 import { WalletService } from "../walletutils/WalletService";
 import { CANCEL, PASSPHRASE_ERROR, UNLOCK } from "../getTextConsts";
+import Gettext from 'node-gettext';
+var gt = require('electron').remote.getGlobal('gt');
 
-var _ = require('electron').remote.getGlobal('_');
 const walletService = new WalletService();
-const removeMsgOne = _("Unlock wallet to remove ");
-const removeMdgTwo = _(" from stored keys");
+const removeMsgOne = gt.gettext("Unlock wallet to remove ");
+const removeMdgTwo = gt.gettext(" from stored keys");
 
 function UnlockWallet(props) {
     const [isStaking, setIsStaking] = useState(props.isChecked);
@@ -53,28 +54,28 @@ function UnlockWallet(props) {
             //console.log("wallet-lock-trigger: " + message)
             switch (message.command) {
                 case "unlockfortime":
-                    setInfoCopy(_("Unlock wallet for transactions"));
+                    setInfoCopy(gt.gettext("Unlock wallet for transactions"));
                     setUnlockFor("SEND");
                     break;
                 case "unlockfordump":
-                    setInfoCopy(_("Unlock wallet for maintenance"));
+                    setInfoCopy(gt.gettext("Unlock wallet for maintenance"));
                     setUnlockFor("DUMP");
                     break;
                 case "unlockforsplit":
-                    setInfoCopy(_("Unlock wallet for maintenance"));
+                    setInfoCopy(gt.gettext("Unlock wallet for maintenance"));
                     setUnlockFor("SPLIT");
                     break;
                 case "STARTALL":
-                    setInfoCopy(_("Unlock wallet for masternodes"));
+                    setInfoCopy(gt.gettext("Unlock wallet for masternodes"));
                     setUnlockFor("STARTALL");
                     break;
                 case "MISSING":
-                    setInfoCopy(_("Unlock wallet for masternodes"));
+                    setInfoCopy(gt.gettext("Unlock wallet for masternodes"));
                     setUnlockFor("MISSING");
                     break;
                 case "ALIAS":
                     console.log("alias passed into unlock: ", message.alias)
-                    setInfoCopy(_("Unlock wallet for masternodes"));
+                    setInfoCopy(gt.gettext("Unlock wallet for masternodes"));
                     setUnlockFor("ALIAS");
                     setMasternodeAlias(message.alias);
                     break;
@@ -85,7 +86,7 @@ function UnlockWallet(props) {
                     setAccount(message.alias);
                     break;
                 default:
-                    setInfoCopy(_("Unlock wallet for staking"));
+                    setInfoCopy(gt.gettext("Unlock wallet for staking"));
                     setUnlockFor("STAKE");
                     break;
             }

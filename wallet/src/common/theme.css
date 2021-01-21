@@ -42,6 +42,7 @@
     --tooltip--background: rgba(15, 15, 15, 0.9);
     --input--background: #272531;
     --app--background--image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #01ace2), color-stop(1, white));
+    --app--background--color: #86e3ff;
     --navbar--background: #02506e;
     --controlbar--background: #0289be;
     --controlbar--close: rgb(255, 255, 255);
@@ -57,6 +58,7 @@
 }
 /* UGD settings
 --app--background--image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #151529), color-stop(1, #030724)); 
+--app--background--image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #01ace2), color-stop(1, white));
 --navbar--background: #0a0a0a;
 --controlbar--background: #171717;
 --navbar--selected: #F77207;
@@ -248,6 +250,10 @@ h2 {
     padding-left: 5px;
 }
 
+.padding--left--ten {
+    padding-left: 10px;
+}
+
 .padding--right--twenty {
     padding-right: 20px;
 }
@@ -334,4 +340,8 @@ h2 {
 
 .href--links {
     text-decoration: none;
+}
+
+.country--select {
+    border-bottom: 1px solid grey;
 }

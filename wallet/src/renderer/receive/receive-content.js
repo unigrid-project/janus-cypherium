@@ -30,10 +30,11 @@ import CustomTooltip from "../../common/components/CustomToolTip";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import Button from "../../common/components/Button";
 import { COPIED, EXPORT_KEYS } from "../../common/getTextConsts";
+import Gettext from 'node-gettext';
+var gt = require('electron').remote.getGlobal('gt');
 
-var _ = require('electron').remote.getGlobal('_');
-const copyToClipboard = _("copy to clipboard");
-const viewOnExplorer = _("View On Explorer");
+const copyToClipboard = gt.gettext("copy to clipboard");
+const viewOnExplorer = gt.gettext("View On Explorer");
 
 export default function ReceiveScreen() {
 

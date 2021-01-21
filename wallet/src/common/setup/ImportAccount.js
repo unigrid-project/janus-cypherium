@@ -28,23 +28,24 @@ import WarningMessage from "../components/WarningMessage";
 import { WalletService } from "../walletutils/WalletService";
 import NodeClient from "../node-client";
 import Config from "../config";
+import Gettext from 'node-gettext';
+var gt = require('electron').remote.getGlobal('gt');
 
-var _ = require('electron').remote.getGlobal('_');
 const log = require('electron-log');
 const walletService = new WalletService();
-const enterMnemonicCopy = _("Please enter your mnemonics in original order, seperated by spaces.");
-const privateKeyCopy = _("Please enter your private key.");
-const testingCopy = _("Please enter any address to create a testing account. Preferably use one with many transactions.");
-const enterWalletName = _("Wallet Name");
-const enterPassword = _("Password");
-const repeatPassword = _("Repeat Password");
+const enterMnemonicCopy = gt.gettext("Please enter your mnemonics in original order, seperated by spaces.");
+const privateKeyCopy = gt.gettext("Please enter your private key.");
+const testingCopy = gt.gettext("Please enter any address to create a testing account. Preferably use one with many transactions.");
+const enterWalletName = gt.gettext("Wallet Name");
+const enterPassword = gt.gettext("Password");
+const repeatPassword = gt.gettext("Repeat Password");
 const nodeClient = new NodeClient();
 
 const ImportAccount = (props) => {
     const [selections, setSelections] = useState([
-        { name: _("mnemonic"), selected: true, key: 0 },
-        { name: _("private key"), selected: false, key: 1 },
-        { name: _("testing"), selected: false, key: 2 }
+        { name: gt.gettext("mnemonic"), selected: true, key: 0 },
+        { name: gt.gettext("private key"), selected: false, key: 1 },
+        { name: gt.gettext("testing"), selected: false, key: 2 }
     ]);
     const [warningMessage, setWarningMessage] = useState("");
     const [walletName, setWalletName] = useState("");
@@ -213,7 +214,7 @@ const ImportAccount = (props) => {
                         }}
                         disabled={buttonDisabled}
                         buttonSize="btn--small"
-                        buttonStyle="btn--blue--solid">{_("Import")}</Button>
+                        buttonStyle="btn--blue--solid">{gt.gettext("Import")}</Button>
                 </div>
                 {warningMessage !== "" ? renderWarning() : null}
             </div>
@@ -289,7 +290,7 @@ const ImportAccount = (props) => {
                         }}
                         disabled={buttonDisabled}
                         buttonSize="btn--small"
-                        buttonStyle="btn--blue--solid">{_("Import")}</Button>
+                        buttonStyle="btn--blue--solid">{gt.gettext("Import")}</Button>
                 </div>
                 {warningMessage !== "" ? renderWarning() : null}
             </div>
@@ -328,7 +329,7 @@ const ImportAccount = (props) => {
                         }}
                         disabled={buttonDisabled}
                         buttonSize="btn--small"
-                        buttonStyle="btn--blue--solid">{_("Import")}</Button>
+                        buttonStyle="btn--blue--solid">{gt.gettext("Import")}</Button>
                 </div>
                 {warningMessage !== "" ? renderWarning() : null}
             </div>
@@ -356,13 +357,13 @@ const ImportAccount = (props) => {
         if (checkValid === true) {
             if (checkWalletName()) {
                 if (passPhrase == "" && type !== 'TESTING') {
-                    setWarningMessage(_("Please enter a password"));
+                    setWarningMessage(gt.gettext("Please enter a password"));
                 }
                 else if (passPhrase.length < 8 && type !== 'TESTING') {
-                    setWarningMessage(_("Password is too short enter a minimum of 8 characters."));
+                    setWarningMessage(gt.gettext("Password is too short enter a minimum of 8 characters."));
                 }
                 else if (passPhrase !== repeatPassphrase && type !== 'TESTING') {
-                    setWarningMessage(_("Passwords do not match"));
+                    setWarningMessage(gt.gettext("Passwords do not match"));
                 }
                 else {
                     let credentials = {
@@ -510,21 +511,21 @@ const ImportAccount = (props) => {
         if (mnemonic === "") {
             //let error = await this.helper.getTranslate('MNEMONIC_EMPTY');
             //this.mnemonicError = error
-            setWarningMessage(_("Please enter a mnemonic"));
+            setWarningMessage(gt.gettext("Please enter a mnemonic"));
             return false;
         }
 
         let tmMmnemonic = mnemonic.slice(0).replace(/^\s+|\s+$/, '');
         let mnemonicList = tmMmnemonic.split(/\s+/);
         if (mnemonicList.length !== 12) {
-            setWarningMessage(_("Mnemonic length is too short"));
+            setWarningMessage(gt.gettext("Mnemonic length is too short"));
             //let error = await this.helper.getTranslate('MNEMONIC_LENGTH_ERROR');
             //this.mnemonicError = error
             return false;
         }
 
         if (!walletService.validateMnemonic(mnemonic)) {
-            setWarningMessage(_("Invalid mnemonic"));
+            setWarningMessage(gt.gettext("Invalid mnemonic"));
             return false;
         }
         return true;
@@ -534,15 +535,15 @@ const ImportAccount = (props) => {
         if (privateKey === "") {
             //let error = await this.helper.getTranslate('MNEMONIC_EMPTY');
             //this.mnemonicError = error
-            setWarningMessage(_("Please enter a private key"));
+            setWarningMessage(gt.gettext("Please enter a private key"));
             return false;
         }
         if (privateKey.length !== 128) {
-            setWarningMessage(_("The length of PrivateKey must be 128"));
+            setWarningMessage(gt.gettext("The length of PrivateKey must be 128"));
             return false;
         }
         if (!walletService.validatePrivate(privateKey)) {
-            setWarningMessage(_("Invalid private key"));
+            setWarningMessage(gt.gettext("Invalid private key"));
             return false;
         }
         return true;
@@ -552,14 +553,14 @@ const ImportAccount = (props) => {
     function checkWalletName() {
         const accounts = Config.getAccount();
         if (walletName === "") {
-            setWarningMessage(_("Please enter a wallet name"));
+            setWarningMessage(gt.gettext("Please enter a wallet name"));
             return false;
         }
         let match;
         if (accounts) {
             match = accounts.find(element => element.name === walletName);
             if (match) {
-                setWarningMessage(_("Please enter a unique wallet name"));
+                setWarningMessage(gt.gettext("Please enter a unique wallet name"));
                 return false;
             }
         }
@@ -573,13 +574,13 @@ const ImportAccount = (props) => {
         console.log("checkAddress ", addressConverted)
 
         if (addressConverted === "") {
-            setWarningMessage(_("Please enter an address"));
+            setWarningMessage(gt.gettext("Please enter an address"));
             return false;
         }
 
         await nodeClient.validateAddress(addressConverted, (v) => {
             if (v === false) {
-                setWarningMessage(_("The address you enetered is not valid. Please enter a valid address."));
+                setWarningMessage(gt.gettext("The address you enetered is not valid. Please enter a valid address."));
                 return false;
             } else {
                 console.log('valid ', v)

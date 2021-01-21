@@ -31,9 +31,10 @@ import { sendDesktopNotification } from "../../common/components/DesktopNotifica
 import { ipcRenderer, remote, clipboard } from "electron";
 import CreateMasternode from "../../common/components/CreateMasternode";
 import { COPIED } from "../../common/getTextConsts";
-
+import Gettext from 'node-gettext';
+var gt = require('electron').remote.getGlobal('gt');
 const store = new Store();
-var _ = require('electron').remote.getGlobal('_');
+
 
 function MasternodesContent(props) {
 	const [masternodeList, setMasternodeList] = useState({});
@@ -73,10 +74,10 @@ function MasternodesContent(props) {
 	return (
 		<Content id="masternodes">
 			<div className="topButtons">
-				<Button handleClick={() => getMasternodeList()} buttonSize="btn--small">{_("REFRESH")}</Button >
-				<Button handleClick={() => checkIfEncryptedStart("MISSING", null)} buttonSize="btn--small">{_("START MISSING")}</Button >
-				<Button handleClick={() => checkIfEncryptedStart("STARTALL", null)} buttonSize="btn--small">{_("START ALL")}</Button >
-				<Button handleClick={() => setShowCreateMasternode(true)} buttonSize="btn--small">{_("CREATE")}</Button >
+				<Button handleClick={() => getMasternodeList()} buttonSize="btn--small">{gt.gettext("REFRESH")}</Button >
+				<Button handleClick={() => checkIfEncryptedStart("MISSING", null)} buttonSize="btn--small">{gt.gettext("START MISSING")}</Button >
+				<Button handleClick={() => checkIfEncryptedStart("STARTALL", null)} buttonSize="btn--small">{gt.gettext("START ALL")}</Button >
+				<Button handleClick={() => setShowCreateMasternode(true)} buttonSize="btn--small">{gt.gettext("CREATE")}</Button >
 			</div>
 
 			<CreateMasternode isVisible={showCreateMasternode} copyScript={(v) => copyToClipboard(v)}

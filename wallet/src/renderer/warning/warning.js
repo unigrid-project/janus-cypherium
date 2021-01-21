@@ -25,11 +25,12 @@ import File from "../../common/file";
 import "./warning.css"
 import Button from '../../common/components/Button';
 import Config from "../../common/config";
-
+import Gettext from 'node-gettext';
+var gt = require('electron').remote.getGlobal('gt');
 const log = require('electron-log');
 
 library.add(faSpinner, faTimes);
-var _ = require('electron').remote.getGlobal('_');
+
 
 
 function Warning() {
@@ -63,15 +64,15 @@ function Warning() {
 					<Button
 						handleClick={() => updateWallet()}
 						buttonSize="btn--tiny"
-						buttonStyle="btn--success--solid">{_("Update")}</Button>
+						buttonStyle="btn--success--solid">{gt.gettext("Update")}</Button>
 					<Button
 						handleClick={() => openGitURL(urlLink)}
 						buttonSize="btn--tiny"
-						buttonStyle="btn--secondary--solid">{_("Info")}</Button>
+						buttonStyle="btn--secondary--solid">{gt.gettext("Info")}</Button>
 
 					<Button handleClick={() => onCancelPressed()}
 						buttonSize="btn--tiny"
-						buttonStyle="btn--danger--solid">{_("Cancel")}</Button>
+						buttonStyle="btn--danger--solid">{gt.gettext("Cancel")}</Button>
 				</div>
 			</div>
 

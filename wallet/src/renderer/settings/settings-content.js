@@ -34,18 +34,18 @@ import Config from "../../common/config";
 import File from "../../common/file";
 import LanguageSelect from "../../common/languages/LanguageSelect";
 import { CHANGE_DEFAULT } from "../../common/getTextConsts";
-
+import Gettext from 'node-gettext';
+var gt = require('electron').remote.getGlobal('gt');
 const log = require('electron-log');
 const packageJSON = require('../../../package.json');
 const store = new Store();
-var _ = remote.getGlobal('_');
 var translations = remote.getGlobal('translations');
 
 function SettingsContent(props) {
-	const confirmCpy = _("Confirm");
-	const cancelCpy = _("Cancel");
-	const dumpCpy = _("Dump wallet for");
-	const backupCpy = _("Backup wallet.dat for");
+	const confirmCpy = gt.gettext("Confirm");
+	const cancelCpy = gt.gettext("Cancel");
+	const dumpCpy = gt.gettext("Dump wallet for");
+	const backupCpy = gt.gettext("Backup wallet.dat for");
 	const [isEncrypted, setIsEncrypted] = useState(false);
 	const [openEncrypt, setOpenEncrypt] = useState(false);
 	const [openCombine, setOpenCombine] = useState(false);
@@ -64,6 +64,7 @@ function SettingsContent(props) {
 	const [encryptingWallet, setEncryptingWallet] = useState(false);
 	const [stakeSplitKey, setStakeSplitKey] = useState(Math.random());
 	const [renderListKey, setRenderListKey] = useState(Math.random());
+	const [renderKey , setRederKey] = useState(Math.random());
 
 	useEffect(() => {
 		console.log("languages: ", store.get("languages"));
@@ -88,7 +89,7 @@ function SettingsContent(props) {
 	}, [openStakeSplit]);
 
 	return (
-		<Content id="settings">
+		<Content id="settings" key={renderKey}>
 			{renderVersionNumber()}
 			<div className="main--settings-container" >
 				{Config.isDaemonBased === true ? renderDaemonBased() : renderDefaultInfo()}
@@ -106,10 +107,10 @@ function SettingsContent(props) {
 	function renderDefaultInfo() {
 		return (
 			<div className="darkCopy fontSmallBold">
-				<p>{_("This wallet is developed and maintained by a third party ")} <a href="https://www.unigrid.org" target="_blank"><img src={File.get("ugd_logo.png")} className="piclet" />The UNIGRID Organization</a></p>
-				<p>{_("We are in no way affiliated with the Cypherium team or organization. ")}
-					{_("For support please visit the")} <a href="https://discord.gg/CRWZ7V5" target="_blank"> discord </a> {_("server ")}
-					{_("and report any issues you may find to ")} <a href={getIssueUrl()} target="_blank">GitHub</a></p>
+				<p>{gt.gettext("This wallet is developed and maintained by a third party ")} <a href="https://www.unigrid.org" target="_blank"><img src={File.get("ugd_logo.png")} className="piclet" />The UNIGRID Organization</a></p>
+				<p>{gt.gettext("We are in no way affiliated with the Cypherium team or organization. ")}
+					{gt.gettext("For support please visit the")} <a href="https://discord.gg/CRWZ7V5" target="_blank"> discord </a> {gt.gettext("server ")}
+					{gt.gettext("and report any issues you may find to ")} <a href={getIssueUrl()} target="_blank">GitHub</a></p>
 			</div>
 		)
 	}
@@ -125,13 +126,13 @@ function SettingsContent(props) {
 	function renderDaemonBased() {
 		return (
 			<div>
-				<div>{_("Settings")}</div>
+				<div>{gt.gettext("Settings")}</div>
 				<Button
 					key={encryptKey}
 					handleClick={() => setOpenEncrypt(!openEncrypt)}
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
-					disabled={isEncrypted}>{_("Encrypt Wallet")}</Button>
+					disabled={isEncrypted}>{gt.gettext("Encrypt Wallet")}</Button>
 				<div>
 					{renderEncryptWallet()}
 				</div>
@@ -141,40 +142,41 @@ function SettingsContent(props) {
 				<Button
 					handleClick={() => setOpenCombine(!openCombine)}
 					buttonSize="btn--tiny"
-					buttonStyle="btn--secondary--solid">{_("Combine Rewards")}</Button>
+					buttonStyle="btn--secondary--solid">{gt.gettext("Combine Rewards")}</Button>
 				<div>
 					{renderCombine()}
 				</div>
 				<Button
 					handleClick={() => setOpenStakeSplit(!openStakeSplit)}
 					buttonSize="btn--tiny"
-					buttonStyle="btn--secondary--solid">{_("Stake Split Threshold")}</Button>
+					buttonStyle="btn--secondary--solid">{gt.gettext("Stake Split Threshold")}</Button>
 				<div>
 					{renderStakeSplit()}
 				</div>
 				<Button
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
-					handleClick={() => openSaveDialog("BACKUP")}>{_("Backup Wallet")}</Button>
+					handleClick={() => openSaveDialog("BACKUP")}>{gt.gettext("Backup Wallet")}</Button>
 				<Button
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
-					handleClick={() => checkIfEncrypted("unlockfordump")}>{_("Dump Wallet")}</Button>
+					handleClick={() => checkIfEncrypted("unlockfordump")}>{gt.gettext("Dump Wallet")}</Button>
 				<Button
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
-					handleClick={() => importKeys()}>{_("Import Wallet")}</Button>
+					handleClick={() => importKeys()}>{gt.gettext("Import Wallet")}</Button>
 				<Button
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
-					handleClick={() => openConfFile(Config.getConfFile())}>{_("Open Config")}</Button>
+					handleClick={() => openConfFile(Config.getConfFile())}>{gt.gettext("Open Config")}</Button>
 				<Button
 					buttonSize="btn--tiny"
 					buttonStyle="btn--secondary--solid"
-					handleClick={() => openConfFile(Config.getMasternodeFile())}>{_("Open Masternode Config")}</Button>
+					handleClick={() => openConfFile(Config.getMasternodeFile())}>{gt.gettext("Open Masternode Config")}</Button>
 			</div>
 		)
 	}
+
 	function resetPassphraseContainer() {
 		setRepeatPassphrase("");
 		setPassphrase("");
@@ -183,7 +185,7 @@ function SettingsContent(props) {
 	}
 	async function submitEncryptWallet() {
 		if (passphrase !== repeatPassphrase) {
-			setWarningMessage(_("Passphrases do not match!"));
+			setWarningMessage(gt.gettext("Passphrases do not match!"));
 			setRepeatPassphrase("");
 			setPassphrase("");
 			setPassKey(Math.random());
@@ -217,19 +219,19 @@ function SettingsContent(props) {
 		return (
 			<Expand open={openEncrypt}>
 				<div className="input--container" key={passKey}>
-					<div>{_("Enter a passphrase for the wallet.")}</div>
-					<div>{_("Please use a passphrase of 10 or more random characters or a minimum of 8 random words.")}</div>
-					<div>{_("After confirming your wallet will be encrypted then auto restarted.")}</div>
+					<div>{gt.gettext("Enter a passphrase for the wallet.")}</div>
+					<div>{gt.gettext("Please use a passphrase of 10 or more random characters or a minimum of 8 random words.")}</div>
+					<div>{gt.gettext("After confirming your wallet will be encrypted then auto restarted.")}</div>
 					<div className="input--fields">
 						<EnterField
-							placeHolder={_("Passphrase")}
+							placeHolder={gt.gettext("Passphrase")}
 							type={"password"}
 							clearField={passphrase}
 							myStyle={"medium--input"}
 							updateEntry={(v) => setPassphrase(v)} />
 						<EnterField
 							key={repeatKey}
-							placeHolder={_("Repeat Passphrase")}
+							placeHolder={gt.gettext("Repeat Passphrase")}
 							type={"password"}
 							clearField={repeatPassphrase}
 							myStyle={"medium--input"}
@@ -258,14 +260,14 @@ function SettingsContent(props) {
 		return (
 			<Expand open={openCombine}>
 				<div className="input--container" key={passKey}>
-					<div>{_("Enter a threshold amount.")}</div>
+					<div>{gt.gettext("Enter a threshold amount.")}</div>
 					<br />
-					<div>{_("The wallet will automatically monitor for any coins with a value below the threshold amount,	and combine them if they reside within the same address.")}</div>
+					<div>{gt.gettext("The wallet will automatically monitor for any coins with a value below the threshold amount,	and combine them if they reside within the same address.")}</div>
 					<br />
-					<div>{_("When combine rewards runs it will create a transaction, and therefore will be subject to transaction fees.")}</div>
+					<div>{gt.gettext("When combine rewards runs it will create a transaction, and therefore will be subject to transaction fees.")}</div>
 					<div className="input--fields">
 						<EnterField
-							placeHolder={_("Threshold amount")}
+							placeHolder={gt.gettext("Threshold amount")}
 							type={"number"}
 							clearField={passphrase}
 							myStyle={"smallInput"}
@@ -363,7 +365,7 @@ function SettingsContent(props) {
 						new Promise(resolve => setTimeout(resolve, 500))
 					]).then((response) => {
 						console.log("local directory: ", response);
-						sendDesktopNotification(_("Saved backup of wallet.dat"));
+						sendDesktopNotification(gt.gettext("Saved backup of wallet.dat"));
 					}, (stderr) => {
 						console.error(stderr);
 					});
@@ -373,7 +375,7 @@ function SettingsContent(props) {
 						new Promise(resolve => setTimeout(resolve, 500))
 					]).then((response) => {
 						console.log("dump wallet ", response)
-						sendDesktopNotification(_("Successfuly dumped private keys"));
+						sendDesktopNotification(gt.gettext("Successfuly dumped private keys"));
 					}, (stderr) => {
 						console.error(stderr);
 					});
@@ -386,7 +388,7 @@ function SettingsContent(props) {
 	function checkIfEncrypted(check) {
 		//setDisableDumpButton(true);
 		if (check === "unlockforsplit" && !stakeSplitThreshold) {
-			setWarningMessage(_("Please enter a stake split amount!"));
+			setWarningMessage(gt.gettext("Please enter a stake split amount!"));
 			return;
 		}
 
@@ -436,7 +438,7 @@ function SettingsContent(props) {
 			new Promise(resolve => setTimeout(resolve, 500))
 		]).then((response) => {
 			console.log("combine rewards: ", response[0]);
-			sendDesktopNotification(_("Combine rewards enabled"));
+			sendDesktopNotification(gt.gettext("Combine rewards enabled"));
 			setOpenCombine(!openCombine);
 		}, (stderr) => {
 			console.error(stderr);
@@ -445,7 +447,7 @@ function SettingsContent(props) {
 
 	async function importKeys() {
 		const options = {
-			title: _("Import wallet .txt"),
+			title: gt.gettext("Import wallet .txt"),
 		};
 		remote.dialog.showOpenDialog(null, options, {})
 			.then(result => {
@@ -458,7 +460,7 @@ function SettingsContent(props) {
 					new Promise(resolve => setTimeout(resolve, 500))
 				]).then((response) => {
 					console.log("import result: ", response);
-					sendDesktopNotification(_("Successfuly imported private keys"));
+					sendDesktopNotification(gt.gettext("Successfuly imported private keys"));
 					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
 					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
 				}, (stderr) => {

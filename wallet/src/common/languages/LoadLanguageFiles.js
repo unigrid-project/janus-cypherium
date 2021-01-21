@@ -1,68 +1,71 @@
-import LocalePath from "../loaclePath";
-import emojiFlags from 'emoji-flags';
-
-var gettext = require('electron-gettext');
-const log = require('electron-log');
 
 export default class LoadLanguageFiles {
-
-    static getFlag(code) {
-        return emojiFlags.countryCode(code).emoji
-    }
-
     static getLanguages() {
         const languages = [
             {
-                name: this.getFlag("GB") + " English",
-                language: 'en'
+                name: "English",
+                language: 'en',
+                flag: "GB"
             },
             {
-                name: this.getFlag("CN") + " 中文",
-                language: 'zh'
+                name: "中文",
+                language: 'zh',
+                flag: "CN"
             },
             {
-                name: this.getFlag("RU") + " русский",
-                language: 'ru'
+                name: "русский",
+                language: 'ru',
+                flag: "RU"
             },
             {
-                name: this.getFlag("IN") + " हिंदी",
-                language: 'hi'
+                name: "हिंदी",
+                language: 'hi',
+                flag: "IN"
             },
             {
-                name: this.getFlag("ES") + " español",
-                language: 'es'
+                name: "español",
+                language: 'es',
+                flag: "ES"
             },
             {
-                name: this.getFlag("IR") + " فارسی",
-                language: 'fa'
+                name: "فارسی",
+                language: 'fa',
+                flag: "IR"
             },
             {
-                name: this.getFlag("DE") + " Deutsch",
-                language: 'de'
+                name: "Deutsch",
+                language: 'de',
+                flag: "DE"
             },
             {
-                name: this.getFlag("JP") + " 日本",
-                language: 'ja'
+                name: "日本",
+                language: 'ja',
+                flag: "JP"
             },
             {
-                name: this.getFlag("KR") + " 한국어",
-                language: 'ko'
+                name: "한국어",
+                language: 'ko',
+                flag: "KR"
             },
             {
-                name: this.getFlag("NL") + " Nederlands",
-                language: 'nl'
+                name: "Nederlands",
+                language: 'nl',
+                flag: "NL"
             },
             {
-                name: this.getFlag("IT") + " Italiano",
-                language: 'it'
+                name: "Italiano",
+                language: 'it',
+                flag: "IT"
             },
             {
-                name: this.getFlag("SE") + " Svenska",
-                language: 'sv'
+                name: "Svenska",
+                language: 'sv',
+                flag: "SE"
             },
             {
-                name: this.getFlag("GR") + " Ελληνικά",
-                language: 'el'
+                name: "Ελληνικά",
+                language: 'el',
+                flag: "GR"
             }
         ];
         return languages;

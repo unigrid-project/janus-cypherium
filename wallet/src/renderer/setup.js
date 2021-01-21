@@ -29,14 +29,15 @@ import Button from "../common/components/Button";
 //import SetupControls from "../main/setup/SetupControls";
 import ImportAccount from "../common/setup/ImportAccount";
 import CreateAccount from "../common/setup/CreateAccount";
-
+import Gettext from 'node-gettext';
+var gt = require('electron').remote.getGlobal('gt');
 const store = new Store();
 library.add(faSpinner, faTimes);
 
-var _ = require('electron').remote.getGlobal('_');
 
-const firstRunCopy = _("It appears this is the first time you are starting up the wallet. You can either create a new account or import from your keys.");
-const createWalletCopy = _("Please select an option below to either import or create another wallet. This will not replace your current wallet.");
+
+const firstRunCopy = gt.gettext("It appears this is the first time you are starting up the wallet. You can either create a new account or import from your keys.");
+const createWalletCopy = gt.gettext("Please select an option below to either import or create another wallet. This will not replace your current wallet.");
 function Setup(props) {
 	const [active, setActive] = useState();
 	//const container = useRef(props.children);
@@ -100,7 +101,7 @@ function Setup(props) {
 									importAccount();
 								}}
 								buttonSize="btn--small"
-								buttonStyle="btn--blue--solid">{_("Import")}</Button>
+								buttonStyle="btn--blue--solid">{gt.gettext("Import")}</Button>
 						</div>
 						<div className="padding-ten">
 							<Button
@@ -108,7 +109,7 @@ function Setup(props) {
 									createAccount();
 								}}
 								buttonSize="btn--small"
-								buttonStyle="btn--blue--solid">{_("Create")}</Button>
+								buttonStyle="btn--blue--solid">{gt.gettext("Create")}</Button>
 						</div>
 						{/*<div className="padding-ten">
 							<Button

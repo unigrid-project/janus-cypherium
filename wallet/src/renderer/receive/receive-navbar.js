@@ -23,14 +23,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExchangeAlt, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import NavEntry from "../naventry";
 import Button from "../../common/components/Button";
-
+import Gettext from 'node-gettext';
+var gt = require('electron').remote.getGlobal('gt');
 library.add(faExchangeAlt, faChevronRight);
-var _ = require('electron').remote.getGlobal('_');
+
 export default class ReceiveNavBar extends React.Component {
 	render() {
 		return (
 			<NavEntry>
-				<div className="menu-title">{_("Receive")}</div>
+				<div className="menu-title">{gt.gettext("Receive")}</div>
 				<div className="menu--icon"><FontAwesomeIcon size="sm" icon={faChevronRight} /></div>
 			</NavEntry>
 		);

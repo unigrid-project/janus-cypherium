@@ -24,9 +24,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import './CreateAccountButton.css';
 import CustomTooltip from "./CustomToolTip";
+import Gettext from 'node-gettext';
+var gt = require('electron').remote.getGlobal('gt');
 
-var _ = require('electron').remote.getGlobal('_');
-const createImport = _("Create/Import");
+const createImport = gt.gettext("Create/Import");
 export default function CreateAccountButton() {
     return (
         <div className="createAccount padding--left" onClick={() => ipcRenderer.send("import-new-wallet")}>

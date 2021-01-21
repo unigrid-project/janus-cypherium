@@ -20,6 +20,7 @@ import React, { useState, useEffect } from "react";
 import Select from 'react-dropdown-select';
 import { ipcRenderer } from "electron";
 import Config from "../config";
+import { FlagIcon } from "react-flag-kit";
 
 const languages = Config.getLanguages();
 const currentLocale = Config.getLocale();
@@ -46,6 +47,7 @@ export default function LanguageSelect() {
             multi={false}
             values={[]}
             placeholder={getPlaceholder()}
+            itemRenderer={customItemRenderer}
             valueField="name"
             labelField="name"
             options={languages}
@@ -53,20 +55,30 @@ export default function LanguageSelect() {
         />
     )
 
+    function customItemRenderer({ item, itemIndex, props, state, methods }) {
+        return (
+            <div className="padding-ten country--select" onClick={() => methods.addItem(item)}>
+                <div className="align--row--normal">
+                    <FlagIcon code={item.flag} size={30} />{" "}
+                    <div className="padding--left--ten">
+                        {item.name}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     function changedAccountSelection(v) {
-        console.log("change language ", v);
+        //console.log("change language ", v);
         ipcRenderer.send("change-locale", v[0].language);
         setCurrentLanguage(v);
-        setRenderKey(Math.random());
-
-        //ipcRenderer.sendTo(remote.getCurrentWebContents().id, "update-active-account", v);
     }
 
     function getPlaceholder() {
         let index = 0;
-        if (!currentIndex === -1) {
+        if (currentIndex !== -1) {
             index = currentIndex;
-        }else{
+        } else {
             index = languages.findIndex(item => item.language === 'en')
         }
         return languages[index].name;

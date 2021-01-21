@@ -27,11 +27,12 @@ import Config from "../config";
 import NodeClient from "../../common/node-client";
 import CustomTooltip from "./CustomToolTip";
 import { BLOCK } from "../getTextConsts";
-
+import Gettext from 'node-gettext';
+var gt = require('electron').remote.getGlobal('gt');
 library.add(faSignInAlt, faSignOutAlt, faCoins, faClock, faCubes, faNetworkWired);
 const nodeClient = new NodeClient();
-var _ = require('electron').remote.getGlobal('_');
-const showInExplorer = _("view in explorer");
+
+const showInExplorer = gt.gettext("view in explorer");
 
 function Transaction({ data, index, style }) {
     const [amount, setAmount] = useState(0);
@@ -300,9 +301,9 @@ function Transaction({ data, index, style }) {
         } else {
             switch (data.tx_type) {
                 case 1:
-                    return _("Send");
+                    return gt.gettext("Send");
                 case 2:
-                    return _("Receive");
+                    return gt.gettext("Receive");
             }
 
         }

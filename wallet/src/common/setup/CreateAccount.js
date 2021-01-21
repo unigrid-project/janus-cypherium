@@ -28,13 +28,14 @@ import { WalletService } from "../walletutils/WalletService";
 import SelectionButton from "./SelectionButton";
 import './SetupStyles.css';
 import { CAUTION } from "../getTextConsts";
+import Gettext from 'node-gettext';
+var gt = require('electron').remote.getGlobal('gt');
 
-var _ = require('electron').remote.getGlobal('_');
 const log = require('electron-log');
 const walletService = new WalletService();
-const enterWalletName = _("Wallet Name");
-const enterPassword = _("Password");
-const repeatPassword = _("Repeat Password");
+const enterWalletName = gt.gettext("Wallet Name");
+const enterPassword = gt.gettext("Password");
+const repeatPassword = gt.gettext("Repeat Password");
 
 const CreateAccount = (props) => {
     const [clearField, setClearField] = useState("");
@@ -84,7 +85,7 @@ const CreateAccount = (props) => {
             </div>
             <Expand open={showStart}>
                 <div className="align--column--space-between">
-                    <div className="fontSmallBold darkCopy">{_("Create a new CPH wallet")}</div>
+                    <div className="fontSmallBold darkCopy">{gt.gettext("Create a new CPH wallet")}</div>
                     <div key={resetKey}>
                         <div className="padding--top--five">
                             <div className="fontSmall darkCopy padding--left--five">{enterWalletName}</div>
@@ -141,7 +142,7 @@ const CreateAccount = (props) => {
                                 }}
                                 disabled={buttonDisabled}
                                 buttonSize="btn--small"
-                                buttonStyle="btn--blue--solid">{_("Continue")}</Button>
+                                buttonStyle="btn--blue--solid">{gt.gettext("Continue")}</Button>
 
                         </div>
                         {warningMessage !== "" ? renderWarning() : null}
@@ -169,7 +170,7 @@ const CreateAccount = (props) => {
                         }}
                         disabled={buttonDisabled}
                         buttonSize="btn--small"
-                        buttonStyle="btn--blue--solid">{_("Continue")}</Button>
+                        buttonStyle="btn--blue--solid">{gt.gettext("Continue")}</Button>
 
                 </div>
             </Expand>
@@ -192,7 +193,7 @@ const CreateAccount = (props) => {
         return (
             <Expand open={showConfirm}>
                 <div className="create--copy align--center">
-                    <div className="darkCopy">{_("Please click the mnemonics by original order")}</div>
+                    <div className="darkCopy">{gt.gettext("Please click the mnemonics by original order")}</div>
                 </div>
                 <div className="align--center" key={mnemonicDisplay}>
                     <EnterField
@@ -213,7 +214,7 @@ const CreateAccount = (props) => {
                             }}
                             disabled={false}
                             buttonSize="btn--small"
-                            buttonStyle="btn--blue--solid">{_("Reset")}</Button>
+                            buttonStyle="btn--blue--solid">{gt.gettext("Reset")}</Button>
                     </div>
                     <div className="padding--twenty">
                         <Button
@@ -222,7 +223,7 @@ const CreateAccount = (props) => {
                             }}
                             disabled={showConfirmButton}
                             buttonSize="btn--small"
-                            buttonStyle="btn--blue--solid">{_("Confirm")}</Button>
+                            buttonStyle="btn--blue--solid">{gt.gettext("Confirm")}</Button>
                     </div>
 
                 </div>
@@ -315,16 +316,16 @@ const CreateAccount = (props) => {
     function onContiuePressed() {
         //setWarningMessage("WARNING DANGER WILL ROBINSON!~!!")
         if (walletName === "") {
-            setWarningMessage(_("Please enter a wallet name"));
+            setWarningMessage(gt.gettext("Please enter a wallet name"));
         }
         else if (passPhrase == "") {
-            setWarningMessage(_("Please enter a password"));
+            setWarningMessage(gt.gettext("Please enter a password"));
         }
         else if (passPhrase.length < 8) {
-            setWarningMessage(_("Password is too short enter a minimum of 8 characters."));
+            setWarningMessage(gt.gettext("Password is too short enter a minimum of 8 characters."));
         }
         else if (passPhrase !== repeatPassphrase) {
-            setWarningMessage(_("Passwords do not match"));
+            setWarningMessage(gt.gettext("Passwords do not match"));
         } else {
             setShowCreate(true);
             setShowStart(false);
@@ -363,7 +364,7 @@ const CreateAccount = (props) => {
                 });
             });
         } else {
-            setWarningMessage(_("mnemonic does not match please try again"));
+            setWarningMessage(gt.gettext("mnemonic does not match please try again"));
         }
     }
 

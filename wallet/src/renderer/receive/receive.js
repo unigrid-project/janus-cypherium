@@ -23,9 +23,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExchangeAlt, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import NavEntry from "../naventry";
 import Button from "../../common/components/Button";
-
+import Gettext from 'node-gettext';
+var gt = require('electron').remote.getGlobal('gt');
 library.add(faExchangeAlt, faChevronRight);
-var _ = require('electron').remote.getGlobal('_');
+
 export default class Receive extends React.Component {
 	render() {
 		return (
@@ -33,7 +34,7 @@ export default class Receive extends React.Component {
 				<Button
 					buttonStyle="btn--success--solid"
 					handleClick={() => null}
-					buttonSize="btn--small">{_("RECEIVE")}</Button>
+					buttonSize="btn--small">{gt.gettext("RECEIVE")}</Button>
 			</NavEntry>
 		);
 	}

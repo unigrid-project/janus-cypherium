@@ -29,14 +29,15 @@ import { ipcRenderer, remote } from "electron";
 import NodeClient from '../../common/node-client';
 import Config from "../config";
 import CustomTooltip from "./CustomToolTip";
-
+import Gettext from 'node-gettext';
+var gt = require('electron').remote.getGlobal('gt');
 const log = require('electron-log');
 const nodeClient = new NodeClient();
-var _ = require('electron').remote.getGlobal('_');
 
-const removeFromWallet = _("remove account from wallet");
-const showInExplorer = _("view in explorer");
-const copyToClipboard = _("copy to clipboard");
+
+const removeFromWallet = gt.gettext("remove account from wallet");
+const showInExplorer = gt.gettext("view in explorer");
+const copyToClipboard = gt.gettext("copy to clipboard");
 
 function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
     const [showInput, setShowInput] = useState(false);

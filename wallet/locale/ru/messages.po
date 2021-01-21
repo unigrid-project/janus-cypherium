@@ -1,19 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-01-19 18:41+0200\n"
-"PO-Revision-Date: 2021-01-19 23:02+0200\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
 "X-Generator: Poedit 2.4.2\n"
-"X-Poedit-Basepath: ../src\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"Last-Translator: \n"
-"Language: ru_RU\n"
-"X-Poedit-SearchPath-0: .\n"
 
 #: common/components/Accounts.js:37
 msgid "remove account from wallet"
@@ -48,7 +44,6 @@ msgid "CANCEL"
 msgstr "ОТМЕНА"
 
 #: common/components/Send.js:164
-#, fuzzy
 msgid "Successfully sent to many"
 msgstr "Успешно разослан многим"
 
@@ -65,28 +60,23 @@ msgid "Unlock wallet to remove "
 msgstr "Разблокировать кошелек, чтобы удалить "
 
 #: common/components/UnlockWallet.js:36
-#, fuzzy
 msgid " from stored keys"
 msgstr " сохранённые ключи"
 
 #: common/components/UnlockWallet.js:56
-#, fuzzy
 msgid "Unlock wallet for transactions"
 msgstr "Разблокировать кошелек для транзакций"
 
 #: common/components/UnlockWallet.js:60 common/components/UnlockWallet.js:64
-#, fuzzy
 msgid "Unlock wallet for maintenance"
 msgstr "Разблокировать кошелек для техобслуживания"
 
 #: common/components/UnlockWallet.js:68 common/components/UnlockWallet.js:72
 #: common/components/UnlockWallet.js:77
-#, fuzzy
 msgid "Unlock wallet for masternodes"
 msgstr "Разблокировать кошелек для masternodes"
 
 #: common/components/UnlockWallet.js:88
-#, fuzzy
 msgid "Unlock wallet for staking"
 msgstr "Разблокировать кошелек для ставки"
 
@@ -95,12 +85,10 @@ msgid "copied to clipboard"
 msgstr "скопированы в буфер обмена"
 
 #: common/getTextConsts.js:4
-#, fuzzy
 msgid "Export Private Keys"
 msgstr "Экспортные частные ключи"
 
 #: common/getTextConsts.js:5
-#, fuzzy
 msgid "Change Default Language"
 msgstr "Изменить язык по умолчанию"
 
@@ -114,12 +102,10 @@ msgid "Cancel"
 msgstr "Отмена"
 
 #: common/getTextConsts.js:8
-#, fuzzy
 msgid "Block"
 msgstr "Блок"
 
 #: common/getTextConsts.js:9
-#, fuzzy
 msgid ""
 "This mnemonic phrase is uniquely generated, and grants you access to your "
 "wallet. Do NOT screenshot this page. Carefully write down your mnemonic "
@@ -135,7 +121,6 @@ msgstr ""
 "фразу."
 
 #: common/getTextConsts.js:10
-#, fuzzy
 msgid "Passphrase Error!"
 msgstr "Ошибка пароля!"
 
@@ -152,7 +137,6 @@ msgid "Repeat Password"
 msgstr "Повторите пароль"
 
 #: common/setup/CreateAccount.js:87
-#, fuzzy
 msgid "Create a new CPH wallet"
 msgstr "Создайте новый кошелек CPH"
 
@@ -161,7 +145,6 @@ msgid "Continue"
 msgstr "Продолжить"
 
 #: common/setup/CreateAccount.js:195
-#, fuzzy
 msgid "Please click the mnemonics by original order"
 msgstr "Пожалуйста, нажмите на мнемонику по оригинальному заказу"
 
@@ -174,7 +157,6 @@ msgid "Confirm"
 msgstr "Подтвердить"
 
 #: common/setup/CreateAccount.js:318 common/setup/ImportAccount.js:555
-#, fuzzy
 msgid "Please enter a wallet name"
 msgstr "Пожалуйста, введите имя кошелька"
 
@@ -183,7 +165,6 @@ msgid "Please enter a password"
 msgstr "Пожалуйста, введите пароль"
 
 #: common/setup/CreateAccount.js:324 common/setup/ImportAccount.js:362
-#, fuzzy
 msgid "Password is too short enter a minimum of 8 characters."
 msgstr "Пароль слишком короткий, введите как минимум 8 символов."
 
@@ -192,12 +173,10 @@ msgid "Passwords do not match"
 msgstr "Пароли не совпадают"
 
 #: common/setup/CreateAccount.js:366
-#, fuzzy
 msgid "mnemonic does not match please try again"
 msgstr "мнемонический не совпадает, пожалуйста, попробуйте ещё раз"
 
 #: common/setup/ImportAccount.js:35
-#, fuzzy
 msgid "Please enter your mnemonics in original order, seperated by spaces."
 msgstr ""
 "Пожалуйста, введите мнемонику в оригинальном порядке, разделенном пробелами."
@@ -207,7 +186,6 @@ msgid "Please enter your private key."
 msgstr "Пожалуйста, введите ваш закрытый ключ."
 
 #: common/setup/ImportAccount.js:37
-#, fuzzy
 msgid ""
 "Please enter any address to create a testing account. Preferably use one "
 "with many transactions."
@@ -216,12 +194,10 @@ msgstr ""
 "Предпочтительно использовать один с большим количеством транзакций."
 
 #: common/setup/ImportAccount.js:45
-#, fuzzy
 msgid "mnemonic"
 msgstr "мнемонический"
 
 #: common/setup/ImportAccount.js:46
-#, fuzzy
 msgid "private key"
 msgstr "Недопустимый приватный ключ"
 
@@ -235,12 +211,10 @@ msgid "Import"
 msgstr "Импорт"
 
 #: common/setup/ImportAccount.js:513
-#, fuzzy
 msgid "Please enter a mnemonic"
 msgstr "Пожалуйста, введите мнемонический"
 
 #: common/setup/ImportAccount.js:520
-#, fuzzy
 msgid "Mnemonic length is too short"
 msgstr "Мнемоническая длина слишком короткая"
 
@@ -249,12 +223,10 @@ msgid "Invalid mnemonic"
 msgstr "неверный мнемонический"
 
 #: common/setup/ImportAccount.js:537
-#, fuzzy
 msgid "Please enter a private key"
 msgstr "Пожалуйста, введите ваш закрытый ключ."
 
 #: common/setup/ImportAccount.js:541
-#, fuzzy
 msgid "The length of PrivateKey must be 128"
 msgstr "Длина PrivateKey должна быть 128"
 
@@ -263,7 +235,6 @@ msgid "Invalid private key"
 msgstr "Недопустимый приватный ключ"
 
 #: common/setup/ImportAccount.js:562
-#, fuzzy
 msgid "Please enter a unique wallet name"
 msgstr "Пожалуйста, введите уникальное название кошелька"
 
@@ -272,7 +243,6 @@ msgid "Please enter an address"
 msgstr "Введите адрес"
 
 #: common/setup/ImportAccount.js:582
-#, fuzzy
 msgid "The address you enetered is not valid. Please enter a valid address."
 msgstr ""
 "Адрес, который вы указали, недействителен. Пожалуйста, введите "
@@ -287,12 +257,10 @@ msgid "REFRESH"
 msgstr "ОБНОВИТЬ"
 
 #: renderer/masternodes/masternodes-content.js:77
-#, fuzzy
 msgid "START MISSING"
 msgstr "СТАРТОВЫЙ МИССИНГ"
 
 #: renderer/masternodes/masternodes-content.js:78
-#, fuzzy
 msgid "START ALL"
 msgstr "СНАЧИТЬ ВСЕ"
 
@@ -309,12 +277,10 @@ msgid "Follow us"
 msgstr "Подписывайтесь на нас"
 
 #: renderer/mywallet/mywallet-content.js:268
-#, fuzzy
 msgid "Join discord"
 msgstr "Присоединиться к раздору"
 
 #: renderer/mywallet/mywallet-content.js:286
-#, fuzzy
 msgid "Join telegram"
 msgstr "Присоединиться к телеграмме"
 
@@ -323,22 +289,18 @@ msgid "Wallet"
 msgstr "Кошелек"
 
 #: renderer/receive/receive-content.js:36
-#, fuzzy
 msgid "View On Explorer"
 msgstr "просмотреть в проводнике"
 
 #: renderer/receive/receive.js:36
-#, fuzzy
 msgid "RECEIVE"
 msgstr "Получать"
 
 #: renderer/settings/settings-content.js:47
-#, fuzzy
 msgid "Dump wallet for"
 msgstr "Сброс кошелька для"
 
 #: renderer/settings/settings-content.js:48
-#, fuzzy
 msgid "Backup wallet.dat for"
 msgstr "Резервный кошелек.dat для"
 
@@ -351,7 +313,6 @@ msgid "We are in no way affiliated with the Cypherium team or organization. "
 msgstr "Мы никоим образом не связаны с кипрской командой или организацией "
 
 #: renderer/settings/settings-content.js:111
-#, fuzzy
 msgid "For support please visit the"
 msgstr "Для получения поддержки, пожалуйста, посетите"
 
@@ -368,57 +329,46 @@ msgid "Settings"
 msgstr "Настройки"
 
 #: renderer/settings/settings-content.js:134
-#, fuzzy
 msgid "Encrypt Wallet"
 msgstr "Шифрованный кошелек"
 
 #: renderer/settings/settings-content.js:144
-#, fuzzy
 msgid "Combine Rewards"
 msgstr "Комбинированные вознаграждения"
 
 #: renderer/settings/settings-content.js:151
-#, fuzzy
 msgid "Stake Split Threshold"
 msgstr "Порог разделения кола"
 
 #: renderer/settings/settings-content.js:158
-#, fuzzy
 msgid "Backup Wallet"
 msgstr "Резервный кошелек"
 
 #: renderer/settings/settings-content.js:162
-#, fuzzy
 msgid "Dump Wallet"
 msgstr "Сброс кошелька"
 
 #: renderer/settings/settings-content.js:166
-#, fuzzy
 msgid "Import Wallet"
 msgstr "Импортный кошелёк"
 
 #: renderer/settings/settings-content.js:170
-#, fuzzy
 msgid "Open Config"
 msgstr "Открытый Конфигурация"
 
 #: renderer/settings/settings-content.js:174
-#, fuzzy
 msgid "Open Masternode Config"
 msgstr "Открытый конфиг Masternode"
 
 #: renderer/settings/settings-content.js:186
-#, fuzzy
 msgid "Passphrases do not match!"
 msgstr "Пароль не совпадает!"
 
 #: renderer/settings/settings-content.js:220
-#, fuzzy
 msgid "Enter a passphrase for the wallet."
 msgstr "Введите пароль для кошелька."
 
 #: renderer/settings/settings-content.js:221
-#, fuzzy
 msgid ""
 "Please use a passphrase of 10 or more random characters or a minimum of 8 "
 "random words."
@@ -427,7 +377,6 @@ msgstr ""
 "или минимум 8 случайных слов."
 
 #: renderer/settings/settings-content.js:222
-#, fuzzy
 msgid "After confirming your wallet will be encrypted then auto restarted."
 msgstr ""
 "После подтверждения ваш кошелек будет зашифрован, а затем автоматически "
@@ -438,17 +387,14 @@ msgid "Passphrase"
 msgstr "Парольная фраза"
 
 #: renderer/settings/settings-content.js:232
-#, fuzzy
 msgid "Repeat Passphrase"
 msgstr "Повторить пароль"
 
 #: renderer/settings/settings-content.js:261
-#, fuzzy
 msgid "Enter a threshold amount."
 msgstr "Введите пороговую сумму."
 
 #: renderer/settings/settings-content.js:263
-#, fuzzy
 msgid ""
 "The wallet will automatically monitor for any coins with a value below the "
 "threshold amount,\tand combine them if they reside within the same address."
@@ -458,7 +404,6 @@ msgstr ""
 "адресу."
 
 #: renderer/settings/settings-content.js:265
-#, fuzzy
 msgid ""
 "When combine rewards runs it will create a transaction, and therefore will "
 "be subject to transaction fees."
@@ -471,37 +416,30 @@ msgid "Threshold amount"
 msgstr "Пороговая сумма"
 
 #: renderer/settings/settings-content.js:366
-#, fuzzy
 msgid "Saved backup of wallet.dat"
 msgstr "Сохраненная резервная копия кошелька"
 
 #: renderer/settings/settings-content.js:376
-#, fuzzy
 msgid "Successfuly dumped private keys"
 msgstr "последовательно выбрасываемые частные ключи"
 
 #: renderer/settings/settings-content.js:389
-#, fuzzy
 msgid "Please enter a stake split amount!"
 msgstr "Пожалуйста, введите сумму разделения ставки!"
 
 #: renderer/settings/settings-content.js:439
-#, fuzzy
 msgid "Combine rewards enabled"
 msgstr "Комбинируйте награды включено"
 
 #: renderer/settings/settings-content.js:448
-#, fuzzy
 msgid "Import wallet .txt"
 msgstr "Импортный кошелёк .txt"
 
 #: renderer/settings/settings-content.js:461
-#, fuzzy
 msgid "Successfuly imported private keys"
 msgstr "Последовательно импортированные частные ключи"
 
 #: renderer/setup.js:38
-#, fuzzy
 msgid ""
 "It appears this is the first time you are starting up the wallet. You can "
 "either create a new account or import from your keys."
@@ -510,7 +448,6 @@ msgstr ""
 "создать новый аккаунт, либо импортировать его с помощью ключей."
 
 #: renderer/setup.js:39
-#, fuzzy
 msgid ""
 "Please select an option below to either import or create another wallet. "
 "This will not replace your current wallet."

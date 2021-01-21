@@ -33,8 +33,9 @@ import AccountSelection from "../../common/accounts/AccountSelection";
 import InfiniteLoading from "react-simple-infinite-loading";
 import TransactionLong from "../../common/components/TransactionLong";
 import TransactionLoading from "../../common/components/TransactionLoading";
+import Gettext from 'node-gettext';
+var gt = require('electron').remote.getGlobal('gt');
 
-var _ = require('electron').remote.getGlobal('_');
 const nodeClient = new NodeClient();
 const store = new Store();
 
@@ -134,7 +135,7 @@ function TransactionsContent(props) {
 			<div className="transaction--container transaction--top--item" ref={transactionContainer}>
 				<div className="align--row--space-between transaction--padding">
 					{/*<Button handleClick={exportToCSV} buttonSize="btn--small">
-						{_("Export CSV")}
+						{gt.gettext("Export CSV")}
 					</Button>*/}
 					<div className="scroll--nav--buttons align--row--flexstart">
 						<div className="chevron address--item">

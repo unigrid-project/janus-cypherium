@@ -30,16 +30,22 @@ import * as Sentry from "@sentry/electron";
 import Config from "../common/config";
 import NodeClient from "../common/node-client";
 import Store from "electron-store";
-import emojiFlags from 'emoji-flags';
 import { crashReporter } from 'electron';
 import File from "../common/file";
 import LocalePath from "../common/loaclePath";
 import LoadLanguageFiles from "../common/languages/LoadLanguageFiles";
+import Gettext from 'node-gettext'
+import { po } from 'gettext-parser'
 
+const fs = require('fs');
+const path = require('path');
+
+const translationsDir = LocalePath.get('./locale');
+const locales = ['en', 'ru', 'el', 'de', 'es', 'fa', 'hi', 'it', 'ja', 'ko', 'nl', 'sv', 'zh']
+const domain = 'messages'
 const packageJSON = require('../../package.json');
 const log = require('electron-log');
 const store = new Store();
-//const deps = packageJSON.dependencies;
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const loadLanguageFiles = new LoadLanguageFiles();
 autoUpdater.autoDownload = true;
@@ -67,60 +73,18 @@ var trackRejectUpdates = 0;
 var skipTimesAllocated = 20;
 const checkForUpdateTime = 180000;
 
+const gt = new Gettext()
+locales.forEach((locale) => {
+	const fileName = `${domain}.po`
+	const translationsFilePath = path.join(translationsDir, locale, fileName)
+	const translationsContent = fs.readFileSync(translationsFilePath)
 
-const fs = require('fs');
-const path = require('path');
-var gettext = require('electron-gettext');
-var _ = gettext.gettext;
+	const parsedTranslations = po.parse(translationsContent)
+	gt.addTranslations(locale, domain, parsedTranslations)
 
+});
 
-/*
-fs.readFile(LocalePath.get('./locale/ru/messages.po'), 'utf8', function(err, data){ 
-	  
-	// Display the file content 
-	log.warn("russky: ", data);
-});
-*/
-gettext.loadLanguageFile(LocalePath.get('./locale/ru/messages.po'), 'ru',(msg) => {
-	log.info("loaded ru");
-});
-gettext.loadLanguageFile(LocalePath.get('./locale/en/messages.po'), 'en',(msg) => {
-	log.info("loaded en");
-});
-gettext.loadLanguageFile(LocalePath.get('./locale/se/messages.po'), 'sv',(msg) => {
-	log.info("loaded sv");
-});
-gettext.loadLanguageFile(LocalePath.get('./locale/zh/messages.po'), 'zh',(msg) => {
-	log.info("loaded zh");
-});
-gettext.loadLanguageFile(LocalePath.get('./locale/hi/messages.po'), 'hi',(msg) => {
-	log.info("loaded hi");
-});
-gettext.loadLanguageFile(LocalePath.get('./locale/es/messages.po'), 'es',(msg) => {
-	log.info("loaded es");
-});
-gettext.loadLanguageFile(LocalePath.get('./locale/fa/messages.po'), 'fa',(msg) => {
-	log.info("loaded fa");
-});
-gettext.loadLanguageFile(LocalePath.get('./locale/ja/messages.po'), 'ja',(msg) => {
-	log.info("loaded ja");
-});
-gettext.loadLanguageFile(LocalePath.get('./locale/ko/messages.po'), 'ko',(msg) => {
-	log.info("loaded ko");
-});
-gettext.loadLanguageFile(LocalePath.get('./locale/de/messages.po'), 'de',(msg) => {
-	log.info("loaded de");
-});
-gettext.loadLanguageFile(LocalePath.get('./locale/nl/messages.po'), 'nl',(msg) => {
-	log.info("loaded nl");
-});
-gettext.loadLanguageFile(LocalePath.get('./locale/it/messages.po'), 'it',(msg) => {
-	log.info("loaded it");
-});
-gettext.loadLanguageFile(LocalePath.get('./locale/el/messages.po'), 'el', (msg) => {
-	log.info("loaded el");
-	setLocale();
-});
+global.gt = gt;
 
 const languages = LoadLanguageFiles.getLanguages();
 
@@ -131,24 +95,27 @@ const checkMatch = (item) => {
 
 //store.delete('locale');
 //store.delete("languages");
-
+//Config.setLocale('sv');
+//gettext.setlocale('LC_ALL', 'sv');
+//console.log("Test GETTEXT: ", gt.gettext("copied to clipboard"))
 const setLocale = () => {
 	const osLanguage = app.getLocale().substring(0, 2);
-	//log.info("osLanguage: ", osLanguage);
-	//log.info("language match: ", checkMatch(osLanguage));
+	log.info("osLanguage: ", osLanguage);
+	log.info("language match: ", checkMatch(osLanguage));
 	if (Config.getLocale()) {
-		// use local selection
-		gettext.setlocale('LC_ALL', Config.getLocale());
+		// use local selection 
+		console.log("Config.getLocale() ", Config.getLocale())
+		gt.setlocale(Config.getLocale());
 	} else if (checkMatch(osLanguage)) {
 		// find local language and if its translated
-		gettext.setlocale('LC_ALL', osLanguage);
+		gt.setlocale(osLanguage);
 		Config.setLocale(osLanguage);
 	} else {
 		// default to english if no matches or not set
-		gettext.setlocale('LC_ALL', 'en');
+		gt.setlocale('en');
 		Config.setLocale('en');
 	}
-	global._ = _;
+	//global._ = _;
 	//console.log("languages: ", languages)
 	store.set("languages", languages);
 }
@@ -238,6 +205,7 @@ ipcMain.on("import-new-wallet", () => {
 const defaultRPCPort = 51992;
 
 app.on("ready", () => {
+	setLocale();
 	var splashController = new SplashController();
 
 	log.info("app ready");
