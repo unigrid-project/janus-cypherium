@@ -138,7 +138,7 @@ function MyWalletContent(props) {
 						<div className="btn--send">
 							<Button
 								buttonStyle="btn--secondary--solid"
-								handleClick={() => testChangeLocale()}
+								handleClick={() => null}
 								buttonSize="btn--small">{gt.gettext("SEND")}</Button>
 						</div>
 						<div className="btn--send">
