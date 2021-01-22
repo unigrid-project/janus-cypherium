@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-01-19 18:41+0200\n"
-"PO-Revision-Date: 2021-01-19 18:43+0200\n"
+"POT-Creation-Date: 2021-01-22 16:29+0200\n"
+"PO-Revision-Date: 2021-01-22 17:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh\n"
@@ -14,80 +14,81 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: common/components/Accounts.js:37
+#: common/components/Accounts.js:38
 #, fuzzy
 msgid "remove account from wallet"
 msgstr "销户"
 
-#: common/components/Accounts.js:38 common/components/Transaction.js:34
+#: common/components/Accounts.js:39 common/components/Transaction.js:35
+#: renderer/mywallet/mywallet-content.js:73
 #, fuzzy
 msgid "view in explorer"
 msgstr "浏览器中查看"
 
-#: common/components/Accounts.js:39 renderer/receive/receive-content.js:35
+#: common/components/Accounts.js:40 renderer/receive/receive-content.js:38
 msgid "copy to clipboard"
 msgstr "复制到剪贴板"
 
-#: common/components/CreateAccountButton.js:29
+#: common/components/CreateAccountButton.js:30
 #, fuzzy
 msgid "Create/Import"
 msgstr "创建/导入"
 
-#: common/components/Send.js:41
+#: common/components/Send.js:42
 #, fuzzy
 msgid "Successfully sent"
 msgstr "成功发送"
 
-#: common/components/Send.js:42
+#: common/components/Send.js:43
 msgid "to"
 msgstr "到"
 
-#: common/components/Send.js:77 renderer/mywallet/mywallet-content.js:137
+#: common/components/Send.js:78 renderer/mywallet/mywallet-content.js:142
 msgid "SEND"
 msgstr "发送"
 
-#: common/components/Send.js:81
+#: common/components/Send.js:82
 msgid "CANCEL"
 msgstr "取消"
 
-#: common/components/Send.js:164
-#, fuzzy
-msgid "Successfully sent to many"
-msgstr "成功发送至多个"
-
-#: common/components/Transaction.js:303
+#: common/components/Transaction.js:305
 msgid "Send"
 msgstr "发送"
 
-#: common/components/Transaction.js:305 renderer/receive/receive-navbar.js:33
+#: common/components/Transaction.js:307 renderer/receive/receive-navbar.js:34
 msgid "Receive"
 msgstr "接收"
 
-#: common/components/UnlockWallet.js:35
+#: common/components/UnlockWallet.js:37
 msgid "Unlock wallet to remove "
 msgstr "解锁钱包取出 "
 
-#: common/components/UnlockWallet.js:36
+#: common/components/UnlockWallet.js:38
 msgid " from stored keys"
 msgstr "从存储键 "
 
-#: common/components/UnlockWallet.js:56
+#: common/components/UnlockWallet.js:59
 #, fuzzy
 msgid "Unlock wallet for transactions"
 msgstr "解锁钱包进行交易"
 
-#: common/components/UnlockWallet.js:60 common/components/UnlockWallet.js:64
+#: common/components/UnlockWallet.js:63 common/components/UnlockWallet.js:67
 #, fuzzy
 msgid "Unlock wallet for maintenance"
 msgstr "解锁钱包进行维护"
 
-#: common/components/UnlockWallet.js:68 common/components/UnlockWallet.js:72
-#: common/components/UnlockWallet.js:77
+#: common/components/UnlockWallet.js:71 common/components/UnlockWallet.js:75
+#: common/components/UnlockWallet.js:80
 #, fuzzy
 msgid "Unlock wallet for masternodes"
 msgstr "为主节点解锁钱包"
 
-#: common/components/UnlockWallet.js:88
+#: common/components/UnlockWallet.js:92
+#, fuzzy
+msgid "Unlock wallet for export"
+msgstr "解锁钱包进行押注"
+
+#: common/components/UnlockWallet.js:97
 #, fuzzy
 msgid "Unlock wallet for staking"
 msgstr "解锁钱包进行押注"
@@ -111,7 +112,7 @@ msgid "Unlock"
 msgstr "解锁"
 
 #: common/getTextConsts.js:7 renderer/settings/settings-content.js:46
-#: renderer/warning/warning.js:74
+#: renderer/warning/warning.js:75
 msgid "Cancel"
 msgstr "取消"
 
@@ -142,189 +143,189 @@ msgstr ""
 msgid "Passphrase Error!"
 msgstr "密碼錯誤！"
 
-#: common/setup/CreateAccount.js:35 common/setup/ImportAccount.js:38
+#: common/setup/CreateAccount.js:36 common/setup/ImportAccount.js:39
 #, fuzzy
 msgid "Wallet Name"
 msgstr "钱包名称"
 
-#: common/setup/CreateAccount.js:36 common/setup/ImportAccount.js:39
+#: common/setup/CreateAccount.js:37 common/setup/ImportAccount.js:40
 msgid "Password"
 msgstr "密码"
 
-#: common/setup/CreateAccount.js:37 common/setup/ImportAccount.js:40
+#: common/setup/CreateAccount.js:38 common/setup/ImportAccount.js:41
 msgid "Repeat Password"
 msgstr "重复输入密码"
 
-#: common/setup/CreateAccount.js:87
+#: common/setup/CreateAccount.js:88
 #, fuzzy
 msgid "Create a new CPH wallet"
 msgstr "创建一个新的CPH钱包"
 
-#: common/setup/CreateAccount.js:144 common/setup/CreateAccount.js:172
+#: common/setup/CreateAccount.js:145 common/setup/CreateAccount.js:173
 msgid "Continue"
 msgstr "继续"
 
-#: common/setup/CreateAccount.js:195
+#: common/setup/CreateAccount.js:196
 msgid "Please click the mnemonics by original order"
 msgstr "请按原始顺序单击助记符"
 
-#: common/setup/CreateAccount.js:216
+#: common/setup/CreateAccount.js:217
 msgid "Reset"
 msgstr "重置"
 
-#: common/setup/CreateAccount.js:225 renderer/settings/settings-content.js:45
+#: common/setup/CreateAccount.js:226 renderer/settings/settings-content.js:45
 msgid "Confirm"
 msgstr "确认"
 
-#: common/setup/CreateAccount.js:318 common/setup/ImportAccount.js:555
+#: common/setup/CreateAccount.js:319 common/setup/ImportAccount.js:556
 #, fuzzy
 msgid "Please enter a wallet name"
 msgstr "请输入钱包名称"
 
-#: common/setup/CreateAccount.js:321 common/setup/ImportAccount.js:359
+#: common/setup/CreateAccount.js:322 common/setup/ImportAccount.js:360
 msgid "Please enter a password"
 msgstr "请输入密码"
 
-#: common/setup/CreateAccount.js:324 common/setup/ImportAccount.js:362
+#: common/setup/CreateAccount.js:325 common/setup/ImportAccount.js:363
 #, fuzzy
 msgid "Password is too short enter a minimum of 8 characters."
 msgstr "密码太短，请输入至少8个字符。"
 
-#: common/setup/CreateAccount.js:327 common/setup/ImportAccount.js:365
+#: common/setup/CreateAccount.js:328 common/setup/ImportAccount.js:366
 msgid "Passwords do not match"
 msgstr "密码不匹配"
 
-#: common/setup/CreateAccount.js:366
+#: common/setup/CreateAccount.js:367
 #, fuzzy
 msgid "mnemonic does not match please try again"
 msgstr "符号不符，请重试"
 
-#: common/setup/ImportAccount.js:35
+#: common/setup/ImportAccount.js:36
 #, fuzzy
 msgid "Please enter your mnemonics in original order, seperated by spaces."
 msgstr "请按原顺序输入你的口诀，用空格隔开。"
 
-#: common/setup/ImportAccount.js:36
+#: common/setup/ImportAccount.js:37
 msgid "Please enter your private key."
 msgstr "请输入您的私钥。"
 
-#: common/setup/ImportAccount.js:37
+#: common/setup/ImportAccount.js:38
 #, fuzzy
 msgid ""
 "Please enter any address to create a testing account. Preferably use one "
 "with many transactions."
 msgstr "请输入任意地址创建一个测试账号。最好使用一个有很多交易的。"
 
-#: common/setup/ImportAccount.js:45
+#: common/setup/ImportAccount.js:46
 msgid "mnemonic"
 msgstr "助记符"
 
-#: common/setup/ImportAccount.js:46
+#: common/setup/ImportAccount.js:47
 #, fuzzy
 msgid "private key"
 msgstr "私钥"
 
-#: common/setup/ImportAccount.js:47
+#: common/setup/ImportAccount.js:48
 msgid "testing"
 msgstr "测试"
 
-#: common/setup/ImportAccount.js:216 common/setup/ImportAccount.js:292
-#: common/setup/ImportAccount.js:331 renderer/setup.js:103
+#: common/setup/ImportAccount.js:217 common/setup/ImportAccount.js:293
+#: common/setup/ImportAccount.js:332 renderer/setup.js:104
 msgid "Import"
 msgstr "导入"
 
-#: common/setup/ImportAccount.js:513
+#: common/setup/ImportAccount.js:514
 msgid "Please enter a mnemonic"
 msgstr "请输入助记符"
 
-#: common/setup/ImportAccount.js:520
+#: common/setup/ImportAccount.js:521
 msgid "Mnemonic length is too short"
 msgstr "助记符长度太短"
 
-#: common/setup/ImportAccount.js:527
+#: common/setup/ImportAccount.js:528
 msgid "Invalid mnemonic"
 msgstr "无效的助记符"
 
-#: common/setup/ImportAccount.js:537
+#: common/setup/ImportAccount.js:538
 #, fuzzy
 msgid "Please enter a private key"
 msgstr "请输入您的私钥。"
 
-#: common/setup/ImportAccount.js:541
+#: common/setup/ImportAccount.js:542
 #, fuzzy
 msgid "The length of PrivateKey must be 128"
 msgstr "私钥的长度必须是128"
 
-#: common/setup/ImportAccount.js:545
+#: common/setup/ImportAccount.js:546
 #, fuzzy
 msgid "Invalid private key"
 msgstr "无效的私钥"
 
-#: common/setup/ImportAccount.js:562
+#: common/setup/ImportAccount.js:563
 #, fuzzy
 msgid "Please enter a unique wallet name"
 msgstr "请输入一个独特的钱包名称"
 
-#: common/setup/ImportAccount.js:576
+#: common/setup/ImportAccount.js:577
 msgid "Please enter an address"
 msgstr "请输入电子邮件地址"
 
-#: common/setup/ImportAccount.js:582
+#: common/setup/ImportAccount.js:583
 #, fuzzy
 msgid "The address you enetered is not valid. Please enter a valid address."
 msgstr "您输入的地址无效。请输入一个有效的地址。"
 
-#: renderer/addresses/addresses.js:33
+#: renderer/addresses/addresses.js:34
 msgid "Addresses"
 msgstr "地址"
 
-#: renderer/masternodes/masternodes-content.js:76
+#: renderer/masternodes/masternodes-content.js:77
 msgid "REFRESH"
 msgstr "刷新"
 
-#: renderer/masternodes/masternodes-content.js:77
+#: renderer/masternodes/masternodes-content.js:78
 #, fuzzy
 msgid "START MISSING"
 msgstr "开始失踪"
 
-#: renderer/masternodes/masternodes-content.js:78
+#: renderer/masternodes/masternodes-content.js:79
 #, fuzzy
 msgid "START ALL"
 msgstr "开始全部"
 
-#: renderer/masternodes/masternodes-content.js:79
+#: renderer/masternodes/masternodes-content.js:80
 msgid "CREATE"
 msgstr "创建"
 
-#: renderer/masternodes/masternodes.js:32
+#: renderer/masternodes/masternodes.js:33
 #, fuzzy
 msgid "Masternodes"
 msgstr "主节点"
 
-#: renderer/mywallet/mywallet-content.js:249
+#: renderer/mywallet/mywallet-content.js:254
 msgid "Follow us"
 msgstr "关注我们"
 
-#: renderer/mywallet/mywallet-content.js:268
+#: renderer/mywallet/mywallet-content.js:273
 #, fuzzy
 msgid "Join discord"
 msgstr "加入discord"
 
-#: renderer/mywallet/mywallet-content.js:286
+#: renderer/mywallet/mywallet-content.js:291
 #, fuzzy
 msgid "Join telegram"
 msgstr "加入电报"
 
-#: renderer/mywallet/mywallet.js:32
+#: renderer/mywallet/mywallet.js:34
 msgid "Wallet"
 msgstr "钱包"
 
-#: renderer/receive/receive-content.js:36
+#: renderer/receive/receive-content.js:39
 #, fuzzy
 msgid "View On Explorer"
 msgstr "在浏览器上查看"
 
-#: renderer/receive/receive.js:36
+#: renderer/receive/receive.js:37
 #, fuzzy
 msgid "RECEIVE"
 msgstr "接收"
@@ -339,108 +340,108 @@ msgstr "倾销钱包"
 msgid "Backup wallet.dat for"
 msgstr "备份 wallet.dat 为"
 
-#: renderer/settings/settings-content.js:109
+#: renderer/settings/settings-content.js:110
 msgid "This wallet is developed and maintained by a third party "
 msgstr "该钱包由第三方开发和维护 "
 
-#: renderer/settings/settings-content.js:110
+#: renderer/settings/settings-content.js:111
 msgid "We are in no way affiliated with the Cypherium team or organization. "
 msgstr "我们绝不隶属于Cypherium团队或组织。"
 
-#: renderer/settings/settings-content.js:111
+#: renderer/settings/settings-content.js:112
 #, fuzzy
 msgid "For support please visit the"
 msgstr "如需支持，请访问"
 
-#: renderer/settings/settings-content.js:111
+#: renderer/settings/settings-content.js:112
 msgid "server "
 msgstr "服务器 "
 
-#: renderer/settings/settings-content.js:112
+#: renderer/settings/settings-content.js:113
 msgid "and report any issues you may find to "
 msgstr "并将您发现的任何问题报告给 "
 
-#: renderer/settings/settings-content.js:128
+#: renderer/settings/settings-content.js:129
 msgid "Settings"
 msgstr "设置"
 
-#: renderer/settings/settings-content.js:134
+#: renderer/settings/settings-content.js:135
 #, fuzzy
 msgid "Encrypt Wallet"
 msgstr "加密钱包"
 
-#: renderer/settings/settings-content.js:144
+#: renderer/settings/settings-content.js:145
 #, fuzzy
 msgid "Combine Rewards"
 msgstr "组合奖励"
 
-#: renderer/settings/settings-content.js:151
+#: renderer/settings/settings-content.js:152
 #, fuzzy
 msgid "Stake Split Threshold"
 msgstr "股权分割阈值"
 
-#: renderer/settings/settings-content.js:158
+#: renderer/settings/settings-content.js:159
 #, fuzzy
 msgid "Backup Wallet"
 msgstr "备用钱包"
 
-#: renderer/settings/settings-content.js:162
+#: renderer/settings/settings-content.js:163
 #, fuzzy
 msgid "Dump Wallet"
 msgstr "倾倒钱包"
 
-#: renderer/settings/settings-content.js:166
+#: renderer/settings/settings-content.js:167
 #, fuzzy
 msgid "Import Wallet"
 msgstr "进口钱包"
 
-#: renderer/settings/settings-content.js:170
+#: renderer/settings/settings-content.js:171
 #, fuzzy
 msgid "Open Config"
 msgstr "打开配置"
 
-#: renderer/settings/settings-content.js:174
+#: renderer/settings/settings-content.js:175
 #, fuzzy
 msgid "Open Masternode Config"
 msgstr "打开主节点配置"
 
-#: renderer/settings/settings-content.js:186
+#: renderer/settings/settings-content.js:188
 #, fuzzy
 msgid "Passphrases do not match!"
 msgstr "密码口令不匹配!"
 
-#: renderer/settings/settings-content.js:220
+#: renderer/settings/settings-content.js:222
 #, fuzzy
 msgid "Enter a passphrase for the wallet."
 msgstr "输入钱包的密码。"
 
-#: renderer/settings/settings-content.js:221
+#: renderer/settings/settings-content.js:223
 #, fuzzy
 msgid ""
 "Please use a passphrase of 10 or more random characters or a minimum of 8 "
 "random words."
 msgstr "请使用10个以上随机字符或至少8个随机字的口令。"
 
-#: renderer/settings/settings-content.js:222
+#: renderer/settings/settings-content.js:224
 #, fuzzy
 msgid "After confirming your wallet will be encrypted then auto restarted."
 msgstr "确认后，你的钱包将被加密，然后自动重启。"
 
-#: renderer/settings/settings-content.js:225
+#: renderer/settings/settings-content.js:227
 msgid "Passphrase"
 msgstr "口令"
 
-#: renderer/settings/settings-content.js:232
+#: renderer/settings/settings-content.js:234
 #, fuzzy
 msgid "Repeat Passphrase"
 msgstr "重复密码口令"
 
-#: renderer/settings/settings-content.js:261
+#: renderer/settings/settings-content.js:263
 #, fuzzy
 msgid "Enter a threshold amount."
 msgstr "输入阈值金额。"
 
-#: renderer/settings/settings-content.js:263
+#: renderer/settings/settings-content.js:265
 #, fuzzy
 msgid ""
 "The wallet will automatically monitor for any coins with a value below the "
@@ -449,74 +450,78 @@ msgstr ""
 "钱包会自动监测任何价值低于阈值金额的硬币，如果它们居住在同一地址内，则会将它"
 "们合并。"
 
-#: renderer/settings/settings-content.js:265
+#: renderer/settings/settings-content.js:267
 #, fuzzy
 msgid ""
 "When combine rewards runs it will create a transaction, and therefore will "
 "be subject to transaction fees."
 msgstr "当联合奖励运行时，它将创建一个交易，因此将收取交易费用。"
 
-#: renderer/settings/settings-content.js:268
+#: renderer/settings/settings-content.js:270
 #, fuzzy
 msgid "Threshold amount"
 msgstr "阈值金额"
 
-#: renderer/settings/settings-content.js:366
+#: renderer/settings/settings-content.js:368
 #, fuzzy
 msgid "Saved backup of wallet.dat"
 msgstr "保存的钱包.dat的备份"
 
-#: renderer/settings/settings-content.js:376
+#: renderer/settings/settings-content.js:378
 #, fuzzy
 msgid "Successfuly dumped private keys"
 msgstr "成功转储私钥"
 
-#: renderer/settings/settings-content.js:389
+#: renderer/settings/settings-content.js:391
 #, fuzzy
 msgid "Please enter a stake split amount!"
 msgstr "请输入股权分割金额!"
 
-#: renderer/settings/settings-content.js:439
+#: renderer/settings/settings-content.js:441
 #, fuzzy
 msgid "Combine rewards enabled"
 msgstr "启用组合奖励"
 
-#: renderer/settings/settings-content.js:448
+#: renderer/settings/settings-content.js:450
 #, fuzzy
 msgid "Import wallet .txt"
 msgstr "导入钱包.txt"
 
-#: renderer/settings/settings-content.js:461
+#: renderer/settings/settings-content.js:463
 #, fuzzy
 msgid "Successfuly imported private keys"
 msgstr "成功导入私钥"
 
-#: renderer/setup.js:38
+#: renderer/setup.js:39
 #, fuzzy
 msgid ""
 "It appears this is the first time you are starting up the wallet. You can "
 "either create a new account or import from your keys."
 msgstr "看来这是你第一次启动钱包。您可以创建一个新的账户或从您的钥匙导入。"
 
-#: renderer/setup.js:39
+#: renderer/setup.js:40
 #, fuzzy
 msgid ""
 "Please select an option below to either import or create another wallet. "
 "This will not replace your current wallet."
 msgstr "请在下面选择一个选项来导入或创建另一个钱包。这不会取代您当前的钱包。"
 
-#: renderer/setup.js:111
+#: renderer/setup.js:112
 msgid "Create"
 msgstr "创建"
 
-#: renderer/transactions/transactions.js:32
+#: renderer/transactions/transactions.js:33
 msgid "Transactions"
 msgstr "交易"
 
-#: renderer/warning/warning.js:66
+#: renderer/warning/warning.js:67
 msgid "Update"
 msgstr "更新"
 
-#: renderer/warning/warning.js:70
+#: renderer/warning/warning.js:71
 msgid "Info"
 msgstr "信息"
+
+#, fuzzy
+#~ msgid "Successfully sent to many"
+#~ msgstr "成功发送至多个"

@@ -1,96 +1,97 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-01-19 18:41+0200\n"
-"PO-Revision-Date: 2021-01-19 20:03+0200\n"
+"POT-Creation-Date: 2021-01-22 16:29+0200\n"
+"PO-Revision-Date: 2021-01-22 17:01+0200\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: ko_KR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.4.2\n"
 "X-Poedit-Basepath: ../src\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Last-Translator: \n"
-"Language: ko_KR\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: common/components/Accounts.js:37
+#: common/components/Accounts.js:38
 #, fuzzy
 msgid "remove account from wallet"
 msgstr "지갑에서 계정 제거"
 
-#: common/components/Accounts.js:38 common/components/Transaction.js:34
+#: common/components/Accounts.js:39 common/components/Transaction.js:35
+#: renderer/mywallet/mywallet-content.js:73
 #, fuzzy
 msgid "view in explorer"
 msgstr "탐색기에서보기"
 
-#: common/components/Accounts.js:39 renderer/receive/receive-content.js:35
+#: common/components/Accounts.js:40 renderer/receive/receive-content.js:38
 #, fuzzy
 msgid "copy to clipboard"
 msgstr "클립 보드에 복사"
 
-#: common/components/CreateAccountButton.js:29
+#: common/components/CreateAccountButton.js:30
 #, fuzzy
 msgid "Create/Import"
 msgstr "만들기 / 가져 오기"
 
-#: common/components/Send.js:41
+#: common/components/Send.js:42
 msgid "Successfully sent"
 msgstr "성공적으로 전송하였습니다."
 
-#: common/components/Send.js:42
+#: common/components/Send.js:43
 msgid "to"
 msgstr "~"
 
-#: common/components/Send.js:77 renderer/mywallet/mywallet-content.js:137
+#: common/components/Send.js:78 renderer/mywallet/mywallet-content.js:142
 msgid "SEND"
 msgstr "보내기"
 
-#: common/components/Send.js:81
+#: common/components/Send.js:82
 msgid "CANCEL"
 msgstr "취소"
 
-#: common/components/Send.js:164
-#, fuzzy
-msgid "Successfully sent to many"
-msgstr "많은 사람들에게 성공적으로 보냈습니다."
-
-#: common/components/Transaction.js:303
+#: common/components/Transaction.js:305
 msgid "Send"
 msgstr "보내기"
 
-#: common/components/Transaction.js:305 renderer/receive/receive-navbar.js:33
+#: common/components/Transaction.js:307 renderer/receive/receive-navbar.js:34
 #, fuzzy
 msgid "Receive"
 msgstr "받다"
 
-#: common/components/UnlockWallet.js:35
+#: common/components/UnlockWallet.js:37
 #, fuzzy
 msgid "Unlock wallet to remove "
 msgstr "제거하려면 지갑 잠금 해제"
 
-#: common/components/UnlockWallet.js:36
+#: common/components/UnlockWallet.js:38
 #, fuzzy
 msgid " from stored keys"
 msgstr " 저장된 키에서"
 
-#: common/components/UnlockWallet.js:56
+#: common/components/UnlockWallet.js:59
 #, fuzzy
 msgid "Unlock wallet for transactions"
 msgstr "거래를위한 지갑 잠금 해제"
 
-#: common/components/UnlockWallet.js:60 common/components/UnlockWallet.js:64
+#: common/components/UnlockWallet.js:63 common/components/UnlockWallet.js:67
 #, fuzzy
 msgid "Unlock wallet for maintenance"
 msgstr "유지 관리를 위해 지갑 잠금 해제"
 
-#: common/components/UnlockWallet.js:68 common/components/UnlockWallet.js:72
-#: common/components/UnlockWallet.js:77
+#: common/components/UnlockWallet.js:71 common/components/UnlockWallet.js:75
+#: common/components/UnlockWallet.js:80
 #, fuzzy
 msgid "Unlock wallet for masternodes"
 msgstr "마스터 노드 용 지갑 잠금 해제"
 
-#: common/components/UnlockWallet.js:88
+#: common/components/UnlockWallet.js:92
+#, fuzzy
+msgid "Unlock wallet for export"
+msgstr "스테이 킹을위한 지갑 잠금 해제"
+
+#: common/components/UnlockWallet.js:97
 #, fuzzy
 msgid "Unlock wallet for staking"
 msgstr "스테이 킹을위한 지갑 잠금 해제"
@@ -116,7 +117,7 @@ msgid "Unlock"
 msgstr "잠금 해제"
 
 #: common/getTextConsts.js:7 renderer/settings/settings-content.js:46
-#: renderer/warning/warning.js:74
+#: renderer/warning/warning.js:75
 msgid "Cancel"
 msgstr "취소"
 
@@ -144,75 +145,75 @@ msgstr ""
 msgid "Passphrase Error!"
 msgstr "암호 오류!"
 
-#: common/setup/CreateAccount.js:35 common/setup/ImportAccount.js:38
+#: common/setup/CreateAccount.js:36 common/setup/ImportAccount.js:39
 #, fuzzy
 msgid "Wallet Name"
 msgstr "지갑 이름"
 
-#: common/setup/CreateAccount.js:36 common/setup/ImportAccount.js:39
+#: common/setup/CreateAccount.js:37 common/setup/ImportAccount.js:40
 msgid "Password"
 msgstr "비밀번호"
 
-#: common/setup/CreateAccount.js:37 common/setup/ImportAccount.js:40
+#: common/setup/CreateAccount.js:38 common/setup/ImportAccount.js:41
 msgid "Repeat Password"
 msgstr "암호 확인"
 
-#: common/setup/CreateAccount.js:87
+#: common/setup/CreateAccount.js:88
 #, fuzzy
 msgid "Create a new CPH wallet"
 msgstr "새 CPH 지갑 생성"
 
-#: common/setup/CreateAccount.js:144 common/setup/CreateAccount.js:172
+#: common/setup/CreateAccount.js:145 common/setup/CreateAccount.js:173
 msgid "Continue"
 msgstr "계속"
 
-#: common/setup/CreateAccount.js:195
+#: common/setup/CreateAccount.js:196
 #, fuzzy
 msgid "Please click the mnemonics by original order"
 msgstr "원래 순서대로 니모닉을 클릭하세요"
 
-#: common/setup/CreateAccount.js:216
+#: common/setup/CreateAccount.js:217
 msgid "Reset"
 msgstr "초기화"
 
-#: common/setup/CreateAccount.js:225 renderer/settings/settings-content.js:45
+#: common/setup/CreateAccount.js:226 renderer/settings/settings-content.js:45
 msgid "Confirm"
 msgstr "확인"
 
-#: common/setup/CreateAccount.js:318 common/setup/ImportAccount.js:555
+#: common/setup/CreateAccount.js:319 common/setup/ImportAccount.js:556
 #, fuzzy
 msgid "Please enter a wallet name"
 msgstr "지갑 이름을 입력하세요"
 
-#: common/setup/CreateAccount.js:321 common/setup/ImportAccount.js:359
+#: common/setup/CreateAccount.js:322 common/setup/ImportAccount.js:360
 msgid "Please enter a password"
 msgstr "비밀번호를 입력해주세요."
 
-#: common/setup/CreateAccount.js:324 common/setup/ImportAccount.js:362
+#: common/setup/CreateAccount.js:325 common/setup/ImportAccount.js:363
 #, fuzzy
 msgid "Password is too short enter a minimum of 8 characters."
 msgstr "비밀번호가 너무 짧습니다. 최소 8자를 입력하세요."
 
-#: common/setup/CreateAccount.js:327 common/setup/ImportAccount.js:365
+#: common/setup/CreateAccount.js:328 common/setup/ImportAccount.js:366
 msgid "Passwords do not match"
 msgstr "비밀번호가 일치 하지 않습니다."
 
-#: common/setup/CreateAccount.js:366
+#: common/setup/CreateAccount.js:367
 #, fuzzy
 msgid "mnemonic does not match please try again"
 msgstr "니모닉이 일치하지 않습니다. 다시 시도하십시오."
 
-#: common/setup/ImportAccount.js:35
+#: common/setup/ImportAccount.js:36
 #, fuzzy
 msgid "Please enter your mnemonics in original order, seperated by spaces."
 msgstr "니모닉을 공백으로 구분하여 원래 순서대로 입력하세요."
 
-#: common/setup/ImportAccount.js:36
+#: common/setup/ImportAccount.js:37
 #, fuzzy
 msgid "Please enter your private key."
 msgstr "개인 키를 입력하십시오."
 
-#: common/setup/ImportAccount.js:37
+#: common/setup/ImportAccount.js:38
 #, fuzzy
 msgid ""
 "Please enter any address to create a testing account. Preferably use one "
@@ -221,123 +222,123 @@ msgstr ""
 "테스트 계정을 만들려면 주소를 입력하십시오. 많은 트랜잭션이있는 것을 사용하"
 "는 것이 좋습니다."
 
-#: common/setup/ImportAccount.js:45
+#: common/setup/ImportAccount.js:46
 #, fuzzy
 msgid "mnemonic"
 msgstr "니모닉"
 
-#: common/setup/ImportAccount.js:46
+#: common/setup/ImportAccount.js:47
 #, fuzzy
 msgid "private key"
 msgstr "개인 키"
 
-#: common/setup/ImportAccount.js:47
+#: common/setup/ImportAccount.js:48
 #, fuzzy
 msgid "testing"
 msgstr "테스트"
 
-#: common/setup/ImportAccount.js:216 common/setup/ImportAccount.js:292
-#: common/setup/ImportAccount.js:331 renderer/setup.js:103
+#: common/setup/ImportAccount.js:217 common/setup/ImportAccount.js:293
+#: common/setup/ImportAccount.js:332 renderer/setup.js:104
 msgid "Import"
 msgstr "가져오기"
 
-#: common/setup/ImportAccount.js:513
+#: common/setup/ImportAccount.js:514
 #, fuzzy
 msgid "Please enter a mnemonic"
 msgstr "니모닉을 입력하세요"
 
-#: common/setup/ImportAccount.js:520
+#: common/setup/ImportAccount.js:521
 #, fuzzy
 msgid "Mnemonic length is too short"
 msgstr "니모닉 길이가 너무 짧습니다."
 
-#: common/setup/ImportAccount.js:527
+#: common/setup/ImportAccount.js:528
 #, fuzzy
 msgid "Invalid mnemonic"
 msgstr "잘못된 니모닉"
 
-#: common/setup/ImportAccount.js:537
+#: common/setup/ImportAccount.js:538
 #, fuzzy
 msgid "Please enter a private key"
 msgstr "개인 키를 입력하십시오"
 
-#: common/setup/ImportAccount.js:541
+#: common/setup/ImportAccount.js:542
 #, fuzzy
 msgid "The length of PrivateKey must be 128"
 msgstr "PrivateKey의 길이는 128이어야합니다."
 
-#: common/setup/ImportAccount.js:545
+#: common/setup/ImportAccount.js:546
 #, fuzzy
 msgid "Invalid private key"
 msgstr "잘못된 개인 키"
 
-#: common/setup/ImportAccount.js:562
+#: common/setup/ImportAccount.js:563
 #, fuzzy
 msgid "Please enter a unique wallet name"
 msgstr "고유 한 지갑 이름을 입력하십시오"
 
-#: common/setup/ImportAccount.js:576
+#: common/setup/ImportAccount.js:577
 #, fuzzy
 msgid "Please enter an address"
 msgstr "주소를 입력하세요"
 
-#: common/setup/ImportAccount.js:582
+#: common/setup/ImportAccount.js:583
 #, fuzzy
 msgid "The address you enetered is not valid. Please enter a valid address."
 msgstr "입력 한 주소가 유효하지 않습니다. 유효한 주소를 입력하십시오."
 
-#: renderer/addresses/addresses.js:33
+#: renderer/addresses/addresses.js:34
 msgid "Addresses"
 msgstr "주소"
 
-#: renderer/masternodes/masternodes-content.js:76
+#: renderer/masternodes/masternodes-content.js:77
 #, fuzzy
 msgid "REFRESH"
 msgstr "새롭게 하다"
 
-#: renderer/masternodes/masternodes-content.js:77
+#: renderer/masternodes/masternodes-content.js:78
 #, fuzzy
 msgid "START MISSING"
 msgstr "누락 시작"
 
-#: renderer/masternodes/masternodes-content.js:78
+#: renderer/masternodes/masternodes-content.js:79
 #, fuzzy
 msgid "START ALL"
 msgstr "모두 시작"
 
-#: renderer/masternodes/masternodes-content.js:79
+#: renderer/masternodes/masternodes-content.js:80
 msgid "CREATE"
 msgstr "가입하기"
 
-#: renderer/masternodes/masternodes.js:32
+#: renderer/masternodes/masternodes.js:33
 #, fuzzy
 msgid "Masternodes"
 msgstr "마스터 노드"
 
-#: renderer/mywallet/mywallet-content.js:249
+#: renderer/mywallet/mywallet-content.js:254
 msgid "Follow us"
 msgstr "팔로우"
 
-#: renderer/mywallet/mywallet-content.js:268
+#: renderer/mywallet/mywallet-content.js:273
 #, fuzzy
 msgid "Join discord"
 msgstr "불화에 합류"
 
-#: renderer/mywallet/mywallet-content.js:286
+#: renderer/mywallet/mywallet-content.js:291
 #, fuzzy
 msgid "Join telegram"
 msgstr "전보 가입"
 
-#: renderer/mywallet/mywallet.js:32
+#: renderer/mywallet/mywallet.js:34
 msgid "Wallet"
 msgstr "월렛"
 
-#: renderer/receive/receive-content.js:36
+#: renderer/receive/receive-content.js:39
 #, fuzzy
 msgid "View On Explorer"
 msgstr "탐색기에서보기"
 
-#: renderer/receive/receive.js:36
+#: renderer/receive/receive.js:37
 #, fuzzy
 msgid "RECEIVE"
 msgstr "받다"
@@ -352,86 +353,86 @@ msgstr "지갑 덤프"
 msgid "Backup wallet.dat for"
 msgstr "백업용 wallet.dat"
 
-#: renderer/settings/settings-content.js:109
+#: renderer/settings/settings-content.js:110
 #, fuzzy
 msgid "This wallet is developed and maintained by a third party "
 msgstr "이 지갑은 제 3자가 개발하고 관리합니다."
 
-#: renderer/settings/settings-content.js:110
+#: renderer/settings/settings-content.js:111
 #, fuzzy
 msgid "We are in no way affiliated with the Cypherium team or organization. "
 msgstr "우리는 Cypherium 팀이나 조직과 전혀 관련이 없습니다."
 
-#: renderer/settings/settings-content.js:111
+#: renderer/settings/settings-content.js:112
 #, fuzzy
 msgid "For support please visit the"
 msgstr "지원을 받으려면"
 
-#: renderer/settings/settings-content.js:111
+#: renderer/settings/settings-content.js:112
 #, fuzzy
 msgid "server "
 msgstr "섬기는 사람"
 
-#: renderer/settings/settings-content.js:112
+#: renderer/settings/settings-content.js:113
 #, fuzzy
 msgid "and report any issues you may find to "
 msgstr "발견 할 수있는 문제를보고하십시오."
 
-#: renderer/settings/settings-content.js:128
+#: renderer/settings/settings-content.js:129
 msgid "Settings"
 msgstr "설정"
 
-#: renderer/settings/settings-content.js:134
+#: renderer/settings/settings-content.js:135
 #, fuzzy
 msgid "Encrypt Wallet"
 msgstr "지갑 암호화"
 
-#: renderer/settings/settings-content.js:144
+#: renderer/settings/settings-content.js:145
 #, fuzzy
 msgid "Combine Rewards"
 msgstr "보상 결합"
 
-#: renderer/settings/settings-content.js:151
+#: renderer/settings/settings-content.js:152
 #, fuzzy
 msgid "Stake Split Threshold"
 msgstr "스테이크 분할 임계 값"
 
-#: renderer/settings/settings-content.js:158
+#: renderer/settings/settings-content.js:159
 #, fuzzy
 msgid "Backup Wallet"
 msgstr "백업 지갑"
 
-#: renderer/settings/settings-content.js:162
+#: renderer/settings/settings-content.js:163
 #, fuzzy
 msgid "Dump Wallet"
 msgstr "지갑 덤프"
 
-#: renderer/settings/settings-content.js:166
+#: renderer/settings/settings-content.js:167
 #, fuzzy
 msgid "Import Wallet"
 msgstr "지갑 가져 오기"
 
-#: renderer/settings/settings-content.js:170
+#: renderer/settings/settings-content.js:171
 #, fuzzy
 msgid "Open Config"
 msgstr "구성 열기"
 
-#: renderer/settings/settings-content.js:174
+#: renderer/settings/settings-content.js:175
 #, fuzzy
 msgid "Open Masternode Config"
 msgstr "마스터 노드 구성 열기"
 
-#: renderer/settings/settings-content.js:186
+#: renderer/settings/settings-content.js:188
 #, fuzzy
 msgid "Passphrases do not match!"
 msgstr "암호가 일치하지 않습니다!"
 
-#: renderer/settings/settings-content.js:220
+#: renderer/settings/settings-content.js:222
 #, fuzzy
 msgid "Enter a passphrase for the wallet."
 msgstr "지갑의 암호를 입력하십시오."
 
-#: renderer/settings/settings-content.js:221
+#: renderer/settings/settings-content.js:223
 #, fuzzy
 msgid ""
 "Please use a passphrase of 10 or more random characters or a minimum of 8 "
@@ -439,27 +440,27 @@ msgid ""
 msgstr ""
 "10 개 이상의 임의 문자 또는 최소 8 개의 임의 단어의 암호를 사용하십시오."
 
-#: renderer/settings/settings-content.js:222
+#: renderer/settings/settings-content.js:224
 #, fuzzy
 msgid "After confirming your wallet will be encrypted then auto restarted."
 msgstr "확인 후 지갑이 암호화되고 자동으로 다시 시작됩니다."
 
-#: renderer/settings/settings-content.js:225
+#: renderer/settings/settings-content.js:227
 #, fuzzy
 msgid "Passphrase"
 msgstr "암호"
 
-#: renderer/settings/settings-content.js:232
+#: renderer/settings/settings-content.js:234
 #, fuzzy
 msgid "Repeat Passphrase"
 msgstr "암호 반복"
 
-#: renderer/settings/settings-content.js:261
+#: renderer/settings/settings-content.js:263
 #, fuzzy
 msgid "Enter a threshold amount."
 msgstr "기준 금액을 입력합니다."
 
-#: renderer/settings/settings-content.js:263
+#: renderer/settings/settings-content.js:265
 #, fuzzy
 msgid ""
 "The wallet will automatically monitor for any coins with a value below the "
@@ -468,49 +469,49 @@ msgstr ""
 "지갑은 임계 금액 미만의 가치를 가진 모든 코인을 자동으로 모니터링하고 동일"
 "한 주소에있는 경우이를 결합합니다."
 
-#: renderer/settings/settings-content.js:265
+#: renderer/settings/settings-content.js:267
 #, fuzzy
 msgid ""
 "When combine rewards runs it will create a transaction, and therefore will "
 "be subject to transaction fees."
 msgstr "결합 보상이 실행되면 거래가 생성되므로 거래 수수료가 부과됩니다."
 
-#: renderer/settings/settings-content.js:268
+#: renderer/settings/settings-content.js:270
 #, fuzzy
 msgid "Threshold amount"
 msgstr "기준 금액"
 
-#: renderer/settings/settings-content.js:366
+#: renderer/settings/settings-content.js:368
 #, fuzzy
 msgid "Saved backup of wallet.dat"
 msgstr "wallet.dat 백업 저장"
 
-#: renderer/settings/settings-content.js:376
+#: renderer/settings/settings-content.js:378
 #, fuzzy
 msgid "Successfuly dumped private keys"
 msgstr "성공적으로 덤프 된 개인 키"
 
-#: renderer/settings/settings-content.js:389
+#: renderer/settings/settings-content.js:391
 #, fuzzy
 msgid "Please enter a stake split amount!"
 msgstr "지분 분할 금액을 입력하세요!"
 
-#: renderer/settings/settings-content.js:439
+#: renderer/settings/settings-content.js:441
 #, fuzzy
 msgid "Combine rewards enabled"
 msgstr "보상 결합 활성화"
 
-#: renderer/settings/settings-content.js:448
+#: renderer/settings/settings-content.js:450
 #, fuzzy
 msgid "Import wallet .txt"
 msgstr "지갑 .txt 가져 오기"
 
-#: renderer/settings/settings-content.js:461
+#: renderer/settings/settings-content.js:463
 #, fuzzy
 msgid "Successfuly imported private keys"
 msgstr "개인 키를 성공적으로 가져 왔습니다."
 
-#: renderer/setup.js:38
+#: renderer/setup.js:39
 #, fuzzy
 msgid ""
 "It appears this is the first time you are starting up the wallet. You can "
@@ -519,7 +520,7 @@ msgstr ""
 "지갑을 처음 시작하는 것 같습니다. 새 계정을 만들거나 키에서 가져올 수 있습니"
 "다."
 
-#: renderer/setup.js:39
+#: renderer/setup.js:40
 #, fuzzy
 msgid ""
 "Please select an option below to either import or create another wallet. "
@@ -528,18 +529,22 @@ msgstr ""
 "다른 지갑을 가져 오거나 생성하려면 아래 옵션을 선택하십시오. 이것은 현재 지"
 "갑을 대체하지 않습니다."
 
-#: renderer/setup.js:111
+#: renderer/setup.js:112
 msgid "Create"
 msgstr "생성"
 
-#: renderer/transactions/transactions.js:32
+#: renderer/transactions/transactions.js:33
 msgid "Transactions"
 msgstr "거래"
 
-#: renderer/warning/warning.js:66
+#: renderer/warning/warning.js:67
 msgid "Update"
 msgstr "업데이트"
 
-#: renderer/warning/warning.js:70
+#: renderer/warning/warning.js:71
 msgid "Info"
 msgstr "정보"
+
+#, fuzzy
+#~ msgid "Successfully sent to many"
+#~ msgstr "많은 사람들에게 성공적으로 보냈습니다."

@@ -29,7 +29,6 @@ import { ipcRenderer, remote } from "electron";
 import Config from "../config";
 import { WalletService } from "../walletutils/WalletService";
 import { CANCEL, PASSPHRASE_ERROR, UNLOCK } from "../getTextConsts";
-import Gettext from 'node-gettext';
 import ExportKeys from "../export/ExportKeys";
 var gt = require('electron').remote.getGlobal('gt');
 
