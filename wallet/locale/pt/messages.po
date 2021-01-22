@@ -1,0 +1,474 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2021-01-19 18:41+0200\n"
+"PO-Revision-Date: 2021-01-21 21:43+0200\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"X-Poedit-Basepath: ../src\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Last-Translator: \n"
+"Language: pt\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: common/components/Accounts.js:37
+msgid "remove account from wallet"
+msgstr "remover conta da carteira"
+
+#: common/components/Accounts.js:38 common/components/Transaction.js:34
+msgid "view in explorer"
+msgstr "vista em explorer"
+
+#: common/components/Accounts.js:39 renderer/receive/receive-content.js:35
+msgid "copy to clipboard"
+msgstr "copiar para a área de transferência"
+
+#: common/components/CreateAccountButton.js:29
+msgid "Create/Import"
+msgstr "Criar/Importar"
+
+#: common/components/Send.js:41
+msgid "Successfully sent"
+msgstr "Enviado com sucesso"
+
+#: common/components/Send.js:42
+msgid "to"
+msgstr "para"
+
+#: common/components/Send.js:77 renderer/mywallet/mywallet-content.js:137
+msgid "SEND"
+msgstr "ENVIAR"
+
+#: common/components/Send.js:81
+msgid "CANCEL"
+msgstr "CANCELAR"
+
+#: common/components/Send.js:164
+msgid "Successfully sent to many"
+msgstr "Enviado com sucesso a muitos"
+
+#: common/components/Transaction.js:303
+msgid "Send"
+msgstr "Enviar"
+
+#: common/components/Transaction.js:305 renderer/receive/receive-navbar.js:33
+msgid "Receive"
+msgstr "Receber"
+
+#: common/components/UnlockWallet.js:35
+msgid "Unlock wallet to remove "
+msgstr "Desbloquear a carteira para remover"
+
+#: common/components/UnlockWallet.js:36
+msgid " from stored keys"
+msgstr " de chaves armazenadas"
+
+#: common/components/UnlockWallet.js:56
+msgid "Unlock wallet for transactions"
+msgstr "Desbloquear carteira para transações"
+
+#: common/components/UnlockWallet.js:60 common/components/UnlockWallet.js:64
+msgid "Unlock wallet for maintenance"
+msgstr "Desbloquear a carteira para manutenção"
+
+#: common/components/UnlockWallet.js:68 common/components/UnlockWallet.js:72
+#: common/components/UnlockWallet.js:77
+msgid "Unlock wallet for masternodes"
+msgstr "Desbloquear carteira para masternodes"
+
+#: common/components/UnlockWallet.js:88
+msgid "Unlock wallet for staking"
+msgstr "Desbloquear carteira para estacar"
+
+#: common/getTextConsts.js:3
+msgid "copied to clipboard"
+msgstr "copiado para prancheta"
+
+#: common/getTextConsts.js:4
+msgid "Export Private Keys"
+msgstr "Exportar Chaves Privadas"
+
+#: common/getTextConsts.js:5
+msgid "Change Default Language"
+msgstr "Alterar idioma padrão"
+
+#: common/getTextConsts.js:6
+msgid "Unlock"
+msgstr "Desbloquear"
+
+#: common/getTextConsts.js:7 renderer/settings/settings-content.js:46
+#: renderer/warning/warning.js:74
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: common/getTextConsts.js:8
+msgid "Block"
+msgstr "Bloco"
+
+#: common/getTextConsts.js:9
+msgid ""
+"This mnemonic phrase is uniquely generated, and grants you access to your "
+"wallet. Do NOT screenshot this page. Carefully write down your mnemonic "
+"phrase from left to right on a piece of paper, and save a copy offline. "
+"Don’t share your unique phrase with ANYONE. CAUTION: The Janus Team can NOT "
+"recover your funds if you lose your mnemonic phrase."
+msgstr ""
+"Esta frase mnemônica é gerada de forma única, e lhe dá acesso à sua "
+"carteira. NÃO capture esta página na tela. Escreva cuidadosamente sua frase "
+"mnemônica da esquerda para a direita em um pedaço de papel, e guarde uma "
+"cópia offline. Não compartilhe sua frase única com NINGUÉM. CUIDADO: A "
+"equipe Janus NÃO pode recuperar seus fundos se você perder sua frase "
+"mnemônica."
+
+#: common/getTextConsts.js:10
+msgid "Passphrase Error!"
+msgstr "Erro de senha!"
+
+#: common/setup/CreateAccount.js:35 common/setup/ImportAccount.js:38
+msgid "Wallet Name"
+msgstr "Nome da carteira"
+
+#: common/setup/CreateAccount.js:36 common/setup/ImportAccount.js:39
+msgid "Password"
+msgstr "Senha"
+
+#: common/setup/CreateAccount.js:37 common/setup/ImportAccount.js:40
+msgid "Repeat Password"
+msgstr "Repita a senha"
+
+#: common/setup/CreateAccount.js:87
+msgid "Create a new CPH wallet"
+msgstr "Criar uma nova carteira de CPH"
+
+#: common/setup/CreateAccount.js:144 common/setup/CreateAccount.js:172
+msgid "Continue"
+msgstr "Continuar"
+
+#: common/setup/CreateAccount.js:195
+msgid "Please click the mnemonics by original order"
+msgstr "Favor clicar na mnemônica por ordem original"
+
+#: common/setup/CreateAccount.js:216
+msgid "Reset"
+msgstr "Redefinir"
+
+#: common/setup/CreateAccount.js:225 renderer/settings/settings-content.js:45
+msgid "Confirm"
+msgstr "Confirmar"
+
+#: common/setup/CreateAccount.js:318 common/setup/ImportAccount.js:555
+msgid "Please enter a wallet name"
+msgstr "Por favor, digite o nome de uma carteira"
+
+#: common/setup/CreateAccount.js:321 common/setup/ImportAccount.js:359
+msgid "Please enter a password"
+msgstr "Informe a senha"
+
+#: common/setup/CreateAccount.js:324 common/setup/ImportAccount.js:362
+msgid "Password is too short enter a minimum of 8 characters."
+msgstr "A senha é muito curta, insira um mínimo de 8 caracteres."
+
+#: common/setup/CreateAccount.js:327 common/setup/ImportAccount.js:365
+msgid "Passwords do not match"
+msgstr "As senhas não coincidem"
+
+#: common/setup/CreateAccount.js:366
+msgid "mnemonic does not match please try again"
+msgstr "mnemônica não combina, por favor tente novamente"
+
+#: common/setup/ImportAccount.js:35
+msgid "Please enter your mnemonics in original order, seperated by spaces."
+msgstr ""
+"Por favor, digite sua mnemônica na ordem original, separada por espaços."
+
+#: common/setup/ImportAccount.js:36
+msgid "Please enter your private key."
+msgstr "Por favor, insira sua chave privada."
+
+#: common/setup/ImportAccount.js:37
+msgid ""
+"Please enter any address to create a testing account. Preferably use one "
+"with many transactions."
+msgstr ""
+"Favor digitar qualquer endereço para criar uma conta de teste. De "
+"preferência, use uma com muitas transações."
+
+#: common/setup/ImportAccount.js:45
+msgid "mnemonic"
+msgstr "mnemônica"
+
+#: common/setup/ImportAccount.js:46
+msgid "private key"
+msgstr "chave privada"
+
+#: common/setup/ImportAccount.js:47
+msgid "testing"
+msgstr "testes"
+
+#: common/setup/ImportAccount.js:216 common/setup/ImportAccount.js:292
+#: common/setup/ImportAccount.js:331 renderer/setup.js:103
+msgid "Import"
+msgstr "Importar"
+
+#: common/setup/ImportAccount.js:513
+msgid "Please enter a mnemonic"
+msgstr "Por favor, digite uma mnemônica"
+
+#: common/setup/ImportAccount.js:520
+msgid "Mnemonic length is too short"
+msgstr "O comprimento mnemônico é muito curto"
+
+#: common/setup/ImportAccount.js:527
+msgid "Invalid mnemonic"
+msgstr "Mnemônica inválida"
+
+#: common/setup/ImportAccount.js:537
+msgid "Please enter a private key"
+msgstr "Por favor, digite uma chave privada"
+
+#: common/setup/ImportAccount.js:541
+msgid "The length of PrivateKey must be 128"
+msgstr "O comprimento do PrivateKey deve ser 128"
+
+#: common/setup/ImportAccount.js:545
+msgid "Invalid private key"
+msgstr "Chave privada inválida"
+
+#: common/setup/ImportAccount.js:562
+msgid "Please enter a unique wallet name"
+msgstr "Por favor, digite um nome de carteira único"
+
+#: common/setup/ImportAccount.js:576
+msgid "Please enter an address"
+msgstr "Por favor, digite o endereço"
+
+#: common/setup/ImportAccount.js:582
+msgid "The address you enetered is not valid. Please enter a valid address."
+msgstr ""
+"O endereço que você forneceu não é válido. Por favor, digite um endereço "
+"válido."
+
+#: renderer/addresses/addresses.js:33
+msgid "Addresses"
+msgstr "Endereços"
+
+#: renderer/masternodes/masternodes-content.js:76
+msgid "REFRESH"
+msgstr "Atualizar"
+
+#: renderer/masternodes/masternodes-content.js:77
+msgid "START MISSING"
+msgstr "INICIAR A DESAPARECIMENTO"
+
+#: renderer/masternodes/masternodes-content.js:78
+msgid "START ALL"
+msgstr "INICIAR TUDO"
+
+#: renderer/masternodes/masternodes-content.js:79
+msgid "CREATE"
+msgstr "CRIO"
+
+#: renderer/masternodes/masternodes.js:32
+msgid "Masternodes"
+msgstr "Masternodes"
+
+#: renderer/mywallet/mywallet-content.js:249
+msgid "Follow us"
+msgstr "Siga-nos"
+
+#: renderer/mywallet/mywallet-content.js:268
+msgid "Join discord"
+msgstr "Junte-se à discórdia"
+
+#: renderer/mywallet/mywallet-content.js:286
+msgid "Join telegram"
+msgstr "Junte-se ao telegrama"
+
+#: renderer/mywallet/mywallet.js:32
+msgid "Wallet"
+msgstr "Carteira"
+
+#: renderer/receive/receive-content.js:36
+msgid "View On Explorer"
+msgstr "Ver no Explorer"
+
+#: renderer/receive/receive.js:36
+msgid "RECEIVE"
+msgstr "RECEBER"
+
+#: renderer/settings/settings-content.js:47
+msgid "Dump wallet for"
+msgstr "Carteira de despejo para"
+
+#: renderer/settings/settings-content.js:48
+msgid "Backup wallet.dat for"
+msgstr "Carteira de backup.dat para"
+
+#: renderer/settings/settings-content.js:109
+msgid "This wallet is developed and maintained by a third party "
+msgstr "Esta carteira é desenvolvida e mantida por uma terceira parte"
+
+#: renderer/settings/settings-content.js:110
+msgid "We are in no way affiliated with the Cypherium team or organization. "
+msgstr "Não somos de forma alguma filiados à equipe ou organização Cypherium"
+
+#: renderer/settings/settings-content.js:111
+msgid "For support please visit the"
+msgstr "Para obter suporte, visite o"
+
+#: renderer/settings/settings-content.js:111
+msgid "server "
+msgstr "servidor"
+
+#: renderer/settings/settings-content.js:112
+msgid "and report any issues you may find to "
+msgstr "e relatar quaisquer problemas que você possa encontrar para"
+
+#: renderer/settings/settings-content.js:128
+msgid "Settings"
+msgstr "Configurações"
+
+#: renderer/settings/settings-content.js:134
+msgid "Encrypt Wallet"
+msgstr "Carteira Encriptada"
+
+#: renderer/settings/settings-content.js:144
+msgid "Combine Rewards"
+msgstr "Combinar Recompensas"
+
+#: renderer/settings/settings-content.js:151
+msgid "Stake Split Threshold"
+msgstr "Limiar Dividido da Estaca"
+
+#: renderer/settings/settings-content.js:158
+msgid "Backup Wallet"
+msgstr "Carteira de Backup"
+
+#: renderer/settings/settings-content.js:162
+msgid "Dump Wallet"
+msgstr "Carteira de despejo"
+
+#: renderer/settings/settings-content.js:166
+msgid "Import Wallet"
+msgstr "Carteira de Importação"
+
+#: renderer/settings/settings-content.js:170
+msgid "Open Config"
+msgstr "Abrir Config"
+
+#: renderer/settings/settings-content.js:174
+msgid "Open Masternode Config"
+msgstr "Abrir Masternode Config"
+
+#: renderer/settings/settings-content.js:186
+msgid "Passphrases do not match!"
+msgstr "As frases-passe não combinam!"
+
+#: renderer/settings/settings-content.js:220
+msgid "Enter a passphrase for the wallet."
+msgstr "Digite uma senha para a carteira."
+
+#: renderer/settings/settings-content.js:221
+msgid ""
+"Please use a passphrase of 10 or more random characters or a minimum of 8 "
+"random words."
+msgstr ""
+"Por favor, use uma senha de 10 ou mais caracteres aleatórios ou um mínimo "
+"de 8 palavras aleatórias."
+
+#: renderer/settings/settings-content.js:222
+msgid "After confirming your wallet will be encrypted then auto restarted."
+msgstr ""
+"Depois de confirmar sua carteira será criptografada e depois reiniciada "
+"automaticamente."
+
+#: renderer/settings/settings-content.js:225
+msgid "Passphrase"
+msgstr "Frase secreta"
+
+#: renderer/settings/settings-content.js:232
+msgid "Repeat Passphrase"
+msgstr "Repetir a frase de frase"
+
+#: renderer/settings/settings-content.js:261
+msgid "Enter a threshold amount."
+msgstr "Insira um valor limite."
+
+#: renderer/settings/settings-content.js:263
+msgid ""
+"The wallet will automatically monitor for any coins with a value below the "
+"threshold amount,\tand combine them if they reside within the same address."
+msgstr ""
+"A carteira monitorará automaticamente quaisquer moedas com um valor abaixo "
+"do valor limite e as combinará se elas residirem no mesmo endereço."
+
+#: renderer/settings/settings-content.js:265
+msgid ""
+"When combine rewards runs it will create a transaction, and therefore will "
+"be subject to transaction fees."
+msgstr ""
+"Ao combinar execuções de recompensas, criará uma transação e, portanto, "
+"estará sujeito a taxas de transação."
+
+#: renderer/settings/settings-content.js:268
+msgid "Threshold amount"
+msgstr "Valor Limite"
+
+#: renderer/settings/settings-content.js:366
+msgid "Saved backup of wallet.dat"
+msgstr "Salvou o backup do wallet.dat"
+
+#: renderer/settings/settings-content.js:376
+msgid "Successfuly dumped private keys"
+msgstr "Chaves privadas despejadas com sucesso"
+
+#: renderer/settings/settings-content.js:389
+msgid "Please enter a stake split amount!"
+msgstr "Por favor, insira um valor de divisão de participação!"
+
+#: renderer/settings/settings-content.js:439
+msgid "Combine rewards enabled"
+msgstr "Combinar recompensas permitidas"
+
+#: renderer/settings/settings-content.js:448
+msgid "Import wallet .txt"
+msgstr "Carteira de importação .txt"
+
+#: renderer/settings/settings-content.js:461
+msgid "Successfuly imported private keys"
+msgstr "Chaves privadas importadas com sucesso"
+
+#: renderer/setup.js:38
+msgid ""
+"It appears this is the first time you are starting up the wallet. You can "
+"either create a new account or import from your keys."
+msgstr ""
+"Parece que esta é a primeira vez que você está iniciando a carteira. Você "
+"pode criar uma nova conta ou importar de suas chaves."
+
+#: renderer/setup.js:39
+msgid ""
+"Please select an option below to either import or create another wallet. "
+"This will not replace your current wallet."
+msgstr ""
+"Favor selecionar uma opção abaixo para importar ou criar outra carteira. "
+"Isto não irá substituir sua carteira atual."
+
+#: renderer/setup.js:111
+msgid "Create"
+msgstr "Criar"
+
+#: renderer/transactions/transactions.js:32
+msgid "Transactions"
+msgstr "Transações"
+
+#: renderer/warning/warning.js:66
+msgid "Update"
+msgstr "Atualizar"
+
+#: renderer/warning/warning.js:70
+msgid "Info"
+msgstr "Informação"

@@ -41,7 +41,7 @@ const fs = require('fs');
 const path = require('path');
 
 const translationsDir = LocalePath.get('./locale');
-const locales = ['en', 'ru', 'el', 'de', 'es', 'fa', 'hi', 'it', 'ja', 'ko', 'nl', 'sv', 'zh']
+const locales = ['en', 'ru', 'el', 'de', 'es', 'fa', 'hi', 'it', 'ja', 'ko', 'nl', 'sv', 'zh', 'pt', 'bn']
 const domain = 'messages'
 const packageJSON = require('../../package.json');
 const log = require('electron-log');

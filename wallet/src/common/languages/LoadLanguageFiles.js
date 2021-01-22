@@ -3,14 +3,19 @@ export default class LoadLanguageFiles {
     static getLanguages() {
         const languages = [
             {
+                name: "中文",
+                language: 'zh',
+                flag: "CN"
+            },
+            {
                 name: "English",
                 language: 'en',
                 flag: "GB"
             },
             {
-                name: "中文",
-                language: 'zh',
-                flag: "CN"
+                name: "español",
+                language: 'es',
+                flag: "ES"
             },
             {
                 name: "русский",
@@ -23,9 +28,14 @@ export default class LoadLanguageFiles {
                 flag: "IN"
             },
             {
-                name: "español",
-                language: 'es',
-                flag: "ES"
+                name: "বাংলা",
+                language: 'bn',
+                flag: "BD"
+            },
+            {
+                name: "Português",
+                language: 'pt',
+                flag: "PT"
             },
             {
                 name: "فارسی",
