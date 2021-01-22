@@ -18,27 +18,36 @@
 
 import { remote } from "electron";
 
-const ObjectsToCsv = require('objects-to-csv');
+const fs = require('fs');
 
-export default class ExportCSV {
-    async convert(data) {
-        console.log("time start csv: ", new Date());
-        const csv = new ObjectsToCsv(data);
-
+export default class ExportKeys {
+    async export(data) {
         // Save to file:
         const options = {
-            title: "Export all transactions to CSV",
-            defaultPath: "UGD-transactions.csv"
+            title: "Export private key",
+            defaultPath: "CPH-privatekey.txt",
+            buttonLabel: 'Save',
+            filters: [
+                {
+                    name: 'Text Files',
+                    extensions: ['txt', 'docx']
+                },]
         };
 
-         remote.dialog.showSaveDialog(null, options)
-            .then(async result => {
-                await csv.toDisk(result.filePath);
-                console.log("time end csv: ", new Date());
-                // Return the CSV file as string:
-                //console.log(await csv.toString());
+        remote.dialog.showSaveDialog(null, options)
+            .then(file => {
+                console.log(file.filePath.toString()); 
+              
+                // Creating and Writing to the sample.txt file 
+                fs.writeFile(file.filePath.toString(),  
+                             data, function (err) { 
+                    if (err) throw err; 
+                    console.log('Saved!'); 
+                    data = "";
+                }); 
             }
             ).catch(err => {
+                data = "";
                 console.log(err)
             })
     }

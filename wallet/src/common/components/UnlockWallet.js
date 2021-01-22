@@ -30,11 +30,13 @@ import Config from "../config";
 import { WalletService } from "../walletutils/WalletService";
 import { CANCEL, PASSPHRASE_ERROR, UNLOCK } from "../getTextConsts";
 import Gettext from 'node-gettext';
+import ExportKeys from "../export/ExportKeys";
 var gt = require('electron').remote.getGlobal('gt');
 
-const walletService = new WalletService();
+
 const removeMsgOne = gt.gettext("Unlock wallet to remove ");
 const removeMdgTwo = gt.gettext(" from stored keys");
+const exportKeys = new ExportKeys();
 
 function UnlockWallet(props) {
     const [isStaking, setIsStaking] = useState(props.isChecked);
@@ -83,6 +85,12 @@ function UnlockWallet(props) {
                     console.log("alias passed into unlock: ", message.alias)
                     setInfoCopy(removeMsgOne + message.alias.name + removeMdgTwo);
                     setUnlockFor("REMOVE_ACCOUNT");
+                    setAccount(message.alias);
+                    break;
+
+                case "EXPORT_KEYS":
+                    setInfoCopy(gt.gettext("Unlock wallet for export"));
+                    setUnlockFor("EXPORT_KEYS");
                     setAccount(message.alias);
                     break;
                 default:
@@ -205,7 +213,7 @@ function UnlockWallet(props) {
                         buttonSize="btn--medium"
                     >
                         {UNLOCK}
-            </Button>
+                    </Button>
                 </div>
                 <div className="padding">
                     <Button
@@ -216,7 +224,7 @@ function UnlockWallet(props) {
                         buttonSize="btn--medium"
                     >
                         {CANCEL}
-            </Button>
+                    </Button>
                 </div>
 
             </div>
@@ -249,25 +257,46 @@ function UnlockWallet(props) {
                 sendArgs = [args, 30];
                 break;
             case "REMOVE_ACCOUNT":
+            case "EXPORT_KEYS":
                 sendArgs = args;
             default:
                 sendArgs = [args, 30];
                 break;
         }
         if (!Config.isDaemonBased()) {
-            console.log("args ", args)
-            if(args === "" || args === undefined){
+            if (args === "" || args === undefined) {
                 errorPassphrase();
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
                 return;
             }
+            console.log("account.password ", account.password)
+            let walletService = new WalletService();
             const isValidPassword = walletService.checkPasswordHash(args, account.password);
-            
-           
+
             if (isValidPassword) {
-                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-delete-account", account);
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-                closeWindow();
+                switch (unlockFor) {
+                    case "REMOVE_ACCOUNT":
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-delete-account", account);
+                        walletService = null;
+                        closeWindow();
+                        break;
+                    case "EXPORT_KEYS":
+                        walletService.decryptData(args, account.privateKey).then((key) => {
+                            let output = "Address: ".concat("CPH").concat(account.address).concat('\n').concat("key: ").concat(key);
+                            key = "";
+                            exportKeys.export(output).then((result) => {
+                                output = "";
+                                console.log("privateKey ", output)
+                                walletService = null;
+                                closeWindow();
+                            })
+                        });
+
+                        break;
+                }
+
+
             } else {
                 errorPassphrase();
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");

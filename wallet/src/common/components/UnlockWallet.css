@@ -26,8 +26,7 @@
   opacity: 0;
   background-color: var(--unclock--container);
   border-radius: 10px;
-  max-height: 200px;
-  width: 500px;
+  width: 550px;
   z-index: 100;
 }
 
@@ -38,8 +37,7 @@
   opacity: 1;
   background-color: var(--unclock--container);
   border-radius: 10px;
-  max-height: 200px;
-  width: 500px;
+  width: 550px;
   z-index: 100;
 }
 

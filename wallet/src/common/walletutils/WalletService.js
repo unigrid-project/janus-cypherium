@@ -85,7 +85,6 @@ export class WalletService {
 		} else {
             console.log("Password does not match!")
             return false;
-			
 		}
 	}
     /**

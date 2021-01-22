@@ -92,7 +92,7 @@ export default function ReceiveScreen() {
 					</div>
 					<div className="padding-ten">
 						<Button
-							handleClick={() => null}
+							handleClick={() => exportPrivateKey()}
 							buttonSize="btn--long max--height">{EXPORT_KEYS}</Button>
 					</div>
 				</div>
@@ -100,6 +100,13 @@ export default function ReceiveScreen() {
 		</Content>
 	);
 
+	function exportPrivateKey(){
+		let message = {
+			command: "EXPORT_KEYS",
+			alias: currentSelectedAccount[0]
+		}
+		ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
+	}
 	function openExternalLink(target) {
 		shell.openExternal(target);
 	}
