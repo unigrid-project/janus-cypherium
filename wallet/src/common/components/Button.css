@@ -17,162 +17,161 @@
  */
 
 .btn {
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: transform 0.1s ease;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
 }
 
 .btn:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .btn:active {
-    transform: scale(.9);
+  transform: scale(0.9);
 }
 
 .btn:disabled {
-    background-color: var(--btn--disabled);
-    color: var(--white);
-    border: none;
+  background-color: var(--btn--disabled);
+  color: var(--white);
+  border: none;
 }
 
 .btn:disabled:hover {
-    background-color: var(--btn--disabled);
-    transform: scale(1);
-    color: var(--white);
-    border: none;
+  background-color: var(--btn--disabled);
+  transform: scale(1);
+  color: var(--white);
+  border: none;
 }
 
 .btn:focus {
-    outline: none;
+  outline: none;
 }
 
 .btn--primary--solid {
-    background-color: var(--primary);
-    color: var(--white);
-    border: none;
+  background-color: var(--primary);
+  color: var(--white);
+  border: none;
 }
 
 .btn--secondary--solid {
-    background-color: var(--secondary);
-    color: var(--white);
-    border: none;
+  background-color: var(--secondary);
+  color: var(--white);
+  border: none;
 }
 
 .btn--warning--solid {
-    background-color: var(--warning);
-    color: var(--white);
-    border: none;
+  background-color: var(--warning);
+  color: var(--white);
+  border: none;
 }
 
 .btn--danger--solid {
-    background-color: var(--danger);
-    color: var(--white);
-    border: none;
+  background-color: var(--danger);
+  color: var(--white);
+  border: none;
 }
 
 .btn--success--solid {
-    background-color: var(--success);
-    color: var(--white);
-    border: none;
+  background-color: var(--success);
+  color: var(--white);
+  border: none;
 }
 
 .btn--white--solid {
-    background-color: var(--white);
-    color: var(--white);
-    border: none;
+  background-color: var(--white);
+  color: var(--white);
+  border: none;
 }
 
 .btn--white--square--solid {
-    background-color: var(--white);
-    color: var(--white);
-    border: none;
-    border-radius: 5px;
+  background-color: var(--white);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
 }
 
-
 .btn--dark--solid {
-    background-color: var(--dark);
-    color: var(--dark);
-    border: none;
+  background-color: var(--dark);
+  color: var(--dark);
+  border: none;
 }
 
 .btn--blue--solid {
-    background-color: var(--cph--blue);
-    color: var(--dark);
-    border: none;
+  background-color: var(--cph--blue);
+  color: var(--dark);
+  border: none;
 }
 
 .btn--primary--outline {
-    background-color: transparent;
-    border: 2px solid var(--primary);
-    color: var(--primary);
+  background-color: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
 }
 
 .btn--warning--outline {
-    background-color: transparent;
-    border: 2px solid var(--warning);
-    color: var(--warning);
+  background-color: transparent;
+  border: 2px solid var(--warning);
+  color: var(--warning);
 }
 
 .btn--danger--outline {
-    background-color: transparent;
-    border: 2px solid var(--danger);
-    color: var(--danger);
+  background-color: transparent;
+  border: 2px solid var(--danger);
+  color: var(--danger);
 }
 
 .btn--success--outline {
-    background-color: transparent;
-    border: 2px solid var(--success);
-    color: var(--success);
+  background-color: transparent;
+  border: 2px solid var(--success);
+  color: var(--success);
 }
 
 .btn--white--outline {
-    background-color: transparent;
-    border: 2px solid var(--white);
-    color: var(--white);
+  background-color: transparent;
+  border: 2px solid var(--white);
+  color: var(--white);
 }
 
 .btn--dark--outline {
-    background-color: transparent;
-    border: 2px solid var(--dark);
-    color: var(--dark);
+  background-color: transparent;
+  border: 2px solid var(--dark);
+  color: var(--dark);
 }
 
 /* button sizes */
 
 .btn--medium {
-    padding: 10px 20px;
-    font-size: 18px;
-    color: var(--white)
+  padding: 10px 20px;
+  font-size: 18px;
+  color: var(--white);
 }
 
 .btn--long {
-    min-height: 60px;
-    padding: 10px 20px;
-    font-size: 18px;
-    color: var(--white);
-    min-width: 230px;
-    max-width: 230px;
+  height: 100%;
+  padding: 10px 20px;
+  font-size: 18px;
+  color: var(--white);
+  min-width: 230px;
+  max-width: 230px;
 }
 
 .btn--large {
-    padding: 15px 30px;
-    font-size: 20px;
-    color: var(--white)
+  padding: 15px 30px;
+  font-size: 20px;
+  color: var(--white);
 }
 
 .btn--small {
-    padding: 5px 10px;
-    font-size: 15px;
-    color: var(--white)
+  padding: 5px 10px;
+  font-size: 15px;
+  color: var(--white);
 }
 
 .btn--tiny {
-    padding: 3px 7px;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--white)
+  padding: 3px 7px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--white);
 }

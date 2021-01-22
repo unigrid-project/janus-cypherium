@@ -171,3 +171,20 @@ div#mywallet>div h3 {
 	flex-direction: row;
 	justify-content: center;
 }
+
+.social--btn svg {
+    transition: transform .2s ease-in-out;
+    cursor: pointer;
+    transform: scale(1.15);
+}
+
+.social--btn svg:hover {
+    transform: scale(1.5);
+    color: rgb(77, 77, 77);
+}
+
+
+.social--btn svg:active {
+    transform: scale(0.5);
+    color: darkgray;
+}

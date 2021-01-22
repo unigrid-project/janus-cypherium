@@ -55,7 +55,6 @@ function Button(props) {
         }
     }, [input])*/
     return (
-        <div >
             <button
                 key={name}
                 disabled={disabled}
@@ -68,7 +67,6 @@ function Button(props) {
                     {children}
                 </div>
             </button>
-        </div>
     )
 }
 

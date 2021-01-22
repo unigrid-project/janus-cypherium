@@ -225,14 +225,15 @@ function Transaction({ data, index, style }) {
                         />
                     </div>
                     <div className="trans--short--item">
-                        <CustomTooltip
-                            placement="left"
-                            item={<a href={Config.getExplorerLink() + "tx/" + data.tx_hash} target="_blank">
-                                <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>}
-                            color="var(--dark--green)"
-                            content={<div className="fontSmallBold">{showInExplorer}</div>}
-                        />
-
+                        <div className="explorer--button">
+                            <CustomTooltip
+                                placement="left"
+                                item={<a href={Config.getExplorerLink() + "tx/" + data.tx_hash} target="_blank">
+                                    <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>}
+                                color="var(--dark--green)"
+                                content={<div className="fontSmallBold">{showInExplorer}</div>}
+                            />
+                        </div>
                     </div>
                 </div >
             )

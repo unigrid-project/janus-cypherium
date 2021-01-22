@@ -89,7 +89,7 @@ const ImportAccount = (props) => {
             </div>
 
             <div className="align--center">
-                <div className="offset--container" style={{display: "flex" }}>
+                <div className="offset--container">
                     <div
                         key={selections}
                         className="align--row--space-between button--container--width" >

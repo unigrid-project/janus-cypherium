@@ -79,7 +79,7 @@ function TransactionLong({ data, index, style }) {
                         <div className="trans--item">
                             {setAmountColor()}
                         </div>
-                        <div className="trans--item">
+                        <div className="trans--item explorer--button">
                             <a href={Config.getExplorerLink() + "tx/" + data.tx_hash} target="_blank">
                                 <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
                         </div>

@@ -122,13 +122,14 @@ body {
 
 .trans--item:nth-child(2) {
     order: 0;
-    width: 10%;
+    width: 3%;
     align-self: auto;
 }
 
 .trans--item:nth-child(3) {
     order: 0;
     width: 20%;
+    margin-right: 5px;
     align-self: auto;
 }
 
@@ -224,4 +225,22 @@ body {
 
 .padding--left {
     padding-left: 15px;
+}
+
+
+.explorer--button svg {
+    transition: transform .2s ease-in-out;
+    cursor: pointer;
+    transform: scale(1.15);
+}
+
+.explorer--button svg:hover {
+    transform: scale(1.5);
+    color: lawngreen;
+}
+
+
+.explorer--button svg:active {
+    transform: scale(0.5);
+    color: #fff;
 }

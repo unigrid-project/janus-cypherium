@@ -31,6 +31,8 @@ import { sendDesktopNotification } from "../../common/components/DesktopNotifica
 import Button from "../../common/components/Button";
 import { COPIED, EXPORT_KEYS } from "../../common/getTextConsts";
 import Gettext from 'node-gettext';
+const shell = require('electron').shell;
+
 var gt = require('electron').remote.getGlobal('gt');
 
 const copyToClipboard = gt.gettext("copy to clipboard");
@@ -84,26 +86,23 @@ export default function ReceiveScreen() {
 				</div>
 				<div className="align--center--row">
 					<div className="padding-ten">
-						<a
-							className="href--links "
-							href={Config.getExplorerLink() + "search/CPH" + currentSelectedAccount[0].address} target="_blank">
-							<div className="btn--long btn--primary--solid btn">
-								{viewOnExplorer}
-							</div>
-						</a>
+						<Button
+							handleClick={() => openExternalLink(Config.getExplorerLink() + "search/CPH" + currentSelectedAccount[0].address)}
+							buttonSize="btn--long max--height">{viewOnExplorer}</Button>
 					</div>
 					<div className="padding-ten">
 						<Button
 							handleClick={() => null}
-							buttonSize="btn--long">{EXPORT_KEYS}</Button>
+							buttonSize="btn--long max--height">{EXPORT_KEYS}</Button>
 					</div>
 				</div>
-
-
 			</div>
 		</Content>
 	);
 
+	function openExternalLink(target) {
+		shell.openExternal(target);
+	}
 	function createQrCode() {
 		//currentSelectedAccount
 		const code = "cph://account/transfer/" + 'CPH' + currentSelectedAccount[0].address;

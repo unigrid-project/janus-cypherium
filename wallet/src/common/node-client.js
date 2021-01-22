@@ -68,7 +68,7 @@ export default class NodeClient {
                 data = response.data.transactions;
 
             });
-            //console.log("transactions: ", data)
+            console.log("transactions: ", data)
             return data;
         } catch (err) {
             console.log(err.message);

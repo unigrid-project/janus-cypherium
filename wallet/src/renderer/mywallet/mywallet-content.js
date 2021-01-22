@@ -241,7 +241,7 @@ function MyWalletContent(props) {
 		return (
 			<div className="align--row social--conatiner">
 				{Config.getTwitterLink() === "" ? null :
-					<div className="social--padding">
+					<div className="social--padding social--btn">
 						<a href={Config.getTwitterLink()} target="_blank">
 							<Tooltip
 								arrow={10}
@@ -260,7 +260,7 @@ function MyWalletContent(props) {
 					</div>
 				}
 				{Config.getDiscordLink() === "" ? null :
-					<div className="social--padding">
+					<div className="social--padding social--btn">
 						<a href={Config.getDiscordLink()} target="_blank">
 							<Tooltip
 								arrow={10}
@@ -278,7 +278,7 @@ function MyWalletContent(props) {
 						</a>
 					</div>}
 				{Config.getTelegramLink() === "" ? null :
-					<div className="social--padding">
+					<div className="social--padding social--btn">
 						<a href={Config.getTelegramLink()} target="_blank">
 							<Tooltip
 								arrow={10}

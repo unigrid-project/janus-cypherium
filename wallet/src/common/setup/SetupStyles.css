@@ -185,10 +185,6 @@ div.importaccount svg.back {
   margin-bottom: 2px;
 }
 
-.offset--container {
-  top: 25px;
-  z-index: 100;
-}
 
 .offset--large--container {
   max-width: 95%;
