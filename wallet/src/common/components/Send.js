@@ -27,7 +27,7 @@ import Store from "electron-store";
 import { sendDesktopNotification } from "./DesktopNotifications";
 import Config from "../config";
 import GasSelector from "./GasSelector";
-import Gettext from 'node-gettext';
+
 var gt = require('electron').remote.getGlobal('gt');
 const store = new Store();
 
@@ -43,14 +43,14 @@ function Send() {
     const copy2 = gt.gettext("to");
     useEffect(() => {
         setSendButtonKey(Math.random());
-        console.log("button state changed ", disableSendBtn)
+        //console.log("button state changed ", disableSendBtn)
     }, [disableSendBtn])
     useEffect(() => {
-        console.log("recipients changed: ", recipients);
+        //console.log("recipients changed: ", recipients);
 
     }, [recipients]);
     useEffect(() => {
-        console.log("hasGas ", hasGas)
+        //console.log("hasGas ", hasGas)
         ipcRenderer.on('send-coins', (event, message) => {
             // send back from UnlockWallet
             console.log("try and send coins ");

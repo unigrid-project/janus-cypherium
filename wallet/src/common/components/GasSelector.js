@@ -27,7 +27,7 @@ function GasSelector() {
     const [gas, setGas] = useState((18 * 21000 / 1000000000))
     useEffect(() => {
         nodeClient.getGasPrice().then((r) => {
-            console.log("gas: ", r)
+            //console.log("gas: ", r)
         })
     }, [])
     return (

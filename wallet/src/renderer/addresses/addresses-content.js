@@ -255,7 +255,7 @@ function AddressesContent() {
 			});
 		} else {
 			var accounts = Config.getAccount();
-			console.log("accounts: ", accounts)
+			//console.log("accounts: ", accounts)
 			setLocaAddresses(accounts);
 		}
 

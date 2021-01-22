@@ -68,7 +68,7 @@ export default class NodeClient {
                 data = response.data.transactions;
 
             });
-            console.log("transactions: ", data)
+            //console.log("transactions: ", data)
             return data;
         } catch (err) {
             console.log(err.message);
@@ -113,7 +113,7 @@ export default class NodeClient {
 
     async getGasPrice() {
         let gasPrice = await this.web3c.cph.getGasPrice();
-        console.log("gasPrice: ", gasPrice)
+        //console.log("gasPrice: ", gasPrice)
         return gasPrice;
     }
 

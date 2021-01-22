@@ -67,7 +67,7 @@ function SettingsContent(props) {
 	const [renderKey , setRederKey] = useState(Math.random());
 
 	useEffect(() => {
-		console.log("languages: ", store.get("languages"));
+		//console.log("languages: ", store.get("languages"));
 		if (Config.isDaemonBased())
 			getStakeSplitThreshold();
 		setIsEncrypted(store.get("encrypted"));

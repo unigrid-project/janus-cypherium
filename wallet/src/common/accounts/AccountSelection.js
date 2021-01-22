@@ -33,7 +33,7 @@ function AccountSelection({ current, list }) {
             setCurrentActive(account);
             setRenderKey(Math.random());
         });
-        console.log("walletList: ", walletList);
+        //console.log("walletList: ", walletList);
     }, [])
 
     return (

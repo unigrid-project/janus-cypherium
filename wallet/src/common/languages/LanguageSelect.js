@@ -33,9 +33,9 @@ export default function LanguageSelect() {
     const [currentLanguage, setCurrentLanguage] = useState(languages);
 
     useEffect(() => {
-        console.log("languages: ", languages);
-        console.log("current locale ", currentLocale)
-        console.log("currentIndex locale ", currentIndex)
+        //console.log("languages: ", languages);
+        //console.log("current locale ", currentLocale)
+        //console.log("currentIndex locale ", currentIndex)
 
         setlanguageList(languages);
     }, [])
