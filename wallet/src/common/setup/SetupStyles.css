@@ -115,6 +115,7 @@ div.importaccount svg.back {
 }
 
 .import--clickable {
+  height: 100%;
   background-color: var(--white);
   color: var(--white);
   border: 1.5px solid var(--dark);
@@ -141,6 +142,7 @@ div.importaccount svg.back {
 }
 
 .import--clickable--selected {
+  height: 100%;
   background-color: var(--import--container);
   color: var(--white);
   border: 1.5px solid var(--dark);
@@ -154,6 +156,7 @@ div.importaccount svg.back {
 }
 
 .import--clickable--selected:disabled {
+  height: 100%;
   cursor: default;
 }
 
@@ -183,16 +186,16 @@ div.importaccount svg.back {
 }
 
 .offset--container {
-  position: absolute;
   top: 25px;
   z-index: 100;
 }
 
 .offset--large--container {
-  position: absolute;
-  top: 56px;
+  max-width: 95%;
 }
 
 .button--container--width {
-  min-width: 350px;
+  display: flex;
+  min-width: 370px;
+  align-items: stretch;
 }

@@ -89,10 +89,10 @@ const ImportAccount = (props) => {
             </div>
 
             <div className="align--center">
-                <div className="offset--container">
+                <div className="offset--container" style={{display: "flex" }}>
                     <div
                         key={selections}
-                        className="align--row--space-between button--container--width">
+                        className="align--row--space-between button--container--width" >
                         {selections.map((obj, i) => {
                             return (
                                 <SelectionButton
