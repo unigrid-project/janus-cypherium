@@ -34,7 +34,7 @@ import Config from "../../common/config";
 import File from "../../common/file";
 import LanguageSelect from "../../common/languages/LanguageSelect";
 import { CHANGE_DEFAULT } from "../../common/getTextConsts";
-import Gettext from 'node-gettext';
+
 var gt = require('electron').remote.getGlobal('gt');
 const log = require('electron-log');
 const packageJSON = require('../../../package.json');

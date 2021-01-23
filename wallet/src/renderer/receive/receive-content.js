@@ -30,7 +30,7 @@ import CustomTooltip from "../../common/components/CustomToolTip";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import Button from "../../common/components/Button";
 import { COPIED, EXPORT_KEYS } from "../../common/getTextConsts";
-import Gettext from 'node-gettext';
+
 const shell = require('electron').shell;
 
 var gt = require('electron').remote.getGlobal('gt');

@@ -29,7 +29,6 @@ import { ipcRenderer, remote } from "electron";
 import NodeClient from '../../common/node-client';
 import Config from "../config";
 import CustomTooltip from "./CustomToolTip";
-import Gettext from 'node-gettext';
 var gt = require('electron').remote.getGlobal('gt');
 const log = require('electron-log');
 const nodeClient = new NodeClient();

@@ -33,7 +33,7 @@ import AccountSelection from "../../common/accounts/AccountSelection";
 import InfiniteLoading from "react-simple-infinite-loading";
 import TransactionLong from "../../common/components/TransactionLong";
 import TransactionLoading from "../../common/components/TransactionLoading";
-import Gettext from 'node-gettext';
+
 var gt = require('electron').remote.getGlobal('gt');
 
 const nodeClient = new NodeClient();

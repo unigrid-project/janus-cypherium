@@ -25,7 +25,7 @@ import File from "../../common/file";
 import "./warning.css"
 import Button from '../../common/components/Button';
 import Config from "../../common/config";
-import Gettext from 'node-gettext';
+
 var gt = require('electron').remote.getGlobal('gt');
 const log = require('electron-log');
 

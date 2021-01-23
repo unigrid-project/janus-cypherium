@@ -29,7 +29,7 @@ import Button from "../common/components/Button";
 //import SetupControls from "../main/setup/SetupControls";
 import ImportAccount from "../common/setup/ImportAccount";
 import CreateAccount from "../common/setup/CreateAccount";
-import Gettext from 'node-gettext';
+
 var gt = require('electron').remote.getGlobal('gt');
 const store = new Store();
 library.add(faSpinner, faTimes);

@@ -31,11 +31,10 @@ import Config from "../common/config";
 import NodeClient from "../common/node-client";
 import Store from "electron-store";
 import { crashReporter } from 'electron';
-import File from "../common/file";
 import LocalePath from "../common/loaclePath";
 import LoadLanguageFiles from "../common/languages/LoadLanguageFiles";
-import Gettext from 'node-gettext'
-import { po } from 'gettext-parser'
+import Gettext from 'node-gettext';
+import { po } from 'gettext-parser';
 
 const fs = require('fs');
 const path = require('path');

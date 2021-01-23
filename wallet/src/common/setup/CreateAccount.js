@@ -28,7 +28,7 @@ import { WalletService } from "../walletutils/WalletService";
 import SelectionButton from "./SelectionButton";
 import './SetupStyles.css';
 import { CAUTION } from "../getTextConsts";
-import Gettext from 'node-gettext';
+
 var gt = require('electron').remote.getGlobal('gt');
 
 const log = require('electron-log');

@@ -28,7 +28,7 @@ import WarningMessage from "../components/WarningMessage";
 import { WalletService } from "../walletutils/WalletService";
 import NodeClient from "../node-client";
 import Config from "../config";
-import Gettext from 'node-gettext';
+
 var gt = require('electron').remote.getGlobal('gt');
 
 const log = require('electron-log');

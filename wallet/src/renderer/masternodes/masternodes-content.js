@@ -31,7 +31,7 @@ import { sendDesktopNotification } from "../../common/components/DesktopNotifica
 import { ipcRenderer, remote, clipboard } from "electron";
 import CreateMasternode from "../../common/components/CreateMasternode";
 import { COPIED } from "../../common/getTextConsts";
-import Gettext from 'node-gettext';
+
 var gt = require('electron').remote.getGlobal('gt');
 const store = new Store();
 

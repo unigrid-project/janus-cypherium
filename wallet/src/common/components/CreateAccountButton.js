@@ -24,7 +24,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import './CreateAccountButton.css';
 import CustomTooltip from "./CustomToolTip";
-import Gettext from 'node-gettext';
+
 var gt = require('electron').remote.getGlobal('gt');
 
 const createImport = gt.gettext("Create/Import");
