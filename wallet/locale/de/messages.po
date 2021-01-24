@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-01-22 16:29+0200\n"
-"PO-Revision-Date: 2021-01-22 16:57+0200\n"
+"POT-Creation-Date: 2021-01-24 17:41+0200\n"
+"PO-Revision-Date: 2021-01-24 17:48+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -14,116 +14,116 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: common/components/Accounts.js:38
+#: src/common/components/Accounts.js:37
 #, fuzzy
 msgid "remove account from wallet"
 msgstr "Entferne Account von der Wallet"
 
-#: common/components/Accounts.js:39 common/components/Transaction.js:35
-#: renderer/mywallet/mywallet-content.js:73
+#: src/common/components/Accounts.js:38 src/common/components/Transaction.js:35
 #, fuzzy
 msgid "view in explorer"
 msgstr "Exploreransicht"
 
-#: common/components/Accounts.js:40 renderer/receive/receive-content.js:38
+#: src/common/components/Accounts.js:39
+#: src/renderer/receive/receive-content.js:39
 msgid "copy to clipboard"
 msgstr "in Zwischenablage kopieren"
 
-#: common/components/CreateAccountButton.js:30
+#: src/common/components/CreateAccountButton.js:30
 #, fuzzy
 msgid "Create/Import"
 msgstr "Erstellen/Importieren"
 
-#: common/components/Send.js:42
+#: src/common/components/Send.js:43
 #, fuzzy
 msgid "Successfully sent"
 msgstr "Erfolgreich gesendet"
 
-#: common/components/Send.js:43
+#: src/common/components/Send.js:44
 msgid "to"
 msgstr "bis"
 
-#: common/components/Send.js:78 renderer/mywallet/mywallet-content.js:142
-msgid "SEND"
-msgstr "SENDEN"
+#: src/common/components/Send.js:201
+#, fuzzy
+msgid "Successfully sent to many"
+msgstr "erfolgreich an mehrere Empfänger gesendet"
 
-#: common/components/Send.js:82
-msgid "CANCEL"
-msgstr "ABBRECHEN"
-
-#: common/components/Transaction.js:305
+#: src/common/components/Transaction.js:305 src/renderer/send/send-navbar.js:33
 msgid "Send"
 msgstr "Senden"
 
-#: common/components/Transaction.js:307 renderer/receive/receive-navbar.js:34
+#: src/common/components/Transaction.js:307
+#: src/renderer/receive/receive-navbar.js:34
 msgid "Receive"
 msgstr "Erhalte"
 
-#: common/components/UnlockWallet.js:37
+#: src/common/components/UnlockWallet.js:36
 #, fuzzy
 msgid "Unlock wallet to remove "
 msgstr "Wallet entsperren und entfernen"
 
-#: common/components/UnlockWallet.js:38
+#: src/common/components/UnlockWallet.js:37
 #, fuzzy
 msgid " from stored keys"
 msgstr " aus gespeicherten Schlüsseln"
 
-#: common/components/UnlockWallet.js:59
+#: src/common/components/UnlockWallet.js:58
 #, fuzzy
 msgid "Unlock wallet for transactions"
 msgstr "Wallet für Transaktionen freischalten"
 
-#: common/components/UnlockWallet.js:63 common/components/UnlockWallet.js:67
+#: src/common/components/UnlockWallet.js:62
+#: src/common/components/UnlockWallet.js:66
 #, fuzzy
 msgid "Unlock wallet for maintenance"
 msgstr "Brieftasche für Wartung entsperren"
 
-#: common/components/UnlockWallet.js:71 common/components/UnlockWallet.js:75
-#: common/components/UnlockWallet.js:80
+#: src/common/components/UnlockWallet.js:70
+#: src/common/components/UnlockWallet.js:74
+#: src/common/components/UnlockWallet.js:79
 #, fuzzy
 msgid "Unlock wallet for masternodes"
 msgstr "Brieftasche für Masternodes freischalten"
 
-#: common/components/UnlockWallet.js:92
+#: src/common/components/UnlockWallet.js:91
 #, fuzzy
 msgid "Unlock wallet for export"
 msgstr "Brieftasche für staking freischalten"
 
-#: common/components/UnlockWallet.js:97
+#: src/common/components/UnlockWallet.js:96
 #, fuzzy
 msgid "Unlock wallet for staking"
 msgstr "Brieftasche für staking freischalten"
 
-#: common/getTextConsts.js:3
+#: src/common/getTextConsts.js:3
 #, fuzzy
 msgid "copied to clipboard"
 msgstr "in die Zwischenablage kopiert"
 
-#: common/getTextConsts.js:4
+#: src/common/getTextConsts.js:4
 #, fuzzy
 msgid "Export Private Keys"
 msgstr "Private Schlüssel exportieren"
 
-#: common/getTextConsts.js:5
+#: src/common/getTextConsts.js:5
 #, fuzzy
 msgid "Change Default Language"
 msgstr "Standardsprache ändern"
 
-#: common/getTextConsts.js:6
+#: src/common/getTextConsts.js:6
 msgid "Unlock"
 msgstr "Entsperren"
 
-#: common/getTextConsts.js:7 renderer/settings/settings-content.js:46
-#: renderer/warning/warning.js:75
+#: src/common/getTextConsts.js:7 src/renderer/settings/settings-content.js:46
+#: src/renderer/warning/warning.js:75
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: common/getTextConsts.js:8
+#: src/common/getTextConsts.js:8
 msgid "Block"
 msgstr "Block"
 
-#: common/getTextConsts.js:9
+#: src/common/getTextConsts.js:9
 #, fuzzy
 msgid ""
 "This mnemonic phrase is uniquely generated, and grants you access to your "
@@ -139,83 +139,133 @@ msgstr ""
 "einzigartige Phrase an NIEMANDEN weiter. ACHTUNG: Das Janus-Team kann Ihr "
 "Geld NICHT wiederherstellen, wenn Sie Ihre mnemonische Phrase verlieren."
 
-#: common/getTextConsts.js:10
+#: src/common/getTextConsts.js:10
 #, fuzzy
 msgid "Passphrase Error!"
 msgstr "Passphrasen-Fehler!"
 
-#: common/setup/CreateAccount.js:36 common/setup/ImportAccount.js:39
+#: src/common/getTextConsts.js:11
+msgid "MAX"
+msgstr "MAX"
+
+#: src/common/getTextConsts.js:12
+msgid "Address"
+msgstr "Adresse"
+
+#: src/common/getTextConsts.js:13
+msgid "Amount"
+msgstr "Menge"
+
+#: src/common/getTextConsts.js:14
+msgid "fast"
+msgstr "schnell"
+
+#: src/common/getTextConsts.js:15
+msgid "slow"
+msgstr "langsam"
+
+#: src/common/getTextConsts.js:16
+#, fuzzy
+msgid "Estimated transaction fee:"
+msgstr "Geschätzte Transaktionsgebühr:"
+
+#: src/common/getTextConsts.js:17
+msgid "SEND"
+msgstr "SENDEN"
+
+#: src/common/getTextConsts.js:18
+#, fuzzy
+msgid "ADD RECIPIENT"
+msgstr "EMPFÄNGER HINZUFÜGEN"
+
+#: src/common/getTextConsts.js:19
+#, fuzzy
+msgid "total cost:"
+msgstr "gesamtkosten:"
+
+#: src/common/getTextConsts.js:20
+#, fuzzy
+msgid "Address is not valid!"
+msgstr "Adresse ist nicht gültig!"
+
+#: src/common/getTextConsts.js:21
+#, fuzzy
+msgid "RECEIVE"
+msgstr "Erhalte"
+
+#: src/common/setup/CreateAccount.js:36 src/common/setup/ImportAccount.js:39
 #, fuzzy
 msgid "Wallet Name"
 msgstr "Nam der Wallet"
 
-#: common/setup/CreateAccount.js:37 common/setup/ImportAccount.js:40
+#: src/common/setup/CreateAccount.js:37 src/common/setup/ImportAccount.js:40
 #, fuzzy
 msgid "Password"
-msgstr "Passwort"
+msgstr "Bitte Passwort eingeben"
 
-#: common/setup/CreateAccount.js:38 common/setup/ImportAccount.js:41
+#: src/common/setup/CreateAccount.js:38 src/common/setup/ImportAccount.js:41
 msgid "Repeat Password"
 msgstr "Passwort wiederholen"
 
-#: common/setup/CreateAccount.js:88
+#: src/common/setup/CreateAccount.js:88
 #, fuzzy
 msgid "Create a new CPH wallet"
 msgstr "Erstellen Sie eine neue CPH-Wallet"
 
-#: common/setup/CreateAccount.js:145 common/setup/CreateAccount.js:173
+#: src/common/setup/CreateAccount.js:145 src/common/setup/CreateAccount.js:173
 msgid "Continue"
 msgstr "Weiter"
 
-#: common/setup/CreateAccount.js:196
+#: src/common/setup/CreateAccount.js:196
 #, fuzzy
 msgid "Please click the mnemonics by original order"
 msgstr "Bitte klicken Sie die Mnemonics in der ursprünglichen Reihenfolge an"
 
-#: common/setup/CreateAccount.js:217
+#: src/common/setup/CreateAccount.js:217
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: common/setup/CreateAccount.js:226 renderer/settings/settings-content.js:45
+#: src/common/setup/CreateAccount.js:226
+#: src/renderer/settings/settings-content.js:45
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: common/setup/CreateAccount.js:319 common/setup/ImportAccount.js:556
+#: src/common/setup/CreateAccount.js:319 src/common/setup/ImportAccount.js:556
 #, fuzzy
 msgid "Please enter a wallet name"
 msgstr "Bitte geben Sie einen Walletnamen ein"
 
-#: common/setup/CreateAccount.js:322 common/setup/ImportAccount.js:360
+#: src/common/setup/CreateAccount.js:322 src/common/setup/ImportAccount.js:360
 msgid "Please enter a password"
 msgstr "Bitte Passwort eingeben"
 
-#: common/setup/CreateAccount.js:325 common/setup/ImportAccount.js:363
+#: src/common/setup/CreateAccount.js:325 src/common/setup/ImportAccount.js:363
 #, fuzzy
 msgid "Password is too short enter a minimum of 8 characters."
 msgstr "Passwort ist zu kurz, bitte geben Sie mindestens 8 Zeichen ein."
 
-#: common/setup/CreateAccount.js:328 common/setup/ImportAccount.js:366
+#: src/common/setup/CreateAccount.js:328 src/common/setup/ImportAccount.js:366
 msgid "Passwords do not match"
 msgstr "Passwörter stimmen nicht überein"
 
-#: common/setup/CreateAccount.js:367
+#: src/common/setup/CreateAccount.js:367
 #, fuzzy
 msgid "mnemonic does not match please try again"
 msgstr "mnemonic stimmt nicht überein, bitte versuchen Sie es erneut"
 
-#: common/setup/ImportAccount.js:36
+#: src/common/setup/ImportAccount.js:36
 #, fuzzy
 msgid "Please enter your mnemonics in original order, seperated by spaces."
 msgstr ""
 "Bitte geben Sie Ihre Mnemonics in Originalreihenfolge, durch Leerzeichen "
 "getrennt, ein."
 
-#: common/setup/ImportAccount.js:37
+#: src/common/setup/ImportAccount.js:37
 #, fuzzy
 msgid "Please enter your private key."
 msgstr "Bitte geben Sie Ihren privaten Schlüssel ein."
 
-#: common/setup/ImportAccount.js:38
+#: src/common/setup/ImportAccount.js:38
 #, fuzzy
 msgid ""
 "Please enter any address to create a testing account. Preferably use one "
@@ -224,218 +274,213 @@ msgstr ""
 "Bitte geben Sie eine beliebige Adresse ein, um ein Testkonto zu erstellen. "
 "Verwenden Sie vorzugsweise eines mit vielen Transaktionen."
 
-#: common/setup/ImportAccount.js:46
+#: src/common/setup/ImportAccount.js:46
 #, fuzzy
 msgid "mnemonic"
 msgstr "mnemonic"
 
-#: common/setup/ImportAccount.js:47
+#: src/common/setup/ImportAccount.js:47
 #, fuzzy
 msgid "private key"
 msgstr "privater Schlüssel"
 
-#: common/setup/ImportAccount.js:48
+#: src/common/setup/ImportAccount.js:48
 msgid "testing"
 msgstr "Testvorgang"
 
-#: common/setup/ImportAccount.js:217 common/setup/ImportAccount.js:293
-#: common/setup/ImportAccount.js:332 renderer/setup.js:104
+#: src/common/setup/ImportAccount.js:217 src/common/setup/ImportAccount.js:293
+#: src/common/setup/ImportAccount.js:332 src/renderer/setup.js:104
 msgid "Import"
 msgstr "Importieren"
 
-#: common/setup/ImportAccount.js:514
+#: src/common/setup/ImportAccount.js:514
 #, fuzzy
 msgid "Please enter a mnemonic"
 msgstr "Bitte geben Sie einen Mnemonic ein"
 
-#: common/setup/ImportAccount.js:521
+#: src/common/setup/ImportAccount.js:521
 #, fuzzy
 msgid "Mnemonic length is too short"
 msgstr "Mnemonic Eingabe zu zu kurz"
 
-#: common/setup/ImportAccount.js:528
+#: src/common/setup/ImportAccount.js:528
 #, fuzzy
 msgid "Invalid mnemonic"
 msgstr "Ungültiger Mnemonic"
 
-#: common/setup/ImportAccount.js:538
+#: src/common/setup/ImportAccount.js:538
 #, fuzzy
 msgid "Please enter a private key"
 msgstr "Bitte geben Sie einen privaten Schlüssel ein"
 
-#: common/setup/ImportAccount.js:542
+#: src/common/setup/ImportAccount.js:542
 #, fuzzy
 msgid "The length of PrivateKey must be 128"
 msgstr "Die Länge des PrivateKey muss 128 Zeichen betragen"
 
-#: common/setup/ImportAccount.js:546
+#: src/common/setup/ImportAccount.js:546
 #, fuzzy
 msgid "Invalid private key"
 msgstr "Ungültiger privater Schlüssel"
 
-#: common/setup/ImportAccount.js:563
+#: src/common/setup/ImportAccount.js:563
 #, fuzzy
 msgid "Please enter a unique wallet name"
 msgstr "Bitte geben Sie einen eindeutigen Walletnamen ein"
 
-#: common/setup/ImportAccount.js:577
+#: src/common/setup/ImportAccount.js:577
 msgid "Please enter an address"
 msgstr "Bitte geben Sie eine Empfangsadresse ein"
 
-#: common/setup/ImportAccount.js:583
+#: src/common/setup/ImportAccount.js:583
 #, fuzzy
 msgid "The address you enetered is not valid. Please enter a valid address."
 msgstr ""
 "Die von Ihnen eingegebene Adresse ist nicht gültig. Bitte geben Sie eine "
 "gültige Adresse ein."
 
-#: renderer/addresses/addresses.js:34
+#: src/renderer/addresses/addresses.js:34
 msgid "Addresses"
 msgstr "Adressen"
 
-#: renderer/masternodes/masternodes-content.js:77
+#: src/renderer/masternodes/masternodes-content.js:77
 msgid "REFRESH"
 msgstr "NEU LADEN"
 
-#: renderer/masternodes/masternodes-content.js:78
+#: src/renderer/masternodes/masternodes-content.js:78
 #, fuzzy
 msgid "START MISSING"
 msgstr "START VERMISST"
 
-#: renderer/masternodes/masternodes-content.js:79
+#: src/renderer/masternodes/masternodes-content.js:79
 #, fuzzy
 msgid "START ALL"
 msgstr "ALLE STARTEN"
 
-#: renderer/masternodes/masternodes-content.js:80
+#: src/renderer/masternodes/masternodes-content.js:80
 msgid "CREATE"
 msgstr "HINZUFÜGEN"
 
-#: renderer/masternodes/masternodes.js:33
+#: src/renderer/masternodes/masternodes.js:33
 #, fuzzy
 msgid "Masternodes"
 msgstr "Masternodes"
 
-#: renderer/mywallet/mywallet-content.js:254
+#: src/renderer/mywallet/mywallet-content.js:246
 msgid "Follow us"
 msgstr "Folgen Sie uns"
 
-#: renderer/mywallet/mywallet-content.js:273
+#: src/renderer/mywallet/mywallet-content.js:265
 #, fuzzy
 msgid "Join discord"
 msgstr "Discord beitreten"
 
-#: renderer/mywallet/mywallet-content.js:291
+#: src/renderer/mywallet/mywallet-content.js:283
 #, fuzzy
 msgid "Join telegram"
 msgstr "Telegramm beitreten"
 
-#: renderer/mywallet/mywallet.js:34
+#: src/renderer/mywallet/mywallet.js:34
 msgid "Wallet"
 msgstr "Wallet"
 
-#: renderer/receive/receive-content.js:39
+#: src/renderer/receive/receive-content.js:40
 #, fuzzy
 msgid "View On Explorer"
 msgstr "Ansicht im Explorer"
 
-#: renderer/receive/receive.js:37
-#, fuzzy
-msgid "RECEIVE"
-msgstr "RECEIVE"
-
-#: renderer/settings/settings-content.js:47
+#: src/renderer/settings/settings-content.js:47
 #, fuzzy
 msgid "Dump wallet for"
 msgstr "Ablage-Wallet für"
 
-#: renderer/settings/settings-content.js:48
+#: src/renderer/settings/settings-content.js:48
 #, fuzzy
 msgid "Backup wallet.dat for"
 msgstr "Sichern Sie die Speicherdatei 'wallet.dat' für"
 
-#: renderer/settings/settings-content.js:110
+#: src/renderer/settings/settings-content.js:110
 #, fuzzy
 msgid "This wallet is developed and maintained by a third party "
 msgstr "Diese Brieftasche wird von einem Drittanbieter entwickelt und gewartet"
 
-#: renderer/settings/settings-content.js:111
+#: src/renderer/settings/settings-content.js:111
 #, fuzzy
 msgid "We are in no way affiliated with the Cypherium team or organization. "
 msgstr ""
 "Wir sind in keiner Weise mit dem Team oder der Organisation von Cypherium "
 "verbunden"
 
-#: renderer/settings/settings-content.js:112
+#: src/renderer/settings/settings-content.js:112
 #, fuzzy
 msgid "For support please visit the"
 msgstr "Für Unterstützung besuchen Sie bitte die"
 
-#: renderer/settings/settings-content.js:112
+#: src/renderer/settings/settings-content.js:112
 #, fuzzy
 msgid "server "
 msgstr "server"
 
-#: renderer/settings/settings-content.js:113
+#: src/renderer/settings/settings-content.js:113
 #, fuzzy
 msgid "and report any issues you may find to "
 msgstr "und melden Sie alle Probleme, die Sie finden, an"
 
-#: renderer/settings/settings-content.js:129
+#: src/renderer/settings/settings-content.js:129
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: renderer/settings/settings-content.js:135
+#: src/renderer/settings/settings-content.js:135
 #, fuzzy
 msgid "Encrypt Wallet"
 msgstr "Wallet verschlüsseln"
 
-#: renderer/settings/settings-content.js:145
+#: src/renderer/settings/settings-content.js:145
 #, fuzzy
 msgid "Combine Rewards"
 msgstr "Belohnungen kombinieren"
 
-#: renderer/settings/settings-content.js:152
+#: src/renderer/settings/settings-content.js:152
 #, fuzzy
 msgid "Stake Split Threshold"
 msgstr "Schwellenwert für Pfahlteilung"
 
-#: renderer/settings/settings-content.js:159
+#: src/renderer/settings/settings-content.js:159
 #, fuzzy
 msgid "Backup Wallet"
 msgstr "Backup-Geldbörse"
 
-#: renderer/settings/settings-content.js:163
+#: src/renderer/settings/settings-content.js:163
 #, fuzzy
 msgid "Dump Wallet"
 msgstr "Dump Brieftasche"
 
-#: renderer/settings/settings-content.js:167
+#: src/renderer/settings/settings-content.js:167
 #, fuzzy
 msgid "Import Wallet"
 msgstr "Brieftasche importieren"
 
-#: renderer/settings/settings-content.js:171
+#: src/renderer/settings/settings-content.js:171
 #, fuzzy
 msgid "Open Config"
 msgstr "Konfigurationsdatei öffnen"
 
-#: renderer/settings/settings-content.js:175
+#: src/renderer/settings/settings-content.js:175
 #, fuzzy
 msgid "Open Masternode Config"
 msgstr "Masternode-Konfiguration öffnen"
 
-#: renderer/settings/settings-content.js:188
+#: src/renderer/settings/settings-content.js:188
 #, fuzzy
 msgid "Passphrases do not match!"
 msgstr "Die Passphrasen stimmen nicht überein!"
 
-#: renderer/settings/settings-content.js:222
+#: src/renderer/settings/settings-content.js:222
 #, fuzzy
 msgid "Enter a passphrase for the wallet."
 msgstr "Geben Sie eine Passphrase für die Wallet ein."
 
-#: renderer/settings/settings-content.js:223
+#: src/renderer/settings/settings-content.js:223
 #, fuzzy
 msgid ""
 "Please use a passphrase of 10 or more random characters or a minimum of 8 "
@@ -444,28 +489,28 @@ msgstr ""
 "Bitte verwenden Sie eine Passphrase mit mindestens 10 zufälligen Zeichen "
 "oder mindestens 8 zufälligen Wörtern."
 
-#: renderer/settings/settings-content.js:224
+#: src/renderer/settings/settings-content.js:224
 #, fuzzy
 msgid "After confirming your wallet will be encrypted then auto restarted."
 msgstr ""
 "Nach dem Bestätigen wird Ihre Brieftasche verschlüsselt und dann automatisch "
 "neu gestartet."
 
-#: renderer/settings/settings-content.js:227
+#: src/renderer/settings/settings-content.js:227
 msgid "Passphrase"
 msgstr "Passphrase"
 
-#: renderer/settings/settings-content.js:234
+#: src/renderer/settings/settings-content.js:234
 #, fuzzy
 msgid "Repeat Passphrase"
 msgstr "Wiederholung der Passphrase"
 
-#: renderer/settings/settings-content.js:263
+#: src/renderer/settings/settings-content.js:263
 #, fuzzy
 msgid "Enter a threshold amount."
 msgstr "Geben Sie einen Schwellenwertbetrag ein."
 
-#: renderer/settings/settings-content.js:265
+#: src/renderer/settings/settings-content.js:265
 #, fuzzy
 msgid ""
 "The wallet will automatically monitor for any coins with a value below the "
@@ -475,7 +520,7 @@ msgstr ""
 "Schwellenwert liegt, und kombiniert sie, wenn sie sich in derselben Adresse "
 "befinden."
 
-#: renderer/settings/settings-content.js:267
+#: src/renderer/settings/settings-content.js:267
 #, fuzzy
 msgid ""
 "When combine rewards runs it will create a transaction, and therefore will "
@@ -484,42 +529,42 @@ msgstr ""
 "Beim Kombinieren von Rewards wird eine Transaktion erzeugt, für die daher "
 "Transaktionsgebühren anfallen."
 
-#: renderer/settings/settings-content.js:270
+#: src/renderer/settings/settings-content.js:270
 #, fuzzy
 msgid "Threshold amount"
 msgstr "Schwellenwert"
 
-#: renderer/settings/settings-content.js:368
+#: src/renderer/settings/settings-content.js:368
 #, fuzzy
 msgid "Saved backup of wallet.dat"
 msgstr "Gespeicherte Sicherung von wallet.dat"
 
-#: renderer/settings/settings-content.js:378
+#: src/renderer/settings/settings-content.js:378
 #, fuzzy
 msgid "Successfuly dumped private keys"
 msgstr "Erfolgreich gedumpte private Schlüssel"
 
-#: renderer/settings/settings-content.js:391
+#: src/renderer/settings/settings-content.js:391
 #, fuzzy
 msgid "Please enter a stake split amount!"
 msgstr "Bitte geben Sie einen Einsatzsplitbetrag ein!"
 
-#: renderer/settings/settings-content.js:441
+#: src/renderer/settings/settings-content.js:441
 #, fuzzy
 msgid "Combine rewards enabled"
 msgstr "Kombinieren von Belohnungen aktiviert"
 
-#: renderer/settings/settings-content.js:450
+#: src/renderer/settings/settings-content.js:450
 #, fuzzy
 msgid "Import wallet .txt"
 msgstr "Brieftasche importieren .txt"
 
-#: renderer/settings/settings-content.js:463
+#: src/renderer/settings/settings-content.js:463
 #, fuzzy
 msgid "Successfuly imported private keys"
 msgstr "Erfolgreich importierte private Schlüssel"
 
-#: renderer/setup.js:39
+#: src/renderer/setup.js:39
 #, fuzzy
 msgid ""
 "It appears this is the first time you are starting up the wallet. You can "
@@ -528,7 +573,7 @@ msgstr ""
 "Es scheint, dass Sie die Wallet zum ersten Mal starten. Sie können entweder "
 "ein neues Konto erstellen oder von Ihren Schlüsseln importieren."
 
-#: renderer/setup.js:40
+#: src/renderer/setup.js:40
 #, fuzzy
 msgid ""
 "Please select an option below to either import or create another wallet. "
@@ -537,22 +582,21 @@ msgstr ""
 "Bitte wählen Sie unten eine Option, um entweder eine andere Wallet zu "
 "importieren oder zu erstellen. Dies wird Ihre aktuelle Wallet nicht ersetzen."
 
-#: renderer/setup.js:112
+#: src/renderer/setup.js:112
 msgid "Create"
 msgstr "Erstellen"
 
-#: renderer/transactions/transactions.js:33
+#: src/renderer/transactions/transactions.js:33
 msgid "Transactions"
 msgstr "Transaktionen"
 
-#: renderer/warning/warning.js:67
+#: src/renderer/warning/warning.js:67
 msgid "Update"
 msgstr "Aktualisieren"
 
-#: renderer/warning/warning.js:71
+#: src/renderer/warning/warning.js:71
 msgid "Info"
 msgstr "Info"
 
-#, fuzzy
-#~ msgid "Successfully sent to many"
-#~ msgstr "erfolgreich an mehrere Empfänger gesendet"
+#~ msgid "CANCEL"
+#~ msgstr "ABBRECHEN"

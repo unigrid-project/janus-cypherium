@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-01-22 16:29+0200\n"
-"PO-Revision-Date: 2021-01-22 16:59+0200\n"
+"POT-Creation-Date: 2021-01-24 17:41+0200\n"
+"PO-Revision-Date: 2021-01-24 17:47+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fa\n"
@@ -14,114 +14,114 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: common/components/Accounts.js:38
+#: src/common/components/Accounts.js:37
 #, fuzzy
 msgid "remove account from wallet"
 msgstr "حذف حساب از کیف پول"
 
-#: common/components/Accounts.js:39 common/components/Transaction.js:35
-#: renderer/mywallet/mywallet-content.js:73
+#: src/common/components/Accounts.js:38 src/common/components/Transaction.js:35
 #, fuzzy
 msgid "view in explorer"
 msgstr "مشاهده در کاوشگر"
 
-#: common/components/Accounts.js:40 renderer/receive/receive-content.js:38
+#: src/common/components/Accounts.js:39
+#: src/renderer/receive/receive-content.js:39
 msgid "copy to clipboard"
 msgstr "کپی"
 
-#: common/components/CreateAccountButton.js:30
+#: src/common/components/CreateAccountButton.js:30
 #, fuzzy
 msgid "Create/Import"
 msgstr "ایجاد / وارد کردن"
 
-#: common/components/Send.js:42
+#: src/common/components/Send.js:43
 msgid "Successfully sent"
 msgstr "با موفقیت ارسال شد"
 
-#: common/components/Send.js:43
+#: src/common/components/Send.js:44
 msgid "to"
 msgstr "به"
 
-#: common/components/Send.js:78 renderer/mywallet/mywallet-content.js:142
-msgid "SEND"
-msgstr "ارسال"
+#: src/common/components/Send.js:201
+#, fuzzy
+msgid "Successfully sent to many"
+msgstr "با موفقیت برای بسیاری ارسال شد"
 
-#: common/components/Send.js:82
-msgid "CANCEL"
-msgstr "لغو"
-
-#: common/components/Transaction.js:305
+#: src/common/components/Transaction.js:305 src/renderer/send/send-navbar.js:33
 msgid "Send"
 msgstr "ارسال"
 
-#: common/components/Transaction.js:307 renderer/receive/receive-navbar.js:34
+#: src/common/components/Transaction.js:307
+#: src/renderer/receive/receive-navbar.js:34
 msgid "Receive"
 msgstr "دریافت"
 
-#: common/components/UnlockWallet.js:37
+#: src/common/components/UnlockWallet.js:36
 #, fuzzy
 msgid "Unlock wallet to remove "
 msgstr "قفل کیف پول را باز کنید تا بردارید"
 
-#: common/components/UnlockWallet.js:38
+#: src/common/components/UnlockWallet.js:37
 #, fuzzy
 msgid " from stored keys"
 msgstr " از کلیدهای ذخیره شده"
 
-#: common/components/UnlockWallet.js:59
+#: src/common/components/UnlockWallet.js:58
 #, fuzzy
 msgid "Unlock wallet for transactions"
 msgstr "قفل کیف پول برای معاملات را باز کنید"
 
-#: common/components/UnlockWallet.js:63 common/components/UnlockWallet.js:67
+#: src/common/components/UnlockWallet.js:62
+#: src/common/components/UnlockWallet.js:66
 #, fuzzy
 msgid "Unlock wallet for maintenance"
 msgstr "قفل کیف پول را برای نگهداری باز کنید"
 
-#: common/components/UnlockWallet.js:71 common/components/UnlockWallet.js:75
-#: common/components/UnlockWallet.js:80
+#: src/common/components/UnlockWallet.js:70
+#: src/common/components/UnlockWallet.js:74
+#: src/common/components/UnlockWallet.js:79
 #, fuzzy
 msgid "Unlock wallet for masternodes"
 msgstr "قفل کیف پول برای masternodes را باز کنید"
 
-#: common/components/UnlockWallet.js:92
+#: src/common/components/UnlockWallet.js:91
 #, fuzzy
 msgid "Unlock wallet for export"
 msgstr "قفل کیف پول را برای جمع کردن باز کنید"
 
-#: common/components/UnlockWallet.js:97
+#: src/common/components/UnlockWallet.js:96
 #, fuzzy
 msgid "Unlock wallet for staking"
 msgstr "قفل کیف پول را برای جمع کردن باز کنید"
 
-#: common/getTextConsts.js:3
+#: src/common/getTextConsts.js:3
 #, fuzzy
 msgid "copied to clipboard"
 msgstr "در کلیپ بورد کپی شد"
 
-#: common/getTextConsts.js:4
+#: src/common/getTextConsts.js:4
 #, fuzzy
 msgid "Export Private Keys"
 msgstr "صادر کردن کلیدهای خصوصی"
 
-#: common/getTextConsts.js:5
+#: src/common/getTextConsts.js:5
 msgid "Change Default Language"
 msgstr "تغییر زبان پیش‌فرض"
 
-#: common/getTextConsts.js:6
+#: src/common/getTextConsts.js:6
 msgid "Unlock"
 msgstr "باز کردن"
 
-#: common/getTextConsts.js:7 renderer/settings/settings-content.js:46
-#: renderer/warning/warning.js:75
+#: src/common/getTextConsts.js:7 src/renderer/settings/settings-content.js:46
+#: src/renderer/warning/warning.js:75
 msgid "Cancel"
 msgstr "لغو"
 
-#: common/getTextConsts.js:8
+#: src/common/getTextConsts.js:8
 msgid "Block"
 msgstr "بلوک"
 
-#: common/getTextConsts.js:9
+#: src/common/getTextConsts.js:9
 #, fuzzy
 msgid ""
 "This mnemonic phrase is uniquely generated, and grants you access to your "
@@ -137,81 +137,131 @@ msgstr ""
 "تیم Janus در صورت از دست دادن عبارت ضمنی خود ، نمی تواند وجوه شما را بازیابی "
 "کند."
 
-#: common/getTextConsts.js:10
+#: src/common/getTextConsts.js:10
 #, fuzzy
 msgid "Passphrase Error!"
 msgstr "خطای رمز عبور!"
 
-#: common/setup/CreateAccount.js:36 common/setup/ImportAccount.js:39
+#: src/common/getTextConsts.js:11
+msgid "MAX"
+msgstr "حداکثر"
+
+#: src/common/getTextConsts.js:12
+msgid "Address"
+msgstr "آدرس"
+
+#: src/common/getTextConsts.js:13
+msgid "Amount"
+msgstr "مقدار"
+
+#: src/common/getTextConsts.js:14
+msgid "fast"
+msgstr "سریع"
+
+#: src/common/getTextConsts.js:15
+msgid "slow"
+msgstr "آرام"
+
+#: src/common/getTextConsts.js:16
+#, fuzzy
+msgid "Estimated transaction fee:"
+msgstr "هزینه معاملات تخمینی:"
+
+#: src/common/getTextConsts.js:17
+msgid "SEND"
+msgstr "ارسال"
+
+#: src/common/getTextConsts.js:18
+#, fuzzy
+msgid "ADD RECIPIENT"
+msgstr "افزودن گیرنده"
+
+#: src/common/getTextConsts.js:19
+#, fuzzy
+msgid "total cost:"
+msgstr "هزینه کل:"
+
+#: src/common/getTextConsts.js:20
+#, fuzzy
+msgid "Address is not valid!"
+msgstr "آدرس معتبر نیست!"
+
+#: src/common/getTextConsts.js:21
+#, fuzzy
+msgid "RECEIVE"
+msgstr "دریافت"
+
+#: src/common/setup/CreateAccount.js:36 src/common/setup/ImportAccount.js:39
 #, fuzzy
 msgid "Wallet Name"
 msgstr "نام کیف پول"
 
-#: common/setup/CreateAccount.js:37 common/setup/ImportAccount.js:40
+#: src/common/setup/CreateAccount.js:37 src/common/setup/ImportAccount.js:40
 msgid "Password"
 msgstr "رمز عبور"
 
-#: common/setup/CreateAccount.js:38 common/setup/ImportAccount.js:41
+#: src/common/setup/CreateAccount.js:38 src/common/setup/ImportAccount.js:41
 msgid "Repeat Password"
 msgstr "تکرار رمز عبور"
 
-#: common/setup/CreateAccount.js:88
+#: src/common/setup/CreateAccount.js:88
 #, fuzzy
 msgid "Create a new CPH wallet"
 msgstr "کیف پول CPH جدید ایجاد کنید"
 
-#: common/setup/CreateAccount.js:145 common/setup/CreateAccount.js:173
+#: src/common/setup/CreateAccount.js:145 src/common/setup/CreateAccount.js:173
 msgid "Continue"
 msgstr "ادامه"
 
-#: common/setup/CreateAccount.js:196
+#: src/common/setup/CreateAccount.js:196
 #, fuzzy
 msgid "Please click the mnemonics by original order"
 msgstr "لطفاً mnemonics را با سفارش اصلی کلیک کنید"
 
-#: common/setup/CreateAccount.js:217
+#: src/common/setup/CreateAccount.js:217
 msgid "Reset"
 msgstr "تنظیم مجدد"
 
-#: common/setup/CreateAccount.js:226 renderer/settings/settings-content.js:45
+#: src/common/setup/CreateAccount.js:226
+#: src/renderer/settings/settings-content.js:45
 msgid "Confirm"
 msgstr "تایید"
 
-#: common/setup/CreateAccount.js:319 common/setup/ImportAccount.js:556
+#: src/common/setup/CreateAccount.js:319 src/common/setup/ImportAccount.js:556
 #, fuzzy
 msgid "Please enter a wallet name"
 msgstr "لطفاً یک نام کیف پول وارد کنید"
 
-#: common/setup/CreateAccount.js:322 common/setup/ImportAccount.js:360
+#: src/common/setup/CreateAccount.js:322 src/common/setup/ImportAccount.js:360
 msgid "Please enter a password"
 msgstr "لطفاً یک رمز عبور وارد کنید"
 
-#: common/setup/CreateAccount.js:325 common/setup/ImportAccount.js:363
+#: src/common/setup/CreateAccount.js:325 src/common/setup/ImportAccount.js:363
 #, fuzzy
 msgid "Password is too short enter a minimum of 8 characters."
 msgstr "گذرواژه خیلی کوتاه است حداقل 8 حرف وارد کنید."
 
-#: common/setup/CreateAccount.js:328 common/setup/ImportAccount.js:366
+#: src/common/setup/CreateAccount.js:328 src/common/setup/ImportAccount.js:366
 msgid "Passwords do not match"
 msgstr "رمزهای ورود مطابقت ندارند"
 
-#: common/setup/CreateAccount.js:367
+#: src/common/setup/CreateAccount.js:367
 #, fuzzy
 msgid "mnemonic does not match please try again"
 msgstr "mnemonic مطابقت ندارد لطفا دوباره امتحان کنید"
 
-#: common/setup/ImportAccount.js:36
+#: src/common/setup/ImportAccount.js:36
 #, fuzzy
 msgid "Please enter your mnemonics in original order, seperated by spaces."
 msgstr ""
 "لطفاً اطلاعات تفکیک شده خود را با تفکیک فضاها ، به ترتیب اصلی وارد کنید."
 
-#: common/setup/ImportAccount.js:37
+#: src/common/setup/ImportAccount.js:37
 #, fuzzy
 msgid "Please enter your private key."
 msgstr "لطفاً کلید خصوصی خود را وارد کنید."
 
-#: common/setup/ImportAccount.js:38
+#: src/common/setup/ImportAccount.js:38
 #, fuzzy
 msgid ""
 "Please enter any address to create a testing account. Preferably use one "
@@ -220,216 +270,211 @@ msgstr ""
 "لطفاً برای ایجاد یک حساب آزمایشی هر آدرسی را وارد کنید. ترجیحاً از یک معامله "
 "زیاد استفاده کنید."
 
-#: common/setup/ImportAccount.js:46
+#: src/common/setup/ImportAccount.js:46
 #, fuzzy
 msgid "mnemonic"
 msgstr "حفظی"
 
-#: common/setup/ImportAccount.js:47
+#: src/common/setup/ImportAccount.js:47
 #, fuzzy
 msgid "private key"
 msgstr "کلید خصوصی"
 
-#: common/setup/ImportAccount.js:48
+#: src/common/setup/ImportAccount.js:48
 #, fuzzy
 msgid "testing"
 msgstr "آزمایش کردن"
 
-#: common/setup/ImportAccount.js:217 common/setup/ImportAccount.js:293
-#: common/setup/ImportAccount.js:332 renderer/setup.js:104
+#: src/common/setup/ImportAccount.js:217 src/common/setup/ImportAccount.js:293
+#: src/common/setup/ImportAccount.js:332 src/renderer/setup.js:104
 msgid "Import"
 msgstr "درون ریزی"
 
-#: common/setup/ImportAccount.js:514
+#: src/common/setup/ImportAccount.js:514
 #, fuzzy
 msgid "Please enter a mnemonic"
 msgstr "لطفاً یک یادداشت وارد کنید"
 
-#: common/setup/ImportAccount.js:521
+#: src/common/setup/ImportAccount.js:521
 #, fuzzy
 msgid "Mnemonic length is too short"
 msgstr "طول منمونیک خیلی کوتاه است"
 
-#: common/setup/ImportAccount.js:528
+#: src/common/setup/ImportAccount.js:528
 #, fuzzy
 msgid "Invalid mnemonic"
 msgstr "یادداشت نامعتبر است"
 
-#: common/setup/ImportAccount.js:538
+#: src/common/setup/ImportAccount.js:538
 #, fuzzy
 msgid "Please enter a private key"
 msgstr "لطفاً یک کلید خصوصی وارد کنید"
 
-#: common/setup/ImportAccount.js:542
+#: src/common/setup/ImportAccount.js:542
 #, fuzzy
 msgid "The length of PrivateKey must be 128"
 msgstr "طول PrivateKey باید 128 باشد"
 
-#: common/setup/ImportAccount.js:546
+#: src/common/setup/ImportAccount.js:546
 #, fuzzy
 msgid "Invalid private key"
 msgstr "کلید خصوصی نامعتبر است"
 
-#: common/setup/ImportAccount.js:563
+#: src/common/setup/ImportAccount.js:563
 #, fuzzy
 msgid "Please enter a unique wallet name"
 msgstr "لطفاً یک نام کیف پول منحصر به فرد وارد کنید"
 
-#: common/setup/ImportAccount.js:577
+#: src/common/setup/ImportAccount.js:577
 msgid "Please enter an address"
 msgstr "خواهشمند است یک آدرس وارد نمایید"
 
-#: common/setup/ImportAccount.js:583
+#: src/common/setup/ImportAccount.js:583
 #, fuzzy
 msgid "The address you enetered is not valid. Please enter a valid address."
 msgstr "آدرسی که وارد کرده اید معتبر نیست. لطفا یک آدرس معتبر وارد کنید."
 
-#: renderer/addresses/addresses.js:34
+#: src/renderer/addresses/addresses.js:34
 msgid "Addresses"
 msgstr "آدرس ها"
 
-#: renderer/masternodes/masternodes-content.js:77
+#: src/renderer/masternodes/masternodes-content.js:77
 #, fuzzy
 msgid "REFRESH"
 msgstr "تازه کردن"
 
-#: renderer/masternodes/masternodes-content.js:78
+#: src/renderer/masternodes/masternodes-content.js:78
 #, fuzzy
 msgid "START MISSING"
 msgstr "شروع به گم کردن کنید"
 
-#: renderer/masternodes/masternodes-content.js:79
+#: src/renderer/masternodes/masternodes-content.js:79
 #, fuzzy
 msgid "START ALL"
 msgstr "همه را شروع کنید"
 
-#: renderer/masternodes/masternodes-content.js:80
+#: src/renderer/masternodes/masternodes-content.js:80
 msgid "CREATE"
 msgstr "ایجاد "
 
-#: renderer/masternodes/masternodes.js:33
+#: src/renderer/masternodes/masternodes.js:33
 #, fuzzy
 msgid "Masternodes"
 msgstr "Masternodes"
 
-#: renderer/mywallet/mywallet-content.js:254
+#: src/renderer/mywallet/mywallet-content.js:246
 msgid "Follow us"
 msgstr "ما را دنبال کنید"
 
-#: renderer/mywallet/mywallet-content.js:273
+#: src/renderer/mywallet/mywallet-content.js:265
 #, fuzzy
 msgid "Join discord"
 msgstr "به اختلافات بپیوندید"
 
-#: renderer/mywallet/mywallet-content.js:291
+#: src/renderer/mywallet/mywallet-content.js:283
 #, fuzzy
 msgid "Join telegram"
 msgstr "به تلگرام بپیوندید"
 
-#: renderer/mywallet/mywallet.js:34
+#: src/renderer/mywallet/mywallet.js:34
 msgid "Wallet"
 msgstr "کیف پول"
 
-#: renderer/receive/receive-content.js:39
+#: src/renderer/receive/receive-content.js:40
 #, fuzzy
 msgid "View On Explorer"
 msgstr "مشاهده در Explorer"
 
-#: renderer/receive/receive.js:37
-#, fuzzy
-msgid "RECEIVE"
-msgstr "دريافت كردن"
-
-#: renderer/settings/settings-content.js:47
+#: src/renderer/settings/settings-content.js:47
 #, fuzzy
 msgid "Dump wallet for"
 msgstr "تخلیه کیف پول برای"
 
-#: renderer/settings/settings-content.js:48
+#: src/renderer/settings/settings-content.js:48
 #, fuzzy
 msgid "Backup wallet.dat for"
 msgstr "wallet.dat برای"
 
-#: renderer/settings/settings-content.js:110
+#: src/renderer/settings/settings-content.js:110
 #, fuzzy
 msgid "This wallet is developed and maintained by a third party "
 msgstr "این کیف پول توسط شخص ثالث تولید و نگهداری می شود"
 
-#: renderer/settings/settings-content.js:111
+#: src/renderer/settings/settings-content.js:111
 #, fuzzy
 msgid "We are in no way affiliated with the Cypherium team or organization. "
 msgstr "ما به هیچ وجه به تیم یا سازمان سایفریم وابسته نیستیم."
 
-#: renderer/settings/settings-content.js:112
+#: src/renderer/settings/settings-content.js:112
 #, fuzzy
 msgid "For support please visit the"
 msgstr "برای پشتیبانی لطفا به"
 
-#: renderer/settings/settings-content.js:112
+#: src/renderer/settings/settings-content.js:112
 #, fuzzy
 msgid "server "
 msgstr "سرور"
 
-#: renderer/settings/settings-content.js:113
+#: src/renderer/settings/settings-content.js:113
 #, fuzzy
 msgid "and report any issues you may find to "
 msgstr "و مواردی را که ممکن است پیدا کنید گزارش دهید"
 
-#: renderer/settings/settings-content.js:129
+#: src/renderer/settings/settings-content.js:129
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: renderer/settings/settings-content.js:135
+#: src/renderer/settings/settings-content.js:135
 #, fuzzy
 msgid "Encrypt Wallet"
 msgstr "رمزگذاری کیف پول"
 
-#: renderer/settings/settings-content.js:145
+#: src/renderer/settings/settings-content.js:145
 #, fuzzy
 msgid "Combine Rewards"
 msgstr "پاداش ها را ترکیب کنید"
 
-#: renderer/settings/settings-content.js:152
+#: src/renderer/settings/settings-content.js:152
 #, fuzzy
 msgid "Stake Split Threshold"
 msgstr "آستانه تقسیم سهام"
 
-#: renderer/settings/settings-content.js:159
+#: src/renderer/settings/settings-content.js:159
 #, fuzzy
 msgid "Backup Wallet"
 msgstr "کیف پول پشتیبان"
 
-#: renderer/settings/settings-content.js:163
+#: src/renderer/settings/settings-content.js:163
 #, fuzzy
 msgid "Dump Wallet"
 msgstr "تخلیه کیف پول"
 
-#: renderer/settings/settings-content.js:167
+#: src/renderer/settings/settings-content.js:167
 #, fuzzy
 msgid "Import Wallet"
 msgstr "وارد کردن کیف پول"
 
-#: renderer/settings/settings-content.js:171
+#: src/renderer/settings/settings-content.js:171
 #, fuzzy
 msgid "Open Config"
 msgstr "پیکربندی را باز کنید"
 
-#: renderer/settings/settings-content.js:175
+#: src/renderer/settings/settings-content.js:175
 #, fuzzy
 msgid "Open Masternode Config"
 msgstr "پیکربندی Masternode را باز کنید"
 
-#: renderer/settings/settings-content.js:188
+#: src/renderer/settings/settings-content.js:188
 #, fuzzy
 msgid "Passphrases do not match!"
 msgstr "عبارات عبور با هم مطابقت ندارند!"
 
-#: renderer/settings/settings-content.js:222
+#: src/renderer/settings/settings-content.js:222
 #, fuzzy
 msgid "Enter a passphrase for the wallet."
 msgstr "یک عبارت عبور برای کیف پول وارد کنید."
 
-#: renderer/settings/settings-content.js:223
+#: src/renderer/settings/settings-content.js:223
 #, fuzzy
 msgid ""
 "Please use a passphrase of 10 or more random characters or a minimum of 8 "
@@ -438,28 +483,28 @@ msgstr ""
 "لطفاً از عبارت عبور 10 حرف یا بیشتر تصادفی یا حداقل 8 کلمه تصادفی استفاده "
 "کنید."
 
-#: renderer/settings/settings-content.js:224
+#: src/renderer/settings/settings-content.js:224
 #, fuzzy
 msgid "After confirming your wallet will be encrypted then auto restarted."
 msgstr ""
 "پس از تأیید کیف پول شما رمزگذاری می شود و سپس خودکار دوباره راه اندازی می "
 "شود."
 
-#: renderer/settings/settings-content.js:227
+#: src/renderer/settings/settings-content.js:227
 msgid "Passphrase"
 msgstr "کلمه عبور"
 
-#: renderer/settings/settings-content.js:234
+#: src/renderer/settings/settings-content.js:234
 #, fuzzy
 msgid "Repeat Passphrase"
 msgstr "عبارت عبور را تکرار کنید"
 
-#: renderer/settings/settings-content.js:263
+#: src/renderer/settings/settings-content.js:263
 #, fuzzy
 msgid "Enter a threshold amount."
 msgstr "مقدار آستانه را وارد کنید."
 
-#: renderer/settings/settings-content.js:265
+#: src/renderer/settings/settings-content.js:265
 #, fuzzy
 msgid ""
 "The wallet will automatically monitor for any coins with a value below the "
@@ -468,7 +513,7 @@ msgstr ""
 "کیف پول به طور خودکار سکه هایی را که مقدار آنها کمتر از حد آستانه باشد ، "
 "کنترل می کند و اگر در همان آدرس باشند ، آنها را ترکیب می کند."
 
-#: renderer/settings/settings-content.js:267
+#: src/renderer/settings/settings-content.js:267
 #, fuzzy
 msgid ""
 "When combine rewards runs it will create a transaction, and therefore will "
@@ -477,41 +522,41 @@ msgstr ""
 "هنگامی که جوایز ترکیبی اجرا شود ، یک معامله ایجاد می کند و بنابراین مشمول "
 "هزینه تراکنش خواهد بود."
 
-#: renderer/settings/settings-content.js:270
+#: src/renderer/settings/settings-content.js:270
 msgid "Threshold amount"
 msgstr "مبلغ آستانه"
 
-#: renderer/settings/settings-content.js:368
+#: src/renderer/settings/settings-content.js:368
 #, fuzzy
 msgid "Saved backup of wallet.dat"
 msgstr "نسخه پشتیبان ذخیره شده از wallet.dat"
 
-#: renderer/settings/settings-content.js:378
+#: src/renderer/settings/settings-content.js:378
 #, fuzzy
 msgid "Successfuly dumped private keys"
 msgstr "کلیدهای خصوصی با موفقیت ریخته شد"
 
-#: renderer/settings/settings-content.js:391
+#: src/renderer/settings/settings-content.js:391
 #, fuzzy
 msgid "Please enter a stake split amount!"
 msgstr "لطفا مقدار تقسیم سهام را وارد کنید!"
 
-#: renderer/settings/settings-content.js:441
+#: src/renderer/settings/settings-content.js:441
 #, fuzzy
 msgid "Combine rewards enabled"
 msgstr "جایزه ها را فعال کنید"
 
-#: renderer/settings/settings-content.js:450
+#: src/renderer/settings/settings-content.js:450
 #, fuzzy
 msgid "Import wallet .txt"
 msgstr "وارد کردن کیف پول .txt"
 
-#: renderer/settings/settings-content.js:463
+#: src/renderer/settings/settings-content.js:463
 #, fuzzy
 msgid "Successfuly imported private keys"
 msgstr "کلیدهای خصوصی با موفقیت وارد شد"
 
-#: renderer/setup.js:39
+#: src/renderer/setup.js:39
 #, fuzzy
 msgid ""
 "It appears this is the first time you are starting up the wallet. You can "
@@ -520,7 +565,7 @@ msgstr ""
 "به نظر می رسد این اولین باری است که کیف پول را راه اندازی می کنید. شما می "
 "توانید یک حساب جدید ایجاد کنید یا از کلیدهای خود وارد کنید."
 
-#: renderer/setup.js:40
+#: src/renderer/setup.js:40
 #, fuzzy
 msgid ""
 "Please select an option below to either import or create another wallet. "
@@ -529,22 +574,21 @@ msgstr ""
 "لطفاً برای وارد کردن یا ایجاد کیف پول دیگری ، گزینه ای زیر را انتخاب کنید. "
 "این جایگزین کیف پول فعلی شما نخواهد شد."
 
-#: renderer/setup.js:112
+#: src/renderer/setup.js:112
 msgid "Create"
 msgstr "ایجاد"
 
-#: renderer/transactions/transactions.js:33
+#: src/renderer/transactions/transactions.js:33
 msgid "Transactions"
 msgstr "تراکنش ها"
 
-#: renderer/warning/warning.js:67
+#: src/renderer/warning/warning.js:67
 msgid "Update"
 msgstr "بروزرسانی"
 
-#: renderer/warning/warning.js:71
+#: src/renderer/warning/warning.js:71
 msgid "Info"
 msgstr "اطلاعات"
 
-#, fuzzy
-#~ msgid "Successfully sent to many"
-#~ msgstr "با موفقیت برای بسیاری ارسال شد"
+#~ msgid "CANCEL"
+#~ msgstr "لغو"

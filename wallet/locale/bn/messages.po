@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-01-22 16:29+0200\n"
-"PO-Revision-Date: 2021-01-22 16:56+0200\n"
+"POT-Creation-Date: 2021-01-24 17:41+0200\n"
+"PO-Revision-Date: 2021-01-24 17:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: bn\n"
@@ -14,104 +14,99 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: common/components/Accounts.js:38
+#: src/common/components/Accounts.js:37
 msgid "remove account from wallet"
 msgstr "মানিব্যাগ থেকে অ্যাকাউন্ট সরান"
 
-#: common/components/Accounts.js:39 common/components/Transaction.js:35
-#: renderer/mywallet/mywallet-content.js:73
+#: src/common/components/Accounts.js:38 src/common/components/Transaction.js:35
 msgid "view in explorer"
 msgstr "এক্সপ্লোরার দেখুন"
 
-#: common/components/Accounts.js:40 renderer/receive/receive-content.js:38
+#: src/common/components/Accounts.js:39 src/renderer/receive/receive-content.js:39
 msgid "copy to clipboard"
 msgstr "ক্লিপবোর্ডে অনুলিপি করুন"
 
-#: common/components/CreateAccountButton.js:30
+#: src/common/components/CreateAccountButton.js:30
 msgid "Create/Import"
 msgstr "তৈরি / আমদানি করুন"
 
-#: common/components/Send.js:42
+#: src/common/components/Send.js:43
 msgid "Successfully sent"
 msgstr "সাফল্যের সাথে প্রেরণ করা হয়েছে"
 
-#: common/components/Send.js:43
+#: src/common/components/Send.js:44
 msgid "to"
 msgstr "প্রতি"
 
-#: common/components/Send.js:78 renderer/mywallet/mywallet-content.js:142
-msgid "SEND"
-msgstr "পাঠান"
+#: src/common/components/Send.js:201
+msgid "Successfully sent to many"
+msgstr "সাফল্যের সাথে অনেকের কাছে প্রেরণ করা হয়েছে"
 
-#: common/components/Send.js:82
-msgid "CANCEL"
-msgstr "বাতিল"
-
-#: common/components/Transaction.js:305
+#: src/common/components/Transaction.js:305 src/renderer/send/send-navbar.js:33
 msgid "Send"
 msgstr "প্রেরণ"
 
-#: common/components/Transaction.js:307 renderer/receive/receive-navbar.js:34
+#: src/common/components/Transaction.js:307 src/renderer/receive/receive-navbar.js:34
 msgid "Receive"
 msgstr "প্রাপ্তি"
 
-#: common/components/UnlockWallet.js:37
+#: src/common/components/UnlockWallet.js:36
 msgid "Unlock wallet to remove "
 msgstr "অপসারণ করতে মানিব্যাগ আনলক করুন"
 
-#: common/components/UnlockWallet.js:38
+#: src/common/components/UnlockWallet.js:37
 msgid " from stored keys"
 msgstr " সঞ্চিত কী থেকে"
 
-#: common/components/UnlockWallet.js:59
+#: src/common/components/UnlockWallet.js:58
 msgid "Unlock wallet for transactions"
 msgstr "লেনদেনের জন্য ওয়ালেট আনলক করুন"
 
-#: common/components/UnlockWallet.js:63 common/components/UnlockWallet.js:67
+#: src/common/components/UnlockWallet.js:62 src/common/components/UnlockWallet.js:66
 msgid "Unlock wallet for maintenance"
 msgstr "রক্ষণাবেক্ষণের জন্য ওয়ালেট আনলক করুন"
 
-#: common/components/UnlockWallet.js:71 common/components/UnlockWallet.js:75
-#: common/components/UnlockWallet.js:80
+#: src/common/components/UnlockWallet.js:70 src/common/components/UnlockWallet.js:74
+#: src/common/components/UnlockWallet.js:79
 msgid "Unlock wallet for masternodes"
 msgstr "মাস্টারনেডগুলির জন্য ওয়ালেট আনলক করুন"
 
-#: common/components/UnlockWallet.js:92
+#: src/common/components/UnlockWallet.js:91
 #, fuzzy
 #| msgid "Unlock wallet for staking"
 msgid "Unlock wallet for export"
 msgstr "স্টেকিংয়ের জন্য ওয়ালেট আনলক করুন"
 
-#: common/components/UnlockWallet.js:97
+#: src/common/components/UnlockWallet.js:96
 msgid "Unlock wallet for staking"
 msgstr "স্টেকিংয়ের জন্য ওয়ালেট আনলক করুন"
 
-#: common/getTextConsts.js:3
+#: src/common/getTextConsts.js:3
 msgid "copied to clipboard"
 msgstr "ক্লিপবোর্ডে অনুলিপি করা হয়েছে"
 
-#: common/getTextConsts.js:4
+#: src/common/getTextConsts.js:4
 msgid "Export Private Keys"
 msgstr "প্রাইভেট কীগুলি রফতানি করুন"
 
-#: common/getTextConsts.js:5
+#: src/common/getTextConsts.js:5
 msgid "Change Default Language"
 msgstr "ডিফল্ট ভাষা পরিবর্তন করুন"
 
-#: common/getTextConsts.js:6
+#: src/common/getTextConsts.js:6
 msgid "Unlock"
 msgstr "আনলক করুন"
 
-#: common/getTextConsts.js:7 renderer/settings/settings-content.js:46
-#: renderer/warning/warning.js:75
+#: src/common/getTextConsts.js:7 src/renderer/settings/settings-content.js:46
+#: src/renderer/warning/warning.js:75
 msgid "Cancel"
 msgstr "বাতিল"
 
-#: common/getTextConsts.js:8
+#: src/common/getTextConsts.js:8
 msgid "Block"
 msgstr "गट"
 
-#: common/getTextConsts.js:9
+#: src/common/getTextConsts.js:9
 msgid ""
 "This mnemonic phrase is uniquely generated, and grants you access to your wallet. Do "
 "NOT screenshot this page. Carefully write down your mnemonic phrase from left to right "
@@ -125,71 +120,122 @@ msgstr ""
 "সতর্কতা: জেনুস টিম আপনার স্মৃতিচারণ বাক্যাংশটি হারাতে পারলে আপনার তহবিলগুলি পুনরুদ্ধার করতে "
 "পারে না।"
 
-#: common/getTextConsts.js:10
+#: src/common/getTextConsts.js:10
 msgid "Passphrase Error!"
 msgstr "পাসফ্রেজের ত্রুটি!"
 
-#: common/setup/CreateAccount.js:36 common/setup/ImportAccount.js:39
+#: src/common/getTextConsts.js:11
+#, fuzzy
+msgid "MAX"
+msgstr "ম্যাক্স"
+
+#: src/common/getTextConsts.js:12
+msgid "Address"
+msgstr "ঠিকানা"
+
+#: src/common/getTextConsts.js:13
+msgid "Amount"
+msgstr "পরিমাণ"
+
+#: src/common/getTextConsts.js:14
+#, fuzzy
+msgid "fast"
+msgstr "দ্রুত"
+
+#: src/common/getTextConsts.js:15
+#, fuzzy
+msgid "slow"
+msgstr "ধীর"
+
+#: src/common/getTextConsts.js:16
+#, fuzzy
+msgid "Estimated transaction fee:"
+msgstr "আনুমানিক লেনদেন ফি:"
+
+#: src/common/getTextConsts.js:17
+msgid "SEND"
+msgstr "পাঠান"
+
+#: src/common/getTextConsts.js:18
+#, fuzzy
+msgid "ADD RECIPIENT"
+msgstr "প্রাপক যোগ করুন"
+
+#: src/common/getTextConsts.js:19
+#, fuzzy
+msgid "total cost:"
+msgstr "মোট খরচ:"
+
+#: src/common/getTextConsts.js:20
+#, fuzzy
+msgid "Address is not valid!"
+msgstr "ঠিকানা বৈধ নয়!"
+
+#: src/common/getTextConsts.js:21
+msgid "RECEIVE"
+msgstr "গ্রহণ করুন"
+
+#: src/common/setup/CreateAccount.js:36 src/common/setup/ImportAccount.js:39
 msgid "Wallet Name"
 msgstr "মানিব্যাগের নাম"
 
-#: common/setup/CreateAccount.js:37 common/setup/ImportAccount.js:40
+#: src/common/setup/CreateAccount.js:37 src/common/setup/ImportAccount.js:40
 msgid "Password"
 msgstr "পাসওয়ার্ড"
 
-#: common/setup/CreateAccount.js:38 common/setup/ImportAccount.js:41
+#: src/common/setup/CreateAccount.js:38 src/common/setup/ImportAccount.js:41
 msgid "Repeat Password"
 msgstr "পুনরায় পাসওয়ার্ড দিন"
 
-#: common/setup/CreateAccount.js:88
+#: src/common/setup/CreateAccount.js:88
 msgid "Create a new CPH wallet"
 msgstr "একটি নতুন সিপিএইচ ওয়ালেট তৈরি করুন"
 
-#: common/setup/CreateAccount.js:145 common/setup/CreateAccount.js:173
+#: src/common/setup/CreateAccount.js:145 src/common/setup/CreateAccount.js:173
 msgid "Continue"
 msgstr "চলমান"
 
-#: common/setup/CreateAccount.js:196
+#: src/common/setup/CreateAccount.js:196
 msgid "Please click the mnemonics by original order"
 msgstr "অনুগ্রহ করে মূল অর্ডার অনুসারে স্মৃতিবিদ্যায় ক্লিক করুন"
 
-#: common/setup/CreateAccount.js:217
+#: src/common/setup/CreateAccount.js:217
 msgid "Reset"
 msgstr "রিসেট"
 
-#: common/setup/CreateAccount.js:226 renderer/settings/settings-content.js:45
+#: src/common/setup/CreateAccount.js:226 src/renderer/settings/settings-content.js:45
 msgid "Confirm"
 msgstr "কনফার্ম"
 
-#: common/setup/CreateAccount.js:319 common/setup/ImportAccount.js:556
+#: src/common/setup/CreateAccount.js:319 src/common/setup/ImportAccount.js:556
 msgid "Please enter a wallet name"
 msgstr "দয়া করে একটি মানিব্যাগের নাম লিখুন"
 
-#: common/setup/CreateAccount.js:322 common/setup/ImportAccount.js:360
+#: src/common/setup/CreateAccount.js:322 src/common/setup/ImportAccount.js:360
 msgid "Please enter a password"
 msgstr "একটি পাসওয়ার্ড লিখুন দয়া করে"
 
-#: common/setup/CreateAccount.js:325 common/setup/ImportAccount.js:363
+#: src/common/setup/CreateAccount.js:325 src/common/setup/ImportAccount.js:363
 msgid "Password is too short enter a minimum of 8 characters."
 msgstr "পাসওয়ার্ড খুব ছোট ন্যূনতম 8 টি অক্ষর লিখুন।"
 
-#: common/setup/CreateAccount.js:328 common/setup/ImportAccount.js:366
+#: src/common/setup/CreateAccount.js:328 src/common/setup/ImportAccount.js:366
 msgid "Passwords do not match"
 msgstr "গুপ্ত-সংকেত মেলে না"
 
-#: common/setup/CreateAccount.js:367
+#: src/common/setup/CreateAccount.js:367
 msgid "mnemonic does not match please try again"
 msgstr "স্মৃতিচারণ মিলছে না আবার চেষ্টা করুন"
 
-#: common/setup/ImportAccount.js:36
+#: src/common/setup/ImportAccount.js:36
 msgid "Please enter your mnemonics in original order, seperated by spaces."
 msgstr "দয়া করে ফাঁকে ফাঁকে পৃথক করে আপনার মূল স্তরে প্রবেশ করুন ne"
 
-#: common/setup/ImportAccount.js:37
+#: src/common/setup/ImportAccount.js:37
 msgid "Please enter your private key."
 msgstr "দয়া করে আপনার ব্যক্তিগত কী লিখুন।"
 
-#: common/setup/ImportAccount.js:38
+#: src/common/setup/ImportAccount.js:38
 msgid ""
 "Please enter any address to create a testing account. Preferably use one with many "
 "transactions."
@@ -197,203 +243,199 @@ msgstr ""
 "একটি পরীক্ষা অ্যাকাউন্ট তৈরি করতে দয়া করে কোনও ঠিকানা লিখুন। বেশিরভাগ লেনদেন সহ একটি "
 "ব্যবহার করুন।"
 
-#: common/setup/ImportAccount.js:46
+#: src/common/setup/ImportAccount.js:46
 msgid "mnemonic"
 msgstr "স্মৃতিচারণ"
 
-#: common/setup/ImportAccount.js:47
+#: src/common/setup/ImportAccount.js:47
 msgid "private key"
 msgstr "ব্যক্তিগত কী"
 
-#: common/setup/ImportAccount.js:48
+#: src/common/setup/ImportAccount.js:48
 msgid "testing"
 msgstr "পরীক্ষামূলক"
 
-#: common/setup/ImportAccount.js:217 common/setup/ImportAccount.js:293
-#: common/setup/ImportAccount.js:332 renderer/setup.js:104
+#: src/common/setup/ImportAccount.js:217 src/common/setup/ImportAccount.js:293
+#: src/common/setup/ImportAccount.js:332 src/renderer/setup.js:104
 msgid "Import"
 msgstr "আমদানি"
 
-#: common/setup/ImportAccount.js:514
+#: src/common/setup/ImportAccount.js:514
 msgid "Please enter a mnemonic"
 msgstr "দয়া করে একটি স্মৃতিচারণ প্রবেশ করান"
 
-#: common/setup/ImportAccount.js:521
+#: src/common/setup/ImportAccount.js:521
 msgid "Mnemonic length is too short"
 msgstr "মনমোনিক দৈর্ঘ্য খুব ছোট"
 
-#: common/setup/ImportAccount.js:528
+#: src/common/setup/ImportAccount.js:528
 msgid "Invalid mnemonic"
 msgstr "অবৈধ স্মৃতিচারণ"
 
-#: common/setup/ImportAccount.js:538
+#: src/common/setup/ImportAccount.js:538
 msgid "Please enter a private key"
 msgstr "দয়া করে একটি ব্যক্তিগত কী লিখুন"
 
-#: common/setup/ImportAccount.js:542
+#: src/common/setup/ImportAccount.js:542
 msgid "The length of PrivateKey must be 128"
 msgstr "প্রাইভেটকির দৈর্ঘ্য 128 হতে হবে"
 
-#: common/setup/ImportAccount.js:546
+#: src/common/setup/ImportAccount.js:546
 msgid "Invalid private key"
 msgstr "অবৈধ ব্যক্তিগত কী"
 
-#: common/setup/ImportAccount.js:563
+#: src/common/setup/ImportAccount.js:563
 msgid "Please enter a unique wallet name"
 msgstr "দয়া করে একটি অনন্য ওয়ালেটের নাম লিখুন"
 
-#: common/setup/ImportAccount.js:577
+#: src/common/setup/ImportAccount.js:577
 msgid "Please enter an address"
 msgstr "একটি ঠিকানা লিখুন দয়া করে"
 
-#: common/setup/ImportAccount.js:583
+#: src/common/setup/ImportAccount.js:583
 msgid "The address you enetered is not valid. Please enter a valid address."
 msgstr "আপনি নির্বাচিত ঠিকানা বৈধ নয়। দয়া করে একটি বৈধ ঠিকানা লিখুন।"
 
-#: renderer/addresses/addresses.js:34
+#: src/renderer/addresses/addresses.js:34
 msgid "Addresses"
 msgstr "ঠিকানাগুলি"
 
-#: renderer/masternodes/masternodes-content.js:77
+#: src/renderer/masternodes/masternodes-content.js:77
 msgid "REFRESH"
 msgstr "রিফ্রেশ"
 
-#: renderer/masternodes/masternodes-content.js:78
+#: src/renderer/masternodes/masternodes-content.js:78
 msgid "START MISSING"
 msgstr "মিস করা শুরু করুন"
 
-#: renderer/masternodes/masternodes-content.js:79
+#: src/renderer/masternodes/masternodes-content.js:79
 msgid "START ALL"
 msgstr "সমস্ত শুরু করুন"
 
-#: renderer/masternodes/masternodes-content.js:80
+#: src/renderer/masternodes/masternodes-content.js:80
 msgid "CREATE"
 msgstr "সৃষ্টি"
 
-#: renderer/masternodes/masternodes.js:33
+#: src/renderer/masternodes/masternodes.js:33
 msgid "Masternodes"
 msgstr "মাস্টারনোডস"
 
-#: renderer/mywallet/mywallet-content.js:254
+#: src/renderer/mywallet/mywallet-content.js:246
 msgid "Follow us"
 msgstr "আমাদের অনুসরণ করো"
 
-#: renderer/mywallet/mywallet-content.js:273
+#: src/renderer/mywallet/mywallet-content.js:265
 msgid "Join discord"
 msgstr "বিভেদ যোগ দিন"
 
-#: renderer/mywallet/mywallet-content.js:291
+#: src/renderer/mywallet/mywallet-content.js:283
 msgid "Join telegram"
 msgstr "টেলিগ্রামে যোগদান করুন"
 
-#: renderer/mywallet/mywallet.js:34
+#: src/renderer/mywallet/mywallet.js:34
 msgid "Wallet"
 msgstr "মানিব্যাগ"
 
-#: renderer/receive/receive-content.js:39
+#: src/renderer/receive/receive-content.js:40
 msgid "View On Explorer"
 msgstr "এক্সপ্লোরার দেখুন"
 
-#: renderer/receive/receive.js:37
-msgid "RECEIVE"
-msgstr "গ্রহণ করুন"
-
-#: renderer/settings/settings-content.js:47
+#: src/renderer/settings/settings-content.js:47
 msgid "Dump wallet for"
 msgstr "ওয়ালেট ডাম্প"
 
-#: renderer/settings/settings-content.js:48
+#: src/renderer/settings/settings-content.js:48
 msgid "Backup wallet.dat for"
 msgstr "ব্যাকআপ ওয়ালেট.ড্যাট"
 
-#: renderer/settings/settings-content.js:110
+#: src/renderer/settings/settings-content.js:110
 msgid "This wallet is developed and maintained by a third party "
 msgstr "এই ওয়ালেটটি তৃতীয় পক্ষ দ্বারা বিকাশিত এবং রক্ষণাবেক্ষণ করা হয়"
 
-#: renderer/settings/settings-content.js:111
+#: src/renderer/settings/settings-content.js:111
 msgid "We are in no way affiliated with the Cypherium team or organization. "
 msgstr "আমরা কোনওভাবেই সাইফেরিয়াম দল বা সংস্থার সাথে সম্পর্কিত নই।"
 
-#: renderer/settings/settings-content.js:112
+#: src/renderer/settings/settings-content.js:112
 msgid "For support please visit the"
 msgstr "সমর্থনের জন্য দয়া করে দেখুন"
 
-#: renderer/settings/settings-content.js:112
+#: src/renderer/settings/settings-content.js:112
 msgid "server "
 msgstr "সার্ভার"
 
-#: renderer/settings/settings-content.js:113
+#: src/renderer/settings/settings-content.js:113
 msgid "and report any issues you may find to "
 msgstr "এবং আপনি যে কোনও সমস্যার সন্ধান করতে পারেন তার প্রতিবেদন করুন"
 
-#: renderer/settings/settings-content.js:129
+#: src/renderer/settings/settings-content.js:129
 msgid "Settings"
 msgstr "বিন্যাস সমূহ"
 
-#: renderer/settings/settings-content.js:135
+#: src/renderer/settings/settings-content.js:135
 msgid "Encrypt Wallet"
 msgstr "ওয়ালেট এনক্রিপ্ট করুন"
 
-#: renderer/settings/settings-content.js:145
+#: src/renderer/settings/settings-content.js:145
 msgid "Combine Rewards"
 msgstr "সম্মিলিত সম্মিলন"
 
-#: renderer/settings/settings-content.js:152
+#: src/renderer/settings/settings-content.js:152
 msgid "Stake Split Threshold"
 msgstr "স্টেক স্প্লিট থ্রেশহোল্ড"
 
-#: renderer/settings/settings-content.js:159
+#: src/renderer/settings/settings-content.js:159
 msgid "Backup Wallet"
 msgstr "ব্যাকআপ ওয়ালেট"
 
-#: renderer/settings/settings-content.js:163
+#: src/renderer/settings/settings-content.js:163
 msgid "Dump Wallet"
 msgstr "ওয়ালেট ডাম্প"
 
-#: renderer/settings/settings-content.js:167
+#: src/renderer/settings/settings-content.js:167
 msgid "Import Wallet"
 msgstr "ওয়ালেট আমদানি করুন"
 
-#: renderer/settings/settings-content.js:171
+#: src/renderer/settings/settings-content.js:171
 msgid "Open Config"
 msgstr "কনফিগার খুলুন"
 
-#: renderer/settings/settings-content.js:175
+#: src/renderer/settings/settings-content.js:175
 msgid "Open Masternode Config"
 msgstr "মাস্টারনোড কনফিগারেশন খুলুন"
 
-#: renderer/settings/settings-content.js:188
+#: src/renderer/settings/settings-content.js:188
 msgid "Passphrases do not match!"
 msgstr "পাসফ্রেজ মিলছে না!"
 
-#: renderer/settings/settings-content.js:222
+#: src/renderer/settings/settings-content.js:222
 msgid "Enter a passphrase for the wallet."
 msgstr "মানিব্যাগের জন্য একটি পাসফ্রেজ প্রবেশ করান।"
 
-#: renderer/settings/settings-content.js:223
+#: src/renderer/settings/settings-content.js:223
 msgid ""
 "Please use a passphrase of 10 or more random characters or a minimum of 8 random words."
 msgstr ""
 "দয়া করে 10 বা ততোধিক এলোমেলো অক্ষর বা সর্বনিম্ন 8 টি এলোমেলো শব্দের একটি পাসফ্রেজ ব্যবহার "
 "করুন।"
 
-#: renderer/settings/settings-content.js:224
+#: src/renderer/settings/settings-content.js:224
 msgid "After confirming your wallet will be encrypted then auto restarted."
 msgstr "নিশ্চিত হওয়ার পরে আপনার মানিব্যাগটি এনক্রিপ্ট হবে তারপরে অটো পুনরায় চালু হবে।"
 
-#: renderer/settings/settings-content.js:227
+#: src/renderer/settings/settings-content.js:227
 msgid "Passphrase"
 msgstr "পাসফ্রেজ"
 
-#: renderer/settings/settings-content.js:234
+#: src/renderer/settings/settings-content.js:234
 msgid "Repeat Passphrase"
 msgstr "পাসফ্রেজের পুনরাবৃত্তি করুন"
 
-#: renderer/settings/settings-content.js:263
+#: src/renderer/settings/settings-content.js:263
 msgid "Enter a threshold amount."
 msgstr "একটি প্রান্তিক পরিমাণ প্রবেশ করান।"
 
-#: renderer/settings/settings-content.js:265
+#: src/renderer/settings/settings-content.js:265
 msgid ""
 "The wallet will automatically monitor for any coins with a value below the threshold "
 "amount,\tand combine them if they reside within the same address."
@@ -401,42 +443,42 @@ msgstr ""
 "ওয়ালেটটি স্বয়ংক্রিয়ভাবে প্রান্তিক পরিমাণের নীচের মান সহ যে কোনও মুদ্রার জন্য নিরীক্ষণ করবে এবং "
 "যদি তারা একই ঠিকানার মধ্যে থাকে তবে তাদের একত্রিত করে।"
 
-#: renderer/settings/settings-content.js:267
+#: src/renderer/settings/settings-content.js:267
 msgid ""
 "When combine rewards runs it will create a transaction, and therefore will be subject "
 "to transaction fees."
 msgstr ""
 "সম্মিলিত পুরষ্কারগুলি যখন চালিত হয় এটি কোনও লেনদেন তৈরি করে এবং তাই লেনদেনের ফি সাপেক্ষে।"
 
-#: renderer/settings/settings-content.js:270
+#: src/renderer/settings/settings-content.js:270
 msgid "Threshold amount"
 msgstr "প্রান্তিক পরিমাণ"
 
-#: renderer/settings/settings-content.js:368
+#: src/renderer/settings/settings-content.js:368
 msgid "Saved backup of wallet.dat"
 msgstr "ওয়ালেট.ড্যাট সংরক্ষণ করা ব্যাকআপ"
 
-#: renderer/settings/settings-content.js:378
+#: src/renderer/settings/settings-content.js:378
 msgid "Successfuly dumped private keys"
 msgstr "সফলভাবে ব্যক্তিগত কীগুলি ফেলে দেওয়া হয়েছে"
 
-#: renderer/settings/settings-content.js:391
+#: src/renderer/settings/settings-content.js:391
 msgid "Please enter a stake split amount!"
 msgstr "দয়া করে একটি স্টেক বিভক্ত পরিমাণ লিখুন!"
 
-#: renderer/settings/settings-content.js:441
+#: src/renderer/settings/settings-content.js:441
 msgid "Combine rewards enabled"
 msgstr "সম্মিলিত পুরষ্কার সক্ষম"
 
-#: renderer/settings/settings-content.js:450
+#: src/renderer/settings/settings-content.js:450
 msgid "Import wallet .txt"
 msgstr "আমদানি মানিব্যাগ .txt"
 
-#: renderer/settings/settings-content.js:463
+#: src/renderer/settings/settings-content.js:463
 msgid "Successfuly imported private keys"
 msgstr "সফলভাবে ব্যক্তিগত কীগুলি আমদানি করা হয়েছে"
 
-#: renderer/setup.js:39
+#: src/renderer/setup.js:39
 msgid ""
 "It appears this is the first time you are starting up the wallet. You can either "
 "create a new account or import from your keys."
@@ -444,7 +486,7 @@ msgstr ""
 "এটি প্রথমবারের মতো আপনি ওয়ালেট শুরু করছেন। আপনি হয় একটি নতুন অ্যাকাউন্ট তৈরি করতে পারেন বা "
 "আপনার কীগুলি থেকে আমদানি করতে পারেন।"
 
-#: renderer/setup.js:40
+#: src/renderer/setup.js:40
 msgid ""
 "Please select an option below to either import or create another wallet. This will not "
 "replace your current wallet."
@@ -452,21 +494,21 @@ msgstr ""
 "আমদানি করতে বা অন্য ওয়ালেট তৈরি করতে দয়া করে নীচের বিকল্পটি নির্বাচন করুন। এটি আপনার "
 "বর্তমান মানিব্যাগটি প্রতিস্থাপন করবে না।"
 
-#: renderer/setup.js:112
+#: src/renderer/setup.js:112
 msgid "Create"
 msgstr "তৈরি"
 
-#: renderer/transactions/transactions.js:33
+#: src/renderer/transactions/transactions.js:33
 msgid "Transactions"
 msgstr "লেনদেন"
 
-#: renderer/warning/warning.js:67
+#: src/renderer/warning/warning.js:67
 msgid "Update"
 msgstr "হালনাগাদ"
 
-#: renderer/warning/warning.js:71
+#: src/renderer/warning/warning.js:71
 msgid "Info"
 msgstr "তথ্য"
 
-#~ msgid "Successfully sent to many"
-#~ msgstr "সাফল্যের সাথে অনেকের কাছে প্রেরণ করা হয়েছে"
+#~ msgid "CANCEL"
+#~ msgstr "বাতিল"

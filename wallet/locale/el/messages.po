@@ -4,7 +4,7 @@ msgstr ""
 "nLast translator: Bob \\ nLanguage: el \\ nMIME version: 1.0 \\ nContent-"
 "Type: text / plain; charset = UTF-8 \\ nContent-Transfer-Encoding: 8bit \\ "
 "nPlural forms: nplurals = 2; plural = (n! = 1); \\ n\n"
-"POT-Creation-Date: 2021-01-22 16:29+0200\n"
+"POT-Creation-Date: 2021-01-24 17:41+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,102 +14,101 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.4.2\n"
 
-#: common/components/Accounts.js:38
+#: src/common/components/Accounts.js:37
 msgid "remove account from wallet"
 msgstr "κατάργηση λογαριασμού από το πορτοφόλι"
 
-#: common/components/Accounts.js:39 common/components/Transaction.js:35
-#: renderer/mywallet/mywallet-content.js:73
+#: src/common/components/Accounts.js:38 src/common/components/Transaction.js:35
 msgid "view in explorer"
 msgstr "προβολή στον εξερευνητή προβολή στον εξερευνητή"
 
-#: common/components/Accounts.js:40 renderer/receive/receive-content.js:38
+#: src/common/components/Accounts.js:39
+#: src/renderer/receive/receive-content.js:39
 msgid "copy to clipboard"
 msgstr "αντιγραφή στο πρόχειρο"
 
-#: common/components/CreateAccountButton.js:30
+#: src/common/components/CreateAccountButton.js:30
 msgid "Create/Import"
 msgstr "Δημιουργία / Εισαγωγή"
 
-#: common/components/Send.js:42
+#: src/common/components/Send.js:43
 msgid "Successfully sent"
 msgstr "Επιτυχής αποστολή"
 
-#: common/components/Send.js:43
+#: src/common/components/Send.js:44
 msgid "to"
 msgstr "έως"
 
-#: common/components/Send.js:78 renderer/mywallet/mywallet-content.js:142
-msgid "SEND"
-msgstr "ΑΠΟΣΤΟΛΉ"
+#: src/common/components/Send.js:201
+msgid "Successfully sent to many"
+msgstr "Αποστολή με επιτυχία σε πολλούς"
 
-#: common/components/Send.js:82
-msgid "CANCEL"
-msgstr "ΜΑΤΑΙΩΣΗ"
-
-#: common/components/Transaction.js:305
+#: src/common/components/Transaction.js:305 src/renderer/send/send-navbar.js:33
 msgid "Send"
 msgstr "Αποστολή"
 
-#: common/components/Transaction.js:307 renderer/receive/receive-navbar.js:34
+#: src/common/components/Transaction.js:307
+#: src/renderer/receive/receive-navbar.js:34
 msgid "Receive"
 msgstr "Λαμβάνω"
 
-#: common/components/UnlockWallet.js:37
+#: src/common/components/UnlockWallet.js:36
 msgid "Unlock wallet to remove "
 msgstr "Ξεκλειδώστε το πορτοφόλι για κατάργηση"
 
-#: common/components/UnlockWallet.js:38
+#: src/common/components/UnlockWallet.js:37
 msgid " from stored keys"
 msgstr " από αποθηκευμένα κλειδιά"
 
-#: common/components/UnlockWallet.js:59
+#: src/common/components/UnlockWallet.js:58
 msgid "Unlock wallet for transactions"
 msgstr "Ξεκλείδωμα πορτοφολιού για συναλλαγές"
 
-#: common/components/UnlockWallet.js:63 common/components/UnlockWallet.js:67
+#: src/common/components/UnlockWallet.js:62
+#: src/common/components/UnlockWallet.js:66
 msgid "Unlock wallet for maintenance"
 msgstr "Ξεκλειδώστε το πορτοφόλι για συντήρηση"
 
-#: common/components/UnlockWallet.js:71 common/components/UnlockWallet.js:75
-#: common/components/UnlockWallet.js:80
+#: src/common/components/UnlockWallet.js:70
+#: src/common/components/UnlockWallet.js:74
+#: src/common/components/UnlockWallet.js:79
 msgid "Unlock wallet for masternodes"
 msgstr "Ξεκλειδώστε το πορτοφόλι για masternodes"
 
-#: common/components/UnlockWallet.js:92
+#: src/common/components/UnlockWallet.js:91
 msgid "Unlock wallet for export"
 msgstr "Ξεκλείδωμα πορτοφολιού για εξαγωγή"
 
-#: common/components/UnlockWallet.js:97
+#: src/common/components/UnlockWallet.js:96
 msgid "Unlock wallet for staking"
 msgstr "Ξεκλειδώστε το πορτοφόλι για στοίχημα"
 
-#: common/getTextConsts.js:3
+#: src/common/getTextConsts.js:3
 msgid "copied to clipboard"
 msgstr "αντιγράφηκε στο πρόχειρο"
 
-#: common/getTextConsts.js:4
+#: src/common/getTextConsts.js:4
 msgid "Export Private Keys"
 msgstr "Εξαγωγή ιδιωτικών κλειδιών"
 
-#: common/getTextConsts.js:5
+#: src/common/getTextConsts.js:5
 msgid "Change Default Language"
 msgstr "Αλλαγή προεπιλεγμένης γλώσσας"
 
-#: common/getTextConsts.js:6
+#: src/common/getTextConsts.js:6
 msgid "Unlock"
 msgstr "Ξεκλείδωμα"
 
-#: common/getTextConsts.js:7 renderer/settings/settings-content.js:46
-#: renderer/warning/warning.js:75
+#: src/common/getTextConsts.js:7 src/renderer/settings/settings-content.js:46
+#: src/renderer/warning/warning.js:75
 msgid "Cancel"
 msgstr "Ακύρωση"
 
-#: common/getTextConsts.js:8
+#: src/common/getTextConsts.js:8
 msgid "Block"
 msgstr "Μπλοκ"
 
-#: common/getTextConsts.js:9
+#: src/common/getTextConsts.js:9
 msgid ""
 "This mnemonic phrase is uniquely generated, and grants you access to your "
 "wallet. Do NOT screenshot this page. Carefully write down your mnemonic "
@@ -124,72 +123,124 @@ msgstr ""
 "μοναδική σας φράση με ΚΑΠΟΙΟ. ΠΡΟΣΟΧΗ: Η ομάδα Janus ΔΕΝ μπορεί να ανακτήσει "
 "τα χρήματά σας εάν χάσετε τη μνημονική σας φράση."
 
-#: common/getTextConsts.js:10
+#: src/common/getTextConsts.js:10
 msgid "Passphrase Error!"
 msgstr "Σφάλμα φράσης πρόσβασης!"
 
-#: common/setup/CreateAccount.js:36 common/setup/ImportAccount.js:39
+#: src/common/getTextConsts.js:11
+#, fuzzy
+msgid "MAX"
+msgstr "ΜΕΓΙΣΤΗ"
+
+#: src/common/getTextConsts.js:12
+msgid "Address"
+msgstr "Διεύθυνση"
+
+#: src/common/getTextConsts.js:13
+msgid "Amount"
+msgstr "Ποσό"
+
+#: src/common/getTextConsts.js:14
+#, fuzzy
+msgid "fast"
+msgstr "γρήγορα"
+
+#: src/common/getTextConsts.js:15
+#, fuzzy
+msgid "slow"
+msgstr "αργός"
+
+#: src/common/getTextConsts.js:16
+#, fuzzy
+msgid "Estimated transaction fee:"
+msgstr "Εκτιμώμενη χρέωση συναλλαγής:"
+
+#: src/common/getTextConsts.js:17
+msgid "SEND"
+msgstr "ΑΠΟΣΤΟΛΉ"
+
+#: src/common/getTextConsts.js:18
+#, fuzzy
+msgid "ADD RECIPIENT"
+msgstr "ΠΡΟΣΘΕΣΕ ΠΑΡΑΛΗΠΤΗ"
+
+#: src/common/getTextConsts.js:19
+#, fuzzy
+msgid "total cost:"
+msgstr "συνολικό κόστος:"
+
+#: src/common/getTextConsts.js:20
+#, fuzzy
+msgid "Address is not valid!"
+msgstr "Η διεύθυνση δεν είναι έγκυρη!"
+
+#: src/common/getTextConsts.js:21
+msgid "RECEIVE"
+msgstr "Λαμβάνω"
+
+#: src/common/setup/CreateAccount.js:36 src/common/setup/ImportAccount.js:39
 msgid "Wallet Name"
 msgstr "Όνομα Πορτοφολιού"
 
-#: common/setup/CreateAccount.js:37 common/setup/ImportAccount.js:40
+#: src/common/setup/CreateAccount.js:37 src/common/setup/ImportAccount.js:40
 msgid "Password"
 msgstr "Κωδικός"
 
-#: common/setup/CreateAccount.js:38 common/setup/ImportAccount.js:41
+#: src/common/setup/CreateAccount.js:38 src/common/setup/ImportAccount.js:41
 msgid "Repeat Password"
 msgstr "Επαναλάβατε κωδικό χρήστη"
 
-#: common/setup/CreateAccount.js:88
+#: src/common/setup/CreateAccount.js:88
 msgid "Create a new CPH wallet"
 msgstr "Δημιουργήστε ένα νέο πορτοφόλι CPH"
 
-#: common/setup/CreateAccount.js:145 common/setup/CreateAccount.js:173
+#: src/common/setup/CreateAccount.js:145 src/common/setup/CreateAccount.js:173
 msgid "Continue"
 msgstr "Συνέχεια"
 
-#: common/setup/CreateAccount.js:196
+#: src/common/setup/CreateAccount.js:196
 msgid "Please click the mnemonics by original order"
 msgstr "Κάντε κλικ στο mnemonics με την αρχική σειρά"
 
-#: common/setup/CreateAccount.js:217
+#: src/common/setup/CreateAccount.js:217
 msgid "Reset"
 msgstr "Επαναφορά"
 
-#: common/setup/CreateAccount.js:226 renderer/settings/settings-content.js:45
+#: src/common/setup/CreateAccount.js:226
+#: src/renderer/settings/settings-content.js:45
 msgid "Confirm"
 msgstr "Επιβεβαίωση"
 
-#: common/setup/CreateAccount.js:319 common/setup/ImportAccount.js:556
+#: src/common/setup/CreateAccount.js:319 src/common/setup/ImportAccount.js:556
 msgid "Please enter a wallet name"
 msgstr "Εισαγάγετε ένα όνομα πορτοφολιού"
 
-#: common/setup/CreateAccount.js:322 common/setup/ImportAccount.js:360
+#: src/common/setup/CreateAccount.js:322 src/common/setup/ImportAccount.js:360
 msgid "Please enter a password"
 msgstr "Παρακαλούμε εισάγετε έναν κωδικό πρόσβασης"
 
-#: common/setup/CreateAccount.js:325 common/setup/ImportAccount.js:363
+#: src/common/setup/CreateAccount.js:325 src/common/setup/ImportAccount.js:363
 msgid "Password is too short enter a minimum of 8 characters."
 msgstr ""
 "Ο κωδικός πρόσβασης είναι πολύ μικρός εισαγάγετε τουλάχιστον 8 χαρακτήρες."
 
-#: common/setup/CreateAccount.js:328 common/setup/ImportAccount.js:366
+#: src/common/setup/CreateAccount.js:328 src/common/setup/ImportAccount.js:366
 msgid "Passwords do not match"
 msgstr "Οι κωδικοί πρόσβασης δεν ταιριάζουν"
 
-#: common/setup/CreateAccount.js:367
+#: src/common/setup/CreateAccount.js:367
 msgid "mnemonic does not match please try again"
 msgstr "μνημονικός δεν ταιριάζει, δοκιμάστε ξανά"
 
-#: common/setup/ImportAccount.js:36
+#: src/common/setup/ImportAccount.js:36
 msgid "Please enter your mnemonics in original order, seperated by spaces."
 msgstr "Εισαγάγετε τα μνημονικά σας με την αρχική σειρά, χωρισμένα με κενά."
 
-#: common/setup/ImportAccount.js:37
+#: src/common/setup/ImportAccount.js:37
 msgid "Please enter your private key."
 msgstr "Εισαγάγετε το ιδιωτικό σας κλειδί."
 
-#: common/setup/ImportAccount.js:38
+#: src/common/setup/ImportAccount.js:38
 msgid ""
 "Please enter any address to create a testing account. Preferably use one "
 "with many transactions."
@@ -197,184 +248,180 @@ msgstr ""
 "Εισαγάγετε οποιαδήποτε διεύθυνση για να δημιουργήσετε έναν λογαριασμό "
 "δοκιμής. Χρησιμοποιήστε κατά προτίμηση ένα με πολλές συναλλαγές."
 
-#: common/setup/ImportAccount.js:46
+#: src/common/setup/ImportAccount.js:46
 msgid "mnemonic"
 msgstr "μνημονικός"
 
-#: common/setup/ImportAccount.js:47
+#: src/common/setup/ImportAccount.js:47
 msgid "private key"
 msgstr "ιδιωτικό κλειδί"
 
-#: common/setup/ImportAccount.js:48
+#: src/common/setup/ImportAccount.js:48
 msgid "testing"
 msgstr "δοκιμές"
 
-#: common/setup/ImportAccount.js:217 common/setup/ImportAccount.js:293
-#: common/setup/ImportAccount.js:332 renderer/setup.js:104
+#: src/common/setup/ImportAccount.js:217 src/common/setup/ImportAccount.js:293
+#: src/common/setup/ImportAccount.js:332 src/renderer/setup.js:104
 msgid "Import"
 msgstr "Εισαγωγή"
 
-#: common/setup/ImportAccount.js:514
+#: src/common/setup/ImportAccount.js:514
 msgid "Please enter a mnemonic"
 msgstr "Εισαγάγετε ένα μνημονικό"
 
-#: common/setup/ImportAccount.js:521
+#: src/common/setup/ImportAccount.js:521
 msgid "Mnemonic length is too short"
 msgstr "Το μνημονικό μήκος είναι πολύ μικρό"
 
-#: common/setup/ImportAccount.js:528
+#: src/common/setup/ImportAccount.js:528
 msgid "Invalid mnemonic"
 msgstr "Μη έγκυρο μνημονικό"
 
-#: common/setup/ImportAccount.js:538
+#: src/common/setup/ImportAccount.js:538
 msgid "Please enter a private key"
 msgstr "Εισαγάγετε ένα ιδιωτικό κλειδί"
 
-#: common/setup/ImportAccount.js:542
+#: src/common/setup/ImportAccount.js:542
 msgid "The length of PrivateKey must be 128"
 msgstr "Το μήκος του PrivateKey πρέπει να είναι 128"
 
-#: common/setup/ImportAccount.js:546
+#: src/common/setup/ImportAccount.js:546
 msgid "Invalid private key"
 msgstr "Μη έγκυρο ιδιωτικό κλειδί"
 
-#: common/setup/ImportAccount.js:563
+#: src/common/setup/ImportAccount.js:563
 msgid "Please enter a unique wallet name"
 msgstr "Εισαγάγετε ένα μοναδικό όνομα πορτοφολιού"
 
-#: common/setup/ImportAccount.js:577
+#: src/common/setup/ImportAccount.js:577
 msgid "Please enter an address"
 msgstr "Παρακαλώ Εισάγετε Διεύθυνση"
 
-#: common/setup/ImportAccount.js:583
+#: src/common/setup/ImportAccount.js:583
 msgid "The address you enetered is not valid. Please enter a valid address."
 msgstr ""
 "Η διεύθυνση που καταχωρίσατε δεν είναι έγκυρη. Εισαγάγετε μια έγκυρη "
 "διεύθυνση."
 
-#: renderer/addresses/addresses.js:34
+#: src/renderer/addresses/addresses.js:34
 msgid "Addresses"
 msgstr "Διευθύνσεις"
 
-#: renderer/masternodes/masternodes-content.js:77
+#: src/renderer/masternodes/masternodes-content.js:77
 msgid "REFRESH"
 msgstr "ΦΡΕΣΚΑΡΩ"
 
-#: renderer/masternodes/masternodes-content.js:78
+#: src/renderer/masternodes/masternodes-content.js:78
 msgid "START MISSING"
 msgstr "ΕΝΑΡΞΗ ΛΕΙΤΟΥΡΓΙΑΣ"
 
-#: renderer/masternodes/masternodes-content.js:79
+#: src/renderer/masternodes/masternodes-content.js:79
 msgid "START ALL"
 msgstr "Ξεκινήστε όλα"
 
-#: renderer/masternodes/masternodes-content.js:80
+#: src/renderer/masternodes/masternodes-content.js:80
 msgid "CREATE"
 msgstr "Δημιουργία"
 
-#: renderer/masternodes/masternodes.js:33
+#: src/renderer/masternodes/masternodes.js:33
 msgid "Masternodes"
 msgstr "Masternodes"
 
-#: renderer/mywallet/mywallet-content.js:254
+#: src/renderer/mywallet/mywallet-content.js:246
 msgid "Follow us"
 msgstr "Ακολουθήστε μας"
 
-#: renderer/mywallet/mywallet-content.js:273
+#: src/renderer/mywallet/mywallet-content.js:265
 msgid "Join discord"
 msgstr "Εγγραφείτε στη διαφωνία"
 
-#: renderer/mywallet/mywallet-content.js:291
+#: src/renderer/mywallet/mywallet-content.js:283
 msgid "Join telegram"
 msgstr "Εγγραφείτε στο τηλεγράφημα"
 
-#: renderer/mywallet/mywallet.js:34
+#: src/renderer/mywallet/mywallet.js:34
 msgid "Wallet"
 msgstr "Πορτοφόλι"
 
-#: renderer/receive/receive-content.js:39
+#: src/renderer/receive/receive-content.js:40
 msgid "View On Explorer"
 msgstr "Προβολή στην Εξερεύνηση"
 
-#: renderer/receive/receive.js:37
-msgid "RECEIVE"
-msgstr "Λαμβάνω"
-
-#: renderer/settings/settings-content.js:47
+#: src/renderer/settings/settings-content.js:47
 msgid "Dump wallet for"
 msgstr "Dump πορτοφόλι για"
 
-#: renderer/settings/settings-content.js:48
+#: src/renderer/settings/settings-content.js:48
 msgid "Backup wallet.dat for"
 msgstr "Backup wallet.dat για"
 
-#: renderer/settings/settings-content.js:110
+#: src/renderer/settings/settings-content.js:110
 msgid "This wallet is developed and maintained by a third party "
 msgstr "Αυτό το πορτοφόλι αναπτύσσεται και συντηρείται από τρίτο μέρος "
 
-#: renderer/settings/settings-content.js:111
+#: src/renderer/settings/settings-content.js:111
 msgid "We are in no way affiliated with the Cypherium team or organization. "
 msgstr ""
 "Δεν είμαστε σε καμία περίπτωση συνδεδεμένοι με την ομάδα ή τον οργανισμό "
 "Cypherium."
 
-#: renderer/settings/settings-content.js:112
+#: src/renderer/settings/settings-content.js:112
 msgid "For support please visit the"
 msgstr "Για υποστήριξη, επισκεφθείτε το"
 
-#: renderer/settings/settings-content.js:112
+#: src/renderer/settings/settings-content.js:112
 msgid "server "
 msgstr "υπηρέτης "
 
-#: renderer/settings/settings-content.js:113
+#: src/renderer/settings/settings-content.js:113
 msgid "and report any issues you may find to "
 msgstr "και αναφέρετε τυχόν προβλήματα που ενδέχεται να βρείτε "
 
-#: renderer/settings/settings-content.js:129
+#: src/renderer/settings/settings-content.js:129
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: renderer/settings/settings-content.js:135
+#: src/renderer/settings/settings-content.js:135
 msgid "Encrypt Wallet"
 msgstr "Κρυπτογράφηση πορτοφολιού"
 
-#: renderer/settings/settings-content.js:145
+#: src/renderer/settings/settings-content.js:145
 msgid "Combine Rewards"
 msgstr "Συνδυάστε τις ανταμοιβές"
 
-#: renderer/settings/settings-content.js:152
+#: src/renderer/settings/settings-content.js:152
 msgid "Stake Split Threshold"
 msgstr "Όριο διαχωρισμού πονταρίσματος"
 
-#: renderer/settings/settings-content.js:159
+#: src/renderer/settings/settings-content.js:159
 msgid "Backup Wallet"
 msgstr "Εφεδρικό πορτοφόλι"
 
-#: renderer/settings/settings-content.js:163
+#: src/renderer/settings/settings-content.js:163
 msgid "Dump Wallet"
 msgstr "Πορτοφόλι απορρίψεων"
 
-#: renderer/settings/settings-content.js:167
+#: src/renderer/settings/settings-content.js:167
 msgid "Import Wallet"
 msgstr "Εισαγωγή Πορτοφολιού"
 
-#: renderer/settings/settings-content.js:171
+#: src/renderer/settings/settings-content.js:171
 msgid "Open Config"
 msgstr "Ανοίξτε το Config"
 
-#: renderer/settings/settings-content.js:175
+#: src/renderer/settings/settings-content.js:175
 msgid "Open Masternode Config"
 msgstr "Ανοίξτε το Masternode Config"
 
-#: renderer/settings/settings-content.js:188
+#: src/renderer/settings/settings-content.js:188
 msgid "Passphrases do not match!"
 msgstr "Οι φράσεις πρόσβασης δεν ταιριάζουν!"
 
-#: renderer/settings/settings-content.js:222
+#: src/renderer/settings/settings-content.js:222
 msgid "Enter a passphrase for the wallet."
 msgstr "Εισαγάγετε μια φράση πρόσβασης για το πορτοφόλι."
 
-#: renderer/settings/settings-content.js:223
+#: src/renderer/settings/settings-content.js:223
 msgid ""
 "Please use a passphrase of 10 or more random characters or a minimum of 8 "
 "random words."
@@ -382,25 +429,25 @@ msgstr ""
 "Χρησιμοποιήστε μια φράση πρόσβασης 10 ή περισσότερων τυχαίων χαρακτήρων ή "
 "τουλάχιστον 8 τυχαίων λέξεων."
 
-#: renderer/settings/settings-content.js:224
+#: src/renderer/settings/settings-content.js:224
 msgid "After confirming your wallet will be encrypted then auto restarted."
 msgstr ""
 "Αφού επιβεβαιώσετε το πορτοφόλι σας θα κρυπτογραφηθεί και θα επανεκκινηθεί "
 "αυτόματα."
 
-#: renderer/settings/settings-content.js:227
+#: src/renderer/settings/settings-content.js:227
 msgid "Passphrase"
 msgstr "Φράση πρόσβασης"
 
-#: renderer/settings/settings-content.js:234
+#: src/renderer/settings/settings-content.js:234
 msgid "Repeat Passphrase"
 msgstr "Επανάληψη φράσης πρόσβασης"
 
-#: renderer/settings/settings-content.js:263
+#: src/renderer/settings/settings-content.js:263
 msgid "Enter a threshold amount."
 msgstr "Εισαγάγετε ένα όριο."
 
-#: renderer/settings/settings-content.js:265
+#: src/renderer/settings/settings-content.js:265
 msgid ""
 "The wallet will automatically monitor for any coins with a value below the "
 "threshold amount,\tand combine them if they reside within the same address."
@@ -408,7 +455,7 @@ msgstr ""
 "Το πορτοφόλι θα παρακολουθεί αυτόματα για τυχόν νομίσματα με τιμή κάτω του "
 "ορίου και θα τα συνδυάζει εάν βρίσκονται στην ίδια διεύθυνση."
 
-#: renderer/settings/settings-content.js:267
+#: src/renderer/settings/settings-content.js:267
 msgid ""
 "When combine rewards runs it will create a transaction, and therefore will "
 "be subject to transaction fees."
@@ -416,35 +463,35 @@ msgstr ""
 "Όταν συνδυάζεται η εκτέλεση ανταμοιβών, θα δημιουργηθεί μια συναλλαγή και "
 "επομένως θα υπόκειται σε χρεώσεις συναλλαγής."
 
-#: renderer/settings/settings-content.js:270
+#: src/renderer/settings/settings-content.js:270
 msgid "Threshold amount"
 msgstr "Ποσό κατωφλίου"
 
-#: renderer/settings/settings-content.js:368
+#: src/renderer/settings/settings-content.js:368
 msgid "Saved backup of wallet.dat"
 msgstr "Αποθηκεύτηκε αντίγραφο ασφαλείας του wallet.dat"
 
-#: renderer/settings/settings-content.js:378
+#: src/renderer/settings/settings-content.js:378
 msgid "Successfuly dumped private keys"
 msgstr "Επιτυχημένα απόρριψη ιδιωτικών κλειδιών"
 
-#: renderer/settings/settings-content.js:391
+#: src/renderer/settings/settings-content.js:391
 msgid "Please enter a stake split amount!"
 msgstr "Εισαγάγετε το ποσό πονταρίσματος!"
 
-#: renderer/settings/settings-content.js:441
+#: src/renderer/settings/settings-content.js:441
 msgid "Combine rewards enabled"
 msgstr "Ο συνδυασμός ανταμοιβών ενεργοποιήθηκε"
 
-#: renderer/settings/settings-content.js:450
+#: src/renderer/settings/settings-content.js:450
 msgid "Import wallet .txt"
 msgstr "Εισαγωγή πορτοφολιού .txt"
 
-#: renderer/settings/settings-content.js:463
+#: src/renderer/settings/settings-content.js:463
 msgid "Successfuly imported private keys"
 msgstr "Επιτυχημένη εισαγωγή ιδιωτικών κλειδιών"
 
-#: renderer/setup.js:39
+#: src/renderer/setup.js:39
 msgid ""
 "It appears this is the first time you are starting up the wallet. You can "
 "either create a new account or import from your keys."
@@ -452,7 +499,7 @@ msgstr ""
 "Φαίνεται ότι είναι η πρώτη φορά που ξεκινάτε το πορτοφόλι. Μπορείτε είτε να "
 "δημιουργήσετε έναν νέο λογαριασμό είτε να εισαγάγετε από τα κλειδιά σας."
 
-#: renderer/setup.js:40
+#: src/renderer/setup.js:40
 msgid ""
 "Please select an option below to either import or create another wallet. "
 "This will not replace your current wallet."
@@ -460,21 +507,21 @@ msgstr ""
 "Ορίστε μια παρακάτω επιλογή για εισαγωγή ή δημιουργία άλλου πορτοφολιού. "
 "Αυτό δεν θα αντικαταστήσει το τρέχον πορτοφόλι σας."
 
-#: renderer/setup.js:112
+#: src/renderer/setup.js:112
 msgid "Create"
 msgstr "Δημιουργία"
 
-#: renderer/transactions/transactions.js:33
+#: src/renderer/transactions/transactions.js:33
 msgid "Transactions"
 msgstr "Συναλλαγές"
 
-#: renderer/warning/warning.js:67
+#: src/renderer/warning/warning.js:67
 msgid "Update"
 msgstr "Ενημέρωση"
 
-#: renderer/warning/warning.js:71
+#: src/renderer/warning/warning.js:71
 msgid "Info"
 msgstr "Πληροφορίες"
 
-#~ msgid "Successfully sent to many"
-#~ msgstr "Αποστολή με επιτυχία σε πολλούς"
+#~ msgid "CANCEL"
+#~ msgstr "ΜΑΤΑΙΩΣΗ"

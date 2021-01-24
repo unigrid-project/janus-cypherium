@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-01-19 18:41+0200\n"
-"PO-Revision-Date: 2021-01-20 10:28+0200\n"
+"POT-Creation-Date: 2021-01-24 17:41+0200\n"
+"PO-Revision-Date: 2021-01-24 17:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -14,101 +14,101 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: common/components/Accounts.js:37
+#: src/common/components/Accounts.js:37
 msgid "remove account from wallet"
 msgstr ""
 
-#: common/components/Accounts.js:38 common/components/Transaction.js:34
+#: src/common/components/Accounts.js:38 src/common/components/Transaction.js:35
 msgid "view in explorer"
 msgstr ""
 
-#: common/components/Accounts.js:39 renderer/receive/receive-content.js:35
+#: src/common/components/Accounts.js:39
+#: src/renderer/receive/receive-content.js:39
 msgid "copy to clipboard"
 msgstr ""
 
-#: common/components/CreateAccountButton.js:29
+#: src/common/components/CreateAccountButton.js:30
 msgid "Create/Import"
 msgstr ""
 
-#: common/components/Send.js:41
+#: src/common/components/Send.js:43
 msgid "Successfully sent"
 msgstr ""
 
-#: common/components/Send.js:42
+#: src/common/components/Send.js:44
 msgid "to"
 msgstr ""
 
-#: common/components/Send.js:77 renderer/mywallet/mywallet-content.js:137
-msgid "SEND"
-msgstr ""
-
-#: common/components/Send.js:81
-msgid "CANCEL"
-msgstr ""
-
-#: common/components/Send.js:164
+#: src/common/components/Send.js:201
 msgid "Successfully sent to many"
 msgstr ""
 
-#: common/components/Transaction.js:303
+#: src/common/components/Transaction.js:305 src/renderer/send/send-navbar.js:33
 msgid "Send"
 msgstr ""
 
-#: common/components/Transaction.js:305 renderer/receive/receive-navbar.js:33
+#: src/common/components/Transaction.js:307
+#: src/renderer/receive/receive-navbar.js:34
 msgid "Receive"
 msgstr ""
 
-#: common/components/UnlockWallet.js:35
+#: src/common/components/UnlockWallet.js:36
 msgid "Unlock wallet to remove "
 msgstr ""
 
-#: common/components/UnlockWallet.js:36
+#: src/common/components/UnlockWallet.js:37
 msgid " from stored keys"
 msgstr ""
 
-#: common/components/UnlockWallet.js:56
+#: src/common/components/UnlockWallet.js:58
 msgid "Unlock wallet for transactions"
 msgstr ""
 
-#: common/components/UnlockWallet.js:60 common/components/UnlockWallet.js:64
+#: src/common/components/UnlockWallet.js:62
+#: src/common/components/UnlockWallet.js:66
 msgid "Unlock wallet for maintenance"
 msgstr ""
 
-#: common/components/UnlockWallet.js:68 common/components/UnlockWallet.js:72
-#: common/components/UnlockWallet.js:77
+#: src/common/components/UnlockWallet.js:70
+#: src/common/components/UnlockWallet.js:74
+#: src/common/components/UnlockWallet.js:79
 msgid "Unlock wallet for masternodes"
 msgstr ""
 
-#: common/components/UnlockWallet.js:88
+#: src/common/components/UnlockWallet.js:91
+msgid "Unlock wallet for export"
+msgstr ""
+
+#: src/common/components/UnlockWallet.js:96
 msgid "Unlock wallet for staking"
 msgstr ""
 
-#: common/getTextConsts.js:3
+#: src/common/getTextConsts.js:3
 msgid "copied to clipboard"
 msgstr ""
 
-#: common/getTextConsts.js:4
+#: src/common/getTextConsts.js:4
 msgid "Export Private Keys"
 msgstr ""
 
-#: common/getTextConsts.js:5
+#: src/common/getTextConsts.js:5
 msgid "Change Default Language"
 msgstr ""
 
-#: common/getTextConsts.js:6
+#: src/common/getTextConsts.js:6
 msgid "Unlock"
 msgstr ""
 
-#: common/getTextConsts.js:7 renderer/settings/settings-content.js:46
-#: renderer/warning/warning.js:74
+#: src/common/getTextConsts.js:7 src/renderer/settings/settings-content.js:46
+#: src/renderer/warning/warning.js:75
 msgid "Cancel"
 msgstr ""
 
-#: common/getTextConsts.js:8
+#: src/common/getTextConsts.js:8
 msgid "Block"
 msgstr ""
 
-#: common/getTextConsts.js:9
+#: src/common/getTextConsts.js:9
 msgid ""
 "This mnemonic phrase is uniquely generated, and grants you access to your "
 "wallet. Do NOT screenshot this page. Carefully write down your mnemonic "
@@ -117,335 +117,376 @@ msgid ""
 "recover your funds if you lose your mnemonic phrase."
 msgstr ""
 
-#: common/getTextConsts.js:10
+#: src/common/getTextConsts.js:10
 msgid "Passphrase Error!"
 msgstr ""
 
-#: common/setup/CreateAccount.js:35 common/setup/ImportAccount.js:38
+#: src/common/getTextConsts.js:11
+msgid "MAX"
+msgstr ""
+
+#: src/common/getTextConsts.js:12
+msgid "Address"
+msgstr ""
+
+#: src/common/getTextConsts.js:13
+msgid "Amount"
+msgstr ""
+
+#: src/common/getTextConsts.js:14
+msgid "fast"
+msgstr ""
+
+#: src/common/getTextConsts.js:15
+msgid "slow"
+msgstr ""
+
+#: src/common/getTextConsts.js:16
+msgid "Estimated transaction fee:"
+msgstr ""
+
+#: src/common/getTextConsts.js:17
+msgid "SEND"
+msgstr ""
+
+#: src/common/getTextConsts.js:18
+msgid "ADD RECIPIENT"
+msgstr ""
+
+#: src/common/getTextConsts.js:19
+msgid "total cost:"
+msgstr ""
+
+#: src/common/getTextConsts.js:20
+msgid "Address is not valid!"
+msgstr ""
+
+#: src/common/getTextConsts.js:21
+msgid "RECEIVE"
+msgstr ""
+
+#: src/common/setup/CreateAccount.js:36 src/common/setup/ImportAccount.js:39
 msgid "Wallet Name"
 msgstr ""
 
-#: common/setup/CreateAccount.js:36 common/setup/ImportAccount.js:39
+#: src/common/setup/CreateAccount.js:37 src/common/setup/ImportAccount.js:40
 msgid "Password"
 msgstr ""
 
-#: common/setup/CreateAccount.js:37 common/setup/ImportAccount.js:40
+#: src/common/setup/CreateAccount.js:38 src/common/setup/ImportAccount.js:41
 msgid "Repeat Password"
 msgstr ""
 
-#: common/setup/CreateAccount.js:87
+#: src/common/setup/CreateAccount.js:88
 msgid "Create a new CPH wallet"
 msgstr ""
 
-#: common/setup/CreateAccount.js:144 common/setup/CreateAccount.js:172
+#: src/common/setup/CreateAccount.js:145 src/common/setup/CreateAccount.js:173
 msgid "Continue"
 msgstr ""
 
-#: common/setup/CreateAccount.js:195
+#: src/common/setup/CreateAccount.js:196
 msgid "Please click the mnemonics by original order"
 msgstr ""
 
-#: common/setup/CreateAccount.js:216
+#: src/common/setup/CreateAccount.js:217
 msgid "Reset"
 msgstr ""
 
-#: common/setup/CreateAccount.js:225 renderer/settings/settings-content.js:45
+#: src/common/setup/CreateAccount.js:226
+#: src/renderer/settings/settings-content.js:45
 msgid "Confirm"
 msgstr ""
 
-#: common/setup/CreateAccount.js:318 common/setup/ImportAccount.js:555
+#: src/common/setup/CreateAccount.js:319 src/common/setup/ImportAccount.js:556
 msgid "Please enter a wallet name"
 msgstr ""
 
-#: common/setup/CreateAccount.js:321 common/setup/ImportAccount.js:359
+#: src/common/setup/CreateAccount.js:322 src/common/setup/ImportAccount.js:360
 msgid "Please enter a password"
 msgstr ""
 
-#: common/setup/CreateAccount.js:324 common/setup/ImportAccount.js:362
+#: src/common/setup/CreateAccount.js:325 src/common/setup/ImportAccount.js:363
 msgid "Password is too short enter a minimum of 8 characters."
 msgstr ""
 
-#: common/setup/CreateAccount.js:327 common/setup/ImportAccount.js:365
+#: src/common/setup/CreateAccount.js:328 src/common/setup/ImportAccount.js:366
 msgid "Passwords do not match"
 msgstr ""
 
-#: common/setup/CreateAccount.js:366
+#: src/common/setup/CreateAccount.js:367
 msgid "mnemonic does not match please try again"
 msgstr ""
 
-#: common/setup/ImportAccount.js:35
+#: src/common/setup/ImportAccount.js:36
 msgid "Please enter your mnemonics in original order, seperated by spaces."
 msgstr ""
 
-#: common/setup/ImportAccount.js:36
+#: src/common/setup/ImportAccount.js:37
 msgid "Please enter your private key."
 msgstr ""
 
-#: common/setup/ImportAccount.js:37
+#: src/common/setup/ImportAccount.js:38
 msgid ""
 "Please enter any address to create a testing account. Preferably use one "
 "with many transactions."
 msgstr ""
 
-#: common/setup/ImportAccount.js:45
+#: src/common/setup/ImportAccount.js:46
 msgid "mnemonic"
 msgstr ""
 
-#: common/setup/ImportAccount.js:46
+#: src/common/setup/ImportAccount.js:47
 msgid "private key"
 msgstr ""
 
-#: common/setup/ImportAccount.js:47
+#: src/common/setup/ImportAccount.js:48
 msgid "testing"
 msgstr ""
 
-#: common/setup/ImportAccount.js:216 common/setup/ImportAccount.js:292
-#: common/setup/ImportAccount.js:331 renderer/setup.js:103
+#: src/common/setup/ImportAccount.js:217 src/common/setup/ImportAccount.js:293
+#: src/common/setup/ImportAccount.js:332 src/renderer/setup.js:104
 msgid "Import"
 msgstr ""
 
-#: common/setup/ImportAccount.js:513
+#: src/common/setup/ImportAccount.js:514
 msgid "Please enter a mnemonic"
 msgstr ""
 
-#: common/setup/ImportAccount.js:520
+#: src/common/setup/ImportAccount.js:521
 msgid "Mnemonic length is too short"
 msgstr ""
 
-#: common/setup/ImportAccount.js:527
+#: src/common/setup/ImportAccount.js:528
 msgid "Invalid mnemonic"
 msgstr ""
 
-#: common/setup/ImportAccount.js:537
+#: src/common/setup/ImportAccount.js:538
 msgid "Please enter a private key"
 msgstr ""
 
-#: common/setup/ImportAccount.js:541
+#: src/common/setup/ImportAccount.js:542
 msgid "The length of PrivateKey must be 128"
 msgstr ""
 
-#: common/setup/ImportAccount.js:545
+#: src/common/setup/ImportAccount.js:546
 msgid "Invalid private key"
 msgstr ""
 
-#: common/setup/ImportAccount.js:562
+#: src/common/setup/ImportAccount.js:563
 msgid "Please enter a unique wallet name"
 msgstr ""
 
-#: common/setup/ImportAccount.js:576
+#: src/common/setup/ImportAccount.js:577
 msgid "Please enter an address"
 msgstr ""
 
-#: common/setup/ImportAccount.js:582
+#: src/common/setup/ImportAccount.js:583
 msgid "The address you enetered is not valid. Please enter a valid address."
 msgstr ""
 
-#: renderer/addresses/addresses.js:33
+#: src/renderer/addresses/addresses.js:34
 msgid "Addresses"
 msgstr ""
 
-#: renderer/masternodes/masternodes-content.js:76
+#: src/renderer/masternodes/masternodes-content.js:77
 msgid "REFRESH"
 msgstr ""
 
-#: renderer/masternodes/masternodes-content.js:77
+#: src/renderer/masternodes/masternodes-content.js:78
 msgid "START MISSING"
 msgstr ""
 
-#: renderer/masternodes/masternodes-content.js:78
+#: src/renderer/masternodes/masternodes-content.js:79
 msgid "START ALL"
 msgstr ""
 
-#: renderer/masternodes/masternodes-content.js:79
+#: src/renderer/masternodes/masternodes-content.js:80
 msgid "CREATE"
 msgstr ""
 
-#: renderer/masternodes/masternodes.js:32
+#: src/renderer/masternodes/masternodes.js:33
 msgid "Masternodes"
 msgstr ""
 
-#: renderer/mywallet/mywallet-content.js:249
+#: src/renderer/mywallet/mywallet-content.js:246
 msgid "Follow us"
 msgstr ""
 
-#: renderer/mywallet/mywallet-content.js:268
+#: src/renderer/mywallet/mywallet-content.js:265
 msgid "Join discord"
 msgstr ""
 
-#: renderer/mywallet/mywallet-content.js:286
+#: src/renderer/mywallet/mywallet-content.js:283
 msgid "Join telegram"
 msgstr ""
 
-#: renderer/mywallet/mywallet.js:32
+#: src/renderer/mywallet/mywallet.js:34
 msgid "Wallet"
 msgstr ""
 
-#: renderer/receive/receive-content.js:36
+#: src/renderer/receive/receive-content.js:40
 msgid "View On Explorer"
 msgstr ""
 
-#: renderer/receive/receive.js:36
-msgid "RECEIVE"
-msgstr ""
-
-#: renderer/settings/settings-content.js:47
+#: src/renderer/settings/settings-content.js:47
 msgid "Dump wallet for"
 msgstr ""
 
-#: renderer/settings/settings-content.js:48
+#: src/renderer/settings/settings-content.js:48
 msgid "Backup wallet.dat for"
 msgstr ""
 
-#: renderer/settings/settings-content.js:109
+#: src/renderer/settings/settings-content.js:110
 msgid "This wallet is developed and maintained by a third party "
 msgstr ""
 
-#: renderer/settings/settings-content.js:110
+#: src/renderer/settings/settings-content.js:111
 msgid "We are in no way affiliated with the Cypherium team or organization. "
 msgstr ""
 
-#: renderer/settings/settings-content.js:111
+#: src/renderer/settings/settings-content.js:112
 msgid "For support please visit the"
 msgstr ""
 
-#: renderer/settings/settings-content.js:111
+#: src/renderer/settings/settings-content.js:112
 msgid "server "
 msgstr ""
 
-#: renderer/settings/settings-content.js:112
+#: src/renderer/settings/settings-content.js:113
 msgid "and report any issues you may find to "
 msgstr ""
 
-#: renderer/settings/settings-content.js:128
+#: src/renderer/settings/settings-content.js:129
 msgid "Settings"
 msgstr ""
 
-#: renderer/settings/settings-content.js:134
+#: src/renderer/settings/settings-content.js:135
 msgid "Encrypt Wallet"
 msgstr ""
 
-#: renderer/settings/settings-content.js:144
+#: src/renderer/settings/settings-content.js:145
 msgid "Combine Rewards"
 msgstr ""
 
-#: renderer/settings/settings-content.js:151
+#: src/renderer/settings/settings-content.js:152
 msgid "Stake Split Threshold"
 msgstr ""
 
-#: renderer/settings/settings-content.js:158
+#: src/renderer/settings/settings-content.js:159
 msgid "Backup Wallet"
 msgstr ""
 
-#: renderer/settings/settings-content.js:162
+#: src/renderer/settings/settings-content.js:163
 msgid "Dump Wallet"
 msgstr ""
 
-#: renderer/settings/settings-content.js:166
+#: src/renderer/settings/settings-content.js:167
 msgid "Import Wallet"
 msgstr ""
 
-#: renderer/settings/settings-content.js:170
+#: src/renderer/settings/settings-content.js:171
 msgid "Open Config"
 msgstr ""
 
-#: renderer/settings/settings-content.js:174
+#: src/renderer/settings/settings-content.js:175
 msgid "Open Masternode Config"
 msgstr ""
 
-#: renderer/settings/settings-content.js:186
+#: src/renderer/settings/settings-content.js:188
 msgid "Passphrases do not match!"
 msgstr ""
 
-#: renderer/settings/settings-content.js:220
+#: src/renderer/settings/settings-content.js:222
 msgid "Enter a passphrase for the wallet."
 msgstr ""
 
-#: renderer/settings/settings-content.js:221
+#: src/renderer/settings/settings-content.js:223
 msgid ""
 "Please use a passphrase of 10 or more random characters or a minimum of 8 "
 "random words."
 msgstr ""
 
-#: renderer/settings/settings-content.js:222
+#: src/renderer/settings/settings-content.js:224
 msgid "After confirming your wallet will be encrypted then auto restarted."
 msgstr ""
 
-#: renderer/settings/settings-content.js:225
+#: src/renderer/settings/settings-content.js:227
 msgid "Passphrase"
 msgstr ""
 
-#: renderer/settings/settings-content.js:232
+#: src/renderer/settings/settings-content.js:234
 msgid "Repeat Passphrase"
 msgstr ""
 
-#: renderer/settings/settings-content.js:261
+#: src/renderer/settings/settings-content.js:263
 msgid "Enter a threshold amount."
 msgstr ""
 
-#: renderer/settings/settings-content.js:263
+#: src/renderer/settings/settings-content.js:265
 msgid ""
 "The wallet will automatically monitor for any coins with a value below the "
 "threshold amount,\tand combine them if they reside within the same address."
 msgstr ""
 
-#: renderer/settings/settings-content.js:265
+#: src/renderer/settings/settings-content.js:267
 msgid ""
 "When combine rewards runs it will create a transaction, and therefore will "
 "be subject to transaction fees."
 msgstr ""
 
-#: renderer/settings/settings-content.js:268
+#: src/renderer/settings/settings-content.js:270
 msgid "Threshold amount"
 msgstr ""
 
-#: renderer/settings/settings-content.js:366
+#: src/renderer/settings/settings-content.js:368
 msgid "Saved backup of wallet.dat"
 msgstr ""
 
-#: renderer/settings/settings-content.js:376
+#: src/renderer/settings/settings-content.js:378
 msgid "Successfuly dumped private keys"
 msgstr ""
 
-#: renderer/settings/settings-content.js:389
+#: src/renderer/settings/settings-content.js:391
 msgid "Please enter a stake split amount!"
 msgstr ""
 
-#: renderer/settings/settings-content.js:439
+#: src/renderer/settings/settings-content.js:441
 msgid "Combine rewards enabled"
 msgstr ""
 
-#: renderer/settings/settings-content.js:448
+#: src/renderer/settings/settings-content.js:450
 msgid "Import wallet .txt"
 msgstr ""
 
-#: renderer/settings/settings-content.js:461
+#: src/renderer/settings/settings-content.js:463
 msgid "Successfuly imported private keys"
 msgstr ""
 
-#: renderer/setup.js:38
+#: src/renderer/setup.js:39
 msgid ""
 "It appears this is the first time you are starting up the wallet. You can "
 "either create a new account or import from your keys."
 msgstr ""
 
-#: renderer/setup.js:39
+#: src/renderer/setup.js:40
 msgid ""
 "Please select an option below to either import or create another wallet. "
 "This will not replace your current wallet."
 msgstr ""
 
-#: renderer/setup.js:111
+#: src/renderer/setup.js:112
 msgid "Create"
 msgstr ""
 
-#: renderer/transactions/transactions.js:32
+#: src/renderer/transactions/transactions.js:33
 msgid "Transactions"
 msgstr ""
 
-#: renderer/warning/warning.js:66
+#: src/renderer/warning/warning.js:67
 msgid "Update"
 msgstr ""
 
-#: renderer/warning/warning.js:70
+#: src/renderer/warning/warning.js:71
 msgid "Info"
 msgstr ""
