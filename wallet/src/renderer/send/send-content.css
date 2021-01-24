@@ -1,6 +1,5 @@
 /*
  * This file is part of The UNIGRID Wallet
- * Copyright (C) 2019 The Swipp developers <info@swippcoin.com>
  * Copyright (C) 2019-2021 The UNIGRID Organization
  *
  * The UNIGRID Wallet is free software: you can redistribute it and/or modify
@@ -17,26 +16,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from "react";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExchangeAlt, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import NavEntry from "../naventry";
-import Button from "../../common/components/Button";
-
-var gt = require('electron').remote.getGlobal('gt');
-library.add(faExchangeAlt, faChevronRight);
-
-export default class Receive extends React.Component {
-	render() {
-		return (
-			<NavEntry>
-				<Button
-					buttonStyle="btn--success--solid"
-					handleClick={() => null}
-					buttonSize="btn--small">{gt.gettext("RECEIVE")}</Button>
-			</NavEntry>
-		);
-	}
+ div#send>div {
+	text-align: center;
+	padding-top: 5px !important;
 }
-

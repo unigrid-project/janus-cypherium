@@ -38,6 +38,7 @@ import ReceiveContent from "./receive/receive-content";
 import MasternodesContent from "./masternodes/masternodes-content";
 import Warning from "./warning/warning";
 import Config from "../common/config";
+import SendContent from "./send/send-content";
 
 library.add(faRocket);
 
@@ -61,6 +62,7 @@ const routes = {
 				{/*<TransactionsContentTest key="transactions-test-content" />*/}
 				{/*getShowMasternode()*/}
 				{<ReceiveContent key="receive-content" />}
+				<SendContent key="send-content" />
 				{<SettingsContent key="settings-content" />}
 				{/*<CLIContent key="cli-content" />*/}
 

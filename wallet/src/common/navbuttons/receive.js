@@ -1,5 +1,6 @@
 /*
  * This file is part of The UNIGRID Wallet
+ * Copyright (C) 2019 The Swipp developers <info@swippcoin.com>
  * Copyright (C) 2019-2021 The UNIGRID Organization
  *
  * The UNIGRID Wallet is free software: you can redistribute it and/or modify
@@ -16,45 +17,25 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-.padding {
-  padding-left: 5px;
+import React from "react";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faExchangeAlt, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import NavEntry from "../../renderer/naventry";
+import Button from "../components/Button";
+import { RECEIVE } from "../getTextConsts";
+
+library.add(faExchangeAlt, faChevronRight);
+
+export default class Receive extends React.Component {
+	render() {
+		return (
+			<NavEntry>
+				<Button
+					buttonStyle="btn--success--solid"
+					handleClick={() => null}
+					buttonSize="btn--small">{RECEIVE}</Button>
+			</NavEntry>
+		);
+	}
 }
 
-.error--text {
-  color: var(--danger);
-  font-family: var(--fontFamily);
-  font-size: 15;
-}
-
-.error--text-start {
-  opacity: 0;
-}
-
-.error--text-hidden {
-  color: var(--danger);
-  font-family: var(--fontFamily);
-  font-size: 15;
-  visibility: collapse;
-  opacity: 0;
-}
-
-.error--text--animation {
-  visibility: visible;
-  color: var(--danger);
-  font-family: var(--fontFamily);
-  font-size: 13;
-  animation: errortextanimation 3s forwards;
-  transition-timing-function: ease-in-out;
-}
-
-@keyframes errortextanimation {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}

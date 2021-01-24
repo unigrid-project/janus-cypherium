@@ -30,7 +30,6 @@ import * as Sentry from "@sentry/electron";
 import Config from "../common/config";
 import NodeClient from "../common/node-client";
 import Store from "electron-store";
-import { crashReporter } from 'electron';
 import LocalePath from "../common/loaclePath";
 import LoadLanguageFiles from "../common/languages/LoadLanguageFiles";
 import Gettext from 'node-gettext';
@@ -129,14 +128,6 @@ ipcMain.on("change-locale", (event, msg) => {
 	}
 	app.relaunch();
 	app.quit();
-});
-
-crashReporter.start({
-	productName: 'UNIGRID Wallet',
-	companyName: 'UNIGRID Organization',
-	submitURL: 'http://crashreports.unigrid.org/POST',
-	uploadToServer: true,
-	compress: true
 });
 
 app.whenReady().then(() => {

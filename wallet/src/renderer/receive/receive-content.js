@@ -16,7 +16,8 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState, useEffect } from "react"; import Content from "../content";
+import React, { useState, useEffect } from "react"; 
+import Content from "../content";
 import { ipcRenderer, remote, clipboard } from "electron";
 import { faChevronLeft, faClipboard } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

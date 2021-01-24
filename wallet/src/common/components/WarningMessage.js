@@ -17,6 +17,7 @@
  */
 
 import React, { useState, useEffect } from "react";
+import './WarningMessage.css';
 
 function WarningMessage({ message, onAnimationComplete, startAnimation }) {
     const [errorClasses, setErrorClasses] = useState(startAnimation);

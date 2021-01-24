@@ -72,7 +72,7 @@ body {
     border: 1.5px solid var(--border--active);
     border-radius: 5px;
     min-height: 40px;
-    background-color: var(--navbar--background);
+    background-color: var(--transaction--containers);
 }
 
 .loading--main {
@@ -98,7 +98,7 @@ body {
     border: 1.5px solid var(--border--active);
     border-radius: 5px;
     min-height: 40px;
-    background-color: var(--navbar--background);
+    background-color: var(--transaction--containers);
 }
 
 .transaction--main:hover {

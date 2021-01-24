@@ -17,28 +17,59 @@
  */
 
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import NodeClient from '../../common/node-client';
 import Config from "../config";
+import { FAST, SLOW, ESTIMATED_FEE } from "../getTextConsts";
 
 const nodeClient = new NodeClient();
+const min = 1;
+const max = 100;
+const defaultValue = 50;
 
-function GasSelector() {
-    const [gas, setGas] = useState((18 * 21000 / 1000000000))
+function GasSelector({ onGasUpdate, resetGas }) {
+    const [gas, setGas] = useState((50 * 21000 / 1000000000))
+    //let price = await this.web3c.cph.gasPrice(); price/1e9;
+    const inputRef = useRef(null);
     useEffect(() => {
-        nodeClient.getGasPrice().then((r) => {
-            //console.log("gas: ", r)
-        })
-    }, [])
+        onGasUpdate(gas);
+    }, [gas])
+    useEffect(() => {
+        inputRef.current.value = defaultValue;
+        setGas((50 * 21000 / 1000000000));
+    }, [resetGas])
     return (
-        <div>
-            <div>
-                Estimated transaction fee: { }
-            </div>
-            <input type="range" min="1" max="500" />
-        </div>
+        <div className="">
+            <h2>
+                {ESTIMATED_FEE} {gas}
+            </h2>
+            <div style={{ width: "100%" }}>
 
+                <input
+                    ref={inputRef}
+                    defaultValue={defaultValue}
+                    type="range"
+                    min={min} max={max}
+                    className="gas--slider"
+                    onChange={(e) => {
+                        e.preventDefault();
+                        handleChange(e);
+                    }} />
+
+
+                <div className="align--row--space-between darkCopy">
+                    <div>{SLOW}</div>
+                    <div>{FAST}</div>
+                </div>
+            </div>
+        </div>
     )
+
+    function handleChange(e) {
+        // this.range * 21000 / 1000000000
+        console.log("range ", e.target.value)
+        setGas(e.target.value * 21000 / 1000000000);
+    }
 
 }
 

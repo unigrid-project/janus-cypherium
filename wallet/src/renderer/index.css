@@ -20,8 +20,8 @@
 @import "~roboto-fontface/css/roboto/roboto-fontface.css";
 body {
 	/* for gradient backgrounds */
-	/*background-image: var(--app--background--image);*/
-	background-color: var(--app--background--color);
+	background-image: var(--app--background--image);
+	/*background-color: var(--app--background--color);*/
 	/*background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #743e01), color-stop(1, #f58404));*/
 	/*background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #3b0303), color-stop(1, #f50404));*/
 	/*background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #151529), color-stop(1, #030724));*/

@@ -40,7 +40,9 @@ import NodeClient from '../../common/node-client';
 import { WalletService } from "../../common/walletutils/WalletService.js";
 import AccountSelection from "../../common/accounts/AccountSelection.js";
 import CreateAccountButton from "../../common/components/CreateAccountButton.js";
-import Receive from "../receive/receive.js";
+import Receive from "../../common/navbuttons/receive.js";
+import SendButton from "../../common/navbuttons/send.js";
+import AccountBalances from "../../common/accounts/AccountBalances.js";
 
 var gt = require('electron').remote.getGlobal('gt');
 const log = require('electron-log');
@@ -48,7 +50,7 @@ const walletService = new WalletService();
 const nodeClient = new NodeClient();
 const store = new Store();
 const currency = store.get("currency", "usd");
-
+const accountBalances = new AccountBalances();
 
 function MyWalletContent(props) {
 	const [currentSelectedAccount, setCurrentSelectedAccount] = useState(Config.getCurrentAccount());
@@ -67,11 +69,6 @@ function MyWalletContent(props) {
 	const [walletList, setWalletList] = useState(Config.getAccount());
 	const [renderListKey, setRenderListKey] = useState(Math.random());
 	useEffect(() => {
-		
-		
-		
-		console.log("from main: " , gt.gettext("view in explorer"))
-
 		nodeClient.getKeyBlockHeight().then((r) => {
 			console.log("getKeyBlockHeight: ", r);
 		})
@@ -79,11 +76,8 @@ function MyWalletContent(props) {
 			console.log("getBlockHeight: ", r);
 		})
 
-		if (Config.isDaemonBased()) {
-			getDataLocal();
-		} else {
-			getNodeData();
-		}
+		accountBalances.getNodeData();
+
 		ipcRenderer.on("cancel-send-operation", (event, message) => {
 			console.log("cencel send ");
 			cancelSendOperation();
@@ -92,13 +86,10 @@ function MyWalletContent(props) {
 			setCurrentSelectedAccount(account);
 			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
 		});
-		ipcRenderer.on("trigger-info-update", (event, message) => {
-			if (Config.isDaemonBased()) {
-				getDataLocal();
-			} else {
-				getNodeData();
-			}
-		});
+
+		ipcRenderer.on("account-balance-updated", (event, balance) => {
+			setBalance(balance.toString());
+		})
 		ipcRenderer.on("new-transactions-loaded", (event, obj) => {
 			setTransactions(obj.transactions);
 			setRenderKey(Math.random());
@@ -108,9 +99,13 @@ function MyWalletContent(props) {
 			const accounts = Config.getAccount();
 			setWalletList(accounts);
 		});
-
+		ipcRenderer.on("trigger-info-update", () => {
+			accountBalances.getNodeData();
+		});
 		const interval = setInterval(() => {
 			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
+
+			//accountBalances.triggerInfoUpdate();
 		}, 10000);
 		return () => clearInterval(interval);
 	}, []);
@@ -136,10 +131,7 @@ function MyWalletContent(props) {
 					<div className="currency--send padding-ten">
 						<h1>{balance} {Config.getProjectTicker()}</h1>
 						<div className="btn--send">
-							<Button
-								buttonStyle="btn--secondary--solid"
-								handleClick={() => null}
-								buttonSize="btn--small">{gt.gettext("SEND")}</Button>
+							<SendButton key="send" type="button" name="send" />
 						</div>
 						<div className="btn--send">
 							<Receive key="receive" type="button" name="receive" />
@@ -164,7 +156,7 @@ function MyWalletContent(props) {
 		</Content>
 	);
 
-	function testChangeLocale(){
+	function testChangeLocale() {
 		//
 		ipcRenderer.send("change-locale", "cn");
 	}

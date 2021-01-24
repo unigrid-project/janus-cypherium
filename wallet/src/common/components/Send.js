@@ -27,13 +27,14 @@ import Store from "electron-store";
 import { sendDesktopNotification } from "./DesktopNotifications";
 import Config from "../config";
 import GasSelector from "./GasSelector";
+import { ADD_RECIPIENT, SEND, TOTAL_COST } from "../getTextConsts";
 
 var gt = require('electron').remote.getGlobal('gt');
 const store = new Store();
 
 
 function Send() {
-    const [recipients, setRecipients] = useState({ "address1": { "address": "", "amount": "", "isValid": false } });
+    const [recipients, setRecipients] = useState({ "address1": { "address": "", "amount": 0, "isValid": false } });
     const [rerender, setRerender] = useState(false);
     const [recipientCounter, setRecipientCounter] = useState(2);
     const [disableSendBtn, setDisableSendButton] = useState(true);
@@ -41,6 +42,9 @@ function Send() {
     const [hasGas] = useState(Config.getHasGas());
     const copy1 = gt.gettext("Successfully sent");
     const copy2 = gt.gettext("to");
+    const [gas, setGas] = useState((50 * 21000 / 1000000000));
+    const [gasDefault, setGasDefault] = useState(Math.random());
+    const [priceKey, setPriceKey] = useState(Math.random());
     useEffect(() => {
         setSendButtonKey(Math.random());
         //console.log("button state changed ", disableSendBtn)
@@ -58,36 +62,68 @@ function Send() {
         });
         ipcRenderer.on('update-amount', (event, message) => {
             setSendAmount(message.amount, message.key);
+            setPriceKey(Math.random());
+            //console.log("where the fuck is gas? ", gas);
+            //console.log("recipients: ", recipients)
         });
         ipcRenderer.on('update-address', (event, message) => {
             setSendAddress(message.address, message.key);
+            console.log("recipients: ", recipients)
+        });
+        ipcRenderer.on("update-active-account", (event, account) => {
+            setRecipients({ "address1": { "address": "", "amount": 0, "isValid": false } });
+            setGas(50 * 21000 / 1000000000);
+            setGasDefault(Math.random());
         });
     }, []);
 
     return (
         <div
             key={Object.keys(recipients).length}
-            className="send--inner--container">
-            {createRecipients()}
-            <div className="btn--row--send">
-                <Button
-                    key={sendBtnKey}
-                    buttonStyle="btn--secondary--solid"
-                    buttonSize="btn--small"
-                    disabled={disableSendBtn}
-                    handleClick={() => checkForLockedWallet()}>{gt.gettext("SEND")}</Button>
-                <Button
-                    buttonStyle="btn--secondary--solid"
-                    buttonSize="btn--small"
-                    handleClick={() => onCancelPressed()}>{gt.gettext("CANCEL")}</Button>
+            className="send--inner--container ">
+            <div className="send--input--container">
+                {createRecipients()}
             </div>
-            {hasGas ? <GasSelector /> : null}
+
+            <div className="padding--top--ten ">
+                {hasGas ?
+                    <div className="align--row--space-between " style={{ width: "95%" }} >
+                        <GasSelector onGasUpdate={e => onGasUpdate(e)} resetGas={gasDefault} />
+                        <div className="total--cost" key={priceKey}>
+                            <h2>{TOTAL_COST} {totalPrice()}</h2>
+                        </div>
+                    </div>
+                    : null}
+            </div>
+            <div className="btn--row--send">
+                { /*<div className="padding-five">
+                    <Button
+                        buttonStyle="btn--secondary--solid"
+                        buttonSize="btn--small"
+                        handleClick={() => addRecipient()}>{ADD_RECIPIENT}</Button>
+                </div>*/}
+                <div className="padding-five">
+                    <Button
+                        key={sendBtnKey}
+                        buttonStyle="btn--secondary--solid"
+                        buttonSize="btn--small"
+                        disabled={disableSendBtn}
+                        handleClick={() => checkForLockedWallet()}>{SEND}</Button>
+                </div>
+            </div>
         </div>
     )
-    /* <Button
-                   buttonStyle="btn--secondary--solid"
-                   buttonSize="btn--small"
-                   handleClick={() => addRecipient()}>ADD RECIPIENT</Button> */
+
+
+    function totalPrice() {
+        return parseFloat(parseInt(recipients["address1"].amount) + parseFloat(gas));
+    }
+
+    function onGasUpdate(e) {
+        const amount = parseFloat(parseInt(recipients["address1"].amount) + e);
+        console.log("amount: ", amount);
+        setGas(e);
+    }
 
     function checkForLockedWallet() {
         setDisableSendButton(true);
@@ -137,7 +173,7 @@ function Send() {
                     sendDesktopNotification(`${copy1} ${amount} ${Config.getProjectTicker} ${copy2} ${address}`);
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
-                    setRecipients({ "address1": { "address": "", "amount": "", "isValid": false } });
+                    setRecipients({ "address1": { "address": "", "amount": 0, "isValid": false } });
                 }, (stderr) => {
                     console.error(stderr);
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
@@ -166,7 +202,7 @@ function Send() {
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
 
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
-                setRecipients({ "address1": { "address": "", "amount": "", "isValid": false } });
+                setRecipients({ "address1": { "address": "", "amount": 0, "isValid": false } });
             }, (stderr) => {
                 console.error(stderr);
                 // send error notification
@@ -184,7 +220,7 @@ function Send() {
         sendCoins(recipients)
     }
     function onCancelPressed() {
-        setRecipients({ "address1": { "address": "", "amount": "", "isValid": false } });
+        setRecipients({ "address1": { "address": "", "amount": 0, "isValid": false } });
         setRecipientCounter(2);
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "cancel-send-operation");
     }
@@ -211,7 +247,6 @@ function Send() {
     }
 
     function setSendAmount(v, recipientKey) {
-        // const updateAmount = recipients;
         Object.keys(recipients).map(key => {
             if (key === recipientKey) {
                 recipients[key].amount = v;
@@ -221,7 +256,7 @@ function Send() {
         updateRecipients(recipients, recipientKey);
     }
 
-    function setIsValid(v, recipientKey) {
+    function setAdddressValid(v, recipientKey) {
         // const recipients = recipients;
         Object.keys(recipients).map(key => {
             if (key === recipientKey) {
@@ -246,7 +281,7 @@ function Send() {
                 }
             }
         });
-        setDisableSendButton(unlockButton);
+        // setDisableSendButton(unlockButton);
     }
 
     function createRecipient(key) {
@@ -259,11 +294,11 @@ function Send() {
         return (
             <SendInputs
                 showRemove={showRemove}
+                gas={gas}
                 key={key}
                 removeRecipient={(e) => removeRecipient(e)}
                 setSendAddress={setSendAddress}
-                setSendAmount={setSendAmount}
-                setIsValid={setIsValid}
+                setIsValid={setAdddressValid}
                 recipientKey={key}
                 inputValueAmount={amount}
                 inputValueAddress={address}

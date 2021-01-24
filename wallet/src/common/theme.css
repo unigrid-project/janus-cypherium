@@ -41,15 +41,10 @@
   --select--background: rgb(0, 0, 0, 0.8);
   --tooltip--background: rgba(15, 15, 15, 0.9);
   --input--background: #272531;
-  --app--background--image: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    color-stop(0, #01ace2),
-    color-stop(1, white)
-  );
+  --app--background--image: -webkit-gradient( linear, left bottom, left top, color-stop(0, #01ace2), color-stop(1, white));
   --app--background--color: #98e6fd;
   --navbar--background: #02506e;
+  --transaction--containers: #02506e;
   --controlbar--background: #0289be;
   --controlbar--close: rgb(255, 255, 255);
   --controlbar--update: rgb(1, 194, 1);
@@ -62,6 +57,7 @@
   --dark--teal: rgba(0, 58, 82, 0.8);
   --unclock--container: rgba(0, 58, 82, 0.8);
 }
+
 /* UGD settings
 --app--background--image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #151529), color-stop(1, #030724)); 
 --app--background--image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #01ace2), color-stop(1, white));
@@ -88,6 +84,7 @@
 	background-color: #171717;
 }
 */
+
 h1 {
   color: var(--main--font-color);
   font-size: 16pt;
@@ -103,6 +100,12 @@ h2 {
   font-weight: 400;
 }
 
+h3 {
+  font-size: 12pt;
+  color: var(--main--font-color);
+  font-weight: 300;
+}
+
 .darkCopy {
   color: var(--dark);
 }
@@ -116,6 +119,7 @@ h2 {
   font-weight: 300;
   font-weight: bold;
 }
+
 .fontRegular {
   font-family: var(--fontFamily);
   font-size: 14pt;
@@ -196,7 +200,7 @@ h2 {
   flex-direction: row;
 }
 
-.align--row--flexstart > div {
+.align--row--flexstart>div {
   padding-left: 10px;
 }
 
@@ -227,6 +231,14 @@ h2 {
   flex-direction: column;
 }
 
+.align--row--inputs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  max-width: 675px;
+}
+
 .warning--padding {
   min-height: 30px;
 }
@@ -245,6 +257,10 @@ h2 {
 
 .padding--top--five {
   padding-top: 5px;
+}
+
+.padding--top--ten {
+  padding-top: 10px;
 }
 
 .padding--bottom--five {
@@ -312,7 +328,7 @@ h2 {
   padding-left: 20px;
 }
 
-.btn--send > * {
+.btn--send>* {
   padding-right: 10px;
 }
 
@@ -355,3 +371,14 @@ h2 {
   height: 100%;
 }
 
+.max--width {
+  width: 100%;
+}
+
+.gas--slider {
+  cursor: pointer;
+  width: 300px;
+  /* Specific width is required for Firefox. */
+  background: transparent;
+  /* Otherwise white in Chrome */
+}

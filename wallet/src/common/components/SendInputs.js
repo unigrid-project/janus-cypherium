@@ -25,10 +25,14 @@ import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RPCClient from "common/rpc-client.js";
-import WarningMessage from "./WarningMessage";
 import { ipcRenderer, remote } from "electron";
 import Config from "../config";
+import NodeClient from "../node-client";
+import { WalletService } from "../walletutils/WalletService";
+import { ADDRESS, MAX, AMOUNT, INVALID_ADDRESS } from "../getTextConsts";
 
+const nodeClient = new NodeClient();
+const walletService = new WalletService();
 library.add(faTimesCircle);
 
 function SendInputs({
@@ -36,53 +40,72 @@ function SendInputs({
     inputValueAddress,
     setSendAddress,
     showRemove,
-    setSendAmount,
     recipientKey,
     removeRecipient,
-    setIsValid
+    setIsValid,
+    gas
 }) {
-    const [warningMessage, setWarningMessage] = useState("");
-
+    const [balance, setBalance] = useState(0);
+    const [updateValue, setUpdateValue] = useState(0);
+    useEffect(() => {
+        ipcRenderer.on("account-balance-updated", (event, balance) => {
+            setBalance(balance.toString());
+        })
+    }, [])
     return (
-        <div className="send--input--container">
-            <div>
+        <div className="max--width">
+            <div className="align--row--inputs" style={{ width: "95%" }}>
                 <EnterField
                     key={inputValueAddress + "address"}
                     type={"text"}
                     clearField={inputValueAddress}
-                    myStyle={"medium--input"}
+                    myStyle={"dynamic--input"}
                     onBlurOut={onBlurOutAddress}
-                    placeHolder="Address"
+                    placeHolder={ADDRESS}
                     updateEntry={(v) => sendAddressChangeSignal(v)}
                 />
+
                 <EnterField
-                    placeHolder="Amount"
+                    placeHolder={AMOUNT}
                     key={inputValueAmount + "amount"}
                     type={"number"}
+                    shouldAutoFocus={true}
                     clearField={inputValueAmount}
-                    myStyle={"smallInput"}
+                    myStyle={"number--input"}
                     updateEntry={(v) => sendAmountChangeSignal(v)}
                 />
-                {showRemove === true ?
-                    <div onClick={() => removeRecipient(recipientKey)}>
-                        <FontAwesomeIcon
-                            size="lg"
-                            icon={faTimesCircle} color="red" />
-                    </div>
-                    :
-                    null}
-            </div>
-            {warningMessage !== "" ? renderWarning() : null}
 
+                <div style={{ justifySelf: 'flex-end' }}>
+                    {showRemove === true ?
+                        <div onClick={() => removeRecipient(recipientKey)}>
+                            <FontAwesomeIcon
+                                size="lg"
+                                icon={faTimesCircle} color="red" />
+                        </div>
+                        :
+                        null}
+                </div>
+            </div>
         </div>
     )
+    /*
+    <Button
+                                buttonStyle="btn--secondary--solid"
+                                buttonSize="btn--small"
+                                handleClick={() => setMaxValue()}>{MAX}</Button>
+    */
+    function setMaxValue() {
+        console.log("balance input: ", (parseFloat(balance) - parseFloat(gas)));
+        setUpdateValue(balance);
+    }
 
     function sendAmountChangeSignal(v) {
-        //console.log("amount: ", v);
+        console.log("amount: ", v);
         let obj = {
             amount: v,
             key: recipientKey
         };
+
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "update-amount", obj);
     }
     function sendAddressChangeSignal(v) {
@@ -92,26 +115,16 @@ function SendInputs({
         };
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "update-address", obj);
     }
-    function renderWarning() {
-        return (
-            <WarningMessage
-                message={warningMessage}
-                onAnimationComplete={onAnimationComplete}
-                startAnimation="error--text-start error--text--animation" />
-        )
-    }
-    function onAnimationComplete() {
-        setWarningMessage("");
-    }
+
 
     function onBlurOutAmount(e) {
         //updateEntry={(a) => setSendAmount(a, recipientKey)}
         let amount = e.target.value;
-        setSendAmount(amount, recipientKey)
+        //setSendAmount(amount, recipientKey)
     }
     async function onBlurOutAddress(e) {
         console.log(e.target.value);
-        if (Config.isDaemonBased) {
+        if (Config.isDaemonBased()) {
             var rpcClient = new RPCClient();
             const address = e.target.value;
             Promise.all([
@@ -120,7 +133,8 @@ function SendInputs({
             ]).then((response) => {
                 setIsValid(response[0].isvalid, recipientKey);
                 if (!response[0].isvalid) {
-                    setWarningMessage("Address is not valid!");
+                    //setWarningMessage("Address is not valid!");
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", INVALID_ADDRESS);
                     // make sure send button is disabled until 
                     // it's valid
                 }
@@ -129,6 +143,15 @@ function SendInputs({
             });
         } else {
             // handle checking address with cph/eth
+            const address = walletService.convertAddr(e.target.value);
+            nodeClient.validateAddress(address, (res) => {
+                console.log("valid: ", res)
+                setIsValid(res, recipientKey);
+                if (!res) {
+                    //setWarningMessage("Address is not valid!");
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", INVALID_ADDRESS);
+                }
+            })
         }
 
     }

@@ -16,45 +16,24 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-.padding {
-  padding-left: 5px;
-}
+import { ipcRenderer, remote } from "electron";
+import Config from "../config";
+import NodeClient from "../node-client";
 
-.error--text {
-  color: var(--danger);
-  font-family: var(--fontFamily);
-  font-size: 15;
-}
+const nodeClient = new NodeClient();
+const log = require('electron-log');
 
-.error--text-start {
-  opacity: 0;
-}
+export default class AccountBalances {
 
-.error--text-hidden {
-  color: var(--danger);
-  font-family: var(--fontFamily);
-  font-size: 15;
-  visibility: collapse;
-  opacity: 0;
-}
+    async getNodeData() {
+        console.log("account to load balance: ", Config.getCurrentAccount())
+        nodeClient.getCphBalance(Config.getCurrentAccount()[0].address).then((v) => {
+            // send signal balance was updated
+            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "account-balance-updated", v);
+            //setBalance(v.toString());
+        }, (stderr) => {
+            log.warn("Error loading balance for address: ", "CPH" + stderr);
+        });
+    }
 
-.error--text--animation {
-  visibility: visible;
-  color: var(--danger);
-  font-family: var(--fontFamily);
-  font-size: 13;
-  animation: errortextanimation 3s forwards;
-  transition-timing-function: ease-in-out;
-}
-
-@keyframes errortextanimation {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
 }

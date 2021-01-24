@@ -31,6 +31,7 @@ import Config from "../common/config.js";
 import CreateAccountButton from "../common/components/CreateAccountButton.js";
 import UnlockWallet from "../common/components/UnlockWallet.js";
 import ReceiveNavBar from "./receive/receive-navbar.js";
+import SendNavbar from "./send/send-navbar.js";
 
 export default class NavBar extends React.Component {
 	render() {
@@ -42,6 +43,7 @@ export default class NavBar extends React.Component {
 					{Config.getIsMasternode() ? <Masternodes key="masternodes" /> : null}
 					<Transactions key="transactions" />
 					<ReceiveNavBar key="receive" name="receive"/>
+					<SendNavbar key="send" name="send" />
 				</ul>
 				<ul className="settings--container" >
 					<Settings key="settings" className="button" />

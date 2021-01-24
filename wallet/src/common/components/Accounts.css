@@ -19,7 +19,7 @@
  .accountContainer {
     border-radius: 5px;
     border: 1.5px solid var(--border--active);
-    background-color: var(--navbar--background);
+    background-color: var(--transaction--containers);
     height: 38px;
     display: flex;
     flex-direction: row;
