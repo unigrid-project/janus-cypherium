@@ -16,7 +16,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import './EnterField.css';
 
 function EnterField({
@@ -30,7 +30,7 @@ function EnterField({
   disabled,
   shouldAutoFocus
 }) {
-  const inputRef = useRef(null)
+
   const [inputType] = useState(type)
   const [inputValue, setInputValue] = useState(clearField);
   const [style] = useState(myStyle);
@@ -50,11 +50,10 @@ function EnterField({
   return (
     <div className="">
       <input
-        ref={inputRef}
         type={inputType}
         disabled={isDisabled}
-        autoFocus={shouldAutoFocus}
-        onFocus={() => { inputRef.current.select() }}
+        autoFocus={false}
+        onFocus={(e) => handleFocus(e)}
         value={inputValue}
         name="input-form"
         onChange={(e) => {
@@ -69,6 +68,10 @@ function EnterField({
         className={style} />
     </div>
   );
+
+  function handleFocus(e) {
+    e.target.select();
+  }
 
 }
 export default EnterField;

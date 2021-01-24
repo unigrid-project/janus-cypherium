@@ -37,7 +37,7 @@ function Send() {
     const [recipients, setRecipients] = useState({ "address1": { "address": "", "amount": 0, "isValid": false } });
     const [rerender, setRerender] = useState(false);
     const [recipientCounter, setRecipientCounter] = useState(2);
-    const [disableSendBtn, setDisableSendButton] = useState(true);
+    const [disableSendBtn, setDisableSendButton] = useState(false);
     const [sendBtnKey, setSendButtonKey] = useState(1);
     const [hasGas] = useState(Config.getHasGas());
     const copy1 = gt.gettext("Successfully sent");
@@ -105,7 +105,7 @@ function Send() {
                 <div className="padding-five">
                     <Button
                         key={sendBtnKey}
-                        buttonStyle="btn--secondary--solid"
+                        buttonStyle="btn--success--solid"
                         buttonSize="btn--small"
                         disabled={disableSendBtn}
                         handleClick={() => checkForLockedWallet()}>{SEND}</Button>
@@ -126,9 +126,13 @@ function Send() {
     }
 
     function checkForLockedWallet() {
+        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", "sending is disabled for now");
+        /*
         setDisableSendButton(true);
         // unlocked_until !== 0 is unlocked
         // unlocked_until = null not encrypted
+        
+        
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
         // for encrypted wallets we should always assume the wallet is locked
         // because if its unlocked for staking checking unlocked_until
@@ -147,7 +151,7 @@ function Send() {
             console.log("wallets isnt locked")
             checkSendInputs();
         }
-
+        */
     }
     async function sendCoins() {
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");

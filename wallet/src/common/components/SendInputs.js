@@ -67,7 +67,7 @@ function SendInputs({
 
                 <EnterField
                     placeHolder={AMOUNT}
-                    key={inputValueAmount + "amount"}
+                    
                     type={"number"}
                     shouldAutoFocus={true}
                     clearField={inputValueAmount}
@@ -100,7 +100,6 @@ function SendInputs({
     }
 
     function sendAmountChangeSignal(v) {
-        console.log("amount: ", v);
         let obj = {
             amount: v,
             key: recipientKey

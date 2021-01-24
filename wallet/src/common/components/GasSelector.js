@@ -67,7 +67,6 @@ function GasSelector({ onGasUpdate, resetGas }) {
 
     function handleChange(e) {
         // this.range * 21000 / 1000000000
-        console.log("range ", e.target.value)
         setGas(e.target.value * 21000 / 1000000000);
     }
 
