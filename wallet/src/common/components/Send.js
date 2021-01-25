@@ -45,6 +45,7 @@ function Send() {
     const [gas, setGas] = useState((50 * 21000 / 1000000000));
     const [gasDefault, setGasDefault] = useState(Math.random());
     const [priceKey, setPriceKey] = useState(Math.random());
+    const [amountRenderKey, setAmountRenderKey] = useState(Math.random());
     useEffect(() => {
         setSendButtonKey(Math.random());
         //console.log("button state changed ", disableSendBtn)
@@ -74,6 +75,7 @@ function Send() {
             setRecipients({ "address1": { "address": "", "amount": 0, "isValid": false } });
             setGas(50 * 21000 / 1000000000);
             setGasDefault(Math.random());
+            setAmountRenderKey(Math.random());
         });
     }, []);
 
@@ -114,6 +116,32 @@ function Send() {
         </div>
     )
 
+    function createRecipient(key) {
+        const showRemove = key !== "address1";
+        //console.log("render address", recipients[key].address);
+        //console.log("render amount", recipients[key].amount);
+        const amount = recipients[key].amount;
+        const address = recipients[key].address;
+        const isValid = recipients[key].isValid;
+        return (
+            <SendInputs
+                showRemove={showRemove}
+                gas={gas}
+                key={amountRenderKey}
+                removeRecipient={(e) => removeRecipient(e)}
+                setSendAddress={setSendAddress}
+                setIsValid={setAdddressValid}
+                recipientKey={key}
+                inputValueAmount={amount}
+                inputValueAddress={address}
+                isValid={isValid}
+            />
+        )
+    }
+
+    function createRecipients() {
+        return Object.keys(recipients).map((key) => createRecipient(key))
+    }
 
     function totalPrice() {
         return parseFloat(parseInt(recipients["address1"].amount) + parseFloat(gas));
@@ -288,31 +316,7 @@ function Send() {
         // setDisableSendButton(unlockButton);
     }
 
-    function createRecipient(key) {
-        const showRemove = key !== "address1";
-        //console.log("render address", recipients[key].address);
-        //console.log("render amount", recipients[key].amount);
-        const amount = recipients[key].amount;
-        const address = recipients[key].address;
-        const isValid = recipients[key].isValid;
-        return (
-            <SendInputs
-                showRemove={showRemove}
-                gas={gas}
-                key={key}
-                removeRecipient={(e) => removeRecipient(e)}
-                setSendAddress={setSendAddress}
-                setIsValid={setAdddressValid}
-                recipientKey={key}
-                inputValueAmount={amount}
-                inputValueAddress={address}
-                isValid={isValid}
-            />
-        )
-    }
-    function createRecipients() {
-        return Object.keys(recipients).map((key) => createRecipient(key))
-    }
+
 }
 
 export default Send;
