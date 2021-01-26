@@ -297,7 +297,6 @@ function Send() {
         }
     }
     function workCompleted() {
-        CP
         setDisableSendButton(false);
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
     }

@@ -28,6 +28,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 export default class MainController {
 	constructor() {
 		this.window = MainController.create_window();
+		console.log(" os.type() ",  os.type())
 	}
 
 	static create_window() {
@@ -36,7 +37,7 @@ export default class MainController {
 			height: electron.screen.getPrimaryDisplay().workAreaSize.height / 2,
 			minWidth: 850,
 			minHeight: 600,
-			icon: os.type() === "Linux" ? path.join(__static, '/Icon-512x512.png') : null,
+			icon: path.join(__static, '/Icon-512x512.png'),
 			frame: false,
 			resizable: true,
 			show: false,
