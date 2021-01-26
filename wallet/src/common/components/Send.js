@@ -16,7 +16,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Button from "./Button";
 import { ipcRenderer, remote } from "electron";
 import RPCClient from "../rpc-client.js";
@@ -28,10 +28,11 @@ import { sendDesktopNotification } from "./DesktopNotifications";
 import Config from "../config";
 import GasSelector from "./GasSelector";
 import { ADD_RECIPIENT, SEND, TOTAL_COST } from "../getTextConsts";
+import NodeClient from "../node-client";
 
 var gt = require('electron').remote.getGlobal('gt');
 const store = new Store();
-
+const nodeClient = new NodeClient();
 
 function Send() {
     const [recipients, setRecipients] = useState({ "address1": { "address": "", "amount": 0, "isValid": false } });
@@ -43,23 +44,25 @@ function Send() {
     const copy1 = gt.gettext("Successfully sent");
     const copy2 = gt.gettext("to");
     const [gas, setGas] = useState((50 * 21000 / 1000000000));
+    const gasRef = useRef(gas);
     const [gasDefault, setGasDefault] = useState(Math.random());
     const [priceKey, setPriceKey] = useState(Math.random());
     const [amountRenderKey, setAmountRenderKey] = useState(Math.random());
+    const [activeAccount, setCurrentActiveAccount] = useState(Config.getCurrentAccount());
+
     useEffect(() => {
         setSendButtonKey(Math.random());
         //console.log("button state changed ", disableSendBtn)
     }, [disableSendBtn])
-    useEffect(() => {
-        //console.log("recipients changed: ", recipients);
 
-    }, [recipients]);
     useEffect(() => {
-        //console.log("hasGas ", hasGas)
-        ipcRenderer.on('send-coins', (event, message) => {
+        let onSendCoins = ipcRenderer.on('send-coins', (event, message) => {
             // send back from UnlockWallet
-            console.log("try and send coins ");
-            sendCoins();
+            sendCoins(message);
+            message = null;
+            return () => {
+                ipcRenderer.removeListener('send-coins', onSendCoins);
+            }
         });
         ipcRenderer.on('update-amount', (event, message) => {
             setSendAmount(message.amount, message.key);
@@ -72,11 +75,11 @@ function Send() {
             console.log("recipients: ", recipients)
         });
         ipcRenderer.on("update-active-account", (event, account) => {
-            setRecipients({ "address1": { "address": "", "amount": 0, "isValid": false } });
-            setGas(50 * 21000 / 1000000000);
-            setGasDefault(Math.random());
-            setAmountRenderKey(Math.random());
+            console.log("account update", account)
+            setCurrentActiveAccount(account);
+            resetDefaults();
         });
+
     }, []);
 
     return (
@@ -89,7 +92,7 @@ function Send() {
 
             <div className="padding--top--ten ">
                 {hasGas ?
-                    <div className="align--row--space-between " style={{ width: "95%" }} >
+                    <div className="align--row--space--start" style={{ width: "95%" }} >
                         <GasSelector onGasUpdate={e => onGasUpdate(e)} resetGas={gasDefault} />
                         <div className="total--cost" key={priceKey}>
                             <h2>{TOTAL_COST} {totalPrice()}</h2>
@@ -107,7 +110,7 @@ function Send() {
                 <div className="padding-five">
                     <Button
                         key={sendBtnKey}
-                        buttonStyle="btn--success--solid"
+                        buttonStyle="btn--secondary--solid "
                         buttonSize="btn--small"
                         disabled={disableSendBtn}
                         handleClick={() => checkForLockedWallet()}>{SEND}</Button>
@@ -115,6 +118,14 @@ function Send() {
             </div>
         </div>
     )
+
+    function resetDefaults() {
+        setRecipients({ "address1": { "address": "", "amount": 0, "isValid": false } });
+        setGas(50 * 21000 / 1000000000);
+        gasRef.current = (50 * 21000 / 1000000000);
+        setGasDefault(Math.random());
+        setAmountRenderKey(Math.random());
+    }
 
     function createRecipient(key) {
         const showRemove = key !== "address1";
@@ -144,106 +155,149 @@ function Send() {
     }
 
     function totalPrice() {
-        return parseFloat(parseInt(recipients["address1"].amount) + parseFloat(gas));
+        return parseFloat(parseInt(recipients["address1"].amount) + parseFloat(gas)).toFixed(7);
     }
 
     function onGasUpdate(e) {
         const amount = parseFloat(parseInt(recipients["address1"].amount) + e);
         console.log("amount: ", amount);
         setGas(e);
+        gasRef.current = e;
     }
 
     function checkForLockedWallet() {
-        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", "sending is disabled for now");
-        /*
-        setDisableSendButton(true);
-        // unlocked_until !== 0 is unlocked
-        // unlocked_until = null not encrypted
         
-        
-        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
-        // for encrypted wallets we should always assume the wallet is locked
-        // because if its unlocked for staking checking unlocked_until
-        // wont work so its best to just always ask for password
-        if (store.get("encrypted")) {
-            console.log("wallets is locked")
-            //wallet locked
-            // call unlock pass message this is for a send
-            console.log("recipients at unlock ", recipients);
+        let key = "address1";
+        if (!Config.isDaemonBased()) {
+            console.log("recipients ", recipients);
+            // check address is valid first
+            if (!recipients[key].isValid) {
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", "Send address is not valid!");
+                return;
+            }
+            // check amount is high enough
+            if (recipients[key].amount <= 0) {
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", "Send amount is too low!");
+                return;
+            }
+
             let message = {
                 command: "unlockfortime",
-                alias: null
+                alias: activeAccount[0]
             }
             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
         } else {
-            console.log("wallets isnt locked")
-            checkSendInputs();
+            setDisableSendButton(true);
+            // unlocked_until !== 0 is unlocked
+            // unlocked_until = null not encrypted
+
+
+            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
+            // for encrypted wallets we should always assume the wallet is locked
+            // because if its unlocked for staking checking unlocked_until
+            // wont work so its best to just always ask for password
+            if (store.get("encrypted")) {
+                console.log("wallets is locked")
+                //wallet locked
+                // call unlock pass message this is for a send
+                console.log("recipients at unlock ", recipients);
+                let message = {
+                    command: "unlockfortime",
+                    alias: null
+                }
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
+            } else {
+                console.log("wallets isnt locked")
+                checkSendInputs();
+            }
         }
-        */
     }
-    async function sendCoins() {
+    async function sendCoins(privateKey = null) {
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
+        if (Config.isDaemonBased()) {
+            var rpcClient = new RPCClient();
 
-        var rpcClient = new RPCClient();
-
-        if (Object.keys(recipients).length === 1) {
-            Promise.all([
-                rpcClient.setTxFee([0.0000001]),
-            ]).then((feeSet) => {
-                console.log("feeSet ", feeSet);
-                // single send
-                const address = recipients["address1"].address;
-                const amount = recipients["address1"].amount;
-                const args = [address, parseFloat(amount)];
+            if (Object.keys(recipients).length === 1) {
                 Promise.all([
-                    rpcClient.sendToAddress(args),
-                    new Promise(resolve => setTimeout(resolve, 500))
-                ]).then((response) => {
-                    console.log('send response: ', response[0]);
-                    workCompleted();
-                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "cancel-send-operation");
-                    sendDesktopNotification(`${copy1} ${amount} ${Config.getProjectTicker} ${copy2} ${address}`);
-                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
-                    setRecipients({ "address1": { "address": "", "amount": 0, "isValid": false } });
+                    rpcClient.setTxFee([0.0000001]),
+                ]).then((feeSet) => {
+                    console.log("feeSet ", feeSet);
+                    // single send
+                    const address = recipients["address1"].address;
+                    const amount = recipients["address1"].amount;
+                    const args = [address, parseFloat(amount)];
+                    Promise.all([
+                        rpcClient.sendToAddress(args),
+                        new Promise(resolve => setTimeout(resolve, 500))
+                    ]).then((response) => {
+                        console.log('send response: ', response[0]);
+                        workCompleted();
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "cancel-send-operation");
+                        sendDesktopNotification(`${copy1} ${amount} ${Config.getProjectTicker} ${copy2} ${address}`);
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
+                        setRecipients({ "address1": { "address": "", "amount": 0, "isValid": false } });
+                    }, (stderr) => {
+                        console.error(stderr);
+                        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                    });
                 }, (stderr) => {
                     console.error(stderr);
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
                 });
-            }, (stderr) => {
-                console.error(stderr);
-                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-            });
+            } else {
+                // multisend
+                const sendObject = new Object();
+                Object.keys(recipients).map(key => {
+                    Object.assign(sendObject, { [recipients[key].address]: parseInt(recipients[key].amount) });
+                });
+                console.log("sendObject ", JSON.stringify(sendObject))
+
+                Promise.all([
+                    rpcClient.sendMany("staking_2", sendObject),
+                    new Promise(resolve => setTimeout(resolve, 500))
+                ]).then((response) => {
+                    console.log('send response: ', response[0]);
+
+
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "cancel-send-operation");
+                    sendDesktopNotification(gt.gettext("Successfully sent to many"));
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
+                    setRecipients({ "address1": { "address": "", "amount": 0, "isValid": false } });
+                }, (stderr) => {
+                    console.error(stderr);
+                    // send error notification
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                });
+            }
         } else {
-            // multisend
-            const sendObject = new Object();
-            Object.keys(recipients).map(key => {
-                Object.assign(sendObject, { [recipients[key].address]: parseInt(recipients[key].amount) });
-            });
-            console.log("sendObject ", JSON.stringify(sendObject))
-
-            Promise.all([
-                rpcClient.sendMany("staking_2", sendObject),
-                new Promise(resolve => setTimeout(resolve, 500))
-            ]).then((response) => {
-                console.log('send response: ', response[0]);
-
-
-                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "cancel-send-operation");
-                sendDesktopNotification(gt.gettext("Successfully sent to many"));
-                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-
-                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
-                setRecipients({ "address1": { "address": "", "amount": 0, "isValid": false } });
+            // default key
+            let key = "address1";
+            let obj = {
+                fromAddress: activeAccount[0].address,
+                toAddress: recipients[key].address,
+                payAmount: recipients[key].amount,
+                gas: gasRef.current,
+                privatekey: privateKey
+            }
+            //console.log("compose send for H: ", obj);
+            privateKey = null;
+            // enable once we have access to testnet
+            /*nodeClient.transfer(obj, (result) => {
+                console.log("result: ", result);
             }, (stderr) => {
-                console.error(stderr);
-                // send error notification
-                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-            });
+                console.log("error send: ", stderr)
+            });*/
+            
+            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", "sending is disabled for now");
+            resetDefaults();
+            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
         }
-
     }
     function workCompleted() {
+        CP
         setDisableSendButton(false);
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
     }
@@ -259,7 +313,7 @@ function Send() {
     function addRecipient() {
         const key = "address".concat(recipientCounter);
         setRecipientCounter(recipientCounter + 1);
-        setRecipients(Object.assign(recipients, { [key]: { "address": "", "amount": "", "isValid": false } }));
+        setRecipients(Object.assign(recipients, { [key]: { "address": "", "amount": 0, "isValid": false } }));
         setRerender(!rerender);
     }
     function removeRecipient(e) {

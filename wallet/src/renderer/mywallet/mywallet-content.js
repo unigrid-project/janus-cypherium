@@ -34,7 +34,6 @@ import Tooltip from "react-simple-tooltip";
 import { css } from "styled-components";
 //import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import { ipcRenderer, remote } from "electron";
-import Send from "../../common/components/Send";
 import Config from "../../common/config.js";
 import NodeClient from '../../common/node-client';
 import { WalletService } from "../../common/walletutils/WalletService.js";
@@ -147,10 +146,7 @@ function MyWalletContent(props) {
 					</div>
 				</div>
 
-				<div className={sendClasses}
-					onAnimationEnd={onSendAnimationEnd}>
-					<Send />
-				</div>
+				
 				{renderSocial()}
 			</div>
 		</Content>

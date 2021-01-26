@@ -18,6 +18,8 @@
 
 import Config from "./config";
 import Web3c from '@cypherium/web3c';
+import * as CypheriumTx from 'cypheriumjs-tx';
+//import { BALANCE_INSUFFICIENT, NONCE_ERROR, TRANSACTION_FAILED } from "./getTextConsts";
 
 const log = require('electron-log');
 const axios = require('axios');
@@ -48,6 +50,7 @@ export default class NodeClient {
         console.log("\r\n");
         return prices;
     }
+
     async getTransactionList(page, pageSize, account) {
         const options = {
             headers: { 'Content-Type': 'application/json; charset=UTF-8' }
@@ -149,5 +152,133 @@ export default class NodeClient {
                 reject(userAddr);
             }
         });
+    }
+
+    async transfer(data) {
+        let address = this.convertAddr(data.toAddress);
+        //this.web3c.transferCph(sendingFrom, sendintTo, amount, gas, privateKey)
+        this.transferCph(data.fromAddress, address, data.payAmount, data.gas, data.privatekey, async (err, tx) => {
+            console.log("Transaction callback.......", err, tx);
+            if (err === null) {
+                // resolve(tx);
+                // this.helper.toast("transaction success");
+                let navigationExtras = {
+                    state: {
+                        tx: tx,
+                        status: 1 //0- success, 1: packed, 2: failure
+                    }
+                };
+                data = null;
+                // Go to the transaction results page
+                //this.router.navigate(['transaction-result'], navigationExtras);
+            } else {
+                let message = TRANSACTION_FAILED;
+                if (err.message.toLowerCase().indexOf('insufficient funds for gas') > -1) {
+                    message = BALANCE_INSUFFICIENT;
+                } else if (err.message.toLowerCase().indexOf('replacement transaction underpriced') > -1) {
+                    message = NONCE_ERROR;
+                } else {
+                    message = message + ': ' + err.message;
+                }
+                data = null;
+                //this.helper.toast(message)
+            }
+        })
+    }
+
+    async transferCph(from, to, value, gasPrice, privateKey, callback) {
+        console.log(`initiate transfer----from:${from},to:${to},value:${value}`);
+        value = this.web3c.toWei(value, 'cpher');
+        gasPrice = this.web3c.toWei(gasPrice + "", 'gwei');
+        let tx = await this.generateCphTx(from, to, value, gasPrice, privateKey);
+        console.log("Transaction signature：", tx)
+        const serializedTx = tx.serialize();
+        this.web3c.cph.sendRawTransaction('0x' + serializedTx.toString('hex'), callback);
+        privateKey = null;
+    }
+
+    async generateCphTx(
+        from,
+        to,
+        value,
+        gasPrice,
+        privateKey, //Account private key, used for signing
+        contractName = "",
+        funcname = "",
+        params = null
+    ) {
+        let data = "";
+        if (params) {
+            var thisobj = this[contractName].methods[funcname]; //Extract the function from the target contract object
+            data = thisobj.apply(thisobj, params).encodeABI(); //Encapsulate parameters as contract parameters
+        }
+
+        try {
+            var nonce = await this.web3c.cph.getTransactionCount('0x' + from, 'pending'); //Get the address of the user's walletnonce
+        } catch (error) {
+            var nonce = await this.web3c.cph.getTransactionCount('0x' + from); //Get the address of the user's walletnonce
+        }
+        console.log("Nonce: " + nonce);
+        // let gasLimit = await this.web3c.cph.estimateGas({
+        //     "from": '0x'+from,
+        //     "nonce": nonce,
+        //     "to": to,
+        //     "data": data
+        // })
+
+        //let chainId = await this.web3c.cph.net.getId();
+        //console.log("chainId:", chainId);
+        const txParams = {
+            version: '0x122',
+            senderKey: '0x' + privateKey.substring(64, 128),
+            from: from,
+            nonce: nonce,
+            // gas: this.convert10to16(gasLimit),
+            gasLimit: '0x5208',
+            gasPrice: this.convert10to16(gasPrice),
+            to: to,
+            data: data,
+            value: this.convert10to16(value)
+            //chainId: chainId
+        };
+
+        console.log("Transfer parameters：" + JSON.stringify(txParams));
+        // return this.web3c.cph.accounts.signTransaction(txParams, privateKey);
+
+        const tx = new CypheriumTx.Transaction(txParams, {
+            //chain: "cphnet"
+        });
+        console.log("tx: ", tx)
+
+
+        // let privateKeyBuffer = Buffer.from(privateKey, 'hex');
+        // tx.sign(privateKeyBuffer);
+
+        var p = new Uint8Array(this._hexStringToBytes(privateKey));
+        var k = new Uint8Array(this._hexStringToBytes(privateKey.substring(64, 128)));
+        privateKey = null;
+        txParams = null;
+        tx.signWith25519(p, k);
+        return tx;
+    }
+
+    convertAddr(addr) {
+        let lowecaseAddress = addr.toLowerCase();
+        if (lowecaseAddress.substring(0, 3) === "cph") {
+            return lowecaseAddress.replace('cph', '0x');
+        } else if (addr.substring(0, 2) === "0x") {
+            return addr;
+        }
+        return addr;
+    }
+
+    convert10to16(n) {
+        if (typeof n !== 'string') {
+            n = n.toString();
+        }
+        if (n.startsWith('0x')) {
+            return n;
+        }
+        return this.web3c.toHex(n);
     }
 }

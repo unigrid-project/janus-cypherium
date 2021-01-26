@@ -50,6 +50,7 @@ function SendInputs({
     const [balance, setBalance] = useState(0);
     const [updateValue, setUpdateValue] = useState(0);
     useEffect(() => {
+
         ipcRenderer.on("account-balance-updated", (event, balance) => {
             setBalance(balance.toString());
         })

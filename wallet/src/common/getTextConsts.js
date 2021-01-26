@@ -19,3 +19,6 @@ export const ADD_RECIPIENT = gt.gettext("ADD RECIPIENT");
 export const TOTAL_COST = gt.gettext("total cost:");
 export const INVALID_ADDRESS = gt.gettext("Address is not valid!");
 export const RECEIVE = gt.gettext("RECEIVE");
+export const TRANSACTION_FAILED = gt.gettext("Transaction failure");
+export const BALANCE_INSUFFICIENT = gt.gettext("Insufficient funds");
+export const NONCE_ERROR = gt.gettext("Transaction failed, you can increase the gas to make sure a transaction is successfully handled.");

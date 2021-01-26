@@ -51,12 +51,14 @@ function UnlockWallet(props) {
     const [account, setAccount] = useState();
     const [passwordShown, setPasswordShown] = useState(false);
     useEffect(() => {
+        console.log('i fire once UnlockWallet');
         ipcRenderer.on('wallet-lock-trigger', (event, message) => {
             //console.log("wallet-lock-trigger: " + message)
             switch (message.command) {
                 case "unlockfortime":
                     setInfoCopy(gt.gettext("Unlock wallet for transactions"));
                     setUnlockFor("SEND");
+                    setAccount(message.alias);
                     break;
                 case "unlockfordump":
                     setInfoCopy(gt.gettext("Unlock wallet for maintenance"));
@@ -86,7 +88,6 @@ function UnlockWallet(props) {
                     setUnlockFor("REMOVE_ACCOUNT");
                     setAccount(message.alias);
                     break;
-
                 case "EXPORT_KEYS":
                     setInfoCopy(gt.gettext("Unlock wallet for export"));
                     setUnlockFor("EXPORT_KEYS");
@@ -238,7 +239,8 @@ function UnlockWallet(props) {
         }
     }
 
-    async function sendPassphrase(args) {
+    async function
+        sendPassphrase(args) {
 
         let sendArgs = [];
         console.log("send? ", unlockFor)
@@ -268,13 +270,20 @@ function UnlockWallet(props) {
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
                 return;
             }
-            console.log("account.password ", account.password)
+            //console.log("account.password ", account.password)
             let walletService = new WalletService();
             const isValidPassword = walletService.checkPasswordHash(args, account.password);
 
             if (isValidPassword) {
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
                 switch (unlockFor) {
+                    case "SEND":
+                        walletService.decryptData(args, account.privateKey).then((key) => {
+                            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "send-coins", key);
+                            key = "";
+                            closeWindow();
+                        });
+                        break;
                     case "REMOVE_ACCOUNT":
                         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-delete-account", account);
                         walletService = null;

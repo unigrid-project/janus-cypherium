@@ -28,7 +28,7 @@ export default function SendContent() {
             setBalance(balance.toString());
         })
         ipcRenderer.on("on-send-warning", (event, msg) => {
-            console.log("mesg: ", msg)
+            //console.log("msg: ", msg)
             setWarningMessage(msg);
         })
     }, [])
