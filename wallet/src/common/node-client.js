@@ -88,8 +88,10 @@ export default class NodeClient {
         return await new Promise((resolve, reject) => {
             try {
                 if (this.web3c.coinbase !== null) {
+                    //log.info("coinbase: ", this.web3c)
                     resolve(this.web3c.coinbase);
                 } else {
+                    log.info("coinbase: ", this.web3c.coinbase)
                     reject("Unable to connect to Cypherium network. Please check your firewall and internet connections.");
                 }
             } catch {

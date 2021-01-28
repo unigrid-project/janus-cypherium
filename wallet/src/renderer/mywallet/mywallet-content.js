@@ -137,7 +137,16 @@ function MyWalletContent(props) {
 						</div>
 					</div>
 				</div>
-
+				{
+					<div className="currency--send">
+						<div className="btn--send">
+							<Button
+								buttonStyle="btn--secondary--solid"
+								handleClick={() => getBlock()}
+								buttonSize="btn--small">block</Button>
+						</div>
+					</div>
+				}
 				<div className={transactionClasses}
 					onAnimationEnd={onTransactionAnimationEnd}
 					onAnimationStart={onTransactionAnimationStart}>
@@ -146,15 +155,15 @@ function MyWalletContent(props) {
 					</div>
 				</div>
 
-				
+
 				{renderSocial()}
 			</div>
 		</Content>
 	);
 
-	function testChangeLocale() {
-		//
-		ipcRenderer.send("change-locale", "cn");
+	async function getBlock() {
+		const block = await nodeClient.getKeyBlockHeight();
+		console.log("block ", block)
 	}
 	function renderWidget() {
 		if (Config.getShowWidget()) {

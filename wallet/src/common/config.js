@@ -105,6 +105,8 @@ export default class Config {
     }
 
     static getEnvironment() {
+        if (this.getStore().testing)
+            return this.getStore().test_environment
         return this.getStore().environment;
     }
 
@@ -140,7 +142,7 @@ export default class Config {
         return this.getStore().githubLink;
     }
 
-    static getGithubUrl () {
+    static getGithubUrl() {
         return this.getStore().githubUrl;
     }
 
