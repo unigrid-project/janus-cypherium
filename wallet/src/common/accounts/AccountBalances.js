@@ -26,7 +26,7 @@ const log = require('electron-log');
 export default class AccountBalances {
 
     async getNodeData() {
-        console.log("account to load balance: ", Config.getCurrentAccount())
+        //console.log("account to load balance: ", Config.getCurrentAccount())
         nodeClient.getCphBalance(Config.getCurrentAccount()[0].address).then((v) => {
             // send signal balance was updated
             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "account-balance-updated", v);

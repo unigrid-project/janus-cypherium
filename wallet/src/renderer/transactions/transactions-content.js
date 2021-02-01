@@ -239,6 +239,7 @@ function TransactionsContent(props) {
 				const address = currentSelectedAccount[0].address;
 				const txList = await nodeClient.getTransactionList(pageCount, txToLoad, address);
 				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+				
 				let obj = {}
 				if (txList === null) {
 					setLoadMore(true);
@@ -250,6 +251,7 @@ function TransactionsContent(props) {
 					return;
 				}
 				const order = txList;
+				//console.log("transactions: ", txList)
 				if (pageCount > 1) {
 					const newOrder = items.concat(order);
 					setItems(newOrder);

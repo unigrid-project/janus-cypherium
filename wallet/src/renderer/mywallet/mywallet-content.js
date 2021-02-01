@@ -232,7 +232,7 @@ function MyWalletContent(props) {
 		}
 	}
 	function onTransactionAnimationStart() {
-		console.log("onAnimationStart");
+		//console.log("onAnimationStart");
 	}
 	function renderSocial() {
 		return (

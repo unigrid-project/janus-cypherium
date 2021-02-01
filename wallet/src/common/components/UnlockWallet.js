@@ -51,7 +51,6 @@ function UnlockWallet(props) {
     const [account, setAccount] = useState();
     const [passwordShown, setPasswordShown] = useState(false);
     useEffect(() => {
-        console.log('i fire once UnlockWallet');
         ipcRenderer.on('wallet-lock-trigger', (event, message) => {
             //console.log("wallet-lock-trigger: " + message)
             switch (message.command) {
