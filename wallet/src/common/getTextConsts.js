@@ -1,4 +1,6 @@
-var gt = require('electron').remote.getGlobal('gt');
+//var gt = require('electron').remote.getGlobal('gt');
+import Gettext from 'node-gettext';
+const gt = new Gettext()
 
 export const COPIED = gt.gettext("copied to clipboard");
 export const EXPORT_KEYS = gt.gettext("Export Private Keys");
@@ -22,3 +24,5 @@ export const RECEIVE = gt.gettext("RECEIVE");
 export const TRANSACTION_FAILED = gt.gettext("Transaction failure");
 export const BALANCE_INSUFFICIENT = gt.gettext("Insufficient funds");
 export const NONCE_ERROR = gt.gettext("Transaction failed, you can increase the gas to make sure a transaction is successfully handled.");
+export const NO_INTERNET = gt.gettext("Unable to connect to Cypherium network. Please check your firewall and internet connections.");
+export const FIRST_RUN = gt.gettext("It appears this is a first time load. Import or create a new wallet");
