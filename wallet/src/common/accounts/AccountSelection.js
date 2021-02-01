@@ -24,7 +24,7 @@ import Store from "electron-store";
 const store = new Store();
 
 function AccountSelection({ current, list }) {
-    const [walletList, setWalletList] = useState(list);
+    const [walletList] = useState(list);
     const [currentActive, setCurrentActive] = useState(current);
     const [renderKey, setRenderKey] = useState(Math.random());
     useEffect(() => {
@@ -33,7 +33,6 @@ function AccountSelection({ current, list }) {
             setCurrentActive(account);
             setRenderKey(Math.random());
         });
-        //console.log("walletList: ", walletList);
     }, [])
 
     return (
