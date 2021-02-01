@@ -192,21 +192,7 @@ function TransactionLong({ data, index, style }) {
             </div>
         )
     }
-    function calculateDateTimeFromEpoch(epoch) {
-        var recDate = new Date(epoch * 1000);
-        var day = recDate.getDate();
-        var month = recDate.getMonth();
-        var year = recDate.getFullYear();
-        var recDate = day + "-" + (month + 1) + "-" + year;
-        const date = recDate.toISOString().split('T')[0];
-        const time = recDate.toTimeString().split(" ")[0];
-        return (
-            <div>
-                <div>{recDate}</div>
-                <div>{time}</div>
-            </div>
-        )
-    }
+
     function getCategoryIcon(data) {
         if (Config.isDaemonBased()) {
             switch (data.category) {
