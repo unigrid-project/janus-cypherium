@@ -35,10 +35,14 @@ function TransactionLong({ data, index, style }) {
     const [promiseComplete, setPromiseComplete] = useState(false);
     const [themeStyle, setThemeStyle] = useState(Config.isDaemonBased() ? "transaction--main" : "transaction--secondary");
     useEffect(() => {
-        nodeClient.getTxValue(data.value).then((r) => {
-            setAmount(parseInt(r).toFixed(10));
-            setPromiseComplete(true);
+        let isMounted = true;
+        Config.isDaemonBased() ? setAmount(data.amount) : nodeClient.getTxValue(data.value).then((r) => {
+            if (isMounted) {
+                setAmount(parseInt(r).toFixed(10));
+                setPromiseComplete(true);
+            }
         })
+        return () => { isMounted = false };
     }, [])
     if (Config.isDaemonBased()) {
         return (

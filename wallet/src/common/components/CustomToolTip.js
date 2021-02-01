@@ -16,7 +16,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from "react";
+import React, { useEffect } from "react";
 import Tooltip from "react-simple-tooltip";
 import { css } from "styled-components";
 
@@ -31,7 +31,7 @@ function CustomTooltip(props) {
                 fontFamily='Roboto'
                 fontSize='20'
                 fadeEasing="linear"
-                background={css`${props.color};`}
+                background={props.color}
                 content={props.content}
                 customCss={css`white-space: nowrap; color: black;`}
             >

@@ -40,6 +40,7 @@ function Transaction({ data, index, style }) {
     const [largeTrans, setLargeTrans] = useState(false);
     const [promiseComplete, setPromiseComplete] = useState(false);
     useEffect(() => {
+        let isMounted = true;
         if (style === "trans--long") {
             setNumberWidth("long--div");
             setLargeTrans(true);
@@ -48,12 +49,19 @@ function Transaction({ data, index, style }) {
             setLargeTrans(false);
         }
         Config.isDaemonBased() ? setAmount(data.amount) : nodeClient.getTxValue(data.value).then((r) => {
-            setAmount(r);
-            setPromiseComplete(true);
+            if (isMounted) {
+                setAmount(parseInt(r).toFixed(10));
+                setPromiseComplete(true);
+            }
         })
-
+        return () => { isMounted = false };
         //console.log("transaction style: ", style);
     }, []);
+    useEffect(() => {
+
+
+
+    }, [])
 
     if (Config.isDaemonBased()) {
         return (
