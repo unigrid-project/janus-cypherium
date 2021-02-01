@@ -50,18 +50,13 @@ function Transaction({ data, index, style }) {
         }
         Config.isDaemonBased() ? setAmount(data.amount) : nodeClient.getTxValue(data.value).then((r) => {
             if (isMounted) {
-                setAmount(parseInt(r).toFixed(10));
+                setAmount(parseInt(r).toFixed(4));
                 setPromiseComplete(true);
             }
         })
         return () => { isMounted = false };
         //console.log("transaction style: ", style);
     }, []);
-    useEffect(() => {
-
-
-
-    }, [])
 
     if (Config.isDaemonBased()) {
         return (
@@ -122,8 +117,8 @@ function Transaction({ data, index, style }) {
                         background={css`
                     var(--tooltip--background)
                   `}
-                        content={getCategory(data)}
-                    >{getCategoryIcon(data)}
+                        content={getCategory()}
+                    >{getCategoryIcon()}
                     </Tooltip>
 
                 </div>
@@ -219,16 +214,16 @@ function Transaction({ data, index, style }) {
                     <div className="trans--short--item">
                         <CustomTooltip
                             placement="top"
-                            item={getCategoryIcon(data)}
-                            color={getCategoryColor(data)}
-                            content={<div className="fontSmallBold">{getCategory(data)}</div>}
+                            item={getCategoryIcon()}
+                            color={getCategoryColor()}
+                            content={<div className="fontSmallBold">{getCategory()}</div>}
                         />
                     </div>
                     <div className="trans--short--item">
                         <CustomTooltip
                             placement="top"
                             item={<div className="fontSmallBold lightCopy">{amount}</div>}
-                            color={getCategoryColor(data)}
+                            color={getCategoryColor()}
                             content={<div className="fontSmallBold">{amount}</div>}
                         />
                     </div>
@@ -299,7 +294,7 @@ function Transaction({ data, index, style }) {
         return <FontAwesomeIcon size="lg" icon={faCubes} color={color} />;
     }
 
-    function getCategory(data) {
+    function getCategory() {
         //console.log("data: ", data)
         if (Config.isDaemonBased()) {
             if (data.generatedfrom) {
@@ -320,7 +315,7 @@ function Transaction({ data, index, style }) {
 
     }
 
-    function getCategoryColor(data) {
+    function getCategoryColor() {
         switch (data.tx_type) {
             case 1:
                 return "var(--dark--red)";
@@ -394,7 +389,7 @@ function Transaction({ data, index, style }) {
             </div>
         )
     }
-    function getCategoryIcon(data) {
+    function getCategoryIcon() {
         if (Config.isDaemonBased()) {
             switch (data.category) {
                 case "receive":

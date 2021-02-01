@@ -51,7 +51,7 @@ function TransactionLong({ data, index, style }) {
                     {getTimeObject(data.timereceived)}
                 </div >
                 <div className="trans--item">
-                    {getCategoryIcon(data)}
+                    {getCategoryIcon()}
                 </div>
                 <div className="trans--item">
                     {setAmountColor()}
@@ -78,7 +78,7 @@ function TransactionLong({ data, index, style }) {
                             {/*data.timestamp */}
                         </div >
                         <div className="trans--item">
-                            {getCategoryIcon(data)}
+                            {getCategoryIcon()}
                         </div>
                         <div className="trans--item">
                             {setAmountColor()}
@@ -193,7 +193,7 @@ function TransactionLong({ data, index, style }) {
         )
     }
 
-    function getCategoryIcon(data) {
+    function getCategoryIcon() {
         if (Config.isDaemonBased()) {
             switch (data.category) {
                 case "receive":
