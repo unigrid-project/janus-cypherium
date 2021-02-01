@@ -112,7 +112,7 @@ progress::-webkit-progress-value {
 
 progress:indeterminate {
 	width: 100%;
-	background: -webkit-linear-gradient(left, #171717, #f97104, #d4d1d1, #171717);
+	background: -webkit-linear-gradient(left, #007aff, #008fc7, #a9d6ff, #007aff);
 	animation: cycle 20000s linear infinite;
 }
 

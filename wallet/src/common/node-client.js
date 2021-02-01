@@ -29,8 +29,11 @@ export default class NodeClient {
     constructor() {
         this.cphNode = Config.getEnvironment();
         this.amount = "";
-        //console.log("cphNode ", this.cphNode);
-        this.web3c = new Web3c(new Web3c.providers.HttpProvider(this.cphNode.cypherium.provider));
+        this.provider = new Web3c.providers.HttpProvider(this.cphNode.cypherium.provider);
+        this.web3c = new Web3c(this.provider);
+        this.state = {
+            isConncted: false
+        };
     }
 
     async getCurrentGasPrices() {
@@ -84,20 +87,8 @@ export default class NodeClient {
         console.log("providers ", this.web3c.providers)
     }
 
-    async start() {
-        return await new Promise((resolve, reject) => {
-            try {
-                if (this.web3c.coinbase !== null) {
-                    //log.info("coinbase: ", this.web3c)
-                    resolve(this.web3c.coinbase);
-                } else {
-                    log.info("coinbase: ", this.web3c.coinbase)
-                    reject("Unable to connect to Cypherium network. Please check your firewall and internet connections.");
-                }
-            } catch {
-                reject("Unable to connect to Cypherium network. Please check your firewall and internet connections.");
-            }
-        });
+    async isConnected() {
+        return await this.provider.isConnected();
     }
 
     async getBlockHeight() {

@@ -33,14 +33,13 @@ library.add(faSpinner, faTimes);
 export default class Splash extends React.Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
 			infoMessage: null,
 			errorMessage: null,
 			totalConnections: null,
 			percentage: "indeterminate"
 		};
-
+		
 		ipcRenderer.on("fatal-error", (event, message) => {
 			this.setState({ infoMessage: null, errorMessage: message });
 		});
@@ -49,10 +48,11 @@ export default class Splash extends React.Component {
 			this.setState({ infoMessage: message, errorMessage: null, percentage: percentage });
 		});
 	}
-	getData() {
 
+	getData() {
 		return JSON.parse(JSON.stringify(Config.getSplashHTML()));
 	}
+
 	render() {
 		return (
 			<div className="splash">

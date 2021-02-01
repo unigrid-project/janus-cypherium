@@ -24,8 +24,10 @@ import Daemon from "../common/daemon";
 import Explorer from "../common/explorer";
 import Version from "../common/version";
 import Config from "../common/config";
+import { NO_INTERNET, FIRST_RUN } from "../common/getTextConsts";
 
 const log = require('electron-log');
+var internetAvailable = require("internet-available");
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const BOOTSTRAP_DOWNLOAD_THRESHOLD_BLOCKS = 20000;
 
@@ -109,9 +111,25 @@ export default class SplashController {
 			if(account){
 				resolve();
 			}else{
-				var errorMessage = "It appears this is a first time load. Import or create a new wallet";
+				var errorMessage = FIRST_RUN;
 				reject(errorMessage);
 			}
+		}, (stderr) => {
+			reject(stderr);
+		});
+	}
+
+	async hasInternet() {
+		return await new Promise((resolve, reject) => {
+			internetAvailable({
+				timeout: 5000,
+				retries: 5
+			}).then(() => {
+				resolve();
+			}).catch(() => {
+				var errorMessage = NO_INTERNET;
+				reject(errorMessage);
+			});
 		}, (stderr) => {
 			reject(stderr);
 		});

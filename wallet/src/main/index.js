@@ -70,7 +70,6 @@ var isSetupOpen = false;
 var trackRejectUpdates = 0;
 var skipTimesAllocated = 20;
 const checkForUpdateTime = 180000;
-
 const gt = new Gettext()
 locales.forEach((locale) => {
 	const fileName = `${domain}.po`
@@ -192,6 +191,7 @@ ipcMain.on("import-new-wallet", () => {
 	}
 })
 
+
 const defaultRPCPort = 51992;
 
 app.on("ready", () => {
@@ -209,41 +209,44 @@ app.on("ready", () => {
 		} else {
 			Config.checkStore(splashController.window).then(() => {
 				log.info("local store has been loaded");
-				log.info(`Initializing ${Config.getProjectName()} daemon...`);
 				if (!Config.isDaemonBased()) {
-					log.info("Node is server based, skip trying to load a local daemon");
+					log.info("Node is server based, attempting to connect to the network.");
 					var nodeClient = new NodeClient();
-					nodeClient.start().then((r) => {
-						log.info("successfuly connected to the cph network");
-						splashController.window.webContents.send("progress", "indeterminate", `successfuly connected to the eth network`);
-						splashController.check_first_load().then(() => {
+					splashController.check_first_load().then(() => {
+						splashController.window.webContents.send("progress", "indeterminate", `attempting to connect to the network...`);
+						splashController.hasInternet().then((c) => {
+							log.info("successfuly connected to the cph network");
+							splashController.window.webContents.send("progress", "indeterminate", `successfuly connected to the cph network`);
 							var mainController = new MainController();
 							mainWindow = mainController.window;
 							splashController.window.close();
-							manuallyCheckForUpdates(mainWindow);
-						}, (stderr) => {
-							var setupController = new SetupController();
-							splashController.window.close();
-							setupController.window.webContents.on("did-finish-load", () => {
-								setupController.window.webContents.send('setup-controller-type', "FIRST_RUN");
-								ipcMain.on("open-main-window", () => {
-									//let accArr = [data];
-									//store.set('account', accArr);
-									var mainController = new MainController();
-									mainWindow = mainController.window;
-									manuallyCheckForUpdates(mainWindow);
-									setupController.window.close();
-								});
 
-								log.info("Loaded account setup window");
-							})
+						}, (stderr) => {
+							splashController.window.webContents.send("fatal-error", stderr.toString());
+							splashController.window.webContents.send("state", "idle");
+							log.warn(stderr);
 						});
+						manuallyCheckForUpdates(mainWindow);
 					}, (stderr) => {
-						splashController.window.webContents.send("fatal-error", stderr.toString());
-						splashController.window.webContents.send("state", "idle");
-						log.warn(stderr);
+						var setupController = new SetupController();
+						splashController.window.close();
+						setupController.window.webContents.on("did-finish-load", () => {
+							setupController.window.webContents.send('setup-controller-type', "FIRST_RUN");
+							ipcMain.on("open-main-window", () => {
+								//let accArr = [data];
+								//store.set('account', accArr);
+								var mainController = new MainController();
+								mainWindow = mainController.window;
+								manuallyCheckForUpdates(mainWindow);
+								setupController.window.close();
+							});
+
+							log.info("Loaded account setup window");
+						})
 					});
+
 				} else {
+					log.info(`Initializing ${Config.getProjectName()} daemon...`);
 					splashController.window.webContents.send("progress", "indeterminate", `Initializing ${Config.getProjectName()} daemon...`);
 					Daemon.start(splashController.window).then(() => {
 						log.info("daemon started...");
