@@ -32,7 +32,9 @@
 }
 
 .send--input--container {
-    align-items: flex-start;
+    overflow: auto;
+    overflow-x: hidden;
+    height: 280px;
 }
 
 .send--input--container>div {
@@ -66,10 +68,4 @@
     align-items: flex-end;
     height: 87px;
     width: 300px;
-}
-
-.send--input--container {
-    overflow: auto;
-    overflow-x: hidden;
-    height: 280px;
 }
