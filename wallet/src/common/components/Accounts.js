@@ -41,7 +41,6 @@ const copyToClipboard = gt.gettext("copy to clipboard");
 function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
     const [showInput, setShowInput] = useState(false);
     const [address] = useState(data[0]);
-    const [accountName] = useState(data[2]);
     const [changeAcountName, setChangeAccountName] = useState("");
     const [resetInput, setResetInput] = useState();
     const [showInputs, setShowInputs] = useState(false);

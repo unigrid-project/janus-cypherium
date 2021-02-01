@@ -30,7 +30,6 @@ import { ipcRenderer, remote } from "electron";
 function Address({ data, setAccountName, copyAddress }) {
     const [showInput, setShowInput] = useState(false);
     const [address] = useState(data[0]);
-    const [accountName] = useState(data[2]);
     const [changeAcountName, setChangeAccountName] = useState("");
     const [resetInput, setResetInput] = useState();
     const [showInputs, setShowInputs] = useState(false);
