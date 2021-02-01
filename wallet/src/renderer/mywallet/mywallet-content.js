@@ -137,7 +137,7 @@ function MyWalletContent(props) {
 						</div>
 					</div>
 				</div>
-				{
+				{/*
 					<div className="currency--send">
 						<div className="btn--send">
 							<Button
@@ -146,7 +146,7 @@ function MyWalletContent(props) {
 								buttonSize="btn--small">block</Button>
 						</div>
 					</div>
-				}
+				*/}
 				<div className={transactionClasses}
 					onAnimationEnd={onTransactionAnimationEnd}
 					onAnimationStart={onTransactionAnimationStart}>
