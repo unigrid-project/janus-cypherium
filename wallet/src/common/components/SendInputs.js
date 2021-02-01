@@ -44,7 +44,7 @@ function SendInputs({
     removeRecipient,
     setIsValid,
     gas,
-    key
+    amountKey
 
 }) {
     const [balance, setBalance] = useState(0);
@@ -70,7 +70,7 @@ function SendInputs({
 
                 <EnterField
                     placeHolder={AMOUNT}
-                    key={key}
+                    key={amountKey}
                     type={"number"}
                     shouldAutoFocus={true}
                     clearField={inputValueAmount}

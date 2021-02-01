@@ -135,18 +135,21 @@ function Send() {
         const address = recipients[key].address;
         const isValid = recipients[key].isValid;
         return (
-            <SendInputs
-                showRemove={showRemove}
-                gas={gas}
-                key={amountRenderKey}
-                removeRecipient={(e) => removeRecipient(e)}
-                setSendAddress={setSendAddress}
-                setIsValid={setAdddressValid}
-                recipientKey={key}
-                inputValueAmount={amount}
-                inputValueAddress={address}
-                isValid={isValid}
-            />
+            <div key={address}>
+                <SendInputs
+                    showRemove={showRemove}
+                    gas={gas}
+                    amountKey={amountRenderKey}
+                    removeRecipient={(e) => removeRecipient(e)}
+                    setSendAddress={setSendAddress}
+                    setIsValid={setAdddressValid}
+                    recipientKey={key}
+                    inputValueAmount={amount}
+                    inputValueAddress={address}
+                    isValid={isValid}
+                />
+            </div>
+
         )
     }
 
@@ -166,7 +169,7 @@ function Send() {
     }
 
     function checkForLockedWallet() {
-        
+
         let key = "address1";
         if (!Config.isDaemonBased()) {
             console.log("recipients ", recipients);
@@ -290,7 +293,7 @@ function Send() {
             }, (stderr) => {
                 console.log("error send: ", stderr)
             });*/
-            
+
             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", "sending is disabled for now");
             resetDefaults();
             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
