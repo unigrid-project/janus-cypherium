@@ -17,7 +17,7 @@
         "isDaemonLocal": false,
         "hasGas": true,
         "showWidget": false,
-        "testing": true,
+        "testing": false,
         "userModelId": "cypherium-electron",
         "coindGeckoId": "cypherium",
         "splashInfo": {
@@ -45,7 +45,7 @@
             "appServerUrl": "https://walletsvrcdn.cypherium.io",
             "getTransList": "/transaction/get_by_addr_and_type",
             "cypherium": {
-                "provider": "",
+                "provider": "http://13.68.245.219:8000",
                 "pledgeContractAddr": "0x0000000000000000000000000000000000000081",
                 "pledgeContractAbi": null,
                 "privateKey": ""
