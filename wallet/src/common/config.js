@@ -17,8 +17,12 @@
  */
 
 import Store from "electron-store";
+import LocalePath from "./loaclePath";
 const log = require('electron-log');
 const store = new Store();
+const isDevelopment = process.env.NODE_ENV !== 'production';
+const fs = require('fs');
+const path = require('path');
 
 export default class Config {
 
@@ -47,10 +51,10 @@ export default class Config {
 
     static init() {
         return new Promise((resolve, reject) => {
-            try {
-                const fs = require('fs');
-                const path = require('path');
-                let config = fs.readFileSync(path.join(__static, '/config.json'));
+            try {                
+                const join = isDevelopment ? (path.join(process.env.INIT_CWD, '../config.json')) : './config.json';
+                const loaclPath = LocalePath.get(join);
+                let config = fs.readFileSync(loaclPath);
                 let data = JSON.parse(config);
                 store.set(data);
                 resolve();

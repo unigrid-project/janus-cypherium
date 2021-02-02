@@ -17,7 +17,6 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { remote } from "electron";
 import path from "path";
 const isDevelopment = process.env.NODE_ENV !== 'production';
 

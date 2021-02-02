@@ -86,6 +86,13 @@
           "filter": [
             "**/*"
           ]
+        },
+        {
+          "from": "../config.json",
+          "to": "resources/config.json",
+          "filter": [
+            "**/*"
+          ]
         }
       ]
     },
@@ -102,6 +109,13 @@
         {
           "from": "locale",
           "to": "resources/locale",
+          "filter": [
+            "**/*"
+          ]
+        },
+        {
+          "from": "../config.json",
+          "to": "resources/config.json",
           "filter": [
             "**/*"
           ]
@@ -122,6 +136,13 @@
         {
           "from": "locale",
           "to": "resources/locale",
+          "filter": [
+            "**/*"
+          ]
+        },
+        {
+          "from": "../config.json",
+          "to": "resources/config.json",
           "filter": [
             "**/*"
           ]
