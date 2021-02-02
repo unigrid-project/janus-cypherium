@@ -34,6 +34,7 @@ import LocalePath from "../common/loaclePath";
 import LoadLanguageFiles from "../common/languages/LoadLanguageFiles";
 import Gettext from 'node-gettext';
 import { po } from 'gettext-parser';
+import { ATTEMPT_CONN, SUCCESS_CONN, UPDATE_MESSAGE, WARNING } from "../common/getTextConsts";
 
 const fs = require('fs');
 const path = require('path');
@@ -213,10 +214,10 @@ app.on("ready", () => {
 					log.info("Node is server based, attempting to connect to the network.");
 					var nodeClient = new NodeClient();
 					splashController.check_first_load().then(() => {
-						splashController.window.webContents.send("progress", "indeterminate", `attempting to connect to the network...`);
+						splashController.window.webContents.send("progress", "indeterminate", ATTEMPT_CONN);
 						splashController.hasInternet().then((c) => {
 							log.info("successfuly connected to the cph network");
-							splashController.window.webContents.send("progress", "indeterminate", `successfuly connected to the cph network`);
+							splashController.window.webContents.send("progress", "indeterminate", SUCCESS_CONN);
 							var mainController = new MainController();
 							mainWindow = mainController.window;
 							splashController.window.close();
@@ -344,10 +345,9 @@ autoUpdater.on('update-downloaded', function (info) {
 	if (currentVersion[1] < newVersion[1] || currentVersion[0] < newVersion[0]) {
 		log.info("Your wallet daemon needs updating!");
 		let message = {
-			title: "WARNING!",
+			title: WARNING,
 			version: info.version,
-			message: `There is a new wallet release with a protocol change. This update is manadatory! 
-            Please update now to get on the latest version ${info.version} of ${packageJSON.name}.`
+			message: UPDATE_MESSAGE
 		}
 		openwarningWindow(message);
 	}

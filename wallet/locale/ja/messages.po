@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-01-24 17:41+0200\n"
-"PO-Revision-Date: 2021-01-24 17:45+0200\n"
+"POT-Creation-Date: 2021-02-02 12:55+0200\n"
+"PO-Revision-Date: 2021-02-02 13:02+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -34,25 +34,25 @@ msgstr "クリップボードにコピー"
 msgid "Create/Import"
 msgstr "作成/インポート"
 
-#: src/common/components/Send.js:43
+#: src/common/components/Send.js:44
 #, fuzzy
 msgid "Successfully sent"
 msgstr "正常に送信されました。"
 
-#: src/common/components/Send.js:44
+#: src/common/components/Send.js:45
 msgid "to"
 msgstr "から"
 
-#: src/common/components/Send.js:201
+#: src/common/components/Send.js:267
 #, fuzzy
 msgid "Successfully sent to many"
 msgstr "多くの方への送信に成功"
 
-#: src/common/components/Transaction.js:305 src/renderer/send/send-navbar.js:33
+#: src/common/components/Transaction.js:308 src/renderer/send/send-navbar.js:33
 msgid "Send"
 msgstr "送信"
 
-#: src/common/components/Transaction.js:307
+#: src/common/components/Transaction.js:310
 #: src/renderer/receive/receive-navbar.js:34
 msgid "Receive"
 msgstr "受信"
@@ -70,15 +70,15 @@ msgstr " 保存されたキーから"
 msgid "Unlock wallet for transactions"
 msgstr "取引のためのウォレットのロックを解除"
 
-#: src/common/components/UnlockWallet.js:62
-#: src/common/components/UnlockWallet.js:66
+#: src/common/components/UnlockWallet.js:63
+#: src/common/components/UnlockWallet.js:67
 #, fuzzy
 msgid "Unlock wallet for maintenance"
 msgstr "メンテナンスのために財布のロックを解除"
 
-#: src/common/components/UnlockWallet.js:70
-#: src/common/components/UnlockWallet.js:74
-#: src/common/components/UnlockWallet.js:79
+#: src/common/components/UnlockWallet.js:71
+#: src/common/components/UnlockWallet.js:75
+#: src/common/components/UnlockWallet.js:80
 #, fuzzy
 msgid "Unlock wallet for masternodes"
 msgstr "マスターノードの財布のロックを解除"
@@ -93,35 +93,35 @@ msgstr "杭を打つためのウォレットのロックを解除"
 msgid "Unlock wallet for staking"
 msgstr "杭を打つためのウォレットのロックを解除"
 
-#: src/common/getTextConsts.js:3
+#: src/common/getTextConsts.js:5
 #, fuzzy
 msgid "copied to clipboard"
 msgstr "クリップボードにコピー"
 
-#: src/common/getTextConsts.js:4
+#: src/common/getTextConsts.js:6
 #, fuzzy
 msgid "Export Private Keys"
 msgstr "プライベートキーのエクスポート"
 
-#: src/common/getTextConsts.js:5
+#: src/common/getTextConsts.js:7
 #, fuzzy
 msgid "Change Default Language"
 msgstr "デフォルト言語の変更"
 
-#: src/common/getTextConsts.js:6
+#: src/common/getTextConsts.js:8
 msgid "Unlock"
 msgstr "ロック解除"
 
-#: src/common/getTextConsts.js:7 src/renderer/settings/settings-content.js:46
+#: src/common/getTextConsts.js:9 src/renderer/settings/settings-content.js:46
 #: src/renderer/warning/warning.js:75
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: src/common/getTextConsts.js:8
+#: src/common/getTextConsts.js:10
 msgid "Block"
 msgstr "ブロック"
 
-#: src/common/getTextConsts.js:9
+#: src/common/getTextConsts.js:11
 #, fuzzy
 msgid ""
 "This mnemonic phrase is uniquely generated, and grants you access to your "
@@ -136,60 +136,127 @@ msgstr ""
 "あなたのユニークなフレーズを誰とも共有しないでください。注意: Janusチームはあ"
 "なたのニーモニックフレーズを紛失した場合、資金を回収することはできません。"
 
-#: src/common/getTextConsts.js:10
+#: src/common/getTextConsts.js:12
 #, fuzzy
 msgid "Passphrase Error!"
 msgstr "パスフレーズエラー!"
 
-#: src/common/getTextConsts.js:11
+#: src/common/getTextConsts.js:13
 #, fuzzy
 msgid "MAX"
 msgstr "最大値"
 
-#: src/common/getTextConsts.js:12
+#: src/common/getTextConsts.js:14
 msgid "Address"
 msgstr "住所"
 
-#: src/common/getTextConsts.js:13
+#: src/common/getTextConsts.js:15
 msgid "Amount"
 msgstr "金額"
 
-#: src/common/getTextConsts.js:14
+#: src/common/getTextConsts.js:16
 msgid "fast"
 msgstr "速い"
 
-#: src/common/getTextConsts.js:15
+#: src/common/getTextConsts.js:17
 msgid "slow"
 msgstr "遅い"
 
-#: src/common/getTextConsts.js:16
+#: src/common/getTextConsts.js:18
 #, fuzzy
 msgid "Estimated transaction fee:"
 msgstr "取引手数料の目安。"
 
-#: src/common/getTextConsts.js:17
+#: src/common/getTextConsts.js:19
 msgid "SEND"
 msgstr "送信"
 
-#: src/common/getTextConsts.js:18
+#: src/common/getTextConsts.js:20
 #, fuzzy
 msgid "ADD RECIPIENT"
 msgstr "受信者を追加"
 
-#: src/common/getTextConsts.js:19
+#: src/common/getTextConsts.js:21
 #, fuzzy
 msgid "total cost:"
 msgstr "トータルコスト。"
 
-#: src/common/getTextConsts.js:20
+#: src/common/getTextConsts.js:22
 #, fuzzy
 msgid "Address is not valid!"
 msgstr "住所が無効です"
 
-#: src/common/getTextConsts.js:21
+#: src/common/getTextConsts.js:23
 #, fuzzy
 msgid "RECEIVE"
 msgstr "受信"
+
+#: src/common/getTextConsts.js:24
+#, fuzzy
+#| msgid "Transactions"
+msgid "Transaction failure"
+msgstr "トランザクション"
+
+#: src/common/getTextConsts.js:25
+#, fuzzy
+msgid "Insufficient funds"
+msgstr "資金不足"
+
+#: src/common/getTextConsts.js:26
+#, fuzzy
+msgid ""
+"Transaction failed, you can increase the gas to make sure a transaction is "
+"successfully handled."
+msgstr ""
+"トランザクションが失敗した場合は、ガスを増やしてトランザクションを成功させる"
+"ことができます。"
+
+#: src/common/getTextConsts.js:27
+#, fuzzy
+msgid ""
+"Unable to connect to Cypherium network. Please check your firewall and "
+"internet connections."
+msgstr ""
+"サイフェリウムのネットワークに接続できません。ファイアウォールやインターネッ"
+"ト接続をご確認ください。"
+
+#: src/common/getTextConsts.js:28
+#, fuzzy
+msgid "It appears this is a first time load. Import or create a new wallet"
+msgstr "これは初回ロードのようです。新しいウォレットをインポートまたは作成する"
+
+#: src/common/getTextConsts.js:29
+#, fuzzy
+msgid "Error initializing config.json"
+msgstr "config.jsonの初期化エラー"
+
+#: src/common/getTextConsts.js:30
+#, fuzzy
+msgid "Error loading config file"
+msgstr "設定ファイルの読み込みエラー"
+
+#: src/common/getTextConsts.js:31
+#, fuzzy
+msgid "attempting to connect to the network..."
+msgstr "ネットワークに接続しようとしている..."
+
+#: src/common/getTextConsts.js:32
+#, fuzzy
+msgid "successfuly connected to the cph network"
+msgstr "cphネットワークへの接続に成功しました"
+
+#: src/common/getTextConsts.js:33
+msgid "WARNING!"
+msgstr "警告!"
+
+#: src/common/getTextConsts.js:34
+#, fuzzy
+msgid ""
+"There is a new wallet release wich is a manadatory update! Please update now "
+"to get on the latest version."
+msgstr ""
+"新しいウォレットのリリースがあります。今すぐアップデートして最新版を手に入れ"
+"てください。"
 
 #: src/common/setup/CreateAccount.js:36 src/common/setup/ImportAccount.js:39
 #, fuzzy
@@ -363,16 +430,16 @@ msgstr "作成"
 msgid "Masternodes"
 msgstr "マスターノード"
 
-#: src/renderer/mywallet/mywallet-content.js:246
+#: src/renderer/mywallet/mywallet-content.js:251
 msgid "Follow us"
 msgstr "フォローする"
 
-#: src/renderer/mywallet/mywallet-content.js:265
+#: src/renderer/mywallet/mywallet-content.js:270
 #, fuzzy
 msgid "Join discord"
 msgstr "ディコードに参加する"
 
-#: src/renderer/mywallet/mywallet-content.js:283
+#: src/renderer/mywallet/mywallet-content.js:288
 #, fuzzy
 msgid "Join telegram"
 msgstr "電報に参加する"

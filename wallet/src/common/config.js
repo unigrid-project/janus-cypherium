@@ -17,6 +17,7 @@
  */
 
 import Store from "electron-store";
+import { CONFIG_ERROR, CONFIG_LOAD } from "./getTextConsts";
 import LocalePath from "./loaclePath";
 const log = require('electron-log');
 const store = new Store();
@@ -29,7 +30,6 @@ export default class Config {
     /* Import default conts from config.json */
     /* That data is then stored in electron-store */
     /* which can be accesed from anywhere without another import */
-    //static random = "somerandomshit";
 
     static loadStore(window) {
         return new Promise((resolve, reject) => {
@@ -37,14 +37,14 @@ export default class Config {
                 if (this.getStore()) {
                     return resolve();
                 } else {
-                    window.webContents.send("fatal-error", "Error loading config file");
+                    window.webContents.send("fatal-error", CONFIG_LOAD);
                     window.webContents.send("state", "idle");
-                    reject("Error loading config file");
+                    reject(CONFIG_LOAD);
                 }
             } catch {
-                window.webContents.send("fatal-error", "Error loading config file");
+                window.webContents.send("fatal-error", CONFIG_LOAD);
                 window.webContents.send("state", "idle");
-                reject("Error loading config file");
+                reject(CONFIG_LOAD);
             }
         });
     }
@@ -61,7 +61,7 @@ export default class Config {
             } catch {
                 // log error message 
                 log.warn("Error initializing config.json");
-                reject("Error initializing config.json");
+                reject(CONFIG_ERROR);
             }
         });
 

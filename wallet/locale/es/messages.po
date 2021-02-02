@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-01-24 17:41+0200\n"
-"PO-Revision-Date: 2021-01-24 17:47+0200\n"
+"POT-Creation-Date: 2021-02-02 12:55+0200\n"
+"PO-Revision-Date: 2021-02-02 12:59+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -31,23 +31,23 @@ msgstr "Copiar al portapapeles"
 msgid "Create/Import"
 msgstr "Crear/Importar"
 
-#: src/common/components/Send.js:43
+#: src/common/components/Send.js:44
 msgid "Successfully sent"
 msgstr "Enviado con éxito"
 
-#: src/common/components/Send.js:44
+#: src/common/components/Send.js:45
 msgid "to"
 msgstr "a"
 
-#: src/common/components/Send.js:201
+#: src/common/components/Send.js:267
 msgid "Successfully sent to many"
 msgstr "Enviado con éxito a muchos"
 
-#: src/common/components/Transaction.js:305 src/renderer/send/send-navbar.js:33
+#: src/common/components/Transaction.js:308 src/renderer/send/send-navbar.js:33
 msgid "Send"
 msgstr "Enviar"
 
-#: src/common/components/Transaction.js:307
+#: src/common/components/Transaction.js:310
 #: src/renderer/receive/receive-navbar.js:34
 msgid "Receive"
 msgstr "Recibido"
@@ -64,14 +64,14 @@ msgstr " de las llaves almacenadas"
 msgid "Unlock wallet for transactions"
 msgstr "Desbloquear la cartera para las transacciones"
 
-#: src/common/components/UnlockWallet.js:62
-#: src/common/components/UnlockWallet.js:66
+#: src/common/components/UnlockWallet.js:63
+#: src/common/components/UnlockWallet.js:67
 msgid "Unlock wallet for maintenance"
 msgstr "Desbloquear la cartera para el mantenimiento"
 
-#: src/common/components/UnlockWallet.js:70
-#: src/common/components/UnlockWallet.js:74
-#: src/common/components/UnlockWallet.js:79
+#: src/common/components/UnlockWallet.js:71
+#: src/common/components/UnlockWallet.js:75
+#: src/common/components/UnlockWallet.js:80
 msgid "Unlock wallet for masternodes"
 msgstr "Desbloquear la cartera para los masternones"
 
@@ -85,32 +85,32 @@ msgstr "Abrir la cartera para la estaca"
 msgid "Unlock wallet for staking"
 msgstr "Abrir la cartera para la estaca"
 
-#: src/common/getTextConsts.js:3
+#: src/common/getTextConsts.js:5
 msgid "copied to clipboard"
 msgstr "copiado al portapapeles"
 
-#: src/common/getTextConsts.js:4
+#: src/common/getTextConsts.js:6
 msgid "Export Private Keys"
 msgstr "Exportar llaves privadas"
 
-#: src/common/getTextConsts.js:5
+#: src/common/getTextConsts.js:7
 msgid "Change Default Language"
 msgstr "Cambiar el idioma por defecto"
 
-#: src/common/getTextConsts.js:6
+#: src/common/getTextConsts.js:8
 msgid "Unlock"
 msgstr "Desbloquear"
 
-#: src/common/getTextConsts.js:7 src/renderer/settings/settings-content.js:46
+#: src/common/getTextConsts.js:9 src/renderer/settings/settings-content.js:46
 #: src/renderer/warning/warning.js:75
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/common/getTextConsts.js:8
+#: src/common/getTextConsts.js:10
 msgid "Block"
 msgstr "Bloque"
 
-#: src/common/getTextConsts.js:9
+#: src/common/getTextConsts.js:11
 msgid ""
 "This mnemonic phrase is uniquely generated, and grants you access to your "
 "wallet. Do NOT screenshot this page. Carefully write down your mnemonic "
@@ -125,57 +125,125 @@ msgstr ""
 "PRECAUCIÓN: El equipo Janus no puede recuperar tus fondos si pierdes tu "
 "frase mnemotécnica."
 
-#: src/common/getTextConsts.js:10
+#: src/common/getTextConsts.js:12
 msgid "Passphrase Error!"
 msgstr "Error de frase de contraseña!"
 
-#: src/common/getTextConsts.js:11
+#: src/common/getTextConsts.js:13
 msgid "MAX"
 msgstr "MAX"
 
-#: src/common/getTextConsts.js:12
+#: src/common/getTextConsts.js:14
 msgid "Address"
 msgstr "Dirección"
 
-#: src/common/getTextConsts.js:13
+#: src/common/getTextConsts.js:15
 msgid "Amount"
 msgstr "Cantidad"
 
-#: src/common/getTextConsts.js:14
+#: src/common/getTextConsts.js:16
 msgid "fast"
 msgstr "rápido"
 
-#: src/common/getTextConsts.js:15
+#: src/common/getTextConsts.js:17
 msgid "slow"
 msgstr "lento"
 
-#: src/common/getTextConsts.js:16
+#: src/common/getTextConsts.js:18
 #, fuzzy
 msgid "Estimated transaction fee:"
 msgstr "Cuota de transacción estimada:"
 
-#: src/common/getTextConsts.js:17
+#: src/common/getTextConsts.js:19
 msgid "SEND"
 msgstr "ENVIAR"
 
-#: src/common/getTextConsts.js:18
+#: src/common/getTextConsts.js:20
 #, fuzzy
 msgid "ADD RECIPIENT"
 msgstr "AÑADIR DESTINATARIO"
 
-#: src/common/getTextConsts.js:19
+#: src/common/getTextConsts.js:21
 #, fuzzy
 msgid "total cost:"
 msgstr "el costo total:"
 
-#: src/common/getTextConsts.js:20
+#: src/common/getTextConsts.js:22
 #, fuzzy
 msgid "Address is not valid!"
 msgstr "¡La dirección no es válida!"
 
-#: src/common/getTextConsts.js:21
+#: src/common/getTextConsts.js:23
 msgid "RECEIVE"
 msgstr "RECIBIR"
+
+#: src/common/getTextConsts.js:24
+#, fuzzy
+#| msgid "Transactions"
+msgid "Transaction failure"
+msgstr "Transacciones"
+
+#: src/common/getTextConsts.js:25
+#, fuzzy
+msgid "Insufficient funds"
+msgstr "Fondos insuficientes"
+
+#: src/common/getTextConsts.js:26
+#, fuzzy
+msgid ""
+"Transaction failed, you can increase the gas to make sure a transaction is "
+"successfully handled."
+msgstr ""
+"Transacción fallida, puede aumentar el gas para asegurarse de que una "
+"transacción se maneja con éxito."
+
+#: src/common/getTextConsts.js:27
+#, fuzzy
+msgid ""
+"Unable to connect to Cypherium network. Please check your firewall and "
+"internet connections."
+msgstr ""
+"No se puede conectar a la red de Cypherium. Por favor, compruebe su "
+"cortafuegos y sus conexiones a Internet."
+
+#: src/common/getTextConsts.js:28
+#, fuzzy
+msgid "It appears this is a first time load. Import or create a new wallet"
+msgstr ""
+"Parece que es la primera vez que se carga. Importar o crear un nuevo monedero"
+
+#: src/common/getTextConsts.js:29
+#, fuzzy
+msgid "Error initializing config.json"
+msgstr "Error al inicializar config.json"
+
+#: src/common/getTextConsts.js:30
+#, fuzzy
+msgid "Error loading config file"
+msgstr "Error al cargar el archivo de configuración"
+
+#: src/common/getTextConsts.js:31
+#, fuzzy
+msgid "attempting to connect to the network..."
+msgstr "intentando conectarse a la red..."
+
+#: src/common/getTextConsts.js:32
+#, fuzzy
+msgid "successfuly connected to the cph network"
+msgstr "conectado con éxito a la red cph"
+
+#: src/common/getTextConsts.js:33
+msgid "WARNING!"
+msgstr "ADVERTENCIA!"
+
+#: src/common/getTextConsts.js:34
+#, fuzzy
+msgid ""
+"There is a new wallet release wich is a manadatory update! Please update now "
+"to get on the latest version."
+msgstr ""
+"Hay una nueva versión de la cartera que es una actualización obligatoria Por "
+"favor, actualice ahora para obtener la última versión."
 
 #: src/common/setup/CreateAccount.js:36 src/common/setup/ImportAccount.js:39
 msgid "Wallet Name"
@@ -328,15 +396,15 @@ msgstr "CREAR"
 msgid "Masternodes"
 msgstr "Masternodes"
 
-#: src/renderer/mywallet/mywallet-content.js:246
+#: src/renderer/mywallet/mywallet-content.js:251
 msgid "Follow us"
 msgstr "Síguenos"
 
-#: src/renderer/mywallet/mywallet-content.js:265
+#: src/renderer/mywallet/mywallet-content.js:270
 msgid "Join discord"
 msgstr "Únete a la discordia"
 
-#: src/renderer/mywallet/mywallet-content.js:283
+#: src/renderer/mywallet/mywallet-content.js:288
 msgid "Join telegram"
 msgstr "Unir el telegrama"
 
