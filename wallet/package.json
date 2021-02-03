@@ -1,6 +1,6 @@
 {
   "name": "Janus-Cypherium",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "license": "LGPL-3.0-or-later",
   "author": "The UNIGRID Organization",
   "description": "A modern cryptocurrency wallet based on the JavaScript Electron UI toolkit. Janus open source wallet can be used for multiple different types of blockchains.",
