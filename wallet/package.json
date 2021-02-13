@@ -88,7 +88,7 @@
           ]
         },
         {
-          "from": "../config.json",
+          "from": "config.json",
           "to": "resources/config.json",
           "filter": [
             "**/*"
@@ -114,7 +114,7 @@
           ]
         },
         {
-          "from": "../config.json",
+          "from": "config.json",
           "to": "resources/config.json",
           "filter": [
             "**/*"
@@ -141,7 +141,7 @@
           ]
         },
         {
-          "from": "../config.json",
+          "from": "config.json",
           "to": "resources/config.json",
           "filter": [
             "**/*"
