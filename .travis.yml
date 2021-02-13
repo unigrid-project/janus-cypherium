@@ -1,3 +1,7 @@
+language: r
+before_install:
+  - cd wallet
+
 matrix:
   include:
     - os: osx
@@ -17,10 +21,6 @@ cache:
     - node_modules
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
-
-language: r
-before_install:
-  - cd wallet
 
 script:
   - |
