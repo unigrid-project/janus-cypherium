@@ -29,6 +29,7 @@ import { ipcRenderer, remote } from "electron";
 import NodeClient from '../../common/node-client';
 import Config from "../config";
 import CustomTooltip from "./CustomToolTip";
+import { config } from "@fortawesome/fontawesome-svg-core";
 var gt = require('electron').remote.getGlobal('gt');
 const log = require('electron-log');
 const nodeClient = new NodeClient();
@@ -67,7 +68,7 @@ function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
                     </a>
                 </div>
                 <div className="account--div account--item">
-                    {data.address}</div>
+                    {Config.getProjectTicker() + data.address}</div>
                 <div className="clipboard account--item">
                     <CustomTooltip
                         placement="left"
