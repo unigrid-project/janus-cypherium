@@ -18,6 +18,10 @@ cache:
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
 
+language: r
+before_install:
+  - cd wallet
+
 script:
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
