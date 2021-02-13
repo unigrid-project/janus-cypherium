@@ -363,7 +363,7 @@ h3 {
 
 .outline--border {
   border-radius: 5px;
-  border: 2px solid var(--primary);
+  border: 1.5px solid var(--primary);
 }
 
 .href--links {
@@ -388,4 +388,23 @@ h3 {
   /* Specific width is required for Firefox. */
   background: transparent;
   /* Otherwise white in Chrome */
+}
+
+.clipboard {
+	padding-left: 10px;
+}
+.clipboard svg {
+    transition: transform .2s ease-in-out;
+    cursor: pointer;
+    transform: scale(1.15);
+}
+
+.clipboard svg:hover {
+    transform: scale(1.5);
+    color: lawngreen;
+}
+
+.clipboard svg:active {
+    transform: scale(0.5);
+    color: #fff;
 }

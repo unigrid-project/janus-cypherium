@@ -20,22 +20,3 @@ div#receive>div {
 	text-align: center;
 	padding-top: 5px !important;
 }
-
-.clipboard {
-	padding-left: 10px;
-}
-.clipboard svg {
-    transition: transform .2s ease-in-out;
-    cursor: pointer;
-    transform: scale(1.15);
-}
-
-.clipboard svg:hover {
-    transform: scale(1.5);
-    color: lawngreen;
-}
-
-.clipboard svg:active {
-    transform: scale(0.5);
-    color: #fff;
-}

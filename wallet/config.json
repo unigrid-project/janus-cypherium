@@ -10,6 +10,7 @@
         "githubUrl": "https://github.com/",
         "projectName": "Janus Cypherium",
         "projectTicker": "CPH",
+        "donationAddress": "CPHCC2EC717DCC3BF784784D40EDB1073BF56B5F7C3",
         "confFile": "",
         "masternodeFile": "",
         "isMasternode": false,

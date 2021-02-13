@@ -51,8 +51,8 @@ export default class Config {
 
     static init() {
         return new Promise((resolve, reject) => {
-            try {                
-                const join = isDevelopment ? (path.join(process.env.INIT_CWD, '../config.json')) : './config.json';
+            try {
+                const join = isDevelopment ? (path.join(process.env.INIT_CWD, './config.json')) : './config.json';
                 const loaclPath = LocalePath.get(join);
                 let config = fs.readFileSync(loaclPath);
                 let data = JSON.parse(config);
@@ -112,6 +112,10 @@ export default class Config {
         if (this.getStore().testing)
             return this.getStore().test_environment
         return this.getStore().environment;
+    }
+
+    static getDonationAddress() {
+        return this.getStore().donationAddress;
     }
 
     static getNodeInfo() {

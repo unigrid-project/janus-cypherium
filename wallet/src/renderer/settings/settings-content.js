@@ -27,19 +27,23 @@ import Expand from "react-expand-animated";
 import EnterField from "../../common/components/EnterField";
 import "./settings-content.css";
 import RPCClient from "../../common/rpc-client.js";
-import { ipcRenderer, remote } from "electron";
+import { ipcRenderer, remote, clipboard } from "electron";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import HideZeroAddresses from "../../common/components/HideZeroAddresses";
 import Config from "../../common/config";
 import File from "../../common/file";
 import LanguageSelect from "../../common/languages/LanguageSelect";
-import { CHANGE_DEFAULT } from "../../common/getTextConsts";
+import { CHANGE_DEFAULT, COPIED } from "../../common/getTextConsts";
+import CustomTooltip from "../../common/components/CustomToolTip";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClipboard } from "@fortawesome/free-solid-svg-icons";
 
 var gt = require('electron').remote.getGlobal('gt');
 const log = require('electron-log');
 const packageJSON = require('../../../package.json');
 const store = new Store();
 var translations = remote.getGlobal('translations');
+const copyToClipboard = gt.gettext("copy to clipboard");
 
 function SettingsContent(props) {
 	const confirmCpy = gt.gettext("Confirm");
@@ -64,7 +68,7 @@ function SettingsContent(props) {
 	const [encryptingWallet, setEncryptingWallet] = useState(false);
 	const [stakeSplitKey, setStakeSplitKey] = useState(Math.random());
 	const [renderListKey, setRenderListKey] = useState(Math.random());
-	const [renderKey , setRederKey] = useState(Math.random());
+	const [renderKey, setRederKey] = useState(Math.random());
 
 	useEffect(() => {
 		//console.log("languages: ", store.get("languages"));
@@ -99,6 +103,23 @@ function SettingsContent(props) {
 						{CHANGE_DEFAULT}
 					</div>
 					<LanguageSelect />
+				</div>
+				<div className="darkCopy fontSmallBold">
+					<p>{gt.gettext("The Janus wallet is 100% free to use and there are no hidden transaction fees. If you enjoy using this wallet and would like to support futher development please consider donating.")}</p>
+					<div className="align--row--normal padding-ten">
+						<div className="padding-five">{gt.gettext("donation address: ")}</div>
+						<div className="fontSmallBold darkCopy  align--row--stretch outline--border padding-five">
+							<div className="align--center--row">{Config.getDonationAddress()}</div>
+							<div className="clipboard">
+								<CustomTooltip
+									placement="left"
+									item={<FontAwesomeIcon size="sm" icon={faClipboard} color="white" onClick={() => copyAddress(Config.getDonationAddress())} />}
+									color="var(--dark--green)"
+									content={<div className="fontSmallBold">{copyToClipboard}</div>}
+								/>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</Content>
@@ -175,6 +196,13 @@ function SettingsContent(props) {
 					handleClick={() => openConfFile(Config.getMasternodeFile())}>{gt.gettext("Open Masternode Config")}</Button>
 			</div>
 		)
+	}
+
+	function copyAddress(v) {
+		//responseAddress
+		clipboard.writeText(v, 'clipboard')
+		console.log(clipboard.readText('clipboard'))
+		sendDesktopNotification(`${v} ${COPIED}`);
 	}
 
 	function resetPassphraseContainer() {

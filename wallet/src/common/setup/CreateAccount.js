@@ -273,7 +273,7 @@ const CreateAccount = (props) => {
             tmpArr[randomIndex] = temporaryValue;
         }
         //console.log("shuffle: ", tmpArr);
-        console.log("original: ", mnemonic);
+        //console.log("original: ", mnemonic);
         return tmpArr;
     }
 
