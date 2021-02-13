@@ -24,10 +24,6 @@ cache:
 
 github_token: $GITHUB_TOKEN
 
-before_deploy:
-  - if [ "$TRAVIS_OS_NAME" = osx ]; then chmod +x add-osx-cert.sh; fi
-  - if [ "$TRAVIS_OS_NAME" = osx ]; then ./add-osx-cert.sh; fi
-
 script:
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
