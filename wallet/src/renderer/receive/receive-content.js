@@ -88,14 +88,14 @@ export default function ReceiveScreen() {
 							buttonSize="btn--long max--height">{EXPORT_KEYS}</Button>
 					</div>
 				</div>
-				<div>
+				{/*<div>
 					<div className="padding-ten">
 						<Button
 							handleClick={() => exportKeystore()}
 							buttonSize="btn--long max--height">Export Keystore</Button>
 					</div>
 
-				</div>
+				</div>*/}
 			</div>
 		</Content>
 	);
@@ -127,13 +127,13 @@ export default function ReceiveScreen() {
 		ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
 	}
 
-	function exportKeystore() {
+	/*function exportKeystore() {
 		let message = {
 			command: "EXPORT_KEYSTORE",
 			alias: currentSelectedAccount[0]
 		}
 		ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
-	}
+	}*/
 
 	function openExternalLink(target) {
 		shell.openExternal(target);

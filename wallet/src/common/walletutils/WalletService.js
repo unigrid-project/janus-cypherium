@@ -24,7 +24,7 @@ import * as RIPEMD160 from 'ripemd160';
 import * as jsSHA from 'jssha';
 import * as ed25519 from '@stablelib/ed25519';
 import Store from "electron-store";
-import * as Wallet from 'cypheriumjs-wallet';
+//import * as Wallet from 'cypheriumjs-wallet';
 
 var aes256 = require('aes256');
 const store = new Store();
@@ -124,7 +124,7 @@ export class WalletService {
         }
     }
 
-    decryptPrivateKey(keystore, password) {
+    /*decryptPrivateKey(keystore, password) {
         let privateKey = null, publicKey = null;
         try {
             let wallet = Wallet.fromV3(keystore, password, true)
@@ -150,14 +150,14 @@ export class WalletService {
                 flag: false
             }
         }
-    }
+    }*/
 
-    exportKeystore(privateKey, password) {
+    /*exportKeystore(privateKey, password) {
         privateKey = privateKey.replace('0x', '');
         if (typeof privateKey == 'string') {
             privateKey = Buffer.from(privateKey, 'hex');
         }
-        console.log(privateKey)
+        console.log("BUFFER: ", privateKey)
         let wallet = Wallet.fromPrivateKey(privateKey);
         //generate keystore
         let keystore = wallet.toV3(password, {
@@ -166,25 +166,7 @@ export class WalletService {
         privateKey = null;
         password = null;
         return keystore;
-    }
-
-    /**
-     *  Create a new instance of this Wallet connected to provider.
-     */
-    // connect(provider: Provider): Wallet;
-    // getAddress(): Promise<string>;
-    // sign(transaction: TransactionRequest): Promise<string>;
-    // signMessage(message: Arrayish | string): Promise<string>;
-    // getBalance(blockTag?: BlockTag): Promise<BigNumber>;
-    // getTransactionCount(blockTag?: BlockTag): Promise<number>;
-    // sendTransaction(transaction: TransactionRequest): Promise<TransactionResponse>;
-    // encrypt(password: Arrayish | string, options?: any, progressCallback?: ProgressCallback): Promise<string>;
-    // /**
-    //  *  Static methods to create Wallet instances.
-    //  */
-    // static createRandom(options?: any): Wallet;
-    // static fromEncryptedJson(json: string, password: Arrayish, progressCallback?: ProgressCallback): Promise<Wallet>;
-    // static fromMnemonic(mnemonic: string, path?: string, wordlist?: Wordlist): Wallet;
+    }*/
 
     generateKeyPair(seed) {
         this._isHexString(seed, SEED_NAME, SEED_LENGTH);

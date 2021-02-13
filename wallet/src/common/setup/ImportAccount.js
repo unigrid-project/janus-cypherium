@@ -48,8 +48,8 @@ const importFile = new ImportFile();
 const ImportAccount = (props) => {
     const [selections, setSelections] = useState([
         { name: gt.gettext("mnemonic"), selected: true, key: 0 },
-        { name: gt.gettext("private key"), selected: false, key: 1 },
-        { name: gt.gettext("keytstore"), selected: false, key: 2 }
+        { name: gt.gettext("private key"), selected: false, key: 1 }/*,
+        { name: gt.gettext("keytstore"), selected: false, key: 2 }*/
     ]);
     const [warningMessage, setWarningMessage] = useState("");
     const [walletName, setWalletName] = useState("");
@@ -127,10 +127,10 @@ const ImportAccount = (props) => {
                         renderPrivateKeyContainer()
                         :
                         null}
-                    {selections[2].selected ?
+                    {/*selections[2].selected ?
                         renderKeystoreContainer()
                         :
-                        null}
+                    null*/}
                 </div>
             </div>
 
