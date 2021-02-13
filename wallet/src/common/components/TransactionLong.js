@@ -56,8 +56,7 @@ function TransactionLong({ data, index, style }) {
                 <div className="trans--item">
                     {setAmountColor()}
                 </div>
-                <div className="trans--item">
-
+                <div className="trans--item explorer--button">
                     <a href={Config.getExplorerLink() + "tx/" + data.txid} target="_blank">
                         <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
                 </div>
@@ -92,7 +91,6 @@ function TransactionLong({ data, index, style }) {
                         </div>
                     </div > : <TransactionLoading />}
             </div>
-
         )
     }
 
@@ -146,8 +144,8 @@ function TransactionLong({ data, index, style }) {
         } else {
             return data.category;
         }
-
     }
+
     function setAmountColor() {
         let transType;
         var totalAmount;
@@ -162,10 +160,12 @@ function TransactionLong({ data, index, style }) {
         }
         return <div className={numWidth + " " + transType}>{totalAmount}</div>
     }
+
     function getArrayIndex(num) {
         let newNum = parseInt(num);
         return newNum + 1;
     }
+
     function getAccountName(account) {
         if (account === "") {
             return <div className="unnamed-account">unnamed account</div>
@@ -173,24 +173,33 @@ function TransactionLong({ data, index, style }) {
             return <div>{account}</div>
         }
     }
-    function calculateDateFromEpoch(epoch) {
-        var recDate = new Date(epoch);
 
-        let time = new Date(epoch);
-        let year = time.getFullYear();
-        let date = ('00' + time.getDate()).slice(-2);
-        let month = ('00' + (time.getMonth() + 1)).slice(-2);
-        let hour = ('00' + time.getHours()).slice(-2);
-        let minute = ('00' + time.getMinutes()).slice(-2);
-        let second = ('00' + time.getSeconds()).slice(-2);
-        //return [year, month, date].join('.') + ' ' + [hour, minute, second].join(':');
-        //console.log("time: ", recDate.toISOString())
-        //const date = recDate.toISOString().split('T')[0];
-        return (
-            <div>
-                <div>{[year, month, date].join('.') + ' ' + [hour, minute, second].join(':')}</div>
-            </div>
-        )
+    function calculateDateFromEpoch(epoch) {
+        if (Config.isDaemonBased()) {
+            var recDate = new Date(epoch * 1000);
+            const date = recDate.toISOString().split('T')[0];
+            const time = recDate.toTimeString().split(" ")[0];
+            return (
+                <div>
+                    <div>{date}</div>
+                    <div>{time}</div>
+                </div>
+            )
+        } else {
+            let time = new Date(epoch);
+            let year = time.getFullYear();
+            let date = ('00' + time.getDate()).slice(-2);
+            let month = ('00' + (time.getMonth() + 1)).slice(-2);
+            let hour = ('00' + time.getHours()).slice(-2);
+            let minute = ('00' + time.getMinutes()).slice(-2);
+            let second = ('00' + time.getSeconds()).slice(-2);
+
+            return (
+                <div>
+                    <div>{[year, month, date].join('.') + ' ' + [hour, minute, second].join(':')}</div>
+                </div>
+            )
+        }
     }
 
     function getCategoryIcon() {

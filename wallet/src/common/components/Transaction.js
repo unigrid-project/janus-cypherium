@@ -66,125 +66,48 @@ function Transaction({ data, index, style }) {
                         {getArrayIndex(index)}
                     </div></div>
                 <div className="trans--short--item">
-                    <Tooltip
+                    <CustomTooltip
                         placement="right"
-                        fadeDuration={150}
-                        radius={10}
-                        fontFamily='Roboto'
-                        fontSize='5'
-                        fadeEasing="linear"
-                        background={css`
-                    var(--tooltip--background)
-                  `}
+                        item={getTimeObject(data.timereceived)}
+                        color="var(--dark--green)"
                         content={calculateDateTimeFromEpoch(data.timereceived)}
-                    ></Tooltip>
-                    <div data-tooltip={calculateDateTimeFromEpoch(data.timereceived)} >
-                        {getTimeObject(data.timereceived)}
-                    </div>
-                    {getTimeObject(data.timereceived)}
-
+                    />
                 </div >
                 <div className="trans--short--item">
-                    <Tooltip
-
-
-                        fadeDuration={150}
-                        radius={10}
-                        fontFamily='Roboto'
-                        fontSize='5'
-                        fadeEasing="linear"
-                        background={css`
-                    var(--tooltip--background)
-                  `}
+                    <CustomTooltip
+                        placement="right"
+                        item={getBlockObject(data.confirmations)}
+                        color="var(--dark--green)"
                         content={getBlockCount(data.confirmations)}
-                        customCss={css`
-                    white-space: nowrap;
-                  `}
-                    >
-                        {getBlockObject(data.confirmations)}
-
-                    </Tooltip>
+                    />
                 </div >
                 <div className="trans--short--item">
-                    <Tooltip
-
-                        zIndex={200}
-                        fadeDuration={150}
-                        radius={10}
-                        fontFamily='Roboto'
-                        fontSize='5'
-                        fadeEasing="linear"
-                        background={css`
-                    var(--tooltip--background)
-                  `}
+                    <CustomTooltip
+                        placement="right"
+                        item={getCategoryIcon()}
+                        color="var(--dark--green)"
                         content={getCategory()}
-                    >{getCategoryIcon()}
-                    </Tooltip>
-
-                </div>
+                    />
+                </div >
                 <div className="trans--short--item">
-                    <Tooltip
-
-                        zIndex={200}
-                        fadeDuration={150}
-                        radius={10}
-                        fontFamily='Roboto'
-                        fontSize='5'
-                        fadeEasing="linear"
-                        background={css`
-                    var(--tooltip--background)
-                  `}
+                    <CustomTooltip
+                        placement="top"
+                        item={setAmountColor()}
+                        color="var(--dark--green)"
                         content={data.amount.toFixed(8)}
-                        customCss={css`
-                    white-space: nowrap;
-                  `}
-                    >
-                        {setAmountColor()}
-                    </Tooltip>
-                </div>
+                    />
+                </div >
                 <div className="trans--short--item">
-                    <Tooltip
-
-                        zIndex={200}
-                        fadeDuration={150}
-                        radius={10}
-                        fontFamily='Roboto'
-                        fontSize='5'
-                        fadeEasing="linear"
-                        background={css`
-                    var(--tooltip--background)
-                  `}
-                        content="Show in explorer"
-                        customCss={css`
-                    white-space: nowrap;
-                  `}
-                    >
-                        <a href={Config.getExplorerLink() + "tx/" + data.txid} target="_blank">
-                            <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>
-                    </Tooltip>
-                </div>
-                {largeTrans ?
-                    <div className="trans--short--item">
-                        <Tooltip
-
-                            zIndex={200}
-                            fadeDuration={150}
-                            radius={10}
-                            fontFamily='Roboto'
-                            fontSize='5'
-                            fadeEasing="linear"
-                            background={css`
-                    var(--tooltip--background)
-                  `}
-                            content={data.address}
-                            customCss={css`
-                    white-space: nowrap;
-                  `}
-                        >
-                            {getAccountName(data.account)}
-                        </Tooltip>
+                    <div className="explorer--button">
+                        <CustomTooltip
+                            placement="left"
+                            item={<a href={Config.getExplorerLink() + "tx/" + data.txid} target="_blank">
+                                <FontAwesomeIcon size="lg" icon={faCompass} color="grey" /> </a>}
+                            color="var(--dark--green)"
+                            content={<div className="fontSmallBold">{showInExplorer}</div>}
+                        />
                     </div>
-                    : null}
+                </div>
             </div >
         )
     } else {
@@ -246,12 +169,9 @@ function Transaction({ data, index, style }) {
     }
 
     function getTimeObject(epoch) {
-        if (largeTrans === true) {
-            return calculateDateFromEpoch(epoch);
-        } else {
-            return <FontAwesomeIcon size="lg" icon={faClock} color="white" />;
-        }
+        return <FontAwesomeIcon size="lg" icon={faClock} color="white" />;
     }
+
     function getBlockCount(conf) {
         if (Config.isDaemonBased()) {
             return (
@@ -346,6 +266,7 @@ function Transaction({ data, index, style }) {
         let newNum = parseInt(num);
         return newNum + 1;
     }
+
     function getAccountName(account) {
         if (account === "") {
             return <div className="unnamed-account">unnamed account</div>
@@ -353,42 +274,37 @@ function Transaction({ data, index, style }) {
             return <div>{account}</div>
         }
     }
-    function calculateDateFromEpoch(epoch) {
-        //var recDate = new Date(epoch * 1000);
-        //const date = recDate.toISOString().split('T')[0];
-        let time = new Date(epoch);
-        let year = time.getFullYear();
-        let date = ('00' + time.getDate()).slice(-2);
-        let month = ('00' + (time.getMonth() + 1)).slice(-2);
-        let hour = ('00' + time.getHours()).slice(-2);
-        let minute = ('00' + time.getMinutes()).slice(-2);
-        let second = ('00' + time.getSeconds()).slice(-2);
-        //return [year, month, date].join('.') + ' ' + [hour, minute, second].join(':');
-        //console.log("time: ", recDate.toISOString())
-        //const date = recDate.toISOString().split('T')[0];
-        return (
-            <div>
-                <div>{[year, month, date].join('.') + ' ' + [hour, minute, second].join(':')}</div>
-            </div>
-        )
-    }
+
     function calculateDateTimeFromEpoch(epoch) {
-        let time = new Date(epoch);
-        let year = time.getFullYear();
-        let date = ('00' + time.getDate()).slice(-2);
-        let month = ('00' + (time.getMonth() + 1)).slice(-2);
-        let hour = ('00' + time.getHours()).slice(-2);
-        let minute = ('00' + time.getMinutes()).slice(-2);
-        let second = ('00' + time.getSeconds()).slice(-2);
-        //return [year, month, date].join('.') + ' ' + [hour, minute, second].join(':');
-        //console.log("time: ", recDate.toISOString())
-        //const date = recDate.toISOString().split('T')[0];
-        return (
-            <div>
-                <div>{[year, month, date].join('.') + ' ' + [hour, minute, second].join(':')}</div>
-            </div>
-        )
+        if (Config.isDaemonBased()) {
+            var recDate = new Date(epoch * 1000);
+            const date = recDate.toISOString().split('T')[0];
+            const time = recDate.toTimeString().split(" ")[0];
+            return (
+                <div>
+                    <div>{date}</div>
+                    <div>{time}</div>
+                </div>
+            )
+        } else {
+            let time = new Date(epoch);
+            let year = time.getFullYear();
+            let date = ('00' + time.getDate()).slice(-2);
+            let month = ('00' + (time.getMonth() + 1)).slice(-2);
+            let hour = ('00' + time.getHours()).slice(-2);
+            let minute = ('00' + time.getMinutes()).slice(-2);
+            let second = ('00' + time.getSeconds()).slice(-2);
+            //return [year, month, date].join('.') + ' ' + [hour, minute, second].join(':');
+            //console.log("time: ", recDate.toISOString())
+            //const date = recDate.toISOString().split('T')[0];
+            return (
+                <div>
+                    <div>{[year, month, date].join('.') + ' ' + [hour, minute, second].join(':')}</div>
+                </div>
+            )
+        }
     }
+
     function getCategoryIcon() {
         if (Config.isDaemonBased()) {
             switch (data.category) {
