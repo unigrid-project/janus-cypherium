@@ -1,0 +1,56 @@
+               GNU AFFERO GENERAL PUBLIC LICENSE ADDENDUM
+                            25 August 2020
+
+ Copyright (C) 2020 The Unigrid Organization <http://www.unigrid.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+  This addendum to the GNU Affero General Public License incorporates
+the terms and conditions of that license, supplemented by the additional
+permissions listed below.
+
+
+  0. Additional Definitions.
+
+  As used herein, "this addendum" refers to this license addendum of the
+GNU Affero General Public License for this software.
+
+  As used herein, "the frontend code" refers to any .xhtml or .html pages
+distributed by this software.
+
+  As used herein, "Unigrid website" refers to any links to web resources
+associated with the Unigrid organization. Examples include
+[http://www.unigrid.org] and [https://unigrid.org].
+
+  As used herein, "user interface" refers to the final interactive and
+graphical representation presented to the end user.
+
+  As used herein, "stylesheet rules" refers to the use of cascading style
+sheets or similar templating techniques that modify the presentation of the
+final user interface.
+
+1. Attribution Terms.
+
+  As allowed by section 7b of the original GNU Affero General Public License,
+this addendum complements the additional terms with the following conditions;
+
+   a) The frontend code and user interface must clearly and visibly attribute
+   The Unigrid Organization.
+
+   b) Any mention of The Unigrid Organization or links to any Unigrid website
+   may not be removed from the frontend code itself.
+
+   c) You may not use stylesheet rules or any other non-direct means to
+   purposely hide references to The Unigrid Organization or any Unigrid
+   website.
+
+   d) The conditions described in 1a, 1b and 1c of this document can be
+   exempted if a written permission is received from an official
+   representative of The Unigrid Organization.
+
+   e) Anybody contributing code or other work in the form of pull requests,
+   git commits or any other means to the official Antdekn repository
+   [https://github.com/unigrid-project/antdekn] agrees to grant The Unigrid
+   Organization shared copyright for that contributed work and to accept the
+   license terms of this software as outlined by the original GNU Affero
+   General Public License and this addendum.
