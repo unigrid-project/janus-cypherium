@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/unigrid-project/janus.svg?branch=master)](https://travis-ci.org/unigrid-project/janus)
+
 The Janus wallet built by the UNIGRID organization
 ==================================
 <p align="center">
