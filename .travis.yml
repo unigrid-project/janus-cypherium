@@ -22,6 +22,8 @@ cache:
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
 
+github_token: $GITHUB_TOKEN
+
 script:
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
