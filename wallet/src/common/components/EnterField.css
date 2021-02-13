@@ -51,6 +51,19 @@
     outline: none;
 }
 
+.keystore--import {
+    width: 400px;
+    height: 25px;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: start;
+    font-family: var(--fontFamily);
+    border: solid 2px var(--border--active);
+    border-radius: 10px;
+    outline: none;
+}
+
 .medium--input {
     width: 400px;
     height: 25px;

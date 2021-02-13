@@ -68,14 +68,11 @@ function MyWalletContent(props) {
 	const [walletList, setWalletList] = useState(Config.getAccount());
 	const [renderListKey, setRenderListKey] = useState(Math.random());
 	useEffect(() => {
-		nodeClient.getKeyBlockHeight().then((r) => {
-			console.log("getKeyBlockHeight: ", r);
-		})
-		nodeClient.getBlockHeight().then((r) => {
-			console.log("getBlockHeight: ", r);
-		})
-
-		accountBalances.getNodeData();
+		if (!Config.isDaemonBased()) {
+			accountBalances.getNodeData();
+		} else {
+			getDataLocal();
+		}
 
 		ipcRenderer.on("cancel-send-operation", (event, message) => {
 			console.log("cencel send ");
@@ -99,7 +96,11 @@ function MyWalletContent(props) {
 			setWalletList(accounts);
 		});
 		ipcRenderer.on("trigger-info-update", () => {
-			accountBalances.getNodeData();
+			if (!Config.isDaemonBased()) {
+				accountBalances.getNodeData();
+			} else {
+				getDataLocal();
+			}
 		});
 		const interval = setInterval(() => {
 			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
@@ -117,16 +118,7 @@ function MyWalletContent(props) {
 			{renderWidget()}
 			<div>
 				<div>
-					<div className="fontSmallBold darkCopy dropdown--selection padding-ten align--row--stretch ">
-						<div className="width--ninty" key={renderListKey}>
-							<AccountSelection
-								key={currentSelectedAccount}
-								current={currentSelectedAccount}
-								list={walletList}
-							/>
-						</div>
-						<CreateAccountButton key="create" className="button" />
-					</div>
+					{renderAccountSelection()}
 					<div className="currency--send padding-ten">
 						<h1>{balance} {Config.getProjectTicker()}</h1>
 						<div className="btn--send">
@@ -160,6 +152,25 @@ function MyWalletContent(props) {
 			</div>
 		</Content>
 	);
+
+	function renderAccountSelection() {
+		if (Config.isDaemonBased()) {
+			return null;
+		} else {
+			return (
+				<div className="fontSmallBold darkCopy dropdown--selection padding-ten align--row--stretch ">
+					<div className="width--ninty" key={renderListKey}>
+						<AccountSelection
+							key={currentSelectedAccount}
+							current={currentSelectedAccount}
+							list={walletList}
+						/>
+					</div>
+					<CreateAccountButton key="create" className="button" />
+				</div>
+			)
+		}
+	}
 
 	async function getBlock() {
 		const block = await nodeClient.getKeyBlockHeight();

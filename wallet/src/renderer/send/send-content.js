@@ -35,19 +35,10 @@ export default function SendContent() {
     return (
         <Content id="send">
             <div>
-                <div className="fontSmallBold darkCopy dropdown--selection padding-ten align--row--stretch ">
-                    <div className="width--ninty" key={renderListKey}>
-                        <AccountSelection
-                            key={currentSelectedAccount}
-                            current={currentSelectedAccount}
-                            list={walletList}
-                        />
-                    </div>
-                    <CreateAccountButton key="create" className="button" />
-                </div>
+                {renderAccountSelection()}
                 <div className="align--row--normal padding-ten ">
                     <div className="fontRegularBold darkCopy">
-                      {balance} {Config.getProjectTicker()}
+                        {balance} {Config.getProjectTicker()}
                     </div>
                     {warningMessage !== "" ? renderWarning() : <div className="empty--div" >&nbsp;</div>}
                 </div>
@@ -58,6 +49,25 @@ export default function SendContent() {
 
         </Content>
     )
+
+    function renderAccountSelection() {
+        if (Config.isDaemonBased()) {
+            return null;
+        } else {
+            return (
+                <div className="fontSmallBold darkCopy dropdown--selection padding-ten align--row--stretch ">
+                    <div className="width--ninty" key={renderListKey}>
+                        <AccountSelection
+                            key={currentSelectedAccount}
+                            current={currentSelectedAccount}
+                            list={walletList}
+                        />
+                    </div>
+                    <CreateAccountButton key="create" className="button" />
+                </div>
+            )
+        }
+    }
 
     function renderWarning() {
         return (

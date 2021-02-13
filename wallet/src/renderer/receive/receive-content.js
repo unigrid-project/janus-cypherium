@@ -16,7 +16,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect } from "react";
 import Content from "../content";
 import { ipcRenderer, remote, clipboard } from "electron";
 import { faChevronLeft, faClipboard } from "@fortawesome/free-solid-svg-icons";
@@ -59,16 +59,7 @@ export default function ReceiveScreen() {
 	return (
 		<Content id="receive">
 			<div>
-				<div className="fontSmallBold darkCopy dropdown--selection padding-ten align--row--stretch ">
-					<div className="width--ninty" key={renderListKey}>
-						<AccountSelection
-							key={currentSelectedAccount}
-							current={currentSelectedAccount}
-							list={walletList}
-						/>
-					</div>
-					<CreateAccountButton key="create" className="button" />
-				</div>
+				{renderAccountSelection()}
 				<div key={renderKeyQr}>
 					{createQrCode()}
 				</div>
@@ -97,20 +88,57 @@ export default function ReceiveScreen() {
 							buttonSize="btn--long max--height">{EXPORT_KEYS}</Button>
 					</div>
 				</div>
+				<div>
+					<div className="padding-ten">
+						<Button
+							handleClick={() => exportKeystore()}
+							buttonSize="btn--long max--height">Export Keystore</Button>
+					</div>
+
+				</div>
 			</div>
 		</Content>
 	);
 
-	function exportPrivateKey(){
+	function renderAccountSelection() {
+		if (Config.isDaemonBased()) {
+			return null;
+		} else {
+			return (
+				<div className="fontSmallBold darkCopy dropdown--selection padding-ten align--row--stretch ">
+					<div className="width--ninty" key={renderListKey}>
+						<AccountSelection
+							key={currentSelectedAccount}
+							current={currentSelectedAccount}
+							list={walletList}
+						/>
+					</div>
+					<CreateAccountButton key="create" className="button" />
+				</div>
+			)
+		}
+	}
+
+	function exportPrivateKey() {
 		let message = {
 			command: "EXPORT_KEYS",
 			alias: currentSelectedAccount[0]
 		}
 		ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
 	}
+
+	function exportKeystore() {
+		let message = {
+			command: "EXPORT_KEYSTORE",
+			alias: currentSelectedAccount[0]
+		}
+		ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
+	}
+
 	function openExternalLink(target) {
 		shell.openExternal(target);
 	}
+
 	function createQrCode() {
 		//currentSelectedAccount
 		const code = "cph://account/transfer/" + 'CPH' + currentSelectedAccount[0].address;

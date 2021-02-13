@@ -100,7 +100,6 @@ function TransactionsContent(props) {
 		ipcRenderer.on("new-transactions-loaded", (event, obj) => {
 			if (obj.count !== 0)
 				setPageCount(obj.count);
-
 		})
 	}, []);
 	useEffect(() => {
@@ -111,6 +110,13 @@ function TransactionsContent(props) {
 		setRenderListKey(Math.random());
 	}, [walletList]);
 
+	useEffect(() => {
+		// TODO UGD daemon starts returning the same transaction data after X pages
+		// there was something done which has broken the rpc response there
+		console.log("pageCount: ", pageCount)
+		console.log("items: ", items)
+		
+	}, [pageCount]);
 	/*useEffect(() => {
 		// load more transactions 
 		if (loadMore === true)
@@ -137,19 +143,8 @@ function TransactionsContent(props) {
 					{/*<Button handleClick={exportToCSV} buttonSize="btn--small">
 						{gt.gettext("Export CSV")}
 					</Button>*/}
-					<div className="scroll--nav--buttons align--row--flexstart">
-						<div className="chevron address--item">
-							<FontAwesomeIcon size="sm" icon={faSyncAlt}
-								color={chevronColor} onClick={() => refreshTransactions()} />
-						</div>
-						<div className="fontSmallBold darkCopy dropdown--selection" key={renderListKey}>
-							<AccountSelection
-								key={currentSelectedAccount}
-								current={currentSelectedAccount}
-								list={walletList}
-							/>
-						</div>
-					</div>
+					{renderAccountSelection()}
+
 					<div className="scroll--nav--buttons align--row--flexstart">
 						<div className="chevron address--item">
 							<FontAwesomeIcon size="sm" icon={faChevronCircleDown}
@@ -181,6 +176,28 @@ function TransactionsContent(props) {
 		</Content>
 	);
 
+	function renderAccountSelection() {
+		if (Config.isDaemonBased()) {
+			return null;
+		} else {
+			return (
+				<div className="scroll--nav--buttons align--row--flexstart">
+					<div className="chevron address--item">
+						<FontAwesomeIcon size="sm" icon={faSyncAlt}
+							color={chevronColor} onClick={() => refreshTransactions()} />
+					</div>
+					<div className="fontSmallBold darkCopy dropdown--selection" key={renderListKey}>
+						<AccountSelection
+							key={currentSelectedAccount}
+							current={currentSelectedAccount}
+							list={walletList}
+						/>
+					</div>
+				</div>
+			)
+		}
+	}
+
 	function refreshTransactions() {
 		ipcRenderer.sendTo(remote.getCurrentWebContents().id, "update-active-account", currentSelectedAccount);
 	}
@@ -194,7 +211,7 @@ function TransactionsContent(props) {
 			var count = 1;
 			//var startNumber = Object.keys(transactions).length;
 			var startNumber = items.length;
-			if (Config.isDaemonBased === true) {
+			if (Config.isDaemonBased()) {
 				var rpcClient = new RPCClient();
 				let args = ["*", parseInt(txToLoad), parseInt(startNumber)];
 				Promise.all([
@@ -203,6 +220,7 @@ function TransactionsContent(props) {
 					//new Promise(resolve => setTimeout(resolve, 500))
 				]).then((response) => {
 					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+					let obj = {}
 					console.log("trans res ", response[0]);
 					//console.log("total tx count: ", response[1].txcount);
 					if (response[0].length === 0) {
@@ -210,6 +228,9 @@ function TransactionsContent(props) {
 						//setIsNextPageLoading(false);
 						setDoneLoading(true);
 						setLoadMore(true);
+						setHasNextPage(false);
+						obj.count = 0;
+						ipcRenderer.sendTo(remote.getCurrentWebContents().id, "new-transactions-loaded", obj);
 						return;
 					}
 					const order = lodash.orderBy(response[0], ['timereceived'], ['desc']);
@@ -220,17 +241,26 @@ function TransactionsContent(props) {
 						const newOrder = items.concat(order);
 						//setTransactions(newOrder);
 						setItems(newOrder);
-						//console.log("newOrder ", newOrder)
 						setLoadMore(false);
-					} else {
+						obj.count = pageCount + 1;
+						ipcRenderer.sendTo(remote.getCurrentWebContents().id, "new-transactions-loaded", obj);
+						//console.log("newOrder ", newOrder)
 
+					} else {
 						//setTransactions(order);
 						setItems(order);
 						//console.log("order ", order)
 						setLoadMore(false);
+						obj.count = pageCount + 1;
+						ipcRenderer.sendTo(remote.getCurrentWebContents().id, "new-transactions-loaded", obj);
 					}
-					count = pageCount + 1;
-					setPageCount(count);
+					if (order.length < txToLoad) {
+						setHasNextPage(false);
+					} else {
+						setHasNextPage(true);
+					}
+					setDoneLoading(true);
+
 				}, (stderr) => {
 					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
 					console.error(stderr);
@@ -239,7 +269,7 @@ function TransactionsContent(props) {
 				const address = currentSelectedAccount[0].address;
 				const txList = await nodeClient.getTransactionList(pageCount, txToLoad, address);
 				ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
-				
+
 				let obj = {}
 				if (txList === null) {
 					setLoadMore(true);
