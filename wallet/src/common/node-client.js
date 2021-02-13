@@ -36,24 +36,6 @@ export default class NodeClient {
         };
     }
 
-    async getCurrentGasPrices() {
-        let response = await axios.get('https://ethgasstation.info/json/ethgasAPI.json');
-        let prices = {
-            low: response.data.safeLow / 10,
-            medium: response.data.average / 10,
-            high: response.data.fast / 10
-        };
-
-        console.log("\r\n");
-        log.info(`Current ETH Gas Prices (in GWEI):`);
-        console.log("\r\n");
-        log.info(`Low: ${prices.low} (transaction completes in < 30 minutes)`);
-        log.info(`Standard: ${prices.medium} (transaction completes in < 5 minutes)`);
-        log.info(`Fast: ${prices.high} (transaction completes in < 2 minutes)`);
-        console.log("\r\n");
-        return prices;
-    }
-
     async getTransactionList(page, pageSize, account) {
         const options = {
             headers: { 'Content-Type': 'application/json; charset=UTF-8' }

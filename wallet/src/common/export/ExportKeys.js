@@ -21,35 +21,66 @@ import { remote } from "electron";
 const fs = require('fs');
 
 export default class ExportKeys {
-    async export(data) {
-        // Save to file:
-        const options = {
-            title: "Export private key",
-            defaultPath: "CPH-privatekey.txt",
-            buttonLabel: 'Save',
-            filters: [
-                {
-                    name: 'Text Files',
-                    extensions: ['txt', 'docx']
-                },]
-        };
+    async export(data, type) {
+        let options = {};
+        switch (type) {
+            case "PRIVATE_KEYS":
+                // Save to file:
+                options = {
+                    title: "Export private key",
+                    defaultPath: "CPH-privatekey.txt",
+                    buttonLabel: 'Save',
+                    filters: [
+                        {
+                            name: 'Text Files',
+                            extensions: ['txt', 'docx']
+                        },]
+                };
 
-        remote.dialog.showSaveDialog(null, options)
-            .then(file => {
-                console.log(file.filePath.toString()); 
-              
-                // Creating and Writing to the sample.txt file 
-                fs.writeFile(file.filePath.toString(),  
-                             data, function (err) { 
-                    if (err) throw err; 
-                    console.log('Saved!'); 
-                    data = "";
-                }); 
-            }
-            ).catch(err => {
-                data = "";
-                console.log(err)
-            })
+                remote.dialog.showSaveDialog(null, options)
+                    .then(file => {
+                        fs.writeFile(file.filePath.toString(),
+                            data, function (err) {
+                                if (err) throw err;
+                                console.log('Saved!');
+                                data = "";
+                            });
+                    }
+                    ).catch(err => {
+                        data = "";
+                        console.log(err)
+                    })
+                break;
+            case "KEYSTORE":
+                // Save to file:
+                options = {
+                    title: "Export keystore",
+                    defaultPath: "CPH-keystore.keystore",
+                    buttonLabel: 'Save',
+                    filters: [
+                        {
+                            name: 'Text Files',
+                            extensions: ['keystore']
+                        },]
+                };
+
+                remote.dialog.showSaveDialog(null, options)
+                    .then(file => {
+                        console.log("JSON.stringify(data) ", JSON.stringify(data));
+                        fs.writeFile(file.filePath.toString(),
+                            JSON.stringify(data), function (err) {
+                                if (err) throw err;
+                                console.log('Saved!');
+                                data = "";
+                            });
+                    }
+                    ).catch(err => {
+                        data = "";
+                        console.log(err)
+                    })
+                break;
+        }
+
     }
 }
 

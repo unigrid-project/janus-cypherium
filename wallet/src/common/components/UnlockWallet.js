@@ -92,6 +92,11 @@ function UnlockWallet(props) {
                     setUnlockFor("EXPORT_KEYS");
                     setAccount(message.alias);
                     break;
+                case "EXPORT_KEYSTORE":
+                    setInfoCopy(gt.gettext("Unlock wallet for export"));
+                    setUnlockFor("EXPORT_KEYSTORE");
+                    setAccount(message.alias);
+                    break;
                 default:
                     setInfoCopy(gt.gettext("Unlock wallet for staking"));
                     setUnlockFor("STAKE");
@@ -258,6 +263,7 @@ function UnlockWallet(props) {
                 break;
             case "REMOVE_ACCOUNT":
             case "EXPORT_KEYS":
+            case "EXPORT_KEYSTORE":
                 sendArgs = args;
             default:
                 sendArgs = [args, 30];
@@ -280,6 +286,7 @@ function UnlockWallet(props) {
                         walletService.decryptData(args, account.privateKey).then((key) => {
                             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "send-coins", key);
                             key = "";
+
                             closeWindow();
                         });
                         break;
@@ -292,14 +299,24 @@ function UnlockWallet(props) {
                         walletService.decryptData(args, account.privateKey).then((key) => {
                             let output = "Address: ".concat("CPH").concat(account.address).concat('\n').concat("key: ").concat(key);
                             key = "";
-                            exportKeys.export(output).then((result) => {
+                            exportKeys.export(output, "PRIVATE_KEYS").then((result) => {
                                 output = "";
-                                console.log("privateKey ", output)
                                 walletService = null;
                                 closeWindow();
                             })
                         });
-
+                        break;
+                    case "EXPORT_KEYSTORE":
+                        walletService.decryptData(args, account.privateKey).then((key) => {
+                            let keystore = walletService.exportKeystore(key, args);
+                            console.log("keystore: ", keystore);
+                            exportKeys.export(keystore, "KEYSTORE").then((result) => {
+                                keystore = null;
+                                key = null;
+                                walletService = null;
+                                closeWindow();
+                            })
+                        });
                         break;
                 }
 

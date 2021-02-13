@@ -1,3 +1,21 @@
+/*
+ * This file is part of The UNIGRID Wallet
+ * Copyright (C) 2019-2021 The UNIGRID Organization
+ * Copyright (C) 2020-2021 Cypherium
+ *
+ * The UNIGRID Wallet is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * The UNIGRID Wallet is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
+ */
 
 import * as crypto from 'crypto';
 import * as nacl from 'tweetnacl';
@@ -6,6 +24,7 @@ import * as RIPEMD160 from 'ripemd160';
 import * as jsSHA from 'jssha';
 import * as ed25519 from '@stablelib/ed25519';
 import Store from "electron-store";
+import * as Wallet from 'cypheriumjs-wallet';
 
 var aes256 = require('aes256');
 const store = new Store();
@@ -76,17 +95,79 @@ export class WalletService {
         });
     }
 
-    checkPasswordHash(enteredPass, storedPass){
-		const hashedPassword = this.createHashFromKey(enteredPass);
-		// checksum on both hashed password and stored hashed pw to see if they match
-		if (this.checksum(hashedPassword) === this.checksum(storedPass)) {
-			console.log("Password matches!");
-			return true;		
-		} else {
+    async fromKeystore(keystore, password) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve();
+            }, 50);
+        }).then(async () => {
+            let wallet = this.decryptPrivateKey(keystore, password);
+            console.log("wallet: ", wallet);
+            if (wallet.flag) {
+                this.keystoreError = "";
+                return wallet;
+            } else {
+                return null;
+            }
+        })
+    }
+
+    checkPasswordHash(enteredPass, storedPass) {
+        const hashedPassword = this.createHashFromKey(enteredPass);
+        // checksum on both hashed password and stored hashed pw to see if they match
+        if (this.checksum(hashedPassword) === this.checksum(storedPass)) {
+            console.log("Password matches!");
+            return true;
+        } else {
             console.log("Password does not match!")
             return false;
-		}
-	}
+        }
+    }
+
+    decryptPrivateKey(keystore, password) {
+        let privateKey = null, publicKey = null;
+        try {
+            let wallet = Wallet.fromV3(keystore, password, true)
+            privateKey = wallet.getPrivateKey().toString('hex');
+            publicKey = wallet.getPublicKey().toString('hex');
+            console.log(privateKey, publicKey)
+            if (privateKey) {
+                return {
+                    flag: true,
+                    address: wallet.getAddress(),
+                    privateKey: privateKey,
+                    publicKey: publicKey,
+                    keystore: keystore
+                };
+            } else {
+                return {
+                    flag: false
+                }
+            }
+        } catch (e) {
+            console.log("catch......");
+            return {
+                flag: false
+            }
+        }
+    }
+
+    exportKeystore(privateKey, password) {
+        privateKey = privateKey.replace('0x', '');
+        if (typeof privateKey == 'string') {
+            privateKey = Buffer.from(privateKey, 'hex');
+        }
+        console.log(privateKey)
+        let wallet = Wallet.fromPrivateKey(privateKey);
+        //generate keystore
+        let keystore = wallet.toV3(password, {
+            n: 1024
+        });
+        privateKey = null;
+        password = null;
+        return keystore;
+    }
+
     /**
      *  Create a new instance of this Wallet connected to provider.
      */
@@ -165,6 +246,17 @@ export class WalletService {
     getPubKeyFromPrivKey(privateKey) {
         this._isHexString(privateKey, PRIVKEY_NAME, PRIVKEY_LENGTH);
         return privateKey.substring(64, 128);
+    }
+
+    validateKeystore(keystore) {
+        try {
+            Wallet.validateKeystore(keystore, true);
+        }
+        catch (error) {
+            console.log("keystore error: ", error);
+            return false;
+        }
+        return true;
     }
 
     validateMnemonic(mnemonic) {
