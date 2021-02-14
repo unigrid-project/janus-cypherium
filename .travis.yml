@@ -24,6 +24,13 @@ cache:
 
 github_token: $GITHUB_TOKEN
 
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  skip_cleanup: true
+  on:
+    tags: true
+
 script:
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
