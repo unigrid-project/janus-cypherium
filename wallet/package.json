@@ -9,7 +9,7 @@
     "compile": "electron-webpack",
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
-    "release": "yarn dist -p always --draft"
+    "release": "yarn dist -p always"
   },
   "dependencies": {
     "@babel/core": "^7.10.4",
