@@ -173,7 +173,13 @@ function MyWalletContent(props) {
 	}
 
 	async function getBlock() {
-		const block = await nodeClient.getKeyBlockHeight();
+		try {
+			nodeClient.run();
+		} catch (error) {
+			console.log(error)
+		}
+
+		const block = await nodeClient.getBlockHeight();
 		console.log("block ", block)
 	}
 	function renderWidget() {
