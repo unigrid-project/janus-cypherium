@@ -70,8 +70,8 @@ function TransactionsContent(props) {
 	useEffect(() => {
 		ipcRenderer.on("update-active-account", (event, account) => {
 			setPageCount(1);
-			setCurrentSelectedAccount(account);
 			setItems([]);
+			setCurrentSelectedAccount(account);
 			//setLoadMore(true);
 			//setHasNextPage(true);
 		});
