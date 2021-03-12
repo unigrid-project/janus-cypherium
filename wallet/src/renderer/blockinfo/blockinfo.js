@@ -25,8 +25,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faServer, faLock, faLockOpen, faCoins } from "@fortawesome/free-solid-svg-icons";
 import { faSatelliteDish } from "@fortawesome/free-solid-svg-icons";
 import './blockinfo.css';
-import '../../common/theme.css';
-
 import { ipcRenderer, remote } from "electron";
 import Store from "electron-store";
 import { css } from "styled-components";

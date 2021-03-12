@@ -21,7 +21,6 @@ import CheckBox from "./CheckBox";
 import EnterField from "./EnterField";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../theme.css";
 import "./UnlockWallet.css";
 import Button from "./Button";
 import RPCClient from "../rpc-client.js";
@@ -286,7 +285,6 @@ function UnlockWallet(props) {
                         walletService.decryptData(args, account.privateKey).then((key) => {
                             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "send-coins", key);
                             key = "";
-
                             closeWindow();
                         });
                         break;

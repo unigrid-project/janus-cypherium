@@ -40,6 +40,46 @@ import Warning from "./warning/warning";
 import Config from "../common/config";
 import SendContent from "./send/send-content";
 
+const condition = false;
+const style = "LIGHT";
+switch (style) {
+	case "DARK":
+		import("../common/theme_dark.css")
+			.then((something) => {
+				console.log("style: ", something.something);
+			});
+		break;
+	case "LIGHT":
+		import("../common/theme.css")
+			.then((something) => {
+				console.log("style: ", something.something);
+			});
+		break;
+	case "PINK":
+		break;
+}
+/*
+var sheet = document.styleSheets[0];
+sheet.insertRule(":root{--app--background--image: -webkit-gradient( linear, left bottom, left top, color-stop(0, #ff00c8), color-stop(1, white));}");
+console.log('document.getElementById("app") ', document.getElementById("app"))
+ipcRenderer.on("switch-themes", (event, theme) => {
+	console.log("theme: ", theme);
+	var sheet = document.styleSheets[0];
+	sheet.insertRule(":root{ --app--background--image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #303030), color-stop(1, #303030));}");
+});*/
+/*
+if (condition) {
+	import("../common/theme_dark.css")
+		.then((something) => {
+			console.log("style: ", something.something);
+		});
+} else {
+	import("../common/theme.css")
+		.then((something) => {
+			console.log("style: ", something.something);
+		});
+}*/
+
 library.add(faRocket);
 
 let onStartGame = () => {

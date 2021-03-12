@@ -121,10 +121,19 @@ function SettingsContent(props) {
 						</div>
 					</div>
 				</div>
+				{/*<Button
+					handleClick={() => {
+						switchTheme()
+					}}
+					buttonSize="btn--tiny"
+				buttonStyle="btn--success--solid">theme</Button>*/}
 			</div>
 		</Content>
 	);
 
+	function switchTheme() {
+		ipcRenderer.sendTo(remote.getCurrentWebContents().id, "switch-themes", "DARK");
+	}
 	function renderDefaultInfo() {
 		return (
 			<div className="darkCopy fontSmallBold">
