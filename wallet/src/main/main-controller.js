@@ -42,6 +42,7 @@ export default class MainController {
 			resizable: true,
 			show: false,
 			webPreferences: {
+				webSecurity: false,
 				nodeIntegration: true,
 				preload: path.join(__dirname, 'sentry.js'),
 				enableRemoteModule: true
