@@ -75,7 +75,6 @@ function Send() {
             console.log("recipients: ", recipients)
         });
         ipcRenderer.on("update-active-account", (event, account) => {
-            console.log("account update", account)
             setCurrentActiveAccount(account);
             resetDefaults();
         });

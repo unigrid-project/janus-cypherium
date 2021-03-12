@@ -72,7 +72,6 @@ function TransactionsContent(props) {
 			setPageCount(1);
 			setCurrentSelectedAccount(account);
 			setItems([]);
-			console.log("update-active-account", account)
 			//setLoadMore(true);
 			//setHasNextPage(true);
 		});
@@ -101,6 +100,12 @@ function TransactionsContent(props) {
 			if (obj.count !== 0)
 				setPageCount(obj.count);
 		})
+		ipcRenderer.on("trigger-balance-change", () => {
+			if (!Config.isDaemonBased()) {
+				refreshTransactions();
+			}
+		});
+
 	}, []);
 	useEffect(() => {
 		loadTransactionData(true);
@@ -115,7 +120,7 @@ function TransactionsContent(props) {
 		// there was something done which has broken the rpc response there
 		console.log("pageCount: ", pageCount)
 		console.log("items: ", items)
-		
+
 	}, [pageCount]);
 	/*useEffect(() => {
 		// load more transactions 

@@ -48,6 +48,18 @@ function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
     const [addressInputs, setAddressInputs] = useState([]);
     const [balance, setbalance] = useState(0);
     useEffect(() => {
+        // trigger get balances
+        ipcRenderer.on("trigger-info-update", () => {
+            if (!Config.isDaemonBased()) {
+                nodeClient.getCphBalance(data.address).then((v) => {
+                    setbalance(parseInt(v));
+                }, (stderr) => {
+                    log.warn("Error loading balance for address: ", "CPH" + stderr);
+                });
+            } else {
+
+            }
+        });
         nodeClient.getCphBalance(data.address).then((v) => {
             setbalance(parseInt(v));
         }, (stderr) => {

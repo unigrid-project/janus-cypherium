@@ -20,7 +20,10 @@ import React, { useState, useEffect } from "react";
 import Select from 'react-dropdown-select';
 import { ipcRenderer, remote } from "electron";
 import Store from "electron-store";
+import NodeClient from "../node-client";
+import Config from "../config";
 
+const nodeClient = new NodeClient();
 const store = new Store();
 
 function AccountSelection({ current, list }) {
@@ -29,6 +32,7 @@ function AccountSelection({ current, list }) {
     const [renderKey, setRenderKey] = useState(Math.random());
     useEffect(() => {
         ipcRenderer.on("update-active-account", (event, account) => {
+            console.log("account ", account)
             store.set("currentSelectedAccount", account);
             setCurrentActive(account);
             setRenderKey(Math.random());
@@ -48,8 +52,18 @@ function AccountSelection({ current, list }) {
             onChange={(values) => changedAccountSelection(values)}
         />
     )
-    function changedAccountSelection(v) {
-        ipcRenderer.sendTo(remote.getCurrentWebContents().id, "update-active-account", v);
+    async function changedAccountSelection(v) {
+        nodeClient.getCphBalance(v[0].address).then((b) => {
+            // check if balance is different from last balance first
+            // store balance in current account
+            // if balance has changed trigger a load transaction signal
+            // send signal balance was updated
+            v[0].balance = b;
+            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "update-active-account", v);
+            console.log("account with balance: ", v)
+        }, (stderr) => {
+            log.warn("Error loading balance for address: ", "CPH" + stderr);
+        });
     }
 }
 

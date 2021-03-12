@@ -27,8 +27,18 @@ export default class AccountBalances {
 
     async getNodeData() {
         //console.log("account to load balance: ", Config.getCurrentAccount())
-        nodeClient.getCphBalance(Config.getCurrentAccount()[0].address).then((v) => {
-            // send signal balance was updated
+        let currentAccount = Config.getCurrentAccount();
+        nodeClient.getCphBalance(currentAccount[0].address).then((v) => {
+            // check if balance is different from last balance first
+            if (currentAccount[0].balance !== v) {
+                currentAccount[0].balance = v;
+                console.log("balance changed for " + currentAccount[0].address + ' balance ' + v)
+                // store balance in current account
+                
+                // trigger a load transaction signal which forces a reload of transactions
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "update-active-account", currentAccount);
+            }
+
             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "account-balance-updated", v);
             //setBalance(v.toString());
         }, (stderr) => {
