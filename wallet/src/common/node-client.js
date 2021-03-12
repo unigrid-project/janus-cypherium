@@ -23,7 +23,7 @@ import * as CypheriumTx from 'cypheriumjs-tx';
 
 const log = require('electron-log');
 const axios = require('axios');
-
+let blockNum = 0;
 export default class NodeClient {
 
     constructor() {
@@ -131,12 +131,17 @@ export default class NodeClient {
 
     async transfer(data) {
         let address = this.convertAddr(data.toAddress);
+        let fromAddress = this.convertAddr(data.fromAddress);
+        //let fromAddress = data.fromAddress;
+        console.log("converted address from: ", fromAddress);
+        console.log("converted address to: ", address);
         //this.web3c.transferCph(sendingFrom, sendintTo, amount, gas, privateKey)
-        this.transferCph(data.fromAddress, address, data.payAmount, data.gas, data.privatekey, async (err, tx) => {
+
+        this.transferCph(fromAddress, address, data.payAmount, data.gas, data.privatekey, async (err, tx) => {
             console.log("Transaction callback.......", err, tx);
             if (err === null) {
                 // resolve(tx);
-                // this.helper.toast("transaction success");
+                console.log("transaction success ", tx);
                 let navigationExtras = {
                     state: {
                         tx: tx,
@@ -155,6 +160,7 @@ export default class NodeClient {
                 } else {
                     message = message + ': ' + err.message;
                 }
+                console.log("error: ", message)
                 data = null;
                 //this.helper.toast(message)
             }
@@ -170,6 +176,15 @@ export default class NodeClient {
         const serializedTx = tx.serialize();
         this.web3c.cph.sendRawTransaction('0x' + serializedTx.toString('hex'), callback);
         privateKey = null;
+    }
+
+    _hexStringToBytes(hexStr) {
+        let result = [];
+        while (hexStr.length >= 2) {
+            result.push(parseInt(hexStr.substring(0, 2), 16));
+            hexStr = hexStr.substring(2, hexStr.length);
+        }
+        return result;
     }
 
     async generateCphTx(
@@ -189,9 +204,9 @@ export default class NodeClient {
         }
 
         try {
-            var nonce = await this.web3c.cph.getTransactionCount('0x' + from, 'pending'); //Get the address of the user's walletnonce
+            var nonce = await this.web3c.cph.getTransactionCount('0x' + from.toLowerCase().replace('0x', ''), 'pending'); //Get the address of the user's walletnonce
         } catch (error) {
-            var nonce = await this.web3c.cph.getTransactionCount('0x' + from); //Get the address of the user's walletnonce
+            var nonce = await this.web3c.cph.getTransactionCount('0x' + from.toLowerCase().replace('0x', '')); //Get the address of the user's walletnonce
         }
         console.log("Nonce: " + nonce);
         // let gasLimit = await this.web3c.cph.estimateGas({
@@ -202,16 +217,16 @@ export default class NodeClient {
         // })
 
         //let chainId = await this.web3c.cph.net.getId();
-        //console.log("chainId:", chainId);
-        const txParams = {
+
+        let txParams = {
             version: '0x122',
-            senderKey: '0x' + privateKey.substring(64, 128),
-            from: from,
+            senderKey: '0x' + privateKey.substring(64, 128).replace('0x', ''),
+            from: '0x' + from.toLowerCase().replace('0x', ''),
             nonce: nonce,
             // gas: this.convert10to16(gasLimit),
             gasLimit: '0x5208',
             gasPrice: this.convert10to16(gasPrice),
-            to: to,
+            to: '0x' + to.replace('0x', ''),
             data: data,
             value: this.convert10to16(value)
             //chainId: chainId
@@ -221,7 +236,7 @@ export default class NodeClient {
         // return this.web3c.cph.accounts.signTransaction(txParams, privateKey);
 
         const tx = new CypheriumTx.Transaction(txParams, {
-            //chain: "cphnet"
+            //chain: "testnet"
         });
         console.log("tx: ", tx)
 
@@ -243,6 +258,8 @@ export default class NodeClient {
             return lowecaseAddress.replace('cph', '0x');
         } else if (addr.substring(0, 2) === "0x") {
             return addr;
+        } else if (addr.substring(0, 2) !== "0x" && addr.substring(0, 3) !== "cph") {
+            return "0x".concat(lowecaseAddress);
         }
         return addr;
     }
@@ -255,5 +272,40 @@ export default class NodeClient {
             return n;
         }
         return this.web3c.toHex(n);
+    }
+
+    async run() {
+        let addresses = {}
+
+        while (true) {
+            let blck = blockNum++
+            let block = await this.web3c.cph.getTxBlockByNumber(blck, true)
+            if (!block)
+                break
+
+            console.log('block', blck, 'transactions', block.transactions.length)
+            for (let i = 0; i < block.transactions.length; i++) {
+                let tx = await this.web3c.cph.getTransaction(block.transactions[i])
+                console.log(block)
+                if (parseInt(tx.value) > 0) {
+
+                    addresses[tx.to] = true
+                }
+            }
+        }
+
+        let positiveAddresses = []
+        for (address in addresses) {
+            try {
+                let balance = await web3c.cph.getBalance(address)
+                if (balance > 0) {
+                    positiveAddresses.push(address)
+                }
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        console.log(positiveAddresses)
+        return true;
     }
 }
