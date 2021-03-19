@@ -19,7 +19,7 @@
 import Config from "./config";
 import Web3c from '@cypherium/web3c';
 import * as CypheriumTx from 'cypheriumjs-tx';
-//import { BALANCE_INSUFFICIENT, NONCE_ERROR, TRANSACTION_FAILED } from "./getTextConsts";
+import { BALANCE_INSUFFICIENT, NONCE_ERROR, TRANSACTION_FAILED } from "./getTextConsts";
 
 const log = require('electron-log');
 const axios = require('axios');
@@ -85,7 +85,6 @@ export default class NodeClient {
 
     async getTxValue(value) {
         let result = await this.web3c.fromWei(value, 'cpher');
-        //console.log("value: ", result);
         return result;
     }
 
@@ -136,35 +135,39 @@ export default class NodeClient {
         console.log("converted address from: ", fromAddress);
         console.log("converted address to: ", address);
         //this.web3c.transferCph(sendingFrom, sendintTo, amount, gas, privateKey)
-
-        this.transferCph(fromAddress, address, data.payAmount, data.gas, data.privatekey, async (err, tx) => {
-            console.log("Transaction callback.......", err, tx);
-            if (err === null) {
-                // resolve(tx);
-                console.log("transaction success ", tx);
-                let navigationExtras = {
-                    state: {
-                        tx: tx,
-                        status: 1 //0- success, 1: packed, 2: failure
-                    }
-                };
-                data = null;
-                // Go to the transaction results page
-                //this.router.navigate(['transaction-result'], navigationExtras);
-            } else {
-                let message = TRANSACTION_FAILED;
-                if (err.message.toLowerCase().indexOf('insufficient funds for gas') > -1) {
-                    message = BALANCE_INSUFFICIENT;
-                } else if (err.message.toLowerCase().indexOf('replacement transaction underpriced') > -1) {
-                    message = NONCE_ERROR;
+        return new Promise((resolve, reject) => {
+            this.transferCph(fromAddress, address, data.payAmount, data.gas, data.privatekey, async (err, tx) => {
+                console.log("Transaction callback.......", err, tx);
+                if (err === null) {
+                    // resolve(tx);
+                    console.log("transaction success ", tx);
+                    let navigationExtras = {
+                        state: {
+                            tx: tx,
+                            status: 1 //0- success, 1: packed, 2: failure
+                        }
+                    };
+                    data = null;
+                    resolve("success");
+                    // Go to the transaction results page
+                    //this.router.navigate(['transaction-result'], navigationExtras);
                 } else {
-                    message = message + ': ' + err.message;
+                    let message = TRANSACTION_FAILED;
+                    if (err.message.toLowerCase().indexOf('insufficient funds for gas') > -1) {
+                        message = BALANCE_INSUFFICIENT;
+                    } else if (err.message.toLowerCase().indexOf('replacement transaction underpriced') > -1) {
+                        message = NONCE_ERROR;
+                    } else {
+                        message = message + ': ' + err.message;
+                    }
+                    console.log("error: ", message)
+                    data = null;
+                    reject(message);
+                    //this.helper.toast(message)
                 }
-                console.log("error: ", message)
-                data = null;
-                //this.helper.toast(message)
-            }
+            })
         })
+
     }
 
     async transferCph(from, to, value, gasPrice, privateKey, callback) {
