@@ -284,16 +284,25 @@ function Send() {
                 gas: gasRef.current,
                 privatekey: privateKey
             }
-            console.log("compose send for H: ", obj);
+
             privateKey = null;
             // enable once we have access to testnet
-            nodeClient.transfer(obj, (result) => {
+            nodeClient.transfer(obj).then((result) => {
                 console.log("result: ", result);
-            }, (stderr) => {
-                console.log("error send: ", stderr)
-            });
+                sendDesktopNotification(result);
+            }).catch((err) => {
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", err);
+                console.log("error send: ", err)
+            })
+            /* nodeClient.transfer(obj, (result) => {
+                 console.log("result: ", result);
+                 sendDesktopNotification(result);
+             }, (stderr) => {
+                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", stderr);
+                 console.log("error send: ", stderr)
+             });*/
             obj = null;
-            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", "sending is disabled for now");
+            //ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", "sending is disabled for now");
             resetDefaults();
             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
         }
