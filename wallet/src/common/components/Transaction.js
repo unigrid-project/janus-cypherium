@@ -50,7 +50,8 @@ function Transaction({ data, index, style }) {
         }
         Config.isDaemonBased() ? setAmount(data.amount) : nodeClient.getTxValue(data.value).then((r) => {
             if (isMounted) {
-                setAmount(parseInt(r).toFixed(4));
+                //setAmount(parseInt(r).toFixed(4));
+                setAmount(Number.parseFloat(r).toFixed(4));
                 setPromiseComplete(true);
             }
         })

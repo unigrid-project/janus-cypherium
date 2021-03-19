@@ -38,7 +38,7 @@ function TransactionLong({ data, index, style }) {
         let isMounted = true;
         Config.isDaemonBased() ? setAmount(data.amount) : nodeClient.getTxValue(data.value).then((r) => {
             if (isMounted) {
-                setAmount(parseInt(r).toFixed(10));
+                setAmount(Number.parseFloat(r).toFixed(10));
                 setPromiseComplete(true);
             }
         })
@@ -154,8 +154,6 @@ function TransactionLong({ data, index, style }) {
             totalAmount = data.amount;
         } else {
             transType = "receive--color";
-            //totalAmount = nodeClient.getTxValue(data.value);
-            //console.log(await nodeClient.getTxValue(data.value))
             totalAmount = amount;
         }
         return <div className={numWidth + " " + transType}>{totalAmount}</div>
