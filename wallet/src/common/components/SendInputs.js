@@ -125,7 +125,7 @@ function SendInputs({
         //setSendAmount(amount, recipientKey)
     }
     async function onBlurOutAddress(e) {
-        console.log(e.target.value);
+        console.log("blue out address: ",e.target.value);
         if (Config.isDaemonBased()) {
             var rpcClient = new RPCClient();
             const address = e.target.value;

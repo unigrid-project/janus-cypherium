@@ -120,10 +120,11 @@ function Send() {
     )
 
     function resetDefaults() {
-        setRecipients({ "address1": { "address": "", "amount": 0, "isValid": false } });
         setGas(50 * 21000 / 1000000000);
         gasRef.current = (50 * 21000 / 1000000000);
         setGasDefault(Math.random());
+        setSendAmount(0, "address1");
+        setRecipients({ "address1": { "address": "", "amount": 0, "isValid": false } });
         setAmountRenderKey(Math.random());
     }
 
@@ -288,17 +289,17 @@ function Send() {
             }
             //console.log("Config.getCurrentAccount()[0].address ", Config.getCurrentAccount()[0].address)
             //console.log("data.account.address ", data.account.address)
-            
+
             // enable once we have access to testnet
             nodeClient.transfer(obj).then((result) => {
                 console.log("result: ", result);
-                let message = "Sent: " +  recipients[key].amount + " to: " +  recipients[key].address;
-                sendDesktopNotification(message);
+                sendDesktopNotification(`${copy1} ${recipients[key].amount} ${Config.getProjectTicker()} ${copy2} ${recipients[key].address}`);
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
             }).catch((err) => {
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", err);
                 console.log("error send: ", err)
             })
-            
+
             /* nodeClient.transfer(obj, (result) => {
                  console.log("result: ", result);
                  sendDesktopNotification(result);
