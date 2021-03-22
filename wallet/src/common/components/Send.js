@@ -75,6 +75,7 @@ function Send() {
             console.log("recipients: ", recipients)
         });
         ipcRenderer.on("update-active-account", (event, account) => {
+            console.log("update-active-account ", account);
             setCurrentActiveAccount(account);
             resetDefaults();
         });
@@ -182,7 +183,7 @@ function Send() {
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", "Send amount is too low!");
                 return;
             }
-
+            console.log("activeAccount[0] ", activeAccount[0])
             let message = {
                 command: "unlockfortime",
                 alias: activeAccount[0]
@@ -214,7 +215,7 @@ function Send() {
             }
         }
     }
-    async function sendCoins(privateKey = null) {
+    async function sendCoins(data = null) {
         ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
         if (Config.isDaemonBased()) {
             var rpcClient = new RPCClient();
@@ -276,24 +277,28 @@ function Send() {
             }
         } else {
             // default key
+            //console.log("data ", data)
             let key = "address1";
             let obj = {
-                fromAddress: activeAccount[0].address,
+                fromAddress: data.account.address,
                 toAddress: recipients[key].address,
                 payAmount: recipients[key].amount,
                 gas: gasRef.current,
-                privatekey: privateKey
+                privatekey: data.key
             }
-
-            privateKey = null;
+            //console.log("Config.getCurrentAccount()[0].address ", Config.getCurrentAccount()[0].address)
+            //console.log("data.account.address ", data.account.address)
+            
             // enable once we have access to testnet
             nodeClient.transfer(obj).then((result) => {
                 console.log("result: ", result);
-                sendDesktopNotification(result);
+                let message = "Sent: " +  recipients[key].amount + " to: " +  recipients[key].address;
+                sendDesktopNotification(message);
             }).catch((err) => {
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", err);
                 console.log("error send: ", err)
             })
+            
             /* nodeClient.transfer(obj, (result) => {
                  console.log("result: ", result);
                  sendDesktopNotification(result);
@@ -302,6 +307,7 @@ function Send() {
                  console.log("error send: ", stderr)
              });*/
             obj = null;
+            data = null;
             //ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", "sending is disabled for now");
             resetDefaults();
             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");

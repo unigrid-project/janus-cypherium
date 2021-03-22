@@ -51,7 +51,7 @@ function UnlockWallet(props) {
     const [passwordShown, setPasswordShown] = useState(false);
     useEffect(() => {
         ipcRenderer.on('wallet-lock-trigger', (event, message) => {
-            //console.log("wallet-lock-trigger: " + message)
+            console.log("wallet-lock-trigger: ", message)
             switch (message.command) {
                 case "unlockfortime":
                     setInfoCopy(gt.gettext("Unlock wallet for transactions"));
@@ -242,8 +242,7 @@ function UnlockWallet(props) {
         }
     }
 
-    async function
-        sendPassphrase(args) {
+    async function sendPassphrase(args) {
 
         let sendArgs = [];
         console.log("send? ", unlockFor)
@@ -283,8 +282,13 @@ function UnlockWallet(props) {
                 switch (unlockFor) {
                     case "SEND":
                         walletService.decryptData(args, account.privateKey).then((key) => {
-                            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "send-coins", key);
-                            key = "";
+                            console.log("account in send: ", account)
+                            let sendData = {
+                                account: account,
+                                key: key
+                            }
+                            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "send-coins", sendData);
+                            sendData = null;
                             closeWindow();
                         });
                         break;
