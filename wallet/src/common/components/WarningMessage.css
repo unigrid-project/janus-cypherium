@@ -43,7 +43,7 @@
   color: var(--danger);
   font-family: var(--fontFamily);
   font-size: 13;
-  animation: errortextanimation 3s forwards;
+  animation: errortextanimation 5s forwards;
   transition-timing-function: ease-in-out;
 }
 
