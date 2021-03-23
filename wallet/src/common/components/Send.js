@@ -27,9 +27,11 @@ import Store from "electron-store";
 import { sendDesktopNotification } from "./DesktopNotifications";
 import Config from "../config";
 import GasSelector from "./GasSelector";
-import { ADD_RECIPIENT, SEND, TOTAL_COST } from "../getTextConsts";
+import { ADD_RECIPIENT, INVALID_ADDRESS, SEND, TOTAL_COST } from "../getTextConsts";
 import NodeClient from "../node-client";
+import { WalletService } from "../walletutils/WalletService";
 
+const walletService = new WalletService();
 var gt = require('electron').remote.getGlobal('gt');
 const store = new Store();
 const nodeClient = new NodeClient();
@@ -66,7 +68,7 @@ function Send() {
         });
         ipcRenderer.on('update-amount', (event, message) => {
             setSendAmount(message.amount, message.key);
-            setPriceKey(Math.random());
+            setPriceKey(message.amount);
             //console.log("where the fuck is gas? ", gas);
             //console.log("recipients: ", recipients)
         });
@@ -169,27 +171,41 @@ function Send() {
         gasRef.current = e;
     }
 
-    function checkForLockedWallet() {
+    async function checkForLockedWallet() {
 
         let key = "address1";
         if (!Config.isDaemonBased()) {
             console.log("recipients ", recipients);
             // check address is valid first
-            if (!recipients[key].isValid) {
-                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", "Send address is not valid!");
-                return;
-            }
+            let address = walletService.convertAddr(recipients[key].address);
+            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
+            nodeClient.validateAddress(address, (res) => {
+                console.log("valid: ", res)
+                if (!res) {
+                    //setWarningMessage("Address is not valid!");
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", INVALID_ADDRESS);
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                    return;
+                }
+                if (recipients[key].amount <= 0) {
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", "Send amount is too low!");
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                    return;
+                }
+                console.log("activeAccount[0] ", activeAccount[0])
+                let message = {
+                    command: "unlockfortime",
+                    alias: activeAccount[0]
+                }
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
+                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
+            })
+            /* if (!recipients[key].isValid) {
+                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", "Send address is not valid!");
+                 return;
+             }*/
             // check amount is high enough
-            if (recipients[key].amount <= 0) {
-                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", "Send amount is too low!");
-                return;
-            }
-            console.log("activeAccount[0] ", activeAccount[0])
-            let message = {
-                command: "unlockfortime",
-                alias: activeAccount[0]
-            }
-            ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
+
         } else {
             setDisableSendButton(true);
             // unlocked_until !== 0 is unlocked

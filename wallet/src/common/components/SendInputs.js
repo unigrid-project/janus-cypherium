@@ -144,6 +144,7 @@ function SendInputs({
                 console.error(stderr);
             });
         } else {
+            return;
             // handle checking address with cph/eth
             const address = walletService.convertAddr(e.target.value);
             nodeClient.validateAddress(address, (res) => {
