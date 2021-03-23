@@ -41,7 +41,7 @@
     "lodash": "^4.17.15",
     "node-gettext": "^3.0.0",
     "node-json-rpc2": "^1.1.0",
-    "node-notifier": "^7.0.1",
+    "node-notifier": "^9.0.1",
     "objects-to-csv": "^1.3.6",
     "portscanner": "^2.2.0",
     "qrcode.react": "^1.0.1",
