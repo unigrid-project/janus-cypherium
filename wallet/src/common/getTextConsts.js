@@ -20,6 +20,7 @@ export const SEND = gt.gettext("SEND");
 export const ADD_RECIPIENT = gt.gettext("ADD RECIPIENT");
 export const TOTAL_COST = gt.gettext("total cost:");
 export const INVALID_ADDRESS = gt.gettext("Address is not valid!");
+export const SEND_TO_LOW = gt.gettext("Send amount is too low!");
 export const RECEIVE = gt.gettext("RECEIVE");
 export const TRANSACTION_FAILED = gt.gettext("Transaction failure");
 export const BALANCE_INSUFFICIENT = gt.gettext("Insufficient funds");

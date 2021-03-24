@@ -27,7 +27,7 @@ import Store from "electron-store";
 import { sendDesktopNotification } from "./DesktopNotifications";
 import Config from "../config";
 import GasSelector from "./GasSelector";
-import { ADD_RECIPIENT, INVALID_ADDRESS, SEND, TOTAL_COST } from "../getTextConsts";
+import { ADD_RECIPIENT, INVALID_ADDRESS, SEND, SEND_TO_LOW, TOTAL_COST } from "../getTextConsts";
 import NodeClient from "../node-client";
 import { WalletService } from "../walletutils/WalletService";
 
@@ -175,7 +175,7 @@ function Send() {
 
         let key = "address1";
         if (!Config.isDaemonBased()) {
-            console.log("recipients ", recipients);
+            //console.log("recipients ", recipients);
             // check address is valid first
             let address = walletService.convertAddr(recipients[key].address);
             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "working");
@@ -188,7 +188,7 @@ function Send() {
                     return;
                 }
                 if (recipients[key].amount <= 0) {
-                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", "Send amount is too low!");
+                    ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", SEND_TO_LOW);
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
                     return;
                 }
