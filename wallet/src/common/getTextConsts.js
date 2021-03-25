@@ -1,6 +1,5 @@
-//var gt = require('electron').remote.getGlobal('gt');
 import Gettext from 'node-gettext';
-const gt = new Gettext()
+const gt = new Gettext();
 
 export const COPIED = gt.gettext("copied to clipboard");
 export const EXPORT_KEYS = gt.gettext("Export Private Keys");
@@ -33,3 +32,6 @@ export const ATTEMPT_CONN = gt.gettext("attempting to connect to the network..."
 export const SUCCESS_CONN = gt.gettext("successfuly connected to the cph network");
 export const WARNING = gt.gettext("WARNING!");
 export const UPDATE_MESSAGE = gt.gettext("There is a new wallet release wich is a manadatory update! Please update now to get on the latest version.")
+export const UPDATE = gt.gettext("Update");
+export const INFO = gt.gettext("Info");
+

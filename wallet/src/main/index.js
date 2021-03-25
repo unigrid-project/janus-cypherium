@@ -71,6 +71,7 @@ var isSetupOpen = false;
 var trackRejectUpdates = 0;
 var skipTimesAllocated = 20;
 const checkForUpdateTime = 180000;
+
 const gt = new Gettext()
 locales.forEach((locale) => {
 	const fileName = `${domain}.po`
@@ -295,8 +296,8 @@ app.on("ready", () => {
 autoUpdater.on('checking-for-update', function () {
 	//log.info("Checking for a new wallet release.");
 	if (testing) {
-		var vCurr = '2.0.14';
-		var nVer = '2.0.15';
+		var vCurr = '0.0.28';
+		var nVer = '0.1.28';
 		var currentVersion = vCurr.split('.');
 		var newVersion = nVer.split('.');
 
@@ -383,7 +384,15 @@ function manuallyCheckForUpdates(mainWindow) {
 }
 
 const autoCheckForUpdates = setInterval(() => {
-	if (isDevelopment) return;// || !navigator.onLine // navigator is NOT available in main disabling and should be removed
+	if (isDevelopment && testing === false) return;// || !navigator.onLine // navigator is NOT available in main disabling and should be removed
+	if(testing){
+		let message = {
+			title: WARNING,
+			version: "0.1.28",
+			message: UPDATE_MESSAGE
+		}
+		openwarningWindow(message);
+	}
 	autoUpdater.checkForUpdates();
 }, checkForUpdateTime);
 

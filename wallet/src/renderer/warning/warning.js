@@ -24,9 +24,9 @@ import { faSpinner, faTimes } from "@fortawesome/free-solid-svg-icons";
 import File from "../../common/file";
 import "./warning.css"
 import Button from '../../common/components/Button';
+import { CANCEL, INFO, UPDATE } from "../../common/getTextConsts";
 import Config from "../../common/config";
 
-var gt = require('electron').remote.getGlobal('gt');
 const log = require('electron-log');
 
 library.add(faSpinner, faTimes);
@@ -51,35 +51,37 @@ function Warning() {
 	return (
 		<div className="warning-modal">
 			<div className="align--row--flexstart">
-				<img className="logo" src={File.get("logo.png")}></img>
+				<img className="warningLogo" src={File.get("logo.png")}></img>
 				<h1>{title}</h1>
 			</div>
 
 			<div>
-				<div className="wanring--message">
+				<div className="warning--message">
 					<div className="message--copy">{message}</div>
 				</div>
+				<div className="align--center">
+					<div className="button--spacer">
+						<Button
+							handleClick={() => updateWallet()}
+							buttonSize="btn--small"
+							buttonStyle="btn--success--solid">{UPDATE}</Button>
+						<Button
+							handleClick={() => openGitURL(urlLink)}
+							buttonSize="btn--small"
+							buttonStyle="btn--secondary--solid">{INFO}</Button>
 
-				<div className="button--spacer">
-					<Button
-						handleClick={() => updateWallet()}
-						buttonSize="btn--tiny"
-						buttonStyle="btn--success--solid">{gt.gettext("Update")}</Button>
-					<Button
-						handleClick={() => openGitURL(urlLink)}
-						buttonSize="btn--tiny"
-						buttonStyle="btn--secondary--solid">{gt.gettext("Info")}</Button>
-
-					<Button handleClick={() => onCancelPressed()}
-						buttonSize="btn--tiny"
-						buttonStyle="btn--danger--solid">{gt.gettext("Cancel")}</Button>
+						<Button handleClick={() => onCancelPressed()}
+							buttonSize="btn--small"
+							buttonStyle="btn--danger--solid">{CANCEL}</Button>
+					</div>
 				</div>
+
 			</div>
 
 		</div>
 	);
 
-	function onCancelPressed(){
+	function onCancelPressed() {
 		//close-warning-window
 		ipcRenderer.send("close-warning-window");
 	}

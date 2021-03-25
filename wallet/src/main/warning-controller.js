@@ -39,7 +39,8 @@ export default class WarningController {
 			resizable: false,
 			show: false,
 			webPreferences: {
-				nodeIntegration: true
+				nodeIntegration: true,
+				enableRemoteModule: true
 			}, frame: false // comment this line to get DEV TOOls
 		});
 

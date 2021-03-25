@@ -32,14 +32,15 @@ div#app {
   border-radius: 5px;
 }
 
-.wanring--message {
+.warning--message {
   margin: 5px;
   padding: 5px;
   border-radius: 10px;
   border-color: var(--border--active);
   border-width: 1px;
-  background-color: var(--container--background);
+  background-color: var(--navbar--background);
   align-items: center;
+  color: white !important;
 }
 div.warning-modal {
   display: flex;
@@ -68,13 +69,18 @@ p:empty {
 
 .button--spacer {
   justify-content: space-around;
-  max-width: 150px;
+  width: 200px;
   padding-top: 30px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   flex-direction: row;
 }
 .button--spacer > * {
   padding-right: 5px;
+}
+
+img.warningLogo {
+  width: 40px;
+  height: auto;
+  padding-right: 15px;
 }
