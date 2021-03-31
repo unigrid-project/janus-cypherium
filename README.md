@@ -1,14 +1,22 @@
 [![Build Status](https://travis-ci.org/unigrid-project/janus.svg?branch=master)](https://travis-ci.org/unigrid-project/janus)
 
-The Janus wallet built by the UNIGRID organization
+The Janus-Cypherium wallet built by the UNIGRID organization
 ==================================
 <p align="center">
-  <a href="https://www.unigrid.org"><img alt="Janus electron wallet" src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Meyers_b9_s0153_b1.png" width="500"/></a>
+  <a href="https://www.cypherium.io/"><img alt="cypherium" src="https://www.cypherium.io/wp-content/uploads/2020/07/Cypherium-Logo.png" width="500"/></a>
 </p>
 
 ================================== 
 
-`This is an Alpha release at the current stage.`
+Build
+-----
+To run a local copy in dev mode.
+`cd wallet/`
+`yarn`
+`yarn dev`
+
+Publishing
+----------
 
 In order to publish new builds to github that will work with electron-updater you need to generate a git key.
 
@@ -33,13 +41,17 @@ This will also upload the build to git if you have properly added your TOKEN.
 
 ==================================
 
-##About UNIGRID
-
+About UNIGRID
+-------------
 For more information, as well as an immediately useable, binary version of the UNIGRID sofware, see https://unigrid.org.
+
+About Cypherium
+---------------
+An enterprise ready blockchain. For more info please see https://www.cypherium.io/
 
 License
 -------
-The UNIGRID daemon and wallet are released under the terms of the MIT license. See [COPYING](COPYING) for more information or see http://opensource.org/licenses/MIT.
+The Janus-Cypherium wallet is released under the terms of the MIT license. See [COPYING](COPYING) for more information or see http://opensource.org/licenses/MIT.
 
 Development process
 -------------------
