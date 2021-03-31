@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/unigrid-project/janus.svg?branch=master)](https://travis-ci.org/unigrid-project/janus)
+[![Build Status](https://travis-ci.org/unigrid-project/janus-cypherium.svg?branch=main)](https://travis-ci.org/unigrid-project/janus-cypherium)
 
 The Janus-Cypherium wallet built by the UNIGRID organization
 
