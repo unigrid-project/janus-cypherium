@@ -1,19 +1,21 @@
 [![Build Status](https://travis-ci.org/unigrid-project/janus.svg?branch=master)](https://travis-ci.org/unigrid-project/janus)
 
 The Janus-Cypherium wallet built by the UNIGRID organization
-==================================
+
 <p align="center">
   <a href="https://www.cypherium.io/"><img alt="cypherium" src="https://www.cypherium.io/wp-content/uploads/2020/07/Cypherium-Logo.png" width="500"/></a>
 </p>
 
-================================== 
 
-Build
------
+
+Running
+-------
 To run a local copy in dev mode.
-`cd wallet/`
-`yarn`
-`yarn dev`
+```
+cd wallet/
+yarn
+yarn dev
+```
 
 Publishing
 ----------
@@ -34,8 +36,10 @@ Generate a GitHub access token by going to <https://github.com/settings/tokens/n
 
 Publish for your platform with:
 
-`cd wallet/`
-`yarn dist -p always`
+```
+cd wallet/
+yarn dist -p always
+```
 
 This will also upload the build to git if you have properly added your TOKEN.
 
