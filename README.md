@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/unigrid-project/janus-cypherium.svg?branch=main)](https://travis-ci.org/unigrid-project/janus-cypherium)
 
-The Janus-Cypherium wallet built by the UNIGRID organization
+The Janus-Cypherium wallet built by the [UNIGRID organization](https://unigrid.org)
 
 <p align="center">
   <a href="https://www.cypherium.io/"><img alt="cypherium" src="https://www.cypherium.io/wp-content/uploads/2020/07/Cypherium-Logo.png" width="500"/></a>
@@ -17,32 +17,14 @@ yarn
 yarn dev
 ```
 
-Publishing
-----------
-
-In order to publish new builds to github that will work with electron-updater you need to generate a git key.
-
-Generate a GitHub access token by going to <https://github.com/settings/tokens/new>.  The access token should have the `repo` scope/permission.  Once you have the token, assign it to an environment variable
-    
-    On macOS/linux:
-
-        export GH_TOKEN="<YOUR_TOKEN_HERE>"
-
-    On Windows, run in powershell:
-
-        [Environment]::SetEnvironmentVariable("GH_TOKEN","<YOUR_TOKEN_HERE>","User")
-
-    Make sure to restart IDE/Terminal to inherit latest env variable.
-
-Publish for your platform with:
-
+Building
+--------
+To build for your platform you can run the following commands. The output will be placed inside `wallet/dist`
 ```
 cd wallet/
-yarn dist -p always
+yarn
+yarn dist
 ```
-
-This will also upload the build to git if you have properly added your TOKEN.
-
 
 About UNIGRID
 -------------
