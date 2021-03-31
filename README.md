@@ -43,7 +43,6 @@ yarn dist -p always
 
 This will also upload the build to git if you have properly added your TOKEN.
 
-==================================
 
 About UNIGRID
 -------------
