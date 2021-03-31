@@ -159,7 +159,7 @@
       {
         "provider": "github",
         "owner": "unigrid-project",
-        "repo": " janus-cypherium",
+        "repo": "janus-cypherium",
         "releaseType": "release"
       }
     ],
