@@ -31,12 +31,15 @@ function AccountSelection({ current, list }) {
     const [currentActive, setCurrentActive] = useState(current);
     const [renderKey, setRenderKey] = useState(Math.random());
     useEffect(() => {
+        let isMounted = true;
         ipcRenderer.on("update-active-account", (event, account) => {
-            console.log("account ", account)
-            store.set("currentSelectedAccount", account);
-            setCurrentActive(account);
-            setRenderKey(Math.random());
+            if (isMounted) {
+                store.set("currentSelectedAccount", account);
+                setCurrentActive(account);
+                setRenderKey(Math.random());
+            }
         });
+        return () => { isMounted = false };
     }, [])
 
     return (

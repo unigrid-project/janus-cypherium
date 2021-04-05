@@ -50,10 +50,20 @@ function SendInputs({
     const [balance, setBalance] = useState(0);
     const [updateValue, setUpdateValue] = useState(0);
     useEffect(() => {
-
+        let isMounted = true;
         ipcRenderer.on("account-balance-updated", (event, balance) => {
-            setBalance(balance.toString());
+            if (isMounted) {
+                let currentAccount = Config.getCurrentAccount();
+                if (currentAccount[0].balance !== balance) {
+                    setBalance(balance.toString());
+                    console.log("set balance change")
+                } else {
+                    console.log("skip balance change")
+                }
+
+            }
         })
+        return () => { isMounted = false };
     }, [])
     return (
         <div className="max--width">
@@ -67,16 +77,16 @@ function SendInputs({
                     placeHolder={ADDRESS}
                     updateEntry={(v) => sendAddressChangeSignal(v)}
                 />
-
-                <EnterField
-                    placeHolder={AMOUNT}
-                    key={amountKey}
-                    type={"number"}
-                    shouldAutoFocus={true}
-                    clearField={inputValueAmount}
-                    myStyle={"number--input"}
-                    updateEntry={(v) => sendAmountChangeSignal(v)}
-                />
+                <div className="padding--left--ten">
+                    <EnterField
+                        placeHolder={0}
+                        type={"number"}
+                        shouldAutoFocus={true}
+                        clearField={inputValueAmount}
+                        myStyle={"number--input"}
+                        updateEntry={(v) => sendAmountChangeSignal(v)}
+                    />
+                </div>
 
                 <div style={{ justifySelf: 'flex-end' }}>
                     {showRemove === true ?
@@ -125,7 +135,7 @@ function SendInputs({
         //setSendAmount(amount, recipientKey)
     }
     async function onBlurOutAddress(e) {
-        console.log("blue out address: ",e.target.value);
+        //console.log("blue out address: ", e.target.value);
         if (Config.isDaemonBased()) {
             var rpcClient = new RPCClient();
             const address = e.target.value;

@@ -26,7 +26,6 @@ const log = require('electron-log');
 export default class AccountBalances {
 
     async getNodeData() {
-        //console.log("account to load balance: ", Config.getCurrentAccount())
         let currentAccount = Config.getCurrentAccount();
         nodeClient.getCphBalance(currentAccount[0].address).then((v) => {
             // check if balance is different from last balance first
