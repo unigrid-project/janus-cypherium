@@ -38,7 +38,7 @@ const exportKeys = new ExportKeys();
 
 function UnlockWallet(props) {
     const [isStaking, setIsStaking] = useState(props.isChecked);
-    const [passPhrase, setPassPhrase] = useState();
+    const [passPhrase, setPassPhrase] = useState("");
     const [keyContainer, setKeyContainer] = useState();
     const [errorClasses, setErrorClasses] = useState("error--text-start");
     const [isWindowOpen, setIsWindowOpen] = useState(false);
