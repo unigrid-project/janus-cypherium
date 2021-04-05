@@ -40,6 +40,7 @@ export default class SetupController {
 			show: false,
 			webPreferences: {
 				nodeIntegration: true,
+				contextIsolation: false,
 				preload: path.join(__dirname, 'sentry.js'),
 				enableRemoteModule: true
 			}, frame: false // comment this line to get DEV TOOls

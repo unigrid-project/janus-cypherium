@@ -37,15 +37,17 @@ export default class AsteroidsController {
 			resizable: true,
 			show: false,
 			webPreferences: {
-                nodeIntegration: true
-            }, frame:false // comment this line to get DEV TOOls
+				nodeIntegration: true,
+				contextIsolation: false,
+				enableRemoteModule: true
+			}, frame: false // comment this line to get DEV TOOls
 		});
 
 		if (global.isDevelopment) {
-			window.webContents.openDevTools({ mode : "detach" });
+			window.webContents.openDevTools({ mode: "detach" });
 			window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}?route=asteroids`);
 
-			globalShortcut.register('f5', function() {
+			globalShortcut.register('f5', function () {
 				window.reload();
 			});
 

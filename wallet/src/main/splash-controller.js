@@ -46,8 +46,9 @@ export default class SplashController {
 
 			webPreferences: {
 				nodeIntegration: true,
-				webSecurity: false,
+				contextIsolation: false,
 				enableRemoteModule: true,
+				webSecurity: false,
 				preload: path.join(__dirname, 'sentry.js')
 			}, frame: false // comment this line to get DEV TOOls
 		});
@@ -108,9 +109,9 @@ export default class SplashController {
 	async check_first_load() {
 		return await new Promise((resolve, reject) => {
 			const account = Config.getAccount();
-			if(account){
+			if (account) {
 				resolve();
-			}else{
+			} else {
 				var errorMessage = FIRST_RUN;
 				reject(errorMessage);
 			}

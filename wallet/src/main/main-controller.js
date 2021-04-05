@@ -28,7 +28,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 export default class MainController {
 	constructor() {
 		this.window = MainController.create_window();
-		console.log(" os.type() ",  os.type())
+		console.log(" os.type() ", os.type())
 	}
 
 	static create_window() {
@@ -44,6 +44,7 @@ export default class MainController {
 			webPreferences: {
 				webSecurity: false,
 				nodeIntegration: true,
+				contextIsolation: false,
 				preload: path.join(__dirname, 'sentry.js'),
 				enableRemoteModule: true
 			}, frame: false // comment this line to get DEV TOOls

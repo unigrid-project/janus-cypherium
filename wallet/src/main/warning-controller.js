@@ -40,6 +40,7 @@ export default class WarningController {
 			show: false,
 			webPreferences: {
 				nodeIntegration: true,
+				contextIsolation: false,
 				enableRemoteModule: true
 			}, frame: false // comment this line to get DEV TOOls
 		});
