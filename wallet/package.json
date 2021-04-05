@@ -29,7 +29,7 @@
     "cypheriumjs-util": "^0.1.0",
     "electron-log": "^4.2.2",
     "electron-store": "^6.0.1",
-    "electron-updater": "^4.3.5",
+    "electron-updater": "^4.3.8",
     "empty-promise": "^1.2.0",
     "gettext-parser": "^4.0.4",
     "internet-available": "^1.0.0",
