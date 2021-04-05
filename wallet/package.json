@@ -19,7 +19,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.13.1",
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
     "@fortawesome/react-fontawesome": "^0.1.11",
-    "@sentry/electron": "^2.0.0",
+    "@sentry/electron": "^2.4.0",
     "@stablelib/ed25519": "^1.0.1",
     "aes256": "^1.0.4",
     "axios": "^0.21.0",
