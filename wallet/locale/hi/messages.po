@@ -246,7 +246,7 @@ msgstr "नेटवर्क से जुड़ने का प्रया�
 
 #: src/common/getTextConsts.js:33
 #, fuzzy
-msgid "successfuly connected to the cph network"
+msgid "Successfully connected to the cph network"
 msgstr "सफल cph नेटवर्क से जुड़ा"
 
 #: src/common/getTextConsts.js:34
@@ -645,7 +645,7 @@ msgstr "Wallet.dat का बैकअप सहेजा गया"
 
 #: src/renderer/settings/settings-content.js:415
 #, fuzzy
-msgid "Successfuly dumped private keys"
+msgid "Successfully dumped private keys"
 msgstr "सफल ने निजी चाबियों को डंप किया"
 
 #: src/renderer/settings/settings-content.js:428
@@ -665,7 +665,7 @@ msgstr "आयात करें बटुआ .txt"
 
 #: src/renderer/settings/settings-content.js:500
 #, fuzzy
-msgid "Successfuly imported private keys"
+msgid "Successfully imported private keys"
 msgstr "सफल आयातित निजी कुंजियाँ"
 
 #: src/renderer/setup.js:39

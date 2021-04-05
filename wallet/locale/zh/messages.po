@@ -245,7 +245,7 @@ msgstr "试图连接到网络... ..."
 
 #: src/common/getTextConsts.js:33
 #, fuzzy
-msgid "successfuly connected to the cph network"
+msgid "Successfully connected to the cph network"
 msgstr "成功连接到cph网络"
 
 #: src/common/getTextConsts.js:34
@@ -626,7 +626,7 @@ msgstr "保存的钱包.dat的备份"
 
 #: src/renderer/settings/settings-content.js:415
 #, fuzzy
-msgid "Successfuly dumped private keys"
+msgid "Successfully dumped private keys"
 msgstr "成功转储私钥"
 
 #: src/renderer/settings/settings-content.js:428
@@ -646,7 +646,7 @@ msgstr "导入钱包.txt"
 
 #: src/renderer/settings/settings-content.js:500
 #, fuzzy
-msgid "Successfuly imported private keys"
+msgid "Successfully imported private keys"
 msgstr "成功导入私钥"
 
 #: src/renderer/setup.js:39

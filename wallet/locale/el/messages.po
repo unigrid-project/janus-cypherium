@@ -238,7 +238,7 @@ msgstr "προσπάθεια σύνδεσης στο δίκτυο ..."
 
 #: src/common/getTextConsts.js:33
 #, fuzzy
-msgid "successfuly connected to the cph network"
+msgid "Successfully connected to the cph network"
 msgstr "επιτυχώς συνδεδεμένο στο δίκτυο cph"
 
 #: src/common/getTextConsts.js:34
@@ -600,7 +600,7 @@ msgid "Saved backup of wallet.dat"
 msgstr "Αποθηκεύτηκε αντίγραφο ασφαλείας του wallet.dat"
 
 #: src/renderer/settings/settings-content.js:415
-msgid "Successfuly dumped private keys"
+msgid "Successfully dumped private keys"
 msgstr "Επιτυχημένα απόρριψη ιδιωτικών κλειδιών"
 
 #: src/renderer/settings/settings-content.js:428
@@ -616,7 +616,7 @@ msgid "Import wallet .txt"
 msgstr "Εισαγωγή πορτοφολιού .txt"
 
 #: src/renderer/settings/settings-content.js:500
-msgid "Successfuly imported private keys"
+msgid "Successfully imported private keys"
 msgstr "Επιτυχημένη εισαγωγή ιδιωτικών κλειδιών"
 
 #: src/renderer/setup.js:39

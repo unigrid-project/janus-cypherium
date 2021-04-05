@@ -252,7 +252,7 @@ msgstr "beim Versuch, eine Verbindung zum Netzwerk herzustellen..."
 
 #: src/common/getTextConsts.js:33
 #, fuzzy
-msgid "successfuly connected to the cph network"
+msgid "Successfully connected to the cph network"
 msgstr "erfolgreich mit dem cph-Netzwerk verbunden"
 
 #: src/common/getTextConsts.js:34
@@ -665,7 +665,7 @@ msgstr "Gespeicherte Sicherung von wallet.dat"
 
 #: src/renderer/settings/settings-content.js:415
 #, fuzzy
-msgid "Successfuly dumped private keys"
+msgid "Successfully dumped private keys"
 msgstr "Erfolgreich gedumpte private Schlüssel"
 
 #: src/renderer/settings/settings-content.js:428
@@ -685,7 +685,7 @@ msgstr "Brieftasche importieren .txt"
 
 #: src/renderer/settings/settings-content.js:500
 #, fuzzy
-msgid "Successfuly imported private keys"
+msgid "Successfully imported private keys"
 msgstr "Erfolgreich importierte private Schlüssel"
 
 #: src/renderer/setup.js:39

@@ -248,7 +248,7 @@ msgstr "در تلاش برای اتصال به شبکه ..."
 
 #: src/common/getTextConsts.js:33
 #, fuzzy
-msgid "successfuly connected to the cph network"
+msgid "Successfully connected to the cph network"
 msgstr "با موفقیت به شبکه cph متصل شد"
 
 #: src/common/getTextConsts.js:34
@@ -652,7 +652,7 @@ msgstr "نسخه پشتیبان ذخیره شده از wallet.dat"
 
 #: src/renderer/settings/settings-content.js:415
 #, fuzzy
-msgid "Successfuly dumped private keys"
+msgid "Successfully dumped private keys"
 msgstr "کلیدهای خصوصی با موفقیت ریخته شد"
 
 #: src/renderer/settings/settings-content.js:428
@@ -672,7 +672,7 @@ msgstr "وارد کردن کیف پول .txt"
 
 #: src/renderer/settings/settings-content.js:500
 #, fuzzy
-msgid "Successfuly imported private keys"
+msgid "Successfully imported private keys"
 msgstr "کلیدهای خصوصی با موفقیت وارد شد"
 
 #: src/renderer/setup.js:39

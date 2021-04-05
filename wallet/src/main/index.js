@@ -217,7 +217,7 @@ app.on("ready", () => {
 					splashController.check_first_load().then(() => {
 						splashController.window.webContents.send("progress", "indeterminate", ATTEMPT_CONN);
 						splashController.hasInternet().then((c) => {
-							log.info("successfuly connected to the cph network");
+							log.info("Successfully connected to the cph network");
 							splashController.window.webContents.send("progress", "indeterminate", SUCCESS_CONN);
 							var mainController = new MainController();
 							mainWindow = mainController.window;

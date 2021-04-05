@@ -232,7 +232,7 @@ msgstr "пытаясь подключиться к сети..."
 
 #: src/common/getTextConsts.js:33
 #, fuzzy
-msgid "successfuly connected to the cph network"
+msgid "Successfully connected to the cph network"
 msgstr "успешное подключение к сети cph"
 
 #: src/common/getTextConsts.js:34
@@ -590,7 +590,7 @@ msgid "Saved backup of wallet.dat"
 msgstr "Сохраненная резервная копия кошелька"
 
 #: src/renderer/settings/settings-content.js:415
-msgid "Successfuly dumped private keys"
+msgid "Successfully dumped private keys"
 msgstr "последовательно выбрасываемые частные ключи"
 
 #: src/renderer/settings/settings-content.js:428
@@ -606,7 +606,7 @@ msgid "Import wallet .txt"
 msgstr "Импортный кошелёк .txt"
 
 #: src/renderer/settings/settings-content.js:500
-msgid "Successfuly imported private keys"
+msgid "Successfully imported private keys"
 msgstr "Последовательно импортированные частные ключи"
 
 #: src/renderer/setup.js:39

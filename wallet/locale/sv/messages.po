@@ -250,7 +250,7 @@ msgstr "försöker ansluta till nätverket ..."
 
 #: src/common/getTextConsts.js:33
 #, fuzzy
-msgid "successfuly connected to the cph network"
+msgid "Successfully connected to the cph network"
 msgstr "framgångsrikt ansluten till cph-nätverket"
 
 #: src/common/getTextConsts.js:34
@@ -656,7 +656,7 @@ msgstr "Sparad säkerhetskopia av wallet.dat"
 
 #: src/renderer/settings/settings-content.js:415
 #, fuzzy
-msgid "Successfuly dumped private keys"
+msgid "Successfully dumped private keys"
 msgstr "Framgångsrikt dumpade privata nycklar"
 
 #: src/renderer/settings/settings-content.js:428
@@ -676,7 +676,7 @@ msgstr "Importera plånbok .txt"
 
 #: src/renderer/settings/settings-content.js:500
 #, fuzzy
-msgid "Successfuly imported private keys"
+msgid "Successfully imported private keys"
 msgstr "Framgångsrikt importerade privata nycklar"
 
 #: src/renderer/setup.js:39

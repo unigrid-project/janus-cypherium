@@ -232,7 +232,7 @@ msgstr "নেটওয়ার্কে সংযোগ দেওয়ার 
 
 #: src/common/getTextConsts.js:33
 #, fuzzy
-msgid "successfuly connected to the cph network"
+msgid "Successfully connected to the cph network"
 msgstr "সাফল্যের সাথে সিএইফ নেটওয়ার্কের সাথে সংযুক্ত"
 
 #: src/common/getTextConsts.js:34
@@ -582,7 +582,7 @@ msgid "Saved backup of wallet.dat"
 msgstr "ওয়ালেট.ড্যাট সংরক্ষণ করা ব্যাকআপ"
 
 #: src/renderer/settings/settings-content.js:415
-msgid "Successfuly dumped private keys"
+msgid "Successfully dumped private keys"
 msgstr "সফলভাবে ব্যক্তিগত কীগুলি ফেলে দেওয়া হয়েছে"
 
 #: src/renderer/settings/settings-content.js:428
@@ -598,7 +598,7 @@ msgid "Import wallet .txt"
 msgstr "আমদানি মানিব্যাগ .txt"
 
 #: src/renderer/settings/settings-content.js:500
-msgid "Successfuly imported private keys"
+msgid "Successfully imported private keys"
 msgstr "সফলভাবে ব্যক্তিগত কীগুলি আমদানি করা হয়েছে"
 
 #: src/renderer/setup.js:39

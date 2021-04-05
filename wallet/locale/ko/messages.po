@@ -252,7 +252,7 @@ msgstr "네트워크 연결 시도 중 ..."
 
 #: src/common/getTextConsts.js:33
 #, fuzzy
-msgid "successfuly connected to the cph network"
+msgid "Successfully connected to the cph network"
 msgstr "cph 네트워크에 성공적으로 연결됨"
 
 #: src/common/getTextConsts.js:34
@@ -652,7 +652,7 @@ msgstr "wallet.dat 백업 저장"
 
 #: src/renderer/settings/settings-content.js:415
 #, fuzzy
-msgid "Successfuly dumped private keys"
+msgid "Successfully dumped private keys"
 msgstr "성공적으로 덤프 된 개인 키"
 
 #: src/renderer/settings/settings-content.js:428
@@ -672,7 +672,7 @@ msgstr "지갑 .txt 가져 오기"
 
 #: src/renderer/settings/settings-content.js:500
 #, fuzzy
-msgid "Successfuly imported private keys"
+msgid "Successfully imported private keys"
 msgstr "개인 키를 성공적으로 가져 왔습니다."
 
 #: src/renderer/setup.js:39

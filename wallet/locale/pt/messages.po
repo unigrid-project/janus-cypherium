@@ -237,7 +237,7 @@ msgstr "tentando se conectar à rede..."
 
 #: src/common/getTextConsts.js:33
 #, fuzzy
-msgid "successfuly connected to the cph network"
+msgid "Successfully connected to the cph network"
 msgstr "conectado com sucesso à rede cph"
 
 #: src/common/getTextConsts.js:34
@@ -594,7 +594,7 @@ msgid "Saved backup of wallet.dat"
 msgstr "Salvou o backup do wallet.dat"
 
 #: src/renderer/settings/settings-content.js:415
-msgid "Successfuly dumped private keys"
+msgid "Successfully dumped private keys"
 msgstr "Chaves privadas despejadas com sucesso"
 
 #: src/renderer/settings/settings-content.js:428
@@ -610,7 +610,7 @@ msgid "Import wallet .txt"
 msgstr "Carteira de importação .txt"
 
 #: src/renderer/settings/settings-content.js:500
-msgid "Successfuly imported private keys"
+msgid "Successfully imported private keys"
 msgstr "Chaves privadas importadas com sucesso"
 
 #: src/renderer/setup.js:39

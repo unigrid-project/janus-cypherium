@@ -208,7 +208,7 @@ msgid "attempting to connect to the network..."
 msgstr ""
 
 #: src/common/getTextConsts.js:33
-msgid "successfuly connected to the cph network"
+msgid "Successfully connected to the cph network"
 msgstr ""
 
 #: src/common/getTextConsts.js:34
@@ -536,7 +536,7 @@ msgid "Saved backup of wallet.dat"
 msgstr ""
 
 #: src/renderer/settings/settings-content.js:415
-msgid "Successfuly dumped private keys"
+msgid "Successfully dumped private keys"
 msgstr ""
 
 #: src/renderer/settings/settings-content.js:428
@@ -552,7 +552,7 @@ msgid "Import wallet .txt"
 msgstr ""
 
 #: src/renderer/settings/settings-content.js:500
-msgid "Successfuly imported private keys"
+msgid "Successfully imported private keys"
 msgstr ""
 
 #: src/renderer/setup.js:39

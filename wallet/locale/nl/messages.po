@@ -250,7 +250,7 @@ msgstr "probeert verbinding te maken met het netwerk..."
 
 #: src/common/getTextConsts.js:33
 #, fuzzy
-msgid "successfuly connected to the cph network"
+msgid "Successfully connected to the cph network"
 msgstr "succesvol verbonden met het cph netwerk"
 
 #: src/common/getTextConsts.js:34
@@ -658,7 +658,7 @@ msgstr "Opgeslagen back-up van portemonnee.nl"
 
 #: src/renderer/settings/settings-content.js:415
 #, fuzzy
-msgid "Successfuly dumped private keys"
+msgid "Successfully dumped private keys"
 msgstr "Succesvol gedumpt prive-sleutels"
 
 #: src/renderer/settings/settings-content.js:428
@@ -678,7 +678,7 @@ msgstr "Importeer portemonnee .txt"
 
 #: src/renderer/settings/settings-content.js:500
 #, fuzzy
-msgid "Successfuly imported private keys"
+msgid "Successfully imported private keys"
 msgstr "Succesvol geïmporteerde prive-sleutels"
 
 #: src/renderer/setup.js:39

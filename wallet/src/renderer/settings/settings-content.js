@@ -412,7 +412,7 @@ function SettingsContent(props) {
 						new Promise(resolve => setTimeout(resolve, 500))
 					]).then((response) => {
 						console.log("dump wallet ", response)
-						sendDesktopNotification(gt.gettext("Successfuly dumped private keys"));
+						sendDesktopNotification(gt.gettext("Successfully dumped private keys"));
 					}, (stderr) => {
 						console.error(stderr);
 					});
@@ -497,7 +497,7 @@ function SettingsContent(props) {
 					new Promise(resolve => setTimeout(resolve, 500))
 				]).then((response) => {
 					console.log("import result: ", response);
-					sendDesktopNotification(gt.gettext("Successfuly imported private keys"));
+					sendDesktopNotification(gt.gettext("Successfully imported private keys"));
 					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
 					ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
 				}, (stderr) => {
