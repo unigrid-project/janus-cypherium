@@ -51,7 +51,6 @@ function Send() {
     const [priceKey, setPriceKey] = useState(Math.random());
     const [amountRenderKey, setAmountRenderKey] = useState(Math.random());
     const [activeAccount, setCurrentActiveAccount] = useState(Config.getCurrentAccount());
-
     useEffect(() => {
         setSendButtonKey(Math.random());
         //console.log("button state changed ", disableSendBtn)
@@ -74,7 +73,7 @@ function Send() {
         });
         ipcRenderer.on('update-address', (event, message) => {
             setSendAddress(message.address, message.key);
-            console.log("recipients: ", recipients)
+            //console.log("recipients: ", recipients)
         });
         ipcRenderer.on("update-active-account", (event, account) => {
             console.log("update-active-account ", account);
@@ -86,7 +85,7 @@ function Send() {
 
     return (
         <div
-            key={Object.keys(recipients).length}
+            key={amountRenderKey}
             className="send--inner--container ">
             <div className="send--input--container">
                 {createRecipients()}
@@ -126,6 +125,7 @@ function Send() {
         gasRef.current = (50 * 21000 / 1000000000);
         setGasDefault(Math.random());
         setSendAmount(0, "address1");
+        setSendAddress("", "address1");
         setRecipients({ "address1": { "address": "", "amount": 0, "isValid": false } });
         setAmountRenderKey(Math.random());
     }
@@ -304,14 +304,10 @@ function Send() {
                 privatekey: data.key
             }
             let amount = recipients[key].amount;
-            //console.log("Config.getCurrentAccount()[0].address ", Config.getCurrentAccount()[0].address)
-            //console.log("data.account.address ", data.account.address)
-
-            // enable once we have access to testnet
+            let toAddress = recipients[key].address;
             nodeClient.transfer(obj).then((result) => {
-                sendDesktopNotification(`${copy1} ${amount} ${Config.getProjectTicker()} ${copy2} ${recipients[key].address}`);
-                ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
-
+                sendDesktopNotification(`${copy1} ${amount} ${Config.getProjectTicker()} ${copy2} ${toAddress}`);
+                //ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
             }).catch((err) => {
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", err);
                 console.log("error send: ", err);
@@ -360,7 +356,11 @@ function Send() {
     function setSendAmount(v, recipientKey) {
         Object.keys(recipients).map(key => {
             if (key === recipientKey) {
-                recipients[key].amount = v;
+                if (v !== "") {
+                    recipients[key].amount = v;
+                } else {
+                    recipients[key].amount = 0;
+                }
             }
         })
         //console.log("updateAmount ", recipients);
@@ -381,6 +381,7 @@ function Send() {
 
     function updateRecipients(o, recipientKey) {
         setRecipients(o);
+        console.log("updating recipients: ", 0);
         // check if we can unlock the send button
         // console.log("setting recipients ", o);
         let unlockButton = true;
