@@ -166,7 +166,7 @@ function Send() {
 
     function onGasUpdate(e) {
         const amount = parseFloat(parseInt(recipients["address1"].amount) + e);
-        console.log("amount: ", amount);
+        //console.log("amount: ", amount);
         setGas(e);
         gasRef.current = e;
     }
