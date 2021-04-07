@@ -18,7 +18,7 @@
         "isDaemonLocal": false,
         "hasGas": true,
         "showWidget": false,
-        "testing": true,
+        "testing": false,
         "userModelId": "cypherium-electron",
         "coindGeckoId": "cypherium",
         "splashInfo": {
