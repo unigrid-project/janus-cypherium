@@ -44,9 +44,15 @@ Developers work in their own trees, then submit pull requests when they think th
 
 The patch will be accepted if there is broad consensus that it is a good thing. Developers should expect to rework and resubmit patches if the code doesn't match the project's coding conventions or are controversial.
 
-The `master` branch is regularly built and tested, but is not guaranteed to be completely stable. [Tags](https://github.com/unigrid-project/janus/tags) are created regularly to indicate new official, stable release versions of UNIGRID.
+The `master` branch is regularly built and tested, but is not guaranteed to be completely stable. [Tags](https://github.com/unigrid-project/janus-cypherium/tags) are created regularly to indicate new official, stable release versions of Janus-Cypherium.
 
 Automated Testing
 -----------------
 Developers are strongly encouraged to write unit tests for new code, and to submit new unit tests for old code.
 
+Support the project
+-------------------
+If you use the wallet and enjoy it and or find it useful please consider donating. We're fully supported by donations only and the wallet is free to use without any hidden costs. Donations help us continue with support and development.
+
+CPH CPHCC2EC717DCC3BF784784D40EDB1073BF56B5F7C3
+UGD H7bEB2nv8PADro1iLmdrCBRH7GwP4anUXi
