@@ -47,25 +47,50 @@ function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
     const [showInputs, setShowInputs] = useState(false);
     const [addressInputs, setAddressInputs] = useState([]);
     const [balance, setbalance] = useState(0);
-    useEffect(() => {
-        // trigger get balances
-        ipcRenderer.on("trigger-info-update", () => {
-            if (!Config.isDaemonBased()) {
-                nodeClient.getCphBalance(data.address).then((v) => {
-                    setbalance(parseInt(v));
-                }, (stderr) => {
-                    log.warn("Error loading balance for address: ", "CPH" + stderr);
-                });
-            } else {
+    const [checkBalances, setCheckBalances] = useState(false);
 
+    useEffect(() => {
+        ipcRenderer.on("navigate", (event, source) => {
+            console.log("navigate ", source)
+            if (source === "addressbook") {
+                setCheckBalances(true);
+            } else {
+                setCheckBalances(false);
             }
         });
-        nodeClient.getCphBalance(data.address).then((v) => {
-            setbalance(parseInt(v));
-        }, (stderr) => {
-            log.warn("Error loading balance for address: ", "CPH" + stderr);
-        });
+
+        if (!Config.isDaemonBased()) {
+            nodeClient.getCphBalance(data.address).then((v) => {
+                setbalance(parseInt(v));
+            }, (stderr) => {
+                console.log("WARN ERROR: ", stderr)
+                log.warn("Error loading balance for address: ", "CPH" + stderr);
+            });
+        }
+
+        //console.log("Accounts on screen: ", useOnScreen(ref))
     }, [])
+
+    useEffect(() => {
+        let interval;
+        if (checkBalances) {
+            interval = setInterval(() => {
+                if (!Config.isDaemonBased()) {
+                    console.log("trigger account check")
+                    nodeClient.getCphBalance(data.address).then((v) => {
+                        setbalance(parseInt(v));
+                    }, (stderr) => {
+                        log.warn("Error loading balance for address: ", "CPH" + stderr);
+                    });
+                }
+                //accountBalances.triggerInfoUpdate();
+            }, 10000);
+            return () => clearInterval(interval);
+        } else {
+            console.log("remove listener")
+            return () => clearInterval(interval);
+        }
+    }, [checkBalances])
     return (
         <div>
             <div className="accountContainer">
