@@ -182,6 +182,11 @@ function Transaction({ data, index, style }) {
                 </div>
             )
         } else {
+            if (conf == -2) {
+                return (
+                    <div>{BLOCK}: pending</div>
+                )
+            } 
             return (
                 <div>{BLOCK}: {conf}</div>
             )
@@ -191,6 +196,7 @@ function Transaction({ data, index, style }) {
     function getBlockObject(conf) {
         let color = "";
         switch (conf) {
+            case -2:
             case 0:
                 color = "grey";
                 break;
@@ -288,6 +294,11 @@ function Transaction({ data, index, style }) {
                 </div>
             )
         } else {
+            if (data.block_number == -2) {
+                return (
+                    <div>pending</div>
+                )
+            } 
             let time = new Date(epoch);
             let year = time.getFullYear();
             let date = ('00' + time.getDate()).slice(-2);

@@ -184,6 +184,11 @@ function TransactionLong({ data, index, style }) {
                 </div>
             )
         } else {
+            if (data.block_number == -2) {
+                return (
+                    <div>pending</div>
+                )
+            }
             let time = new Date(epoch);
             let year = time.getFullYear();
             let date = ('00' + time.getDate()).slice(-2);
