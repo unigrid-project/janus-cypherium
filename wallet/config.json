@@ -31,7 +31,7 @@
         "environment": {
             "production": false,
             "requestTimeout": 30000,
-            "appServerUrl": "https://walletsvrcdn.cypherium.io",
+            "appServerUrl": "https://walletserver.cypherium.io",
             "getTransList": "/transaction/get_by_addr_and_type",
             "cypherium": {
                 "provider": "https://pubnodes.cypherium.io",
