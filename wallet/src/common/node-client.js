@@ -134,13 +134,15 @@ export default class NodeClient {
         //let fromAddress = data.fromAddress;
         console.log("converted address from: ", fromAddress);
         console.log("converted address to: ", address);
+        console.log("gass fee: ", data.gas);
         //this.web3c.transferCph(sendingFrom, sendintTo, amount, gas, privateKey)
+        
         return new Promise((resolve, reject) => {
-            this.transferCph(fromAddress, address, data.payAmount, data.gas, data.privatekey, async (err, tx) => {
+            this.transferCph(fromAddress, address, data.payAmount, data.gas, data.privatekey, data.pending, async (err, tx) => {
                 console.log("Transaction callback.......", err, tx);
                 if (err === null) {
                     // resolve(tx);
-                    console.log("transaction success ", tx);
+                    //console.log("transaction success ", tx);
                     let navigationExtras = {
                         state: {
                             tx: tx,
@@ -160,6 +162,7 @@ export default class NodeClient {
                     } else {
                         message = message + ': ' + err.message;
                     }
+                    console.log("err.message: ", err.message)
                     console.log("error: ", message)
                     data = null;
                     reject(message);
@@ -170,11 +173,14 @@ export default class NodeClient {
 
     }
 
-    async transferCph(from, to, value, gasPrice, privateKey, callback) {
+    async transferCph(from, to, value, gas, privateKey, pending, callback) {
         console.log(`initiate transfer----from:${from},to:${to},value:${value}`);
         value = this.web3c.toWei(value, 'cpher');
-        gasPrice = this.web3c.toWei(gasPrice + "", 'gwei');
-        let tx = await this.generateCphTx(from, to, value, gasPrice, privateKey);
+        gas = this.web3c.toWei(gas, 'gwei');
+        
+
+        console.log("gas to gwei: ", gas)
+        let tx = await this.generateCphTx(from, to, value, gas, privateKey, pending);
         console.log("Transaction signature：", tx)
         const serializedTx = tx.serialize();
         this.web3c.cph.sendRawTransaction('0x' + serializedTx.toString('hex'), callback);
@@ -194,8 +200,9 @@ export default class NodeClient {
         from,
         to,
         value,
-        gasPrice,
+        gas,
         privateKey, //Account private key, used for signing
+        pending,
         contractName = "",
         funcname = "",
         params = null
@@ -211,7 +218,9 @@ export default class NodeClient {
         } catch (error) {
             var nonce = await this.web3c.cph.getTransactionCount('0x' + from.toLowerCase().replace('0x', '')); //Get the address of the user's walletnonce
         }
-        console.log("Nonce: " + nonce);
+        //console.log("nonce pre substract: " + nonce);
+        //pending > 0 ? (nonce = nonce - pending) : (nonce = nonce);
+        //console.log("nonce after subtract pending: " + nonce);
         // let gasLimit = await this.web3c.cph.estimateGas({
         //     "from": '0x'+from,
         //     "nonce": nonce,
@@ -220,21 +229,27 @@ export default class NodeClient {
         // })
 
         //let chainId = await this.web3c.cph.net.getId();
-
+        let gasPrice = await this.web3c.cph.getGasPrice();
+        if (!gasPrice || gasPrice == '0') {
+            gasPrice = this.web3c.toWei(20, 'gwei');
+        }
+        console.log("gasePrice:", gasPrice);
+        console.log("this.convert10to16(gasPrice):", this.convert10to16(gasPrice));
         let txParams = {
             version: '0x122',
             senderKey: '0x' + privateKey.substring(64, 128).replace('0x', ''),
             from: '0x' + from.toLowerCase().replace('0x', ''),
             nonce: nonce,
-            // gas: this.convert10to16(gasLimit),
+            gas: this.convert10to16(gas),
             gasLimit: '0x5208',
+            //gasPrice: 18100000000,
             gasPrice: this.convert10to16(gasPrice),
             to: '0x' + to.replace('0x', ''),
-            data: data,
-            value: this.convert10to16(value)
-            //chainId: chainId
+            data: "",
+            value: this.convert10to16(value),
+            //chainId: 16162
         };
-
+        console.log("Hex to number: ", txParams.gasPrice)
         console.log("Transfer parameters：" + JSON.stringify(txParams));
         // return this.web3c.cph.accounts.signTransaction(txParams, privateKey);
 
