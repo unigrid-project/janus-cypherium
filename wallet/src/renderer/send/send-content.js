@@ -40,8 +40,8 @@ export default function SendContent() {
                     <div className="fontRegularBold darkCopy">
                         {balance} {Config.getProjectTicker()}
                     </div>
-                    {warningMessage !== "" ? renderWarning() : <div className="empty--div" >&nbsp;</div>}
                 </div>
+                {warningMessage !== "" ? renderWarning() : <div className="empty--div" >&nbsp;</div>}
                 <div>
                     <Send />
                 </div>
