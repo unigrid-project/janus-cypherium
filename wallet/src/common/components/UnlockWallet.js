@@ -49,6 +49,7 @@ function UnlockWallet(props) {
     const [masternodeAlias, setMasternodeAlias] = useState();
     const [account, setAccount] = useState();
     const [passwordShown, setPasswordShown] = useState(false);
+    const [pendingTx, setPendingTx] = useState(0);
     useEffect(() => {
         ipcRenderer.on('wallet-lock-trigger', (event, message) => {
             console.log("wallet-lock-trigger: ", message)
@@ -57,6 +58,7 @@ function UnlockWallet(props) {
                     setInfoCopy(gt.gettext("Unlock wallet for transactions"));
                     setUnlockFor("SEND");
                     setAccount(message.alias);
+                    setPendingTx(message.pending);
                     break;
                 case "unlockfordump":
                     setInfoCopy(gt.gettext("Unlock wallet for maintenance"));
@@ -139,6 +141,8 @@ function UnlockWallet(props) {
     }
 
     function onErrorEnd() {
+        // check for new txs
+        
         setErrorClasses("error--text-start");
     }
 
@@ -285,7 +289,8 @@ function UnlockWallet(props) {
                             console.log("account in send: ", account)
                             let sendData = {
                                 account: account,
-                                key: key
+                                key: key,
+                                pending: pendingTx
                             }
                             ipcRenderer.sendTo(remote.getCurrentWebContents().id, "send-coins", sendData);
                             sendData = null;
