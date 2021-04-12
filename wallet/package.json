@@ -63,15 +63,15 @@
     "ssh2": "^0.8.9",
     "styled-components": "^5.1.1",
     "tcp-port-used": "^1.0.1",
-    "tweetnacl": "^1.0.3"
+    "tweetnacl": "^1.0.3",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "electron": "^12.0.2",
     "electron-builder": "^22.10.5",
     "electron-webpack": "^2.8.2",
     "electron-webpack-eslint": "^6.0.0",
-    "webpack": "4.43.0",
-    "yarn": "^1.22.10"
+    "webpack": "4.43.0"
   },
   "resolutions": {
     "upath": "^1.2.0"
