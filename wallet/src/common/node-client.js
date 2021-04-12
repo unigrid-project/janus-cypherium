@@ -237,14 +237,13 @@ export default class NodeClient {
         console.log("this.convert10to16(gasPrice):", this.convert10to16(gasPrice));
         let txParams = {
             version: '0x122',
-            senderKey: '0x' + privateKey.substring(64, 128).replace('0x', ''),
-            from: '0x' + from.toLowerCase().replace('0x', ''),
+            senderKey: '0x' + privateKey.substring(64, 128),
+            from: from,
             nonce: nonce,
             gas: this.convert10to16(gas),
             gasLimit: '0x5208',
-            //gasPrice: 18100000000,
             gasPrice: this.convert10to16(gasPrice),
-            to: '0x' + to.replace('0x', ''),
+            to: to,
             data: "",
             value: this.convert10to16(value),
             //chainId: 16162
