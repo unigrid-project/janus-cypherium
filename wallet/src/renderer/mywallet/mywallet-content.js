@@ -104,8 +104,6 @@ function MyWalletContent(props) {
 		});
 		const interval = setInterval(() => {
 			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "trigger-info-update");
-
-			//accountBalances.triggerInfoUpdate();
 		}, 10000);
 		return () => clearInterval(interval);
 	}, []);
