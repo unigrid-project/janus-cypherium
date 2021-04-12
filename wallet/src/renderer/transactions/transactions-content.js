@@ -100,11 +100,13 @@ function TransactionsContent(props) {
 			if (obj.count !== 0)
 				setPageCount(obj.count);
 		})
-		ipcRenderer.on("trigger-balance-change", () => {
-			if (!Config.isDaemonBased()) {
-				refreshTransactions();
-			}
-		});
+
+		// auto refresh transactions every 3 minutes
+		/*const interval = setInterval(() => {
+			let currentAccount = Config.getCurrentAccount();
+			ipcRenderer.sendTo(remote.getCurrentWebContents().id, "update-active-account", currentAccount);
+		}, 180000);
+		return () => clearInterval(interval);*/
 
 	}, []);
 	useEffect(() => {
