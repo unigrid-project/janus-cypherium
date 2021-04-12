@@ -70,7 +70,8 @@
     "electron-builder": "^22.10.5",
     "electron-webpack": "^2.8.2",
     "electron-webpack-eslint": "^6.0.0",
-    "webpack": "4.43.0"
+    "webpack": "4.43.0",
+    "yarn": "^1.22.10"
   },
   "resolutions": {
     "upath": "^1.2.0"
