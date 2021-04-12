@@ -51,6 +51,7 @@ function Send() {
     const [priceKey, setPriceKey] = useState(Math.random());
     const [amountRenderKey, setAmountRenderKey] = useState(Math.random());
     const [activeAccount, setCurrentActiveAccount] = useState(Config.getCurrentAccount());
+    const [pendingTx, setPendingTx] = useState(0);
     useEffect(() => {
         setSendButtonKey(Math.random());
         //console.log("button state changed ", disableSendBtn)
@@ -80,6 +81,22 @@ function Send() {
             setCurrentActiveAccount(account);
             resetDefaults();
         });
+        // look for pending tx's
+        /*ipcRenderer.on("new-transactions-loaded", (event, obj) => {
+            let array = obj.transactions;
+            console.log("txs: ", array)
+            let result = array.filter((obj) => {
+                return obj.block_number === -2;
+            });
+            let sends = array.filter((obj) => {
+                return obj.tx_type === 1;
+            });
+            //
+            console.log("diff in gas: ", (21000000000000-49392000000))
+            console.log("send length: ", sends.length - result.length)
+            setPendingTx(result.length);
+            console.log("result pending: ", result);
+        });*/
 
     }, []);
 
@@ -165,8 +182,9 @@ function Send() {
     }
 
     function onGasUpdate(e) {
-        const amount = parseFloat(parseInt(recipients["address1"].amount) + e);
+        //const amount = parseFloat(parseInt(recipients["address1"].amount) + e);
         //console.log("amount: ", amount);
+
         setGas(e);
         gasRef.current = e;
     }
@@ -187,7 +205,7 @@ function Send() {
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
                     return;
                 }
-                if (recipients[key].amount <= 0) {
+                if (recipients[key].amount <= 0 && pendingTx === 0) {
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "on-send-warning", SEND_TO_LOW);
                     ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
                     return;
@@ -195,7 +213,8 @@ function Send() {
                 console.log("activeAccount[0] ", activeAccount[0])
                 let message = {
                     command: "unlockfortime",
-                    alias: activeAccount[0]
+                    alias: activeAccount[0],
+                    pending: pendingTx
                 }
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "state", "completed");
                 ipcRenderer.sendTo(remote.getCurrentWebContents().id, "wallet-lock-trigger", message);
@@ -301,7 +320,8 @@ function Send() {
                 toAddress: recipients[key].address,
                 payAmount: recipients[key].amount,
                 gas: gasRef.current,
-                privatekey: data.key
+                privatekey: data.key,
+                pending: data.pending
             }
             let amount = recipients[key].amount;
             let toAddress = recipients[key].address;
