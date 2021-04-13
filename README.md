@@ -54,6 +54,6 @@ Support the project
 -------------------
 If you use the wallet and enjoy it and or find it useful please consider donating. We're fully supported by donations only and the wallet is free to use without any hidden costs. Donations help us continue with support and development.
 ```
-CPH CPHCC2EC717DCC3BF784784D40EDB1073BF56B5F7C3
+CPH CPH791DCFC7B65EE9B77F6074577B1D0CC33219A74A
 UGD H7bEB2nv8PADro1iLmdrCBRH7GwP4anUXi
 ```
