@@ -53,6 +53,7 @@ function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
         ipcRenderer.on("navigate", (event, source) => {
             console.log("navigate ", source)
             if (source === "addressbook") {
+                //console.log("should be updating balances")
                 setCheckBalances(true);
             } else {
                 setCheckBalances(false);
@@ -61,7 +62,7 @@ function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
 
         if (!Config.isDaemonBased()) {
             nodeClient.getCphBalance(data.address).then((v) => {
-                setbalance(parseInt(v));
+                setbalance(v);
             }, (stderr) => {
                 console.log("WARN ERROR: ", stderr)
                 log.warn("Error loading balance for address: ", "CPH" + stderr);
@@ -76,9 +77,8 @@ function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
         if (checkBalances) {
             interval = setInterval(() => {
                 if (!Config.isDaemonBased()) {
-                    console.log("trigger account check")
                     nodeClient.getCphBalance(data.address).then((v) => {
-                        setbalance(parseInt(v));
+                        setbalance(v);
                     }, (stderr) => {
                         log.warn("Error loading balance for address: ", "CPH" + stderr);
                     });
@@ -117,9 +117,9 @@ function Accounts({ data, setAccountName, copyAddress, removeAccount }) {
                 <div className="amount account--item">
                     <CustomTooltip
                         placement="left"
-                        item={<div className="currencyCopy">{balance}</div>}
+                        item={<div className="currencyCopy">{balance.toString()}</div>}
                         color="var(--dark--green)"
-                        content={<div className="fontSmallBold">{balance.toFixed(8)}</div>}
+                        content={<div className="fontSmallBold">{balance.toString()}</div>}
                     />
                 </div>
                 <div className="account account--item account--name">{data.name}</div>
