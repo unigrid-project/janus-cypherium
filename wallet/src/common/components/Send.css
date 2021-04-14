@@ -34,7 +34,7 @@
 .send--input--container {
     overflow: auto;
     overflow-x: hidden;
-    height: 280px;
+    height: 250px;
 }
 
 .send--input--container>div {

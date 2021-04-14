@@ -34,4 +34,5 @@ export const WARNING = gt.gettext("WARNING!");
 export const UPDATE_MESSAGE = gt.gettext("There is a new wallet release wich is a manadatory update! Please update now to get on the latest version.")
 export const UPDATE = gt.gettext("Update");
 export const INFO = gt.gettext("Info");
+export const SUPPORT = gt.gettext("The Janus wallet is 100% free to use and there are no hidden transaction fees. If you enjoy using this wallet and would like to support further development please consider donating.");
 

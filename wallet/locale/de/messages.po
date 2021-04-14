@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-03-24 10:25+0200\n"
-"PO-Revision-Date: 2021-03-24 10:33+0200\n"
+"POT-Creation-Date: 2021-04-14 11:20+0300\n"
+"PO-Revision-Date: 2021-04-14 11:28+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -35,25 +35,25 @@ msgstr "in Zwischenablage kopieren"
 msgid "Create/Import"
 msgstr "Erstellen/Importieren"
 
-#: src/common/components/Send.js:46
+#: src/common/components/Send.js:47
 #, fuzzy
 msgid "Successfully sent"
 msgstr "Erfolgreich gesendet"
 
-#: src/common/components/Send.js:47
+#: src/common/components/Send.js:48
 msgid "to"
 msgstr "bis"
 
-#: src/common/components/Send.js:284
+#: src/common/components/Send.js:314
 #, fuzzy
 msgid "Successfully sent to many"
 msgstr "erfolgreich an mehrere Empfänger gesendet"
 
-#: src/common/components/Transaction.js:229 src/renderer/send/send-navbar.js:33
+#: src/common/components/Transaction.js:235 src/renderer/send/send-navbar.js:33
 msgid "Send"
 msgstr "Senden"
 
-#: src/common/components/Transaction.js:231
+#: src/common/components/Transaction.js:237
 #: src/renderer/receive/receive-navbar.js:34
 msgid "Receive"
 msgstr "Erhalte"
@@ -68,64 +68,63 @@ msgstr "Wallet entsperren und entfernen"
 msgid " from stored keys"
 msgstr " aus gespeicherten Schlüsseln"
 
-#: src/common/components/UnlockWallet.js:57
+#: src/common/components/UnlockWallet.js:58
 #, fuzzy
 msgid "Unlock wallet for transactions"
 msgstr "Wallet für Transaktionen freischalten"
 
-#: src/common/components/UnlockWallet.js:62
-#: src/common/components/UnlockWallet.js:66
+#: src/common/components/UnlockWallet.js:64
+#: src/common/components/UnlockWallet.js:68
 #, fuzzy
 msgid "Unlock wallet for maintenance"
 msgstr "Brieftasche für Wartung entsperren"
 
-#: src/common/components/UnlockWallet.js:70
-#: src/common/components/UnlockWallet.js:74
-#: src/common/components/UnlockWallet.js:79
+#: src/common/components/UnlockWallet.js:72
+#: src/common/components/UnlockWallet.js:76
+#: src/common/components/UnlockWallet.js:81
 #, fuzzy
 msgid "Unlock wallet for masternodes"
 msgstr "Brieftasche für Masternodes freischalten"
 
-#: src/common/components/UnlockWallet.js:90
-#: src/common/components/UnlockWallet.js:95
+#: src/common/components/UnlockWallet.js:92
+#: src/common/components/UnlockWallet.js:97
 #, fuzzy
 msgid "Unlock wallet for export"
 msgstr "Brieftasche für staking freischalten"
 
-#: src/common/components/UnlockWallet.js:100
+#: src/common/components/UnlockWallet.js:102
 #, fuzzy
 msgid "Unlock wallet for staking"
 msgstr "Brieftasche für staking freischalten"
 
-#: src/common/getTextConsts.js:5
+#: src/common/getTextConsts.js:4
 #, fuzzy
 msgid "copied to clipboard"
 msgstr "in die Zwischenablage kopiert"
 
-#: src/common/getTextConsts.js:6
+#: src/common/getTextConsts.js:5
 #, fuzzy
 msgid "Export Private Keys"
 msgstr "Private Schlüssel exportieren"
 
-#: src/common/getTextConsts.js:7
+#: src/common/getTextConsts.js:6
 #, fuzzy
 msgid "Change Default Language"
 msgstr "Standardsprache ändern"
 
-#: src/common/getTextConsts.js:8
+#: src/common/getTextConsts.js:7
 msgid "Unlock"
 msgstr "Entsperren"
 
-#: src/common/getTextConsts.js:9 src/renderer/settings/settings-content.js:50
-#: src/renderer/warning/warning.js:75
+#: src/common/getTextConsts.js:8 src/renderer/settings/settings-content.js:50
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/common/getTextConsts.js:10
+#: src/common/getTextConsts.js:9
 msgid "Block"
 msgstr "Block"
 
-#: src/common/getTextConsts.js:11
+#: src/common/getTextConsts.js:10
 #, fuzzy
 msgid ""
 "This mnemonic phrase is uniquely generated, and grants you access to your "
@@ -141,76 +140,76 @@ msgstr ""
 "einzigartige Phrase an NIEMANDEN weiter. ACHTUNG: Das Janus-Team kann Ihr "
 "Geld NICHT wiederherstellen, wenn Sie Ihre mnemonische Phrase verlieren."
 
-#: src/common/getTextConsts.js:12
+#: src/common/getTextConsts.js:11
 #, fuzzy
 msgid "Passphrase Error!"
 msgstr "Passphrasen-Fehler!"
 
-#: src/common/getTextConsts.js:13
+#: src/common/getTextConsts.js:12
 msgid "MAX"
 msgstr "MAX"
 
-#: src/common/getTextConsts.js:14
+#: src/common/getTextConsts.js:13
 msgid "Address"
 msgstr "Adresse"
 
-#: src/common/getTextConsts.js:15
+#: src/common/getTextConsts.js:14
 msgid "Amount"
 msgstr "Menge"
 
-#: src/common/getTextConsts.js:16
+#: src/common/getTextConsts.js:15
 msgid "fast"
 msgstr "schnell"
 
-#: src/common/getTextConsts.js:17
+#: src/common/getTextConsts.js:16
 msgid "slow"
 msgstr "langsam"
 
-#: src/common/getTextConsts.js:18
+#: src/common/getTextConsts.js:17
 #, fuzzy
 msgid "Estimated transaction fee:"
 msgstr "Geschätzte Transaktionsgebühr:"
 
-#: src/common/getTextConsts.js:19
+#: src/common/getTextConsts.js:18
 msgid "SEND"
 msgstr "SENDEN"
 
-#: src/common/getTextConsts.js:20
+#: src/common/getTextConsts.js:19
 #, fuzzy
 msgid "ADD RECIPIENT"
 msgstr "EMPFÄNGER HINZUFÜGEN"
 
-#: src/common/getTextConsts.js:21
+#: src/common/getTextConsts.js:20
 #, fuzzy
 msgid "total cost:"
 msgstr "gesamtkosten:"
 
-#: src/common/getTextConsts.js:22
+#: src/common/getTextConsts.js:21
 #, fuzzy
 msgid "Address is not valid!"
 msgstr "Adresse ist nicht gültig!"
 
-#: src/common/getTextConsts.js:23
+#: src/common/getTextConsts.js:22
 #, fuzzy
 msgid "Send amount is too low!"
 msgstr "Sendebetrag ist zu niedrig!"
 
-#: src/common/getTextConsts.js:24
+#: src/common/getTextConsts.js:23
 #, fuzzy
 msgid "RECEIVE"
 msgstr "Erhalte"
 
-#: src/common/getTextConsts.js:25
+#: src/common/getTextConsts.js:24
 #, fuzzy
 #| msgid "Transactions"
 msgid "Transaction failure"
 msgstr "Transaktionen"
 
-#: src/common/getTextConsts.js:26
+#: src/common/getTextConsts.js:25
 msgid "Insufficient funds"
 msgstr "Verfügbares Guthaben reicht nicht aus"
 
-#: src/common/getTextConsts.js:27
+#: src/common/getTextConsts.js:26
 #, fuzzy
 msgid ""
 "Transaction failed, you can increase the gas to make sure a transaction is "
@@ -219,7 +218,7 @@ msgstr ""
 "Transaktion fehlgeschlagen ist, können Sie das Gas erhöhen, um "
 "sicherzustellen, dass eine Transaktion erfolgreich abgewickelt wird."
 
-#: src/common/getTextConsts.js:28
+#: src/common/getTextConsts.js:27
 #, fuzzy
 msgid ""
 "Unable to connect to Cypherium network. Please check your firewall and "
@@ -228,38 +227,38 @@ msgstr ""
 "Verbindung zum Cypherium-Netzwerk kann nicht hergestellt werden. Bitte "
 "überprüfen Sie Ihre Firewall und Internetverbindungen."
 
-#: src/common/getTextConsts.js:29
+#: src/common/getTextConsts.js:28
 #, fuzzy
 msgid "It appears this is a first time load. Import or create a new wallet"
 msgstr ""
 "Es scheint, dass dies eine erstmalige Belastung ist. Importieren oder "
 "Erstellen einer neuen Brieftasche"
 
-#: src/common/getTextConsts.js:30
+#: src/common/getTextConsts.js:29
 #, fuzzy
 msgid "Error initializing config.json"
 msgstr "Fehler beim Initialisieren der config.json"
 
-#: src/common/getTextConsts.js:31
+#: src/common/getTextConsts.js:30
 #, fuzzy
 msgid "Error loading config file"
 msgstr "Fehler beim Laden der Konfigurationsdatei"
 
-#: src/common/getTextConsts.js:32
+#: src/common/getTextConsts.js:31
 #, fuzzy
 msgid "attempting to connect to the network..."
 msgstr "beim Versuch, eine Verbindung zum Netzwerk herzustellen..."
 
-#: src/common/getTextConsts.js:33
+#: src/common/getTextConsts.js:32
 #, fuzzy
 msgid "Successfully connected to the cph network"
 msgstr "erfolgreich mit dem cph-Netzwerk verbunden"
 
-#: src/common/getTextConsts.js:34
+#: src/common/getTextConsts.js:33
 msgid "WARNING!"
 msgstr "WARNUNG!"
 
-#: src/common/getTextConsts.js:35
+#: src/common/getTextConsts.js:34
 #, fuzzy
 msgid ""
 "There is a new wallet release wich is a manadatory update! Please update now "
@@ -267,6 +266,26 @@ msgid ""
 msgstr ""
 "Es gibt eine neue Wallet-Version, die ein Pflicht-Update ist! Bitte "
 "aktualisieren Sie jetzt, um auf die neueste Version zu gelangen."
+
+#: src/common/getTextConsts.js:35
+msgid "Update"
+msgstr "Aktualisieren"
+
+#: src/common/getTextConsts.js:36
+msgid "Info"
+msgstr "Info"
+
+#: src/common/getTextConsts.js:37
+#, fuzzy, javascript-format
+msgid ""
+"The Janus wallet is 100% free to use and there are no hidden transaction "
+"fees. If you enjoy using this wallet and would like to support further "
+"development please consider donating."
+msgstr ""
+"Die Janus-Brieftasche ist 100% ffrei zu benutzen und es gibt keine "
+"versteckten Transaktionsgebühren. Wenn Sie diese Wallet gerne benutzen und "
+"die weitere Entwicklung unterstützen möchten, ziehen Sie bitte eine Spende "
+"in Betracht."
 
 #: src/common/setup/CreateAccount.js:36 src/common/setup/ImportAccount.js:41
 #, fuzzy
@@ -473,16 +492,16 @@ msgstr "HINZUFÜGEN"
 msgid "Masternodes"
 msgstr "Masternodes"
 
-#: src/renderer/mywallet/mywallet-content.js:268
+#: src/renderer/mywallet/mywallet-content.js:266
 msgid "Follow us"
 msgstr "Folgen Sie uns"
 
-#: src/renderer/mywallet/mywallet-content.js:287
+#: src/renderer/mywallet/mywallet-content.js:285
 #, fuzzy
 msgid "Join discord"
 msgstr "Discord beitreten"
 
-#: src/renderer/mywallet/mywallet-content.js:305
+#: src/renderer/mywallet/mywallet-content.js:303
 #, fuzzy
 msgid "Join telegram"
 msgstr "Telegramm beitreten"
@@ -505,18 +524,6 @@ msgstr "Ablage-Wallet für"
 #, fuzzy
 msgid "Backup wallet.dat for"
 msgstr "Sichern Sie die Speicherdatei 'wallet.dat' für"
-
-#: src/renderer/settings/settings-content.js:108
-#, fuzzy, javascript-format
-msgid ""
-"The Janus wallet is 100% free to use and there are no hidden transaction "
-"fees. If you enjoy using this wallet and would like to support futher "
-"development please consider donating."
-msgstr ""
-"Die Janus-Brieftasche ist 100% ffrei zu benutzen und es gibt keine "
-"versteckten Transaktionsgebühren. Wenn Sie diese Wallet gerne benutzen und "
-"die weitere Entwicklung unterstützen möchten, ziehen Sie bitte eine Spende "
-"in Betracht."
 
 #: src/renderer/settings/settings-content.js:110
 #, fuzzy
@@ -713,14 +720,6 @@ msgstr "Erstellen"
 #: src/renderer/transactions/transactions.js:33
 msgid "Transactions"
 msgstr "Transaktionen"
-
-#: src/renderer/warning/warning.js:67
-msgid "Update"
-msgstr "Aktualisieren"
-
-#: src/renderer/warning/warning.js:71
-msgid "Info"
-msgstr "Info"
 
 #~ msgid "testing"
 #~ msgstr "Testvorgang"

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-03-24 10:25+0200\n"
-"PO-Revision-Date: 2021-03-24 10:30+0200\n"
+"POT-Creation-Date: 2021-04-14 11:20+0300\n"
+"PO-Revision-Date: 2021-04-14 11:24+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ko_KR\n"
@@ -36,24 +36,24 @@ msgstr "클립 보드에 복사"
 msgid "Create/Import"
 msgstr "만들기 / 가져 오기"
 
-#: src/common/components/Send.js:46
+#: src/common/components/Send.js:47
 msgid "Successfully sent"
 msgstr "성공적으로 전송하였습니다."
 
-#: src/common/components/Send.js:47
+#: src/common/components/Send.js:48
 msgid "to"
 msgstr "~"
 
-#: src/common/components/Send.js:284
+#: src/common/components/Send.js:314
 #, fuzzy
 msgid "Successfully sent to many"
 msgstr "많은 사람들에게 성공적으로 보냈습니다."
 
-#: src/common/components/Transaction.js:229 src/renderer/send/send-navbar.js:33
+#: src/common/components/Transaction.js:235 src/renderer/send/send-navbar.js:33
 msgid "Send"
 msgstr "보내기"
 
-#: src/common/components/Transaction.js:231
+#: src/common/components/Transaction.js:237
 #: src/renderer/receive/receive-navbar.js:34
 #, fuzzy
 msgid "Receive"
@@ -69,65 +69,64 @@ msgstr "제거하려면 지갑 잠금 해제"
 msgid " from stored keys"
 msgstr " 저장된 키에서"
 
-#: src/common/components/UnlockWallet.js:57
+#: src/common/components/UnlockWallet.js:58
 #, fuzzy
 msgid "Unlock wallet for transactions"
 msgstr "거래를위한 지갑 잠금 해제"
 
-#: src/common/components/UnlockWallet.js:62
-#: src/common/components/UnlockWallet.js:66
+#: src/common/components/UnlockWallet.js:64
+#: src/common/components/UnlockWallet.js:68
 #, fuzzy
 msgid "Unlock wallet for maintenance"
 msgstr "유지 관리를 위해 지갑 잠금 해제"
 
-#: src/common/components/UnlockWallet.js:70
-#: src/common/components/UnlockWallet.js:74
-#: src/common/components/UnlockWallet.js:79
+#: src/common/components/UnlockWallet.js:72
+#: src/common/components/UnlockWallet.js:76
+#: src/common/components/UnlockWallet.js:81
 #, fuzzy
 msgid "Unlock wallet for masternodes"
 msgstr "마스터 노드 용 지갑 잠금 해제"
 
-#: src/common/components/UnlockWallet.js:90
-#: src/common/components/UnlockWallet.js:95
+#: src/common/components/UnlockWallet.js:92
+#: src/common/components/UnlockWallet.js:97
 #, fuzzy
 msgid "Unlock wallet for export"
 msgstr "스테이 킹을위한 지갑 잠금 해제"
 
-#: src/common/components/UnlockWallet.js:100
+#: src/common/components/UnlockWallet.js:102
 #, fuzzy
 msgid "Unlock wallet for staking"
 msgstr "스테이 킹을위한 지갑 잠금 해제"
 
-#: src/common/getTextConsts.js:5
+#: src/common/getTextConsts.js:4
 #, fuzzy
 msgid "copied to clipboard"
 msgstr "클립 보드에 복사"
 
-#: src/common/getTextConsts.js:6
+#: src/common/getTextConsts.js:5
 #, fuzzy
 msgid "Export Private Keys"
 msgstr "개인 키 내보내기"
 
-#: src/common/getTextConsts.js:7
+#: src/common/getTextConsts.js:6
 #, fuzzy
 msgid "Change Default Language"
 msgstr "기본 언어 변경"
 
-#: src/common/getTextConsts.js:8
+#: src/common/getTextConsts.js:7
 #, fuzzy
 msgid "Unlock"
 msgstr "잠금 해제"
 
-#: src/common/getTextConsts.js:9 src/renderer/settings/settings-content.js:50
-#: src/renderer/warning/warning.js:75
+#: src/common/getTextConsts.js:8 src/renderer/settings/settings-content.js:50
 msgid "Cancel"
 msgstr "취소"
 
-#: src/common/getTextConsts.js:10
+#: src/common/getTextConsts.js:9
 msgid "Block"
 msgstr "블록"
 
-#: src/common/getTextConsts.js:11
+#: src/common/getTextConsts.js:10
 #, fuzzy
 msgid ""
 "This mnemonic phrase is uniquely generated, and grants you access to your "
@@ -142,78 +141,78 @@ msgstr ""
 "도 공유하지 마세요. 주의 : 니모닉 문구를 분실 한 경우 Janus 팀은 자금을 회수 "
 "할 수 없습니다."
 
-#: src/common/getTextConsts.js:12
+#: src/common/getTextConsts.js:11
 #, fuzzy
 msgid "Passphrase Error!"
 msgstr "암호 오류!"
 
-#: src/common/getTextConsts.js:13
+#: src/common/getTextConsts.js:12
 msgid "MAX"
 msgstr "최대"
 
-#: src/common/getTextConsts.js:14
+#: src/common/getTextConsts.js:13
 msgid "Address"
 msgstr "주소"
 
-#: src/common/getTextConsts.js:15
+#: src/common/getTextConsts.js:14
 msgid "Amount"
 msgstr "금액"
 
-#: src/common/getTextConsts.js:16
+#: src/common/getTextConsts.js:15
 #, fuzzy
 msgid "fast"
 msgstr "빠른"
 
-#: src/common/getTextConsts.js:17
+#: src/common/getTextConsts.js:16
 #, fuzzy
 msgid "slow"
 msgstr "느린"
 
-#: src/common/getTextConsts.js:18
+#: src/common/getTextConsts.js:17
 #, fuzzy
 msgid "Estimated transaction fee:"
 msgstr "예상 거래 수수료 :"
 
-#: src/common/getTextConsts.js:19
+#: src/common/getTextConsts.js:18
 msgid "SEND"
 msgstr "보내기"
 
-#: src/common/getTextConsts.js:20
+#: src/common/getTextConsts.js:19
 #, fuzzy
 msgid "ADD RECIPIENT"
 msgstr "수신자 추가"
 
-#: src/common/getTextConsts.js:21
+#: src/common/getTextConsts.js:20
 #, fuzzy
 msgid "total cost:"
 msgstr "총 비용 :"
 
-#: src/common/getTextConsts.js:22
+#: src/common/getTextConsts.js:21
 #, fuzzy
 msgid "Address is not valid!"
 msgstr "주소가 유효하지 않습니다!"
 
-#: src/common/getTextConsts.js:23
+#: src/common/getTextConsts.js:22
 #, fuzzy
 msgid "Send amount is too low!"
 msgstr "송금액이 너무 적습니다!"
 
-#: src/common/getTextConsts.js:24
+#: src/common/getTextConsts.js:23
 #, fuzzy
 msgid "RECEIVE"
 msgstr "받다"
 
-#: src/common/getTextConsts.js:25
+#: src/common/getTextConsts.js:24
 #, fuzzy
 #| msgid "Transactions"
 msgid "Transaction failure"
 msgstr "거래"
 
-#: src/common/getTextConsts.js:26
+#: src/common/getTextConsts.js:25
 msgid "Insufficient funds"
 msgstr "부족한 잔액"
 
-#: src/common/getTextConsts.js:27
+#: src/common/getTextConsts.js:26
 #, fuzzy
 msgid ""
 "Transaction failed, you can increase the gas to make sure a transaction is "
@@ -222,7 +221,7 @@ msgstr ""
 "거래가 실패했습니다. 거래가 성공적으로 처리되었는지 확인하기 위해 가스를 늘"
 "릴 수 있습니다."
 
-#: src/common/getTextConsts.js:28
+#: src/common/getTextConsts.js:27
 #, fuzzy
 msgid ""
 "Unable to connect to Cypherium network. Please check your firewall and "
@@ -230,37 +229,37 @@ msgid ""
 msgstr ""
 "Cypherium 네트워크에 연결할 수 없습니다. 방화벽과 인터넷 연결을 확인하십시오."
 
-#: src/common/getTextConsts.js:29
+#: src/common/getTextConsts.js:28
 #, fuzzy
 msgid "It appears this is a first time load. Import or create a new wallet"
 msgstr "처음로드 한 것 같습니다. 새 지갑 가져 오기 또는 생성"
 
-#: src/common/getTextConsts.js:30
+#: src/common/getTextConsts.js:29
 #, fuzzy
 msgid "Error initializing config.json"
 msgstr "config.json 초기화 오류"
 
-#: src/common/getTextConsts.js:31
+#: src/common/getTextConsts.js:30
 #, fuzzy
 msgid "Error loading config file"
 msgstr "구성 파일로드 오류"
 
-#: src/common/getTextConsts.js:32
+#: src/common/getTextConsts.js:31
 #, fuzzy
 msgid "attempting to connect to the network..."
 msgstr "네트워크 연결 시도 중 ..."
 
-#: src/common/getTextConsts.js:33
+#: src/common/getTextConsts.js:32
 #, fuzzy
 msgid "Successfully connected to the cph network"
 msgstr "cph 네트워크에 성공적으로 연결됨"
 
-#: src/common/getTextConsts.js:34
+#: src/common/getTextConsts.js:33
 #, fuzzy
 msgid "WARNING!"
 msgstr "경고!"
 
-#: src/common/getTextConsts.js:35
+#: src/common/getTextConsts.js:34
 #, fuzzy
 msgid ""
 "There is a new wallet release wich is a manadatory update! Please update now "
@@ -268,6 +267,24 @@ msgid ""
 msgstr ""
 "새로운 지갑 출시가 있으며 필수 업데이트입니다! 최신 버전을 받으려면 지금 업데"
 "이트하십시오."
+
+#: src/common/getTextConsts.js:35
+msgid "Update"
+msgstr "업데이트"
+
+#: src/common/getTextConsts.js:36
+msgid "Info"
+msgstr "정보"
+
+#: src/common/getTextConsts.js:37
+#, fuzzy, javascript-format
+msgid ""
+"The Janus wallet is 100% free to use and there are no hidden transaction "
+"fees. If you enjoy using this wallet and would like to support further "
+"development please consider donating."
+msgstr ""
+"Janus 지갑은 100 % f 사용할 수 있으며 숨겨진 거래 수수료가 없습니다. 이 지갑"
+"을 즐겁게 사용하고 더 많은 개발을 지원하고 싶다면 기부를 고려하십시오."
 
 #: src/common/setup/CreateAccount.js:36 src/common/setup/ImportAccount.js:41
 #, fuzzy
@@ -470,16 +487,16 @@ msgstr "가입하기"
 msgid "Masternodes"
 msgstr "마스터 노드"
 
-#: src/renderer/mywallet/mywallet-content.js:268
+#: src/renderer/mywallet/mywallet-content.js:266
 msgid "Follow us"
 msgstr "팔로우"
 
-#: src/renderer/mywallet/mywallet-content.js:287
+#: src/renderer/mywallet/mywallet-content.js:285
 #, fuzzy
 msgid "Join discord"
 msgstr "불화에 합류"
 
-#: src/renderer/mywallet/mywallet-content.js:305
+#: src/renderer/mywallet/mywallet-content.js:303
 #, fuzzy
 msgid "Join telegram"
 msgstr "전보 가입"
@@ -502,16 +519,6 @@ msgstr "지갑 덤프"
 #, fuzzy
 msgid "Backup wallet.dat for"
 msgstr "백업용 wallet.dat"
-
-#: src/renderer/settings/settings-content.js:108
-#, fuzzy, javascript-format
-msgid ""
-"The Janus wallet is 100% free to use and there are no hidden transaction "
-"fees. If you enjoy using this wallet and would like to support futher "
-"development please consider donating."
-msgstr ""
-"Janus 지갑은 100 % f 사용할 수 있으며 숨겨진 거래 수수료가 없습니다. 이 지갑"
-"을 즐겁게 사용하고 더 많은 개발을 지원하고 싶다면 기부를 고려하십시오."
 
 #: src/renderer/settings/settings-content.js:110
 #, fuzzy
@@ -700,14 +707,6 @@ msgstr "생성"
 #: src/renderer/transactions/transactions.js:33
 msgid "Transactions"
 msgstr "거래"
-
-#: src/renderer/warning/warning.js:67
-msgid "Update"
-msgstr "업데이트"
-
-#: src/renderer/warning/warning.js:71
-msgid "Info"
-msgstr "정보"
 
 #, fuzzy
 #~ msgid "testing"

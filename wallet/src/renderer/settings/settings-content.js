@@ -33,7 +33,7 @@ import HideZeroAddresses from "../../common/components/HideZeroAddresses";
 import Config from "../../common/config";
 import File from "../../common/file";
 import LanguageSelect from "../../common/languages/LanguageSelect";
-import { CHANGE_DEFAULT, COPIED } from "../../common/getTextConsts";
+import { CHANGE_DEFAULT, COPIED, SUPPORT } from "../../common/getTextConsts";
 import CustomTooltip from "../../common/components/CustomToolTip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard } from "@fortawesome/free-solid-svg-icons";
@@ -105,7 +105,7 @@ function SettingsContent(props) {
 					<LanguageSelect />
 				</div>
 				<div className="darkCopy fontSmallBold">
-					<p>{gt.gettext("The Janus wallet is 100% free to use and there are no hidden transaction fees. If you enjoy using this wallet and would like to support futher development please consider donating.")}</p>
+					<p>{SUPPORT}</p>
 					<div className="align--row--normal padding-ten">
 						<div className="padding-five">{gt.gettext("donation address: ")}</div>
 						<div className="fontSmallBold darkCopy  align--row--stretch outline--border padding-five">
