@@ -288,6 +288,11 @@ function TransactionsContent(props) {
 					return;
 				}
 				const order = txList;
+				if (order === undefined) {
+					// exit here if the server never sends back any transactions
+					// this will crash the whole app otherwise
+					return;
+				}
 				//console.log("transactions: ", txList)
 				if (pageCount > 1) {
 					const newOrder = items.concat(order);
