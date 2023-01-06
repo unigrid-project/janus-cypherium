@@ -1,9 +1,12 @@
 [![Build Status](https://travis-ci.org/unigrid-project/janus-cypherium.svg?branch=main)](https://travis-ci.org/unigrid-project/janus-cypherium)
 
-The Janus-Cypherium wallet built by the [UNIGRID organization](https://unigrid.org)
+# WARNING
+Because of server-side changes, the wallet has issues with sending transactions - see https://github.com/unigrid-project/janus-cypherium/issues/1 for more information. For now, use the mobile wallet to send transactions by importing your mnemonic seed into it.
 
 <p align="center">
+  <br><br>
   <a href="https://www.cypherium.io/"><img alt="cypherium" src="https://www.cypherium.io/wp-content/uploads/2020/07/Cypherium-Logo.png" width="500"/></a>
+  <br><sup>The Janus-Cypherium wallet built by the <a href="https://unigrid.org">UNIGRID organization</a></sup><br>
 </p>
 
 
