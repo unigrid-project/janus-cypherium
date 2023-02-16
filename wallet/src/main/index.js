@@ -34,7 +34,13 @@ import LocalePath from "../common/loaclePath";
 import LoadLanguageFiles from "../common/languages/LoadLanguageFiles";
 import Gettext from 'node-gettext';
 import { po } from 'gettext-parser';
-import { ATTEMPT_CONN, SUCCESS_CONN, UPDATE_MESSAGE, WARNING } from "../common/getTextConsts";
+import { ATTEMPT_CONN, SUCCESS_CONN, UPDATE_MESSAGE, WARNING, INFO_MESSAGE } from "../common/getTextConsts";
+
+const { webContents } = require('electron');
+console.log(webContents);
+import * as remoteMain from '@electron/remote/main';
+remoteMain.initialize();
+require("@electron/remote/main").enable(webContents);
 
 const fs = require('fs');
 const path = require('path');
@@ -49,7 +55,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 const loadLanguageFiles = new LoadLanguageFiles();
 autoUpdater.autoDownload = true;
 autoUpdater.allowPrerelease = true;
-let testing = false;
+let testing = true;
 var configError;
 /* Initialize consts from config.json */
 Config.start().then(() => {
@@ -70,8 +76,8 @@ var isWarningOpen = false;
 var isSetupOpen = false;
 var trackRejectUpdates = 0;
 var skipTimesAllocated = 20;
-const checkForUpdateTime = 180000;
-
+//const checkForUpdateTime = 180000;
+const checkForUpdateTime = 20000;
 const gt = new Gettext()
 locales.forEach((locale) => {
 	const fileName = `${domain}.po`
@@ -221,6 +227,10 @@ app.on("ready", () => {
 							splashController.window.webContents.send("progress", "indeterminate", SUCCESS_CONN);
 							var mainController = new MainController();
 							mainWindow = mainController.window;
+
+							
+							const mainRemote = require("@electron/remote/main");
+							mainRemote.enable(mainWindow.webContents);
 							splashController.window.close();
 
 						}, (stderr) => {
@@ -385,12 +395,13 @@ function manuallyCheckForUpdates(mainWindow) {
 
 const autoCheckForUpdates = setInterval(() => {
 	if (isDevelopment && testing === false) return;// || !navigator.onLine // navigator is NOT available in main disabling and should be removed
-	if(testing){
+	if (testing) {
 		let message = {
 			title: WARNING,
-			version: "0.1.28",
-			message: UPDATE_MESSAGE
+			version: "0.3.0",
+			message: INFO_MESSAGE
 		}
+		console.log("SEND WARNING UPDATE MESSAGE!", INFO_MESSAGE);
 		openwarningWindow(message);
 	}
 	autoUpdater.checkForUpdates();

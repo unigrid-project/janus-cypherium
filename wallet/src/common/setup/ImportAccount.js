@@ -18,7 +18,8 @@
 
 import { faChevronLeft, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ipcRenderer, remote } from "electron";
+import { ipcRenderer } from "electron";
+import * as remote from '@electron/remote';
 import React, { useState, useEffect } from "react";
 import './SetupStyles.css';
 import SelectionButton from "./SelectionButton";
@@ -30,7 +31,7 @@ import NodeClient from "../node-client";
 import Config from "../config";
 import ImportFile from '../import/ImportFile';
 
-var gt = require('electron').remote.getGlobal('gt');
+var gt = require('@electron/remote').getGlobal('gt');
 
 const log = require('electron-log');
 const walletService = new WalletService();

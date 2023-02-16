@@ -23,8 +23,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWallet, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import NavEntry from "../naventry";
 
-var gt = require('electron').remote.getGlobal('gt');
-
+//var gt = require('@electron/remote').remote.getGlobal('gt');
+var gt = require('@electron/remote').getGlobal('gt');
 library.add(faWallet, faChevronRight);
 
 export default class MyWallet extends React.Component {

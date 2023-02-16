@@ -18,7 +18,8 @@
  */
 
 import React, { useState, useEffect, useRef } from "react";
-import { ipcRenderer, remote } from "electron";
+import { ipcRenderer } from "electron";
+import * as remote from '@electron/remote';
 import "./content.css";
 
 function Content(props) {

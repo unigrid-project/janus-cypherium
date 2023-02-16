@@ -19,7 +19,8 @@
 import React, { useState, useEffect } from "react";
 import RPCClient from "../rpc-client.js";
 import lodash from "lodash";
-import { ipcRenderer, remote } from "electron";
+import { ipcRenderer } from "electron";
+import * as remote from '@electron/remote';
 
 function useTransactions({ load, offset, limit, SETTINGS }) {
     //const [status, setStatus] = useState('idle');

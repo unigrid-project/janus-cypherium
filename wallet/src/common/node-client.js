@@ -235,6 +235,8 @@ export default class NodeClient {
         }
         console.log("gasePrice:", gasPrice);
         console.log("this.convert10to16(gasPrice):", this.convert10to16(gasPrice));
+        //let chainId = await this.web3c.cph.net.getId();
+        //console.log("chainId:", chainId);
         let txParams = {
             version: '0x122',
             senderKey: '0x' + privateKey.substring(64, 128),
@@ -245,17 +247,17 @@ export default class NodeClient {
             gasPrice: this.convert10to16(gasPrice),
             to: to,
             data: "",
-            value: this.convert10to16(value),
-            //chainId: 16162
+            value: this.convert10to16(value)
+            //chainId: chainId
         };
         console.log("Hex to number: ", txParams.gasPrice)
         console.log("Transfer parameters：" + JSON.stringify(txParams));
         // return this.web3c.cph.accounts.signTransaction(txParams, privateKey);
 
         const tx = new CypheriumTx.Transaction(txParams, {
-            //chain: "testnet"
+            //chain: "mainnet"
         });
-        console.log("tx: ", tx)
+
 
 
         // let privateKeyBuffer = Buffer.from(privateKey, 'hex');
@@ -265,7 +267,13 @@ export default class NodeClient {
         var k = new Uint8Array(this._hexStringToBytes(privateKey.substring(64, 128)));
         privateKey = null;
         txParams = null;
-        tx.signWith25519(p, k);
+        try {
+           tx.signWith25519(p, k);
+        } catch (error) {
+            console.log("error: ", error);
+        }
+
+        console.log("tx: ", tx);
         return tx;
     }
 

@@ -28,7 +28,7 @@ import NodeClient from "../../common/node-client";
 import CustomTooltip from "./CustomToolTip";
 import { BLOCK } from "../getTextConsts";
 
-var gt = require('electron').remote.getGlobal('gt');
+var gt = require('@electron/remote').getGlobal('gt');
 library.add(faSignInAlt, faSignOutAlt, faCoins, faClock, faCubes, faNetworkWired);
 const nodeClient = new NodeClient();
 

@@ -25,7 +25,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import './CreateAccountButton.css';
 import CustomTooltip from "./CustomToolTip";
 
-var gt = require('electron').remote.getGlobal('gt');
+var gt = require('@electron/remote').getGlobal('gt');
 
 const createImport = gt.gettext("Create/Import");
 export default function CreateAccountButton() {

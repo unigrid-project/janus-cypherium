@@ -19,7 +19,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import Store from "electron-store";
 import CheckBox from "./CheckBox";
-import { ipcRenderer, remote } from "electron";
+import { ipcRenderer } from "electron";
+import * as remote from '@electron/remote';
 
 const store = new Store();
 

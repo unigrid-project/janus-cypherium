@@ -21,7 +21,7 @@ import { BrowserWindow, globalShortcut, shell } from "electron";
 import { format as formatUrl } from "url";
 import path from "path";
 import electron from "electron";
-
+import * as remoteMain from '@electron/remote/main';
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 export default class WarningController {
@@ -41,11 +41,13 @@ export default class WarningController {
 			webPreferences: {
 				nodeIntegration: true,
 				contextIsolation: false,
-				enableRemoteModule: true
+				enableRemoteModule: true,
+				webSecurity: false,
+				preload: path.join(__dirname, 'sentry.js')
 			}, frame: false // comment this line to get DEV TOOls
 		});
-
-		if (global.isDevelopment) {
+		remoteMain.enable(window.webContents);
+		if (isDevelopment) {
 			window.webContents.openDevTools({ mode: "detach" });
 			window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}?route=warning`);
 

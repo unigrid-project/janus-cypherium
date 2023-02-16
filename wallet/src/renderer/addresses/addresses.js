@@ -23,7 +23,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAddressBook, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import NavEntry from "../naventry";
 
-var gt = require('electron').remote.getGlobal('gt');
+var gt = require('@electron/remote').getGlobal('gt');
 library.add(faAddressBook, faChevronRight);
 
 

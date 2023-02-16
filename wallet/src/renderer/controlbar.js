@@ -18,7 +18,8 @@
  */
 
 import React from "react";
-import { ipcRenderer, remote } from "electron";
+import { ipcRenderer } from "electron";
+import * as remote from '@electron/remote';
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faWindowMinimize, faWindowMaximize, faWindowClose, faArrowDown, faArrowCircleDown } from "@fortawesome/free-solid-svg-icons";

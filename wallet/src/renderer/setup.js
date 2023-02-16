@@ -18,7 +18,8 @@
  */
 
 import React, { useState, useEffect, useRef } from "react";
-import { ipcRenderer, remote } from "electron";
+import { ipcRenderer } from "electron";
+import * as remote from '@electron/remote';
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSpinner, faTimes } from "@fortawesome/free-solid-svg-icons";
 import File from "common/file";
@@ -30,7 +31,7 @@ import Button from "../common/components/Button";
 import ImportAccount from "../common/setup/ImportAccount";
 import CreateAccount from "../common/setup/CreateAccount";
 
-var gt = require('electron').remote.getGlobal('gt');
+var gt = require('@electron/remote').getGlobal('gt');
 const store = new Store();
 library.add(faSpinner, faTimes);
 

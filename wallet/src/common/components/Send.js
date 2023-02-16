@@ -18,7 +18,8 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Button from "./Button";
-import { ipcRenderer, remote } from "electron";
+import { ipcRenderer } from "electron";
+import * as remote from '@electron/remote';
 import RPCClient from "../rpc-client.js";
 import "./Send.css"
 import SendInputs from "./SendInputs";
@@ -32,7 +33,7 @@ import NodeClient from "../node-client";
 import { WalletService } from "../walletutils/WalletService";
 
 const walletService = new WalletService();
-var gt = require('electron').remote.getGlobal('gt');
+var gt = require('@electron/remote').getGlobal('gt');
 const store = new Store();
 const nodeClient = new NodeClient();
 

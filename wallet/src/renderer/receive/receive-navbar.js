@@ -24,7 +24,7 @@ import { faExchangeAlt, faChevronRight } from "@fortawesome/free-solid-svg-icons
 import NavEntry from "../naventry";
 import Button from "../../common/components/Button";
 
-var gt = require('electron').remote.getGlobal('gt');
+var gt = require('@electron/remote').getGlobal('gt');
 library.add(faExchangeAlt, faChevronRight);
 
 export default class ReceiveNavBar extends React.Component {

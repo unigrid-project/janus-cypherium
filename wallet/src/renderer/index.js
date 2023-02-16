@@ -17,8 +17,8 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from "react";
-import ReactDOM from "react-dom";
+import React, { useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
 import { ipcRenderer } from "electron";
 import { Router } from "common/router";
 import ControlBar from "./controlbar";
@@ -129,6 +129,29 @@ function getShowMasternode() {
 	}
 }
 
+function AppWithCallbackAfterRender() {
+	useEffect(() => {
+		console.log('rendered');
+	});
 
-ReactDOM.render(<Router routes={routes} />, document.getElementById("app"));
+	return <Router routes={routes} />
+}
+
+const container = document.getElementById('app');
+const root = createRoot(container);
+
+
+
+
+root.render(<AppWithCallbackAfterRender />);
+
+//const root = ReactDOM.createRoot(document.getElementById("app"));
+
+/*root.render(
+	<React.StrictMode>
+		<Router routes={routes} />
+	</React.StrictMode>
+);*/
+
+//root.render(<Router routes={routes} />);
 

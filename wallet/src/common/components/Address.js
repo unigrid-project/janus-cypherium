@@ -25,7 +25,8 @@ import Tooltip from "react-simple-tooltip";
 import { css } from "styled-components";
 import RPCClient from "../../common/rpc-client.js";
 import Expand from "react-expand-animated";
-import { ipcRenderer, remote } from "electron";
+import { ipcRenderer } from "electron";
+import * as remote from '@electron/remote';
 
 function Address({ data, setAccountName, copyAddress }) {
     const [showInput, setShowInput] = useState(false);

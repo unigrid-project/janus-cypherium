@@ -24,12 +24,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./UnlockWallet.css";
 import Button from "./Button";
 import RPCClient from "../rpc-client.js";
-import { ipcRenderer, remote } from "electron";
+import { ipcRenderer } from "electron";
+import * as remote from '@electron/remote';
 import Config from "../config";
 import { WalletService } from "../walletutils/WalletService";
 import { CANCEL, PASSPHRASE_ERROR, UNLOCK } from "../getTextConsts";
 import ExportKeys from "../export/ExportKeys";
-var gt = require('electron').remote.getGlobal('gt');
+var gt = require('@electron/remote').getGlobal('gt');
 
 
 const removeMsgOne = gt.gettext("Unlock wallet to remove ");

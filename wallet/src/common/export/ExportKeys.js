@@ -16,7 +16,7 @@
  * along with The UNIGRID Wallet. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { remote } from "electron";
+import * as remote from '@electron/remote';
 
 const fs = require('fs');
 

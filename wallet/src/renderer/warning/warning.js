@@ -44,13 +44,13 @@ function Warning() {
 			setVersion(data.version);
 			setMessage(data.message);
 			setTitle(data.title);
-			setUrlLink(Config.getGithubLink().concat("/releases/tag/v").concat(data.version));
+			setUrlLink('https://t.me/cypherium_supergroup');
 		});
 	}, []);
 
 	return (
 		<div className="warning-modal">
-			<div className="align--row--flexstart">
+			<div className="align--row--flexstart padding-ten">
 				<img className="warningLogo" src={File.get("logo.png")}></img>
 				<h1>{title}</h1>
 			</div>
@@ -62,7 +62,7 @@ function Warning() {
 				<div className="align--center">
 					<div className="button--spacer">
 						<Button
-							handleClick={() => updateWallet()}
+							handleClick={() => openGitURL(urlLink)}
 							buttonSize="btn--small"
 							buttonStyle="btn--success--solid">{UPDATE}</Button>
 						<Button

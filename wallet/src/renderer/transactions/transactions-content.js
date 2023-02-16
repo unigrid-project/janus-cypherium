@@ -25,7 +25,8 @@ import { faChevronCircleDown, faChevronCircleUp, faSyncAlt } from "@fortawesome/
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ExportCSV from "../../common/components/ExportCSV";
 import lodash from "lodash";
-import { ipcRenderer, remote } from "electron";
+import { ipcRenderer } from "electron";
+import * as remote from '@electron/remote';
 import Config from "../../common/config";
 import NodeClient from "../../common/node-client";
 import Store from "electron-store";
@@ -34,7 +35,7 @@ import InfiniteLoading from "react-simple-infinite-loading";
 import TransactionLong from "../../common/components/TransactionLong";
 import TransactionLoading from "../../common/components/TransactionLoading";
 
-var gt = require('electron').remote.getGlobal('gt');
+var gt = require('@electron/remote').getGlobal('gt');
 
 const nodeClient = new NodeClient();
 const store = new Store();

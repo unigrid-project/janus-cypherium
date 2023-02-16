@@ -1,11 +1,13 @@
 [![Build Status](https://travis-ci.org/unigrid-project/janus-cypherium.svg?branch=main)](https://travis-ci.org/unigrid-project/janus-cypherium)
 
-The Janus-Cypherium wallet built by the [UNIGRID organization](https://unigrid.org)
+## Deprecation Warning
+
+This project is no longer actively maintained and may contain bugs or security vulnerabilities. We recommend that you use the Cypherium mobile wallet, join their [Telegram](https://t.me/cypherium_supergroup) to learn how to install that wallet.
+
 
 <p align="center">
   <a href="https://www.cypherium.io/"><img alt="cypherium" src="https://www.cypherium.io/wp-content/uploads/2020/07/Cypherium-Logo.png" width="500"/></a>
 </p>
-
 
 
 Running

@@ -21,6 +21,7 @@ import { BrowserWindow, globalShortcut, shell } from "electron";
 import { format as formatUrl } from "url";
 import * as path from "path";
 import electron from "electron";
+import * as remoteMain from '@electron/remote/main';
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -45,7 +46,7 @@ export default class SetupController {
 				enableRemoteModule: true
 			}, frame: false // comment this line to get DEV TOOls
 		});
-
+		remoteMain.enable(window.webContents);
 		if (isDevelopment) {
 			window.webContents.openDevTools({ mode: "detach" });
 			window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}?route=setup`);

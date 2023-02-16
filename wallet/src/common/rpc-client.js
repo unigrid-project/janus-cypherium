@@ -18,7 +18,7 @@
  */
 
 import { Client } from "node-json-rpc2";
-import { remote } from "electron";
+import * as remote from '@electron/remote/main';
 
 export default class RPCClient {
 	constructor() {

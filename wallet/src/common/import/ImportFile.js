@@ -1,5 +1,5 @@
 
-const { dialog } = require('electron').remote;
+const { dialog } = require('electron');
 var fs = require('fs');
 
 export default class ImportFile {

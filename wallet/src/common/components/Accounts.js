@@ -25,12 +25,13 @@ import Tooltip from "react-simple-tooltip";
 import { css } from "styled-components";
 import RPCClient from "../rpc-client.js";
 import Expand from "react-expand-animated";
-import { ipcRenderer, remote } from "electron";
+import { ipcRenderer } from "electron";
+import * as remote from '@electron/remote';
 import NodeClient from '../../common/node-client';
 import Config from "../config";
 import CustomTooltip from "./CustomToolTip";
 import { config } from "@fortawesome/fontawesome-svg-core";
-var gt = require('electron').remote.getGlobal('gt');
+var gt = require('@electron/remote').getGlobal('gt');
 const log = require('electron-log');
 const nodeClient = new NodeClient();
 

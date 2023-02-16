@@ -38,11 +38,11 @@ import CustomTooltip from "../../common/components/CustomToolTip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboard } from "@fortawesome/free-solid-svg-icons";
 
-var gt = require('electron').remote.getGlobal('gt');
+var gt = require('@electron/remote').getGlobal('gt');
 const log = require('electron-log');
 const packageJSON = require('../../../package.json');
 const store = new Store();
-var translations = remote.getGlobal('translations');
+var translations = require('@electron/remote').getGlobal('translations');
 const copyToClipboard = gt.gettext("copy to clipboard");
 
 function SettingsContent(props) {

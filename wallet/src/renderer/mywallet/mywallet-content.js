@@ -33,7 +33,8 @@ import { faTwitter, faDiscord, faTelegram } from "@fortawesome/free-brands-svg-i
 import Tooltip from "react-simple-tooltip";
 import { css } from "styled-components";
 //import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
-import { ipcRenderer, remote } from "electron";
+import { ipcRenderer } from "electron";
+import * as remote from '@electron/remote';
 import Config from "../../common/config.js";
 import NodeClient from '../../common/node-client';
 import { WalletService } from "../../common/walletutils/WalletService.js";
@@ -43,7 +44,7 @@ import Receive from "../../common/navbuttons/receive.js";
 import SendButton from "../../common/navbuttons/send.js";
 import AccountBalances from "../../common/accounts/AccountBalances.js";
 
-var gt = require('electron').remote.getGlobal('gt');
+var gt = require('@electron/remote').getGlobal('gt');
 const log = require('electron-log');
 const walletService = new WalletService();
 const nodeClient = new NodeClient();

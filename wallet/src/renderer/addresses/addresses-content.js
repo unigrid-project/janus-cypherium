@@ -31,7 +31,8 @@ import Address from "../../common/components/Address";
 import Accounts from "../../common/components/Accounts";
 import { sendDesktopNotification } from "../../common/components/DesktopNotifications";
 import "./addresses-content.css"
-import { ipcRenderer, remote } from "electron";
+import { ipcRenderer } from "electron";
+import * as remote from '@electron/remote';
 import Store from "electron-store";
 import HideZeroAddresses from "../../common/components/HideZeroAddresses";
 import Config from "../../common/config";

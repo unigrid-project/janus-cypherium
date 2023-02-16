@@ -18,7 +18,8 @@
 
 import React, { useState, useEffect } from "react";
 import Content from "../content";
-import { ipcRenderer, remote, clipboard } from "electron";
+import { ipcRenderer, clipboard } from "electron";
+import * as remote from '@electron/remote';
 import { faChevronLeft, faClipboard } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AccountSelection from "../../common/accounts/AccountSelection";
@@ -34,7 +35,7 @@ import { COPIED, EXPORT_KEYS } from "../../common/getTextConsts";
 
 const shell = require('electron').shell;
 
-var gt = require('electron').remote.getGlobal('gt');
+var gt = require('@electron/remote').getGlobal('gt');
 
 const copyToClipboard = gt.gettext("copy to clipboard");
 const viewOnExplorer = gt.gettext("View On Explorer");

@@ -17,7 +17,8 @@
  */
 
 import React, { useState, useEffect } from "react";
-import Select from 'react-dropdown-select';
+//import Select from 'react-dropdown-select';
+import Dropdown from 'react-dropdown';
 import { ipcRenderer } from "electron";
 import Config from "../config";
 import { FlagIcon } from "react-flag-kit";
@@ -41,7 +42,14 @@ export default function LanguageSelect() {
     }, [])
 
     return (
-        <Select
+        <Dropdown
+            options={languages}
+            key={renderKey}
+            onChange={(values) => changedAccountSelection(values)}
+            values={[]}
+            value={"name"}
+            placeholder={getPlaceholder()} />
+        /*<Select
             searchable={false}
             key={renderKey}
             multi={false}
@@ -52,7 +60,7 @@ export default function LanguageSelect() {
             labelField="name"
             options={languages}
             onChange={(values) => changedAccountSelection(values)}
-        />
+        />*/
     )
 
     function customItemRenderer({ item, itemIndex, props, state, methods }) {
