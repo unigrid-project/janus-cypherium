@@ -6,7 +6,9 @@ This project is no longer actively maintained and may contain bugs or security v
 
 
 <p align="center">
+  <br><br>
   <a href="https://www.cypherium.io/"><img alt="cypherium" src="https://www.cypherium.io/wp-content/uploads/2020/07/Cypherium-Logo.png" width="500"/></a>
+  <br><sup>The Janus-Cypherium wallet built by the <a href="https://unigrid.org">UNIGRID organization</a></sup><br>
 </p>
 
 
